@@ -1,6 +1,17 @@
 <!--
 SYNC IMPACT REPORT
 ==================
+Emendamento 1.0.0 → 1.0.1 (2026-08-06)
+--------------------------------------
+Bump rationale: PATCH. Nessun principio aggiunto, rimosso o ridefinito: si esplicita una
+convenzione operativa dentro una sottosezione già esistente ("Convenzioni", in Workflow di
+Sviluppo e Quality Gate).
+Modifica: fissata la lingua di progetto — prosa in italiano senza traduzione successiva,
+identificativi tecnici (KPI, misure DAX, colonne, file, branch) in inglese.
+Template dipendenti: nessuno impattato.
+
+Ratifica iniziale (2026-08-06)
+------------------------------
 Version change: TEMPLATE (non ratificata) → 1.0.0
 Bump rationale: prima ratifica. Nessuna versione precedente da confrontare, quindi MAJOR
                 secondo la policy di versioning (adozione iniziale dell'impianto di governance).
@@ -203,9 +214,16 @@ Il progetto segue il flusso spec-driven di Spec Kit:
 4. I task che richiedono la GUI di Power BI o Tableau sono scritti come istruzioni manuali
    verificabili da una persona (principio V).
 
-**Convenzioni**: commit in italiano, imperativo, con prefisso convenzionale
-(`feat:`, `fix:`, `docs:`, `chore:`, `refactor:`). La history è parte dell'artefatto da
-portfolio e va tenuta leggibile.
+**Convenzioni**:
+
+- **Lingua**: tutta la prosa del progetto — documentazione, spec, commenti, commit, etichette di
+  dashboard — è in **italiano**. Scelta deliberata e non soggetta a traduzione successiva: il
+  progetto non verrà tradotto in inglese, e nessun artefatto va scritto in inglese "per sicurezza".
+- **Identificativi in inglese**: nomi di KPI, misure DAX, colonne, tabelle, file, cartelle e branch
+  sono in inglese, in ogni caso. Sono la parte più costosa da rinominare a valle e seguono la
+  convenzione universale, indipendentemente dalla lingua della prosa.
+- **Commit**: in italiano, imperativo, con prefisso convenzionale (`feat:`, `fix:`, `docs:`,
+  `chore:`, `refactor:`). La history è parte dell'artefatto da portfolio e va tenuta leggibile.
 
 ## Governance
 
@@ -234,4 +252,4 @@ precedente) e durante `/speckit.analyze`. Ogni violazione consapevole DEVE esser
 nella tabella "Complexity Tracking" del piano della feature, con la giustificazione e
 l'alternativa più semplice che è stata scartata.
 
-**Version**: 1.0.0 | **Ratified**: 2026-08-06 | **Last Amended**: 2026-08-06
+**Version**: 1.0.1 | **Ratified**: 2026-08-06 | **Last Amended**: 2026-08-06

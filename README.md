@@ -17,12 +17,37 @@ I principi non negoziabili del progetto — etichettatura di fonte e confidenza 
 riproducibilità totale, trasparenza sui limiti — sono in
 [`.specify/memory/constitution.md`](.specify/memory/constitution.md).
 
+## Cosa questo progetto non è
+
+È un **case study**: un esercizio di analisi costruito per essere verificabile, non un prodotto
+pronto a supportare una decisione di mercato reale. Nello specifico:
+
+- **StreamWave non esiste.** È un'azienda inventata. Nessun dato reale di StreamWave è stato usato,
+  perché non ce n'è.
+- **Netflix e Spotify sono proxy, non StreamWave.** Il catalogo Netflix rappresenta il catalogo
+  ipotetico di StreamWave, il dataset Spotify rappresenta il mercato musicale accessibile. È
+  l'assunzione strutturale del case study: regge il ragionamento, non la realtà di un'azienda.
+- **Le metriche di business sono sintetiche.** Nessun dato di visione, ascolto, abbonamento o
+  ricavo reale esiste in questi dataset. Tutto ciò che riguarda engagement e revenue è generato da
+  script con assunzioni dichiarate, ed è etichettato come tale in ogni artefatto.
+- **Manca il lato costi.** Licenze musicali, infrastruttura, organico: nessuno di questi dati è
+  disponibile. Quello che segue è un business case *di opportunità*, non un business case
+  finanziario. Chi cercasse qui un ROI non lo troverà, ed è deliberato.
+- **I dati reali si fermano al 2021-2022.** Il catalogo Netflix è aggiornato al 2021, le tracce
+  Spotify al 2022. Nessuna conclusione di questo progetto può dire alcunché sulle dinamiche di
+  mercato successive.
+
+I limiti analitici specifici di ogni singola analisi — cosa quel particolare KPI non risponde,
+quali inferenze evitare — vivono nella sezione *Limiti Dichiarati* della spec di ciascuna feature
+sotto [`specs/`](specs/), come richiesto dal principio IV della constitution. Questa sezione
+inquadra il progetto; quelle inquadrano i singoli risultati.
+
 ## Stato
 
 | Fase | Artefatto | Stato |
 |---|---|---|
-| Constitution | [`.specify/memory/constitution.md`](.specify/memory/constitution.md) | ✅ v1.0.0 |
-| Specification | `specs/` | prossimo passo |
+| Constitution | [`.specify/memory/constitution.md`](.specify/memory/constitution.md) | ✅ v1.0.1 |
+| Specification | [`specs/001-business-case-kpi/`](specs/001-business-case-kpi/) | ✅ feature 001 |
 | Plan | `specs/*/plan.md` | — |
 | Tasks | `specs/*/tasks.md` | — |
 | Implementation | — | — |
