@@ -5,17 +5,21 @@ Version change: TEMPLATE (non ratificata) → 1.0.0
 Bump rationale: prima ratifica. Nessuna versione precedente da confrontare, quindi MAJOR
                 secondo la policy di versioning (adozione iniziale dell'impianto di governance).
 
-Principi definiti (tutti nuovi):
-  - [PRINCIPLE_1_NAME] → I. Provenienza e Confidenza dei Dati (NON NEGOZIABILE)
-  - [PRINCIPLE_2_NAME] → II. Riproducibilità Totale
-  - [PRINCIPLE_3_NAME] → III. Incrementalità
-  - [PRINCIPLE_4_NAME] → IV. Trasparenza sui Limiti
-  - [PRINCIPLE_5_NAME] → V. Confine dell'Automazione
-  - (aggiunto oltre il template a 5) → VI. Coerenza Narrativa
+Principi definiti (tutti nuovi, dai segnaposto 1-5 del template):
+  - slot 1 → I. Provenienza e Confidenza dei Dati (NON NEGOZIABILE)
+  - slot 2 → II. Riproducibilità Totale
+  - slot 3 → III. Incrementalità
+  - slot 4 → IV. Trasparenza sui Limiti
+  - slot 5 → V. Confine dell'Automazione
+  - aggiunto oltre i 5 del template → VI. Coerenza Narrativa
 
-Sezioni aggiunte:
-  - [SECTION_2_NAME] → Vincoli di Dominio e di Dato
-  - [SECTION_3_NAME] → Workflow di Sviluppo e Quality Gate
+Sezioni aggiunte (dai segnaposto 2 e 3 del template):
+  - slot 2 → Vincoli di Dominio e di Dato
+  - slot 3 → Workflow di Sviluppo e Quality Gate
+
+NOTA: questo report evita di citare letteralmente i token segnaposto del template
+(fra parentesi quadre) perché l'estensione VSCode SpecKit Companion li cerca con una regex
+sull'intero file e classificherebbe la constitution come non ancora compilata.
 
 Sezioni rimosse: nessuna.
 
