@@ -129,3 +129,41 @@
 - [Assumption about scope boundaries, e.g., "Mobile support is out of scope for v1"]
 - [Assumption about data/environment, e.g., "Existing authentication system will be reused"]
 - [Dependency on existing system/service, e.g., "Requires access to the existing user profile API"]
+
+## Domanda di Business *(obbligatoria — Constitution, principio VI)*
+
+<!--
+  ACTION REQUIRED: indicare a quale delle tre domande di business risponde questa feature
+  (BQ1 posizionamento / BQ2 segmento di ingresso / BQ3 impatto stimato) e come vi contribuisce.
+  Una feature non riconducibile a nessuna delle tre non va implementata.
+-->
+
+- **Domanda servita**: [BQ1 | BQ2 | BQ3]
+- **Contributo**: [in che modo questa feature avvicina la risposta alla domanda]
+
+## Provenienza e Confidenza dei Dati *(obbligatoria — Constitution, principio I)*
+
+<!--
+  ACTION REQUIRED: una riga per ogni metrica o numero introdotto dalla feature.
+  Fonte: Netflix (reale) | Spotify (reale) | Sintetico | Derivato (elencare le fonti a monte).
+  Confidenza bassa => il valore va espresso come range best/base/worst, mai come numero singolo.
+-->
+
+| Metrica | Fonte | Confidenza | Criterio di attribuzione | Formato di presentazione |
+|---|---|---|---|---|
+| [nome metrica] | [fonte] | [alto/medio/basso] | [perché quel livello] | [valore singolo / range] |
+
+**Assunzioni dietro i dati sintetici**: [dichiarare per iscritto, oppure "nessun dato sintetico"]
+
+## Limiti Dichiarati *(obbligatoria — Constitution, principio IV)*
+
+<!--
+  ACTION REQUIRED: cosa questa feature NON risponde. Coprire almeno: domande fuori portata
+  dei dati, conclusioni che il lettore potrebbe erroneamente inferire, vincoli di copertura
+  temporale del dato. Nessun lessico causale su risultati correlazionali.
+-->
+
+- **Non risponde a**: [domanda fuori scope e perché i dati non la coprono]
+- **Inferenza da evitare**: [conclusione che il lettore potrebbe trarre erroneamente]
+- **Copertura del dato**: [vincoli temporali o di perimetro, es. catalogo Netflix fermo al 2021]
+- **Dove è esposto all'utente finale**: [dove compare il limite in dashboard/report, se applicabile]
