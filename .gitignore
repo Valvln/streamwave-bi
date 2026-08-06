@@ -1,0 +1,51 @@
+# --- Data (see scripts/download_data.sh to reproduce) ---
+data/raw/*
+!data/raw/.gitkeep
+!data/raw/*-metadata.json
+data/interim/*
+data/processed/*
+data/external/*
+!data/*/.gitkeep
+# Blanket safety net: per committare una piccola tabella di lookup usa `git add -f`
+*.csv
+*.parquet
+*.xlsx
+*.db
+*.duckdb
+*.sqlite3
+
+# --- Credentials ---
+.env
+.env.*
+!.env.example
+kaggle.json
+*.pem
+*.key
+secrets/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.python-version
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+dist/
+build/
+*.egg-info/
+
+# --- Node ---
+node_modules/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+
+# --- Outputs ---
+reports/figures/*.png
+!reports/figures/.gitkeep
