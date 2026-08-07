@@ -103,8 +103,8 @@ Quasi tutti i task scrivono **nello stesso file**, `docs/business_case.md`. Le o
 
 - [X] T024 Eseguire tutti i controlli strutturali di livello 1 di [quickstart.md](./quickstart.md) su `docs/business_case.md` e correggere gli scostamenti
 - [X] T025 Ispezionare ogni numero presente in `docs/business_case.md` e verificare che sia un input di scenario dichiarato come assunzione e mai un esito di calcolo (FR-016, SC-007); rimuovere quelli non riconducibili a un'assunzione
-- [ ] T026 Condurre la sessione di revisione in contesto pulito su `docs/business_case.md` secondo il livello 2 di [quickstart.md](./quickstart.md), con le tre prove su comprensione, univocità delle formule e tenuta del perimetro
-- [ ] T027 Scrivere il verbale in `specs/001-business-case-kpi/review.md` con l'esito di ciascuna prova e le divergenze rilevate (FR-019)
+- [X] T026 Condurre la sessione di revisione in contesto pulito su `docs/business_case.md` secondo il livello 2 di [quickstart.md](./quickstart.md), con le tre prove su comprensione, univocità delle formule e tenuta del perimetro
+- [X] T027 Scrivere il verbale in `specs/001-business-case-kpi/review.md` con l'esito di ciascuna prova e le divergenze rilevate (FR-019)
 - [X] T028 [P] Aggiornare la tabella di stato in `README.md`: fase Specification e Plan concluse, Implementation conclusa per la feature 001
 - [X] T029 [P] Aggiornare `specs/001-business-case-kpi/checklists/requirements.md` con l'esito della verifica finale
 
