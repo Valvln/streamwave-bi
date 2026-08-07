@@ -29,7 +29,7 @@ Quasi tutti i task scrivono **nello stesso file**, `docs/business_case.md`. Le o
 
 **Scopo**: predisporre il contenitore del deliverable.
 
-- [ ] T001 Creare `docs/business_case.md` con la sola struttura di heading, nell'ordine delle otto sezioni definite in [data-model.md](./data-model.md#struttura-del-documento): inquadramento, assunzioni strutturali, North Star metric, le tre domande, framework KPI, scala di confidenza, impatto economico, out of scope
+- [X] T001 Creare `docs/business_case.md` con la sola struttura di heading, nell'ordine delle otto sezioni definite in [data-model.md](./data-model.md#struttura-del-documento): inquadramento, assunzioni strutturali, North Star metric, le tre domande, framework KPI, scala di confidenza, impatto economico, out of scope
 
 ---
 
@@ -37,8 +37,8 @@ Quasi tutti i task scrivono **nello stesso file**, `docs/business_case.md`. Le o
 
 **Scopo**: fissare le convenzioni che US2 e US3 useranno in ogni scheda KPI. **Bloccano US2 e US3, non US1** — l'inquadramento può procedere in parallelo a questa fase.
 
-- [ ] T002 Scrivere in `docs/business_case.md` la nota metodologica sulle due granularità dei dati Spotify — coppia traccia-genere (114.000) e traccia deduplicata (89.741) — con la regola che ogni KPI dichiara in quale opera, per il vincolo 8 di [data-model.md](./data-model.md#vincoli-di-integrità)
-- [ ] T003 Scrivere in `docs/business_case.md` la convenzione degli identificativi KPI: sigla `BQn-Km` più nome semantico inglese `snake_case`, con la regola di univocità del nome semantico sull'intero progetto (FR-005a)
+- [X] T002 Scrivere in `docs/business_case.md` la nota metodologica sulle due granularità dei dati Spotify — coppia traccia-genere (114.000) e traccia deduplicata (89.741) — con la regola che ogni KPI dichiara in quale opera, per il vincolo 8 di [data-model.md](./data-model.md#vincoli-di-integrità)
+- [X] T003 Scrivere in `docs/business_case.md` la convenzione degli identificativi KPI: sigla `BQn-Km` più nome semantico inglese `snake_case`, con la regola di univocità del nome semantico sull'intero progetto (FR-005a)
 
 ---
 
@@ -48,13 +48,13 @@ Quasi tutti i task scrivono **nello stesso file**, `docs/business_case.md`. Le o
 
 **Verifica indipendente**: consegnare il documento a un revisore senza contesto pregresso e chiedergli di riformulare decisione, North Star e due esclusioni. Superata se non pone domande di chiarimento.
 
-- [ ] T004 [US1] Scrivere la sezione di inquadramento in `docs/business_case.md`: chi è StreamWave, quale decisione strategica è in valutazione, chi è il destinatario del documento (FR-002)
-- [ ] T005 [US1] Scrivere la sezione delle assunzioni strutturali in `docs/business_case.md`: proxy Netflix→StreamWave e Spotify→mercato musicale (FR-013), copertura temporale dei dati reali con le conclusioni che impedisce (FR-015), base utenti e orizzonte a 12 mesi (FR-014). Ogni voce marcata visivamente come assunzione, mai come dato
-- [ ] T006 [US1] Aggiungere alle assunzioni in `docs/business_case.md` il modello di ricavo a due tier con **valori di prezzo puntuali** per base e premium, la ragione della scelta e la dichiarazione che è uno scenario (FR-017); dichiarare che l'incertezza vive nel tasso di adozione e non nel prezzo (FR-017a)
-- [ ] T007 [US1] Scrivere la sezione delle tre domande in `docs/business_case.md`: per ciascuna, formulazione originale e riformulazione misurabile con soggetto, unità di misura e criterio di confronto o soglia (FR-003)
-- [ ] T008 [US1] Scrivere la sezione North Star in `docs/business_case.md`: una sola metrica, di natura coerenza strategica, con motivazione e almeno due alternative considerate e scartate con il perché (FR-008)
-- [ ] T009 [US1] Scrivere la sezione "Out of scope" in `docs/business_case.md` con almeno cinque voci motivate (FR-012), incorporando i limiti emersi dalla ricerca: inutilizzabilità dei conteggi per dimensionare il mercato (R1), esclusione delle serie TV dal confronto di durata (R3), assenza del lato costi, assenza di dati comportamentali
-- [ ] T010 [US1] Verificare `docs/business_case.md` eseguendo i controlli di [quickstart.md](./quickstart.md) su presenza delle sezioni e conteggio delle voci fuori scope; correggere finché l'esito è quello atteso
+- [X] T004 [US1] Scrivere la sezione di inquadramento in `docs/business_case.md`: chi è StreamWave, quale decisione strategica è in valutazione, chi è il destinatario del documento (FR-002)
+- [X] T005 [US1] Scrivere la sezione delle assunzioni strutturali in `docs/business_case.md`: proxy Netflix→StreamWave e Spotify→mercato musicale (FR-013), copertura temporale dei dati reali con le conclusioni che impedisce (FR-015), base utenti e orizzonte a 12 mesi (FR-014). Ogni voce marcata visivamente come assunzione, mai come dato
+- [X] T006 [US1] Aggiungere alle assunzioni in `docs/business_case.md` il modello di ricavo a due tier con **valori di prezzo puntuali** per base e premium, la ragione della scelta e la dichiarazione che è uno scenario (FR-017); dichiarare che l'incertezza vive nel tasso di adozione e non nel prezzo (FR-017a)
+- [X] T007 [US1] Scrivere la sezione delle tre domande in `docs/business_case.md`: per ciascuna, formulazione originale e riformulazione misurabile con soggetto, unità di misura e criterio di confronto o soglia (FR-003)
+- [X] T008 [US1] Scrivere la sezione North Star in `docs/business_case.md`: una sola metrica, di natura coerenza strategica, con motivazione e almeno due alternative considerate e scartate con il perché (FR-008)
+- [X] T009 [US1] Scrivere la sezione "Out of scope" in `docs/business_case.md` con almeno cinque voci motivate (FR-012), incorporando i limiti emersi dalla ricerca: inutilizzabilità dei conteggi per dimensionare il mercato (R1), esclusione delle serie TV dal confronto di durata (R3), assenza del lato costi, assenza di dati comportamentali
+- [X] T010 [US1] Verificare `docs/business_case.md` eseguendo i controlli di [quickstart.md](./quickstart.md) su presenza delle sezioni e conteggio delle voci fuori scope; correggere finché l'esito è quello atteso
 
 **Checkpoint**: a questo punto il documento è già consegnabile. Dichiara la decisione, il criterio di successo e il perimetro, senza ancora definire come si misura.
 
@@ -68,13 +68,13 @@ Quasi tutti i task scrivono **nello stesso file**, `docs/business_case.md`. Le o
 
 **Dipende da**: Phase 2 (convenzioni) e Phase 3 (le domande riformulate esistono).
 
-- [ ] T011 [US2] Scrivere in `docs/business_case.md` le schede dei 2-3 KPI di **BQ1** (posizionamento), costruite sul confronto di profilo di mood secondo la decisione D1 di [research.md](./research.md#d1--loverlap-si-costruisce-sul-profilo-di-mood-non-sui-generi): assi energia, positività e ritmo, con le audio feature sul lato musicale e la tabella di corrispondenza dichiarata sul lato video. Il KPI di durata confronta solo film e tracce (D3)
-- [ ] T012 [US2] Scrivere in `docs/business_case.md` le schede dei 2-3 KPI di **BQ2** (segmento di ingresso), che usano `popularity` come proxy di domanda su tracce deduplicate e **non contano tracce** per dimensionare il segmento (D2)
-- [ ] T013 [US2] Scrivere in `docs/business_case.md` le schede dei 2-3 KPI di **BQ3** (impatto stimato), derivati dal modello a due tier: adozione del tier premium ed effetto sul ricavo medio per utente. Nessun riferimento a ricavi pubblicitari o riduzione di churn, fuori dal modello assunto (FR-018)
-- [ ] T014 [US2] Verificare che ogni scheda KPI in `docs/business_case.md` riporti tutti i campi obbligatori dell'entità KPI di [data-model.md](./data-model.md#kpi): sigla, nome semantico, nome, cosa misura, formula concettuale, unità, granularità, direzione di lettura, domanda di appartenenza
-- [ ] T015 [US2] Scrivere in `docs/business_case.md` la tabella riepilogativa che indicizza le schede, con i soli campi brevi (sigla, nome semantico, domanda, fonte, confidenza, formato). La formula concettuale **non** deve comparire in tabella (FR-005b)
-- [ ] T016 [US2] Scrivere in `docs/business_case.md` la sezione dell'impatto economico come titolo secondario a range best/base/worst, esplicitamente distinto dalla North Star e mai fuso con essa in un indice composito (FR-020)
-- [ ] T017 [US2] Verificare `docs/business_case.md` eseguendo i controlli di cardinalità e univocità di [quickstart.md](./quickstart.md): totale KPI tra 6 e 9, da 2 a 3 per domanda, nessun nome semantico duplicato, nessuna sintassi DAX/SQL/Python nelle formule
+- [X] T011 [US2] Scrivere in `docs/business_case.md` le schede dei 2-3 KPI di **BQ1** (posizionamento), costruite sul confronto di profilo di mood secondo la decisione D1 di [research.md](./research.md#d1--loverlap-si-costruisce-sul-profilo-di-mood-non-sui-generi): assi energia, positività e ritmo, con le audio feature sul lato musicale e la tabella di corrispondenza dichiarata sul lato video. Il KPI di durata confronta solo film e tracce (D3)
+- [X] T012 [US2] Scrivere in `docs/business_case.md` le schede dei 2-3 KPI di **BQ2** (segmento di ingresso), che usano `popularity` come proxy di domanda su tracce deduplicate e **non contano tracce** per dimensionare il segmento (D2)
+- [X] T013 [US2] Scrivere in `docs/business_case.md` le schede dei 2-3 KPI di **BQ3** (impatto stimato), derivati dal modello a due tier: adozione del tier premium ed effetto sul ricavo medio per utente. Nessun riferimento a ricavi pubblicitari o riduzione di churn, fuori dal modello assunto (FR-018)
+- [X] T014 [US2] Verificare che ogni scheda KPI in `docs/business_case.md` riporti tutti i campi obbligatori dell'entità KPI di [data-model.md](./data-model.md#kpi): sigla, nome semantico, nome, cosa misura, formula concettuale, unità, granularità, direzione di lettura, domanda di appartenenza
+- [X] T015 [US2] Scrivere in `docs/business_case.md` la tabella riepilogativa che indicizza le schede, con i soli campi brevi (sigla, nome semantico, domanda, fonte, confidenza, formato). La formula concettuale **non** deve comparire in tabella (FR-005b)
+- [X] T016 [US2] Scrivere in `docs/business_case.md` la sezione dell'impatto economico come titolo secondario a range best/base/worst, esplicitamente distinto dalla North Star e mai fuso con essa in un indice composito (FR-020)
+- [X] T017 [US2] Verificare `docs/business_case.md` eseguendo i controlli di cardinalità e univocità di [quickstart.md](./quickstart.md): totale KPI tra 6 e 9, da 2 a 3 per domanda, nessun nome semantico duplicato, nessuna sintassi DAX/SQL/Python nelle formule
 
 **Checkpoint**: il documento contiene ora il framework completo, ma i numeri non sono ancora qualificati per affidabilità.
 
@@ -88,12 +88,12 @@ Quasi tutti i task scrivono **nello stesso file**, `docs/business_case.md`. Le o
 
 **Dipende da**: Phase 4 (i KPI da qualificare devono esistere).
 
-- [ ] T018 [US3] Scrivere in `docs/business_case.md` la sezione della scala di confidenza con i tre criteri operativi della decisione D5 di [research.md](./research.md#d5--criteri-operativi-della-scala-di-confidenza), formulati in modo applicabile da un terzo senza giudizio soggettivo (FR-009)
-- [ ] T019 [US3] Assegnare a ogni KPI in `docs/business_case.md` fonte (`Netflix (reale)`, `Spotify (reale)`, `Sintetico`, `Derivato` con fonti a monte) e livello di confidenza, applicando i criteri di T018 (FR-010)
-- [ ] T020 [US3] Assegnare a ogni KPI in `docs/business_case.md` il formato di presentazione, verificando il vincolo 4 di [data-model.md](./data-model.md#vincoli-di-integrità): confidenza bassa implica sempre range best/base/worst, mai valore puntuale (FR-011)
-- [ ] T021 [US3] Aggiungere nelle schede dei KPI di BQ2 in `docs/business_case.md` la nota sulla fragilità di `popularity` — 14% di tracce a zero, concentrate in alcuni generi (R5) — che è la ragione per cui quei KPI non superano la confidenza media
-- [ ] T022 [US3] Verificare che i KPI che compongono la North Star in `docs/business_case.md` siano tutti a confidenza alta (vincolo 6 di data-model.md); se non lo sono, la North Star va ridefinita, non la confidenza abbassata
-- [ ] T023 [US3] Verificare `docs/business_case.md` eseguendo il controllo di coerenza confidenza-formato di [quickstart.md](./quickstart.md): ogni riga a confidenza bassa deve riportare `range`
+- [X] T018 [US3] Scrivere in `docs/business_case.md` la sezione della scala di confidenza con i tre criteri operativi della decisione D5 di [research.md](./research.md#d5--criteri-operativi-della-scala-di-confidenza), formulati in modo applicabile da un terzo senza giudizio soggettivo (FR-009)
+- [X] T019 [US3] Assegnare a ogni KPI in `docs/business_case.md` fonte (`Netflix (reale)`, `Spotify (reale)`, `Sintetico`, `Derivato` con fonti a monte) e livello di confidenza, applicando i criteri di T018 (FR-010)
+- [X] T020 [US3] Assegnare a ogni KPI in `docs/business_case.md` il formato di presentazione, verificando il vincolo 4 di [data-model.md](./data-model.md#vincoli-di-integrità): confidenza bassa implica sempre range best/base/worst, mai valore puntuale (FR-011)
+- [X] T021 [US3] Aggiungere nelle schede dei KPI di BQ2 in `docs/business_case.md` la nota sulla fragilità di `popularity` — 14% di tracce a zero, concentrate in alcuni generi (R5) — che è la ragione per cui quei KPI non superano la confidenza media
+- [X] T022 [US3] Verificare che i KPI che compongono la North Star in `docs/business_case.md` siano tutti a confidenza alta (vincolo 6 di data-model.md); se non lo sono, la North Star va ridefinita, non la confidenza abbassata
+- [X] T023 [US3] Verificare `docs/business_case.md` eseguendo il controllo di coerenza confidenza-formato di [quickstart.md](./quickstart.md): ogni riga a confidenza bassa deve riportare `range`
 
 ---
 
@@ -101,12 +101,12 @@ Quasi tutti i task scrivono **nello stesso file**, `docs/business_case.md`. Le o
 
 **Scopo**: chiudere la feature secondo la definizione di completo di quickstart.md.
 
-- [ ] T024 Eseguire tutti i controlli strutturali di livello 1 di [quickstart.md](./quickstart.md) su `docs/business_case.md` e correggere gli scostamenti
-- [ ] T025 Ispezionare ogni numero presente in `docs/business_case.md` e verificare che sia un input di scenario dichiarato come assunzione e mai un esito di calcolo (FR-016, SC-007); rimuovere quelli non riconducibili a un'assunzione
+- [X] T024 Eseguire tutti i controlli strutturali di livello 1 di [quickstart.md](./quickstart.md) su `docs/business_case.md` e correggere gli scostamenti
+- [X] T025 Ispezionare ogni numero presente in `docs/business_case.md` e verificare che sia un input di scenario dichiarato come assunzione e mai un esito di calcolo (FR-016, SC-007); rimuovere quelli non riconducibili a un'assunzione
 - [ ] T026 Condurre la sessione di revisione in contesto pulito su `docs/business_case.md` secondo il livello 2 di [quickstart.md](./quickstart.md), con le tre prove su comprensione, univocità delle formule e tenuta del perimetro
 - [ ] T027 Scrivere il verbale in `specs/001-business-case-kpi/review.md` con l'esito di ciascuna prova e le divergenze rilevate (FR-019)
-- [ ] T028 [P] Aggiornare la tabella di stato in `README.md`: fase Specification e Plan concluse, Implementation conclusa per la feature 001
-- [ ] T029 [P] Aggiornare `specs/001-business-case-kpi/checklists/requirements.md` con l'esito della verifica finale
+- [X] T028 [P] Aggiornare la tabella di stato in `README.md`: fase Specification e Plan concluse, Implementation conclusa per la feature 001
+- [X] T029 [P] Aggiornare `specs/001-business-case-kpi/checklists/requirements.md` con l'esito della verifica finale
 
 ---
 

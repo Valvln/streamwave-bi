@@ -29,10 +29,14 @@ I limiti analitici specifici di ogni singola analisi — cosa quel particolare K
 | Fase | Artefatto | Stato |
 |---|---|---|
 | Constitution | [`.specify/memory/constitution.md`](.specify/memory/constitution.md) | ✅ v1.0.1 |
-| Specification | [`specs/001-business-case-kpi/`](specs/001-business-case-kpi/) | ✅ feature 001 |
-| Plan | `specs/*/plan.md` | — |
-| Tasks | `specs/*/tasks.md` | — |
-| Implementation | — | — |
+| Specification | [`specs/001-business-case-kpi/spec.md`](specs/001-business-case-kpi/spec.md) | ✅ feature 001 |
+| Plan | [`specs/001-business-case-kpi/plan.md`](specs/001-business-case-kpi/plan.md) | ✅ feature 001 |
+| Tasks | [`specs/001-business-case-kpi/tasks.md`](specs/001-business-case-kpi/tasks.md) | ✅ 29 task |
+| Implementation | [`docs/business_case.md`](docs/business_case.md) | 🔄 documento scritto, revisione in corso |
+
+## Il business case
+
+Il primo deliverable è **[`docs/business_case.md`](docs/business_case.md)**: il framework con cui il progetto risponderà alle tre domande. Definisce 8 KPI con formula concettuale, fonte e livello di confidenza, una North Star metric e il perimetro di ciò che l'analisi non proverà a dimostrare. Non contiene risultati: quelli arriveranno dalle feature successive, ciascuno con l'etichetta di affidabilità definita qui.
 
 ## Setup
 
