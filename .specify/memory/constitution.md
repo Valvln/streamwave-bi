@@ -1,6 +1,23 @@
 <!--
 SYNC IMPACT REPORT
 ==================
+Emendamento 1.0.1 → 1.0.2 (2026-08-08)
+--------------------------------------
+Bump rationale: PATCH. Nessun principio aggiunto, rimosso o ridefinito: si definisce l'unità di
+misura di un vincolo già esistente nel principio III, che era espresso in "giornate lavorative"
+senza dichiarare che cosa fosse una giornata.
+Modifica: "una giornata lavorativa" è definita come 6-7 ore di lavoro effettivo e non come un
+giorno di calendario; il vincolo di stato coerente del repository è esteso alla fine di ogni
+sessione di lavoro, non solo alla chiusura della feature.
+Motivazione: la feature 001 è costata circa 7 ore distribuite su tre giorni di calendario. Letta
+alla lettera come giorno di calendario, la prima feature del progetto violava il principio che
+la inaugurava; letta come sforzo, vi rientrava comodamente. L'ambiguità andava chiusa in un senso
+o nell'altro prima che la capacità disponibile scendesse a circa 2 ore al giorno, condizione in
+cui la lettura a calendario avrebbe reso non avviabile quasi ogni feature residua.
+Template dipendenti: nessuno impattato. Verificato che nessun template sotto .specify/templates/
+né prompt sotto .github/ citi la giornata lavorativa.
+Artefatti già prodotti: nessuno da correggere. La feature 001 è conforme al testo emendato.
+
 Emendamento 1.0.0 → 1.0.1 (2026-08-06)
 --------------------------------------
 Bump rationale: PATCH. Nessun principio aggiunto, rimosso o ridefinito: si esplicita una
@@ -84,11 +101,13 @@ Chiunque cloni il repository DEVE poter rigenerare ogni dataset intermedio e fin
 
 ### III. Incrementalità
 
-Ogni feature DEVE essere completabile in **una giornata lavorativa**. Se la stima supera quel limite, la feature NON DEVE essere avviata: va prima scomposta in unità più piccole, ciascuna con valore dimostrabile in autonomia.
+Ogni feature DEVE essere completabile in **una giornata lavorativa**, dove per giornata lavorativa si intendono **6-7 ore di lavoro effettivo** e non un giorno di calendario. Se la stima supera quel limite, la feature NON DEVE essere avviata: va prima scomposta in unità più piccole, ciascuna con valore dimostrabile in autonomia.
 
-Ogni feature DEVE lasciare il repository in uno stato coerente e presentabile: niente rami di lavoro che restano aperti a metà tra due stati funzionanti.
+La distinzione è operativa. Quando la capacità giornaliera disponibile è inferiore a una giornata piena, una feature conforme PUÒ occupare più giorni di calendario senza per questo violare il principio: ciò che il vincolo limita è la **dimensione della feature**, non la sua distensione nel tempo.
 
-*Rationale*: vincolo di ritmo, non di ambizione. Feature piccole significano feedback frequente, history git leggibile e nessun blocco su lavori lunghi mai finiti — il modo tipico in cui un progetto da portfolio muore a metà.
+Ogni feature DEVE lasciare il repository in uno stato coerente e presentabile: niente rami di lavoro che restano aperti a metà tra due stati funzionanti. Quando una feature attraversa più sessioni di lavoro, questo vincolo si applica **alla fine di ogni sessione**, non soltanto alla chiusura della feature.
+
+*Rationale*: vincolo di ritmo, non di ambizione. Feature piccole significano feedback frequente, history git leggibile e nessun blocco su lavori lunghi mai finiti — il modo tipico in cui un progetto da portfolio muore a metà. Misurare il limite in ore di lavoro anziché in giorni di calendario è ciò che gli permette di continuare a mordere quando la capacità disponibile cambia: letto come giorno di calendario, si allargherebbe e si stringerebbe da solo a ogni variazione dell'agenda, cioè smetterebbe di essere un limite. L'estensione del vincolo di coerenza a ogni fine sessione è il contrappeso: è ciò che impedisce alla distensione nel tempo, ora esplicitamente ammessa, di reintrodurre dalla finestra i rami aperti a metà che il principio esclude dalla porta.
 
 ### IV. Trasparenza sui Limiti
 
@@ -179,4 +198,4 @@ Questa constitution **prevale su ogni altra pratica di progetto**. In caso di co
 
 **Verifica di conformità**: la conformità va verificata a ogni gate di feature (vedi sezione precedente) e durante `/speckit.analyze`. Ogni violazione consapevole DEVE essere registrata nella tabella "Complexity Tracking" del piano della feature, con la giustificazione e l'alternativa più semplice che è stata scartata.
 
-**Version**: 1.0.1 | **Ratified**: 2026-08-06 | **Last Amended**: 2026-08-06
+**Version**: 1.0.2 | **Ratified**: 2026-08-06 | **Last Amended**: 2026-08-08
