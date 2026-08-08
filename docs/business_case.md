@@ -25,6 +25,8 @@ L'analisi poggia su due cataloghi pubblici reali:
 
 È l'assunzione strutturale su cui poggia tutto il resto. Regge il ragionamento — i due cataloghi sono abbastanza rappresentativi dei rispettivi mercati da rendere il confronto informativo — ma nessuna delle conclusioni descrive letteralmente StreamWave. Ogni volta che il documento dice "il nostro catalogo", intende "il catalogo proxy".
 
+A1 non è verificabile con i dati disponibili e **non entra nella scala di confidenza** di §6, che qualifica la solidità di un numero rispetto ai dati da cui è calcolato, non la sua trasferibilità a StreamWave. Il limite che ne deriva è descritto in [§6 — Cosa questa scala non misura](#cosa-questa-scala-non-misura), e va tenuto presente ogni volta che si legge un livello di confidenza in questo documento.
+
 ### 📌 A2 — Copertura temporale dei dati reali
 
 Il catalogo video è aggiornato al **2021**, quello musicale al **2022**.
@@ -70,6 +72,26 @@ Differenziale: **4,00 € al mese**.
 Questa misura ha una proprietà che nessuna alternativa possiede: è **osservata direttamente**. Il catalogo video classifica già i propri titoli, e una delle categorie è dedicata al contenuto musicale. Non serve alcuna mappatura interpretativa tra domini, nessuna assunzione, nessun dato simulato. È l'unica misura del framework che può reggere la confidenza alta ed essere presentata come valore puntuale — e una metrica di riferimento che dovesse essere presentata come intervallo sarebbe un oggetto strano da mettere in cima a una dashboard.
 
 **Come si legge**: valore alto significa che l'adiacenza esiste già dentro il catalogo. Non dice che l'espansione sarà redditizia: dice che sarebbe coerente.
+
+### Regola di decisione, dichiarata prima di misurare
+
+Una metrica di riferimento senza un punto di rottura non decide nulla: lascia che sia chi legge i risultati a stabilire, a numeri noti, quale esito conti come positivo. Questa sezione fissa il criterio **prima** che i numeri esistano.
+
+L'argomento di coerenza strategica si considera **sostenuto** solo se valgono **tutte e tre** queste condizioni:
+
+| | Condizione | Misurata da |
+|---|---|---|
+| **C1** | il contenuto musicale non è residuale nel catalogo attuale: la sua categoria si colloca nella **metà superiore** delle categorie per numero di titoli | `BQ1-K1` |
+| **C2** | la **maggioranza** del catalogo musicale accessibile ricade nella regione di mood già occupata dal catalogo video | `BQ1-K3` |
+| **C3** | esiste **almeno un** segmento musicale che si colloca contemporaneamente nella metà superiore per domanda e nella metà superiore per affinità con il catalogo | `BQ2-K3` |
+
+**Come si legge l'esito**:
+
+- **tre condizioni su tre** → l'argomento di coerenza è sostenuto: l'espansione è un'estensione del catalogo esistente;
+- **due su tre** → sostegno parziale: l'espansione resta difendibile, ma la condizione mancante va indicata come rischio esplicito nella raccomandazione finale;
+- **una o zero** → l'argomento non è sostenuto. L'ingresso nel music streaming andrebbe valutato come ingresso in un mercato adiacente ma estraneo, con i costi di acquisizione che comporta — e questo documento avrà fatto il suo lavoro anche in questo caso.
+
+**Sulla natura della garanzia.** Queste condizioni sono state scritte prima che i KPI fossero calcolati, ma chi le ha scritte ha ispezionato i dati di origine in fase di ricerca e può quindi anticipare l'esito di alcune. La garanzia che questa regola offre non è l'ignoranza dell'autore: è che **la regola è fissata e pubblica prima dei risultati, quindi non può essere spostata dopo**. Se un esito verrà giudicato diverso da quanto queste tre condizioni prescrivono, lo scostamento sarà visibile a chiunque confronti la conclusione con questa tabella.
 
 ### Alternative considerate e scartate
 
@@ -285,7 +307,9 @@ Indice delle schede. Le definizioni autorevoli sono le schede di §5.5; qui non 
 
 ## 6. Scala di confidenza
 
-Ogni KPI dichiara quanta fiducia il suo valore può sostenere. Il criterio è **quanti strati interpretativi separano il dato osservato dal numero mostrato**, ed è verificabile leggendo la formula concettuale della scheda: chiunque può applicarlo e arrivare alla stessa classificazione.
+Ogni KPI dichiara quanta fiducia il suo valore può sostenere. Il criterio è **quanti strati interpretativi separano il dato osservato dal numero mostrato**, ed è verificabile leggendo **la formula concettuale insieme alla riga di fonte** della scheda: chiunque può applicarlo e arrivare alla stessa classificazione.
+
+Le due informazioni servono entrambe, perché non tutti gli strati interpretativi sono visibili nella formula. `BQ2-K1` ne è l'esempio: la sua formula descrive la lettura diretta di un attributo osservato e da sola porterebbe a classificarlo *alta*, mentre l'assunzione che lo declassa a *media* — usare la popolarità come proxy della domanda di mercato — vive nella riga di fonte. Chi verifica una classificazione deve leggere entrambe.
 
 | Livello | Criterio di attribuzione | Formato di presentazione ammesso |
 |---|---|---|
@@ -296,6 +320,14 @@ Ogni KPI dichiara quanta fiducia il suo valore può sostenere. Il criterio è **
 **La regola non negoziabile**: un KPI a confidenza bassa non può essere presentato come valore singolo. Un numero singolo comunica una certezza che il dato non ha, e in una presentazione al board è la differenza tra informare e persuadere.
 
 La classificazione non è un giudizio sulla qualità del lavoro: è una proprietà della catena che porta dal dato al numero. Che i KPI della terza domanda siano tutti a confidenza bassa non è un difetto dell'analisi, è la conseguenza del fatto che simuliamo un mercato in cui StreamWave non è ancora entrata.
+
+### Cosa questa scala non misura
+
+La scala qualifica la **confidenza interna**: quanto un numero è affidabile rispetto ai dati da cui è calcolato. Non qualifica la **validità esterna**: quanto quel numero descriva StreamWave.
+
+Tra le due si interpone A1, l'assunzione che il catalogo Netflix rappresenti il catalogo di StreamWave e quello Spotify il mercato musicale accessibile. A1 è un'assunzione di **trasferimento** e resta fuori dalla scala per costruzione, per una ragione precisa: si applica identica a tutti i KPI, quindi includerla li collasserebbe tutti sullo stesso livello e la scala perderebbe l'unica cosa che sa fare, cioè distinguere fra loro le misure.
+
+Ne discende un limite che vale per l'intero documento e che va letto insieme a ogni singola classificazione: **anche un KPI a confidenza alta è alta rispetto al catalogo proxy, non rispetto a StreamWave.** `BQ1-K1` misura senza margine di errore quanta parte del catalogo Netflix è già musicale; che quella quota descriva StreamWave dipende interamente da A1, che con i dati disponibili non è verificabile. Nessun livello di questa scala, nemmeno il più alto, autorizza a trattare un numero come una misura diretta di StreamWave.
 
 ## 7. Impatto economico stimato
 
