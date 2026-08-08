@@ -1,0 +1,66 @@
+# Come si lavora in questo repository
+
+Contratto operativo per qualunque sessione di agent che lavori su StreamWave BI. Non descrive il progetto — quello lo fanno il [README](README.md) e la [constitution](.specify/memory/constitution.md) — ma **come le sessioni si dividono il lavoro e cosa la toolchain non fa da sola**.
+
+Regola generale, da cui discendono quasi tutte le altre: **se una cosa non è scritta, non accade.** Non dare per scontato che un hook, un automatismo o una convenzione implicita se ne occupi.
+
+## I documenti che governano il lavoro
+
+| Documento | Cosa stabilisce | Chi lo modifica |
+|---|---|---|
+| [`.specify/memory/constitution.md`](.specify/memory/constitution.md) | i sei principi non negoziabili e i due gate di feature | solo per emendamento formale, con Sync Impact Report e bump di versione |
+| [`docs/roadmap.md`](docs/roadmap.md) | ordine delle feature, stime in ore, dipendenze, debito aperto, rischi | la sessione di regia |
+| `specs/NNN-nome/spec.md` | cosa la feature attiva deve fare e cosa non deve fare | la sessione esecutiva, tramite `/speckit.specify` |
+| `specs/NNN-nome/review.md` | verbale di revisione, dove esiste | una sessione di revisione in contesto pulito |
+
+La constitution prevale su tutto. Questo file non ne ripete i principi né i gate: li presuppone. In caso di conflitto fra le due, vince la constitution e questo file va corretto.
+
+## Ruoli delle sessioni
+
+**Sessione di regia.** Conosce la roadmap e l'esito atteso dell'intero progetto. Il suo output è **testo**: il contenuto delle spec e i prompt di consegna. Revisiona ciò che torna indietro, presidia i gate, misura lo scostamento fra stime e timestamp git.
+
+La regia **non esegue**: non apre branch, non invoca i comandi `/speckit.*`, non crea gli artefatti sotto `specs/`. Le uniche eccezioni sono gli artefatti di governance che le appartengono — `docs/roadmap.md` e gli emendamenti alla constitution — che scrive direttamente e propone al commit.
+
+**Sessione esecutiva.** Riceve un prompt di consegna ed esegue: apre il branch, invoca i comandi, scrive i file, implementa. Si ferma dove il prompt le dice di fermarsi e riporta cosa ha prodotto.
+
+**Sessione di revisione.** Riceve **solo** l'artefatto da revisionare, senza spec, senza piano, senza history git. È l'unica configurazione in cui la revisione dice qualcosa: un revisore che ha visto costruire il documento non può più leggerlo come lo leggerà chi lo riceve. Vedi [`specs/001-business-case-kpi/review.md`](specs/001-business-case-kpi/review.md) come precedente.
+
+Il confine esiste perché una regia che esegue perde il punto di vista esterno da cui revisiona, e i due ruoli collassano in uno.
+
+## Cosa la toolchain non fa da sola
+
+**L'apertura del branch.** Il repository non ha `.specify/extensions.yml` e non ha quindi alcun hook `before_specify`. Spec Kit **non crea il branch**. Chi esegue lo apre a mano, da `main` aggiornato, prima di invocare qualunque comando — e lo chiama come la cartella della feature (`002-data-audit-profiling` ↔ `specs/002-data-audit-profiling`).
+
+**L'aggiornamento del puntatore di feature.** `.specify/feature.json` indica la cartella attiva ai comandi a valle. Va aggiornato quando se ne apre una nuova. La numerazione è `sequential` (`.specify/init-options.json`): la prossima cartella è il numero successivo all'ultimo presente in `specs/`.
+
+**I commit.** Nessun commit viene eseguito di iniziativa, mai. Si propongono messaggio e contenuto, decide Valerio. Vale anche per `git add`, `push`, apertura di PR e merge: sono azioni sue.
+
+**La protezione di `data/raw/`.** È in sola lettura per il principio II e non è versionata. Nessuno script vi scrive dentro. Chi clona il repository la ricostruisce con `scripts/download_data.sh` e un token Kaggle.
+
+## Punti di stop del flusso
+
+Il flusso è `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement`. Due fermate obbligatorie, non quattro:
+
+1. **dopo `/speckit.specify`** — la spec torna in revisione prima di diventare un piano. È il punto di massima leva: un errore di perimetro qui si propaga a piano, task e implementazione moltiplicato;
+2. **dopo `/speckit.tasks`** — piano e task si possono produrre di seguito, ma non si implementa senza che siano stati visti.
+
+Fuori da queste due, la sessione esecutiva procede senza chiedere conferma a ogni passo.
+
+## Convenzioni
+
+- **Lingua**: prosa in italiano, sempre. Identificativi tecnici in inglese: KPI, misure DAX, colonne, tabelle, file, cartelle, branch. Il progetto non verrà tradotto — non scrivere nulla in inglese "per sicurezza".
+- **Commit**: in italiano, imperativo, con prefisso convenzionale (`feat:`, `fix:`, `docs:`, `chore:`, `refactor:`). La history è parte dell'artefatto da portfolio.
+- **Unità di stima**: una giornata lavorativa è **6-7 ore di lavoro effettivo**, non un giorno di calendario (constitution v1.0.2, principio III). Le stime della roadmap sono in ore. Una feature può attraversare più giorni; deve però lasciare il repository coerente **alla fine di ogni sessione**.
+- **Nessun numero senza fonte**: ogni valore pubblicato dichiara provenienza e confidenza (principio I). Un numero che compare solo in prosa, senza uno script che lo rigeneri, è un debito — è il rilievo R8 della feature 001.
+
+## Checklist di consegna di un prompt
+
+Vincola la regia, non chi esegue. Un prompt è consegnabile solo se:
+
+- [ ] dichiara **quale branch aprire** e da quale base;
+- [ ] dichiara **dove la sessione si ferma** e cosa riporta;
+- [ ] dichiara la **stima in ore** e cosa fare se il lavoro sembra più grande — la scomposizione si decide prima di aprire la feature, non dopo;
+- [ ] dichiara il **debito ereditato** da feature precedenti, con riferimento puntuale al rilievo o alla divergenza, non con un rimando generico;
+- [ ] dichiara il **perimetro**: cosa la feature non fa e a quale feature quel pezzo spetta;
+- [ ] richiama le **sezioni obbligatorie** della spec — domanda di business, provenienza e confidenza, limiti dichiarati;
+- [ ] **non presuppone alcun automatismo.** Se non è scritto, non accade.

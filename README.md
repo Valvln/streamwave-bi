@@ -10,7 +10,7 @@ Tre domande di business guidano l'intero progetto:
 - **BQ2 — Segmento di ingresso**: quale segmento musicale è più coerente con il catalogo attuale?
 - **BQ3 — Impatto stimato**: quale impatto su engagement e revenue, simulato con assunzioni dichiarate?
 
-I principi non negoziabili del progetto — etichettatura di fonte e confidenza su ogni numero, riproducibilità totale, trasparenza sui limiti — sono in [`.specify/memory/constitution.md`](.specify/memory/constitution.md).
+I principi non negoziabili del progetto — etichettatura di fonte e confidenza su ogni numero, riproducibilità totale, trasparenza sui limiti — sono in [`.specify/memory/constitution.md`](.specify/memory/constitution.md). Il metodo di lavoro che ne discende, incluso il modo in cui il lavoro è diviso fra sessioni di agent, è in [`CLAUDE.md`](CLAUDE.md); il piano e il suo scostamento in [`docs/roadmap.md`](docs/roadmap.md).
 
 ## Cosa questo progetto non è
 
@@ -28,7 +28,7 @@ I limiti analitici specifici di ogni singola analisi — cosa quel particolare K
 
 | Fase | Artefatto | Stato |
 |---|---|---|
-| Constitution | [`.specify/memory/constitution.md`](.specify/memory/constitution.md) | ✅ v1.0.1 |
+| Constitution | [`.specify/memory/constitution.md`](.specify/memory/constitution.md) | ✅ v1.0.2 |
 | Specification | [`specs/001-business-case-kpi/spec.md`](specs/001-business-case-kpi/spec.md) | ✅ feature 001 |
 | Plan | [`specs/001-business-case-kpi/plan.md`](specs/001-business-case-kpi/plan.md) | ✅ feature 001 |
 | Tasks | [`specs/001-business-case-kpi/tasks.md`](specs/001-business-case-kpi/tasks.md) | ✅ 29 task |
