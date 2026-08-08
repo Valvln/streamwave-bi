@@ -32,7 +32,7 @@ I limiti analitici specifici di ogni singola analisi — cosa quel particolare K
 | Specification | [`specs/001-business-case-kpi/spec.md`](specs/001-business-case-kpi/spec.md) | ✅ feature 001 |
 | Plan | [`specs/001-business-case-kpi/plan.md`](specs/001-business-case-kpi/plan.md) | ✅ feature 001 |
 | Tasks | [`specs/001-business-case-kpi/tasks.md`](specs/001-business-case-kpi/tasks.md) | ✅ 29 task |
-| Implementation | [`docs/business_case.md`](docs/business_case.md) | 🔄 documento scritto, revisione in corso |
+| Implementation | [`docs/business_case.md`](docs/business_case.md) | ✅ documento scritto e revisionato ([verbale](specs/001-business-case-kpi/review.md)) |
 
 ## Il business case
 
