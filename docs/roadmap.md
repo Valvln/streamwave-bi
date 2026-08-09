@@ -1,6 +1,6 @@
 # Roadmap — StreamWave BI
 
-**Aggiornata**: 2026-08-08 | **Stato**: feature 001 conclusa, 002 da aprire
+**Aggiornata**: 2026-08-09 | **Stato**: feature 002 conclusa e mergiata, 003 da aprire
 
 Questo documento è il piano di lavoro del progetto: cosa resta da fare, in quale ordine, con quale stima e con quali dipendenze. È versionato perché la pianificazione — e soprattutto il suo scostamento dalla realtà — fa parte dell'artefatto da portfolio quanto i risultati.
 
@@ -21,8 +21,8 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | ID | Feature | Ore | Dipende da | Stato |
 |---|---|---|---|---|
 | `001` | Business Case & KPI Framework | ~7 (spese) | — | ✅ conclusa, con debito residuo |
-| `002` | Data Audit & Profiling | 4 | 001 | ⬜ prossima |
-| `003` | Data Cleaning & ETL | 6 | 002 | ⬜ |
+| `002` | Data Audit & Profiling | ~4,5 (spese, stimate 4) | 001 | ✅ conclusa, PR #2 mergiata |
+| `003` | Data Cleaning & ETL | 6 | 002 | ⬜ prossima |
 | `004` | Synthetic Business Metrics | 5 | 001 | ⬜ |
 | `005` | Data Model Design | 5 | 003, *chore ambiente* | ⬜ |
 | `006` | Content Taxonomy Bridge | 5 | 002, 005 | ⬜ |
@@ -31,7 +31,7 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `009` | Porting Tableau Public | 5 | 007 | ⬜ *stretch, primo a cadere* |
 | `010` | Case Study & Portfolio Integration | 5 | 008 | ⬜ |
 
-**Totale residuo escluso `009`**: ~45 ore, più ~1 ora di debito testuale sulla 001 e ~3 ore di chore.
+**Totale residuo escluso `009`**: ~41 ore, più ~1,5 ore di debito testuale e ~3 ore di chore.
 
 `004` non dipende da `002` e `003`: genera dati che non esistono, quindi non ha bisogno che i dati reali siano puliti. È l'unica feature parallelizzabile e va tenuta come riserva per le giornate in cui il contesto sui dati reali non è fresco.
 
@@ -41,9 +41,11 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 |---|---|---|
 | Ambiente Power BI: VM Windows 11 x64 e installazione di Power BI Desktop | ~3 | prima di `005` |
 | Debito testuale della 001: rilievi R9, R10, R12 e allineamento di §3 a R11 | ~1 | prima di `007` |
+| Debito testuale della 002: divergenza 3, allineare §5 del documento di audit a citare D3 della 001 e A2/A3 del business case | ~0,5 | prima di `007` |
+| Prassi di correzione degli artefatti già mergiati (divergenza 7 della 002): scriverla in `CLAUDE.md` | ~0,5 | prima di `003` |
 | Pubblicazione di prova su workspace Power BI Service e cattura schermate | ~1 | 18 agosto (scadenza trial Pro) |
 
-Nessuno dei tre è una feature e nessuno apre un branch numerato. Il principio VI della constitution richiede che ogni feature sia riconducibile a BQ1, BQ2 o BQ3: predisporre una macchina virtuale non risponde ad alcuna domanda di business. Trattarlo come feature significherebbe o violare il principio VI, o inventargli un aggancio narrativo che non ha. Resta lavoro necessario, tracciato qui e non in una spec.
+Nessuno di questi è una feature e nessuno apre un branch numerato. Il principio VI della constitution richiede che ogni feature sia riconducibile a BQ1, BQ2 o BQ3: predisporre una macchina virtuale non risponde ad alcuna domanda di business. Trattarlo come feature significherebbe o violare il principio VI, o inventargli un aggancio narrativo che non ha. Resta lavoro necessario, tracciato qui e non in una spec.
 
 Il requisito di ambiente va però documentato — il principio II chiede che chiunque cloni il repository possa rieseguire la pipeline, e da `007` in avanti la pipeline include uno strumento che su macOS non esiste. La sede è la sezione Setup del [README](../README.md), non una spec.
 
@@ -59,6 +61,8 @@ La roadmap costruita a inizio progetto prevedeva 10 voci in 7-10 giornate lavora
 
 4. **Il debito della 001 è distribuito, non accantonato.** Vedi la sezione seguente.
 
+5. **La revisione in contesto pulito diventa una prassi, non un'eccezione della 001.** Era registrata fra i rischi aperti come «nessuna verifica indipendente pianificata dopo la 001», con `007` come candidato. La 002 l'ha invece condotta sul proprio documento e ne ha ricavato quattro affermazioni errate che nessun controllo automatico aveva visto. Il costo è di circa mezz'ora più il tempo di chiusura dei rilievi, e va d'ora in poi messo **dentro** la stima di ogni feature che produce un artefatto di lettura — non fuori, come è successo qui.
+
 ## Debito della feature 001
 
 La [revisione in contesto pulito](../specs/001-business-case-kpi/review.md) ha prodotto 13 rilievi e 11 divergenze da chiarire. Tre rilievi sono già chiusi (commit `862bdca`). I restanti non diventano una feature dedicata: ciascuno è assegnato alla feature che ha comunque bisogno di quella decisione per procedere. Una decisione presa fuori dal contesto che la richiede è una decisione presa male.
@@ -67,8 +71,8 @@ La [revisione in contesto pulito](../specs/001-business-case-kpi/review.md) ha p
 |---|---|---|
 | R4 / div. 1 | definizione operativa di "segmento": genere della fonte o raggruppamento per mood | `005` |
 | R7 / div. 7 | granularità di `BQ2-K2` e riformulazione di §5.2 | `005` |
-| R8 | provenienza dei numeri sui dati citati nel business case | `002` |
-| R11 | quali categorie video compongono `BQ1-K1` e se la selezione è una mappatura | `002` |
+| R8 | provenienza dei numeri sui dati citati nel business case | ✅ chiusa dalla `002`: `reports/data_profile.json` rigenera i valori citati |
+| R11 | quali categorie video compongono `BQ1-K1` e se la selezione è una mappatura | ✅ chiusa dalla `002` sul piano osservativo: una sola categoria, nessuna mappatura. Resta la parte testuale, sotto |
 | R5, R6 / div. 2, 3, 4 | operatori indefiniti: intervallo occupato, metrica di distanza, pesi e commensurabilità; quadranti contro combinazione pesata | `007` |
 | div. 6 | trattamento delle tracce a popolarità zero | `003` |
 | div. 8 | segno della differenza e titoli privi di durata | `003` (dati) + `007` (segno) |
@@ -87,13 +91,35 @@ Una ricognizione sulla fonte mostra che esiste **una sola categoria** a contenut
 
 Il rilievo si sposta però sul testo. §3 del business case descrive il contenuto misurato come "musical, documentari musicali, concerti, film sulla musica" — quattro tipologie — mentre la misura ne legge una sola etichetta. Concerti e documentari musicali sono catturati solo se la fonte li ha collocati lì, e il documento non può affermarlo. La descrizione va allineata a ciò che la misura fa davvero. Rientra nel debito testuale.
 
-`002` formalizza il tutto con lo script che rigenera il conteggio: finché il numero non esce da un artefatto versionato, il principio II non è soddisfatto.
+`002` ha formalizzato il tutto con lo script che rigenera il conteggio: il valore esce ora da un artefatto versionato, e il principio II è soddisfatto. La ricognizione è confermata — `Music & Musicals` è l'unica categoria, con 375 titoli distinti — quindi la confidenza alta di `BQ1-K1` regge e la North Star non va ridefinita. La correzione della descrizione di §3 resta debito testuale.
+
+## Debito della feature 002
+
+La [revisione in contesto pulito](../specs/002-data-audit-profiling/review.md) del documento di audit ha prodotto 11 rilievi e 8 divergenze. **I rilievi sono tutti chiusi dentro la 002**, prima del merge: quattro affermazioni errate corrette, e il controllo di coerenza esteso ai numerali scritti in lettere e ai letterali, perché era lì che gli errori erano passati. Restano le divergenze, che sono decisioni e non difetti.
+
+| Voce | Contenuto | Chiusa da |
+|---|---|---|
+| div. 1 | che cosa il vincolo di tracciabilità debba coprire: ancorare tutto, estendere ancora il controllo, o dichiararne il confine | `003` |
+| div. 2 | statuto delle **affermazioni derivate** — confronti, graduatorie, rapporti costruiti sui valori. Sono la categoria in cui si concentrano gli errori: vanno calcolate nel profilo o vietate in prosa | `003` |
+| div. 6 | quale delle due letture di «sovrastima di circa un quinto» adottare, prima che si calcoli un totale di catalogo | `003` |
+| div. 8 | criterio con cui si seleziona l'insieme dei generi a forte concentrazione di zeri: `country` al 58,70% cade dentro o fuori a seconda di una soglia che nessuno ha ancora fissato | `003` |
+| div. 5 | riverifica del criterio delle categorie musicali se la fonte cambia, e chi se ne accorge | `006` |
+| div. 4 | se pubblicare numeratore e denominatore accanto alla frase sulla North Star equivalga a pubblicare la misura | `007` |
+| div. 3 | `docs/data_audit.md` §5 contiene due decisioni di modellazione — esclusione delle serie da `BQ1-K2`, ricorso a dati simulati per BQ3 — che sono prese altrove (D3 della 001, A2/A3 del business case) e vanno citate, non riformulate | debito testuale, ~0,5 ore |
+| div. 7 | prassi di correzione degli artefatti già mergiati: nota in loco o errata separata. Va scritta in `CLAUDE.md`, perché oggi è una scelta di metodo presa una volta e non una regola | chore di governance |
+
+### Nota sulla misura del tempo speso
+
+La 002 è costata **~4,5 ore contro le 4 stimate**, distribuite su due sessioni e due giorni di calendario. Lo scostamento è quasi tutto imputabile alla revisione in contesto pulito, che non era nella stima: la roadmap la dava per non pianificata dopo la 001.
+
+Va però registrato un limite di questa misura, perché tocca ogni stima futura. I timestamp git della 002 misurano il tempo di una sessione di agent, non ore-uomo: fra il commit dei task e quello dell'implementazione passano 45 minuti per un lavoro che a mano ne varrebbe molti di più. **Le stime in ore restano stime di sforzo umano** — è ciò che il principio III vincola — ma il metro dei timestamp non le verifica più direttamente. Da qui in avanti lo scostamento va letto come indicativo, non come misura.
 
 ## Calendario previsto
 
 | Finestra | Capacità | Contenuto atteso |
 |---|---|---|
-| 8 → 15 agosto | ~2 h/giorno, ~16 h | debito testuale 001, `002`, `003`, chore ambiente |
+| 8 → 9 agosto | ~4,5 h spese | `002` ✅ conclusa e mergiata |
+| 10 → 15 agosto | ~2 h/giorno, ~12 h | debito testuale, `003`, chore ambiente |
 | dal 16 agosto | giornate piene, ~6 h/giorno | `004`, `005`, `006`, `007`, `008`, `010` |
 
 Atterraggio stimato: **21-22 agosto**, con `009` escluso.
@@ -106,9 +132,9 @@ Il chore dell'ambiente è collocato nella finestra a bassa capacità di proposit
 
 **Densità di `008`.** Otto ore per una sola feature sono il limite superiore del principio III, e la voce più esposta a scoprirsi più grande di così davanti allo schermo. Va scomposta in fase di `/speckit.specify` — presumibilmente struttura e pagine da una parte, storytelling e rifiniture dall'altra — non dopo averla aperta.
 
-**Concentrazione del rischio dopo il 16 agosto.** Sei feature su otto cadono nella finestra a giornate piene, incluse le tre più dense. La finestra a bassa capacità non ha margine di recupero: se `002` o `003` sforano, lo scostamento si trasferisce intero sulla seconda finestra invece di essere assorbito.
+**Concentrazione del rischio dopo il 16 agosto.** Sei feature su otto cadono nella finestra a giornate piene, incluse le tre più dense. La finestra a bassa capacità non ha margine di recupero: se `003` sfora, lo scostamento si trasferisce intero sulla seconda finestra invece di essere assorbito. La `002` ha sforato di mezz'ora e la finestra l'ha assorbita, ma era la più piccola delle due.
 
-**Nessuna verifica indipendente pianificata dopo la 001.** La revisione in contesto pulito che ha prodotto 13 rilievi sul business case è stata la fonte di gran parte del valore critico del progetto finora. Nessuna feature successiva ne prevede una. Da decidere in fase di spec dove reintrodurla — il candidato naturale è `007`, dove le decisioni di calcolo rinviate dalla 001 vengono finalmente prese.
+**Il costo della revisione indipendente non è nelle stime.** Il rischio «nessuna verifica pianificata dopo la 001» è chiuso come prassi — la 002 l'ha condotta e ne è valsa la pena — ma se ne apre uno nuovo: nessuna delle stime da `003` in avanti include il tempo di revisione né quello di chiusura dei rilievi, che sulla 002 è stato l'intero scostamento. Va aggiunto alla stima di ogni feature che produce un artefatto destinato a essere letto: `003`, `006`, `007`, `010`.
 
 ## Rischi chiusi
 
