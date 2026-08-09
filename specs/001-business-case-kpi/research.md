@@ -15,7 +15,7 @@ Questa fase non produce numeri di risultato (FR-016). Ispeziona i dataset reali 
 | `type` | 0% | Movie / TV Show |
 | `duration` | 0,03% | **formato misto**: minuti per i film, numero di stagioni per le serie |
 | `listed_in` | 0% | 42 generi distinti, multi-valore per titolo |
-| `rating` | 0,05% | 18 valori (classificazione per età) |
+| `rating` | 0,05% | 18 valori (classificazione per età) — ⚠️ vedi nota di correzione |
 | `release_year` | 0% | |
 | `date_added` | 0,1% | |
 | `country` | 9,4% | |
@@ -23,6 +23,12 @@ Questa fase non produce numeri di risultato (FR-016). Ispeziona i dataset reali 
 | `description` | 0% | testo libero, unica fonte di segnale sul tono |
 
 Nessun campo di audience, visione o ricavo. Nessun campo di mood.
+
+> **⚠️ Nota di correzione — 2026-08-09, feature 002.** Il profiling riproducibile della feature 002 rigenera **17** valori distinti per `rating`, non 18. La differenza è la definizione di valore mancante: il profilo conta i valori distinti **non mancanti**, mentre il conteggio qui sopra includeva anche il valore vuoto, che non è una classificazione ma la sua assenza.
+>
+> La cifra corretta è comunque fuorviante come descrizione del dominio: dei 17 valori distinti, solo **14** sono classificazioni per età. Gli altri tre sono durate — `66 min`, `74 min`, `84 min`, una per titolo — finite nel campo sbagliato nella fonte. Il campo è quindi valorizzato al 100% e contiene tre valori errati, che nessuna misura di completezza segnala.
+>
+> Il valore originale non è stato rimosso: è la traccia di cosa la feature 001 aveva osservato. Fonte della correzione: [`reports/data_profile.json`](../../reports/data_profile.json), identificativi `NF.card.rating` e `NF.rating.in_domain.values`; discussione in [`docs/data_audit.md`](../../docs/data_audit.md) §6.
 
 ### Spotify — `data/raw/spotify_tracks_dataset.csv`
 

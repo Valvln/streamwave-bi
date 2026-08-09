@@ -38,12 +38,22 @@ I limiti analitici specifici di ogni singola analisi — cosa quel particolare K
 
 Il primo deliverable è **[`docs/business_case.md`](docs/business_case.md)**: il framework con cui il progetto risponderà alle tre domande. Definisce 8 KPI con formula concettuale, fonte e livello di confidenza, una North Star metric e il perimetro di ciò che l'analisi non proverà a dimostrare. Non contiene risultati: quelli arriveranno dalle feature successive, ciascuno con l'etichetta di affidabilità definita qui.
 
+Il secondo è **[`docs/data_audit.md`](docs/data_audit.md)**: il profilo dei due dataset reali, con ciò che la loro forma vincola per le feature successive. Ogni numero che contiene è rigenerato da uno script e vive in [`reports/data_profile.json`](reports/data_profile.json), versionato perché sia verificabile anche da chi non ha i dati di origine.
+
 ## Setup
 
 ```bash
 # 1. Dati raw (non versionati — vedi data/README.md)
 ./scripts/download_data.sh
+
+# 2. Profilo dei dataset (richiede i dati raw del passo 1)
+python3 scripts/profile_data.py
+
+# 3. Coerenza fra il documento di audit e il profilo (NON richiede i dati raw)
+python3 scripts/check_audit_coherence.py
 ```
+
+Nessuna dipendenza da installare: gli script usano la sola libreria standard di Python 3. Il passo 3 funziona su una copia del repository priva di `data/raw/`, perché confronta due artefatti entrambi versionati.
 
 ## Struttura
 
@@ -52,6 +62,7 @@ Il primo deliverable è **[`docs/business_case.md`](docs/business_case.md)**: il
 .claude/        # comandi /speckit.* per Claude Code
 .github/        # prompt /speckit.* per GitHub Copilot
 data/           # raw / interim / processed (gitignored)
+reports/        # artefatti generati e versionati (profilo dei dati)
 scripts/        # utility riproducibili
 specs/          # una cartella per feature: spec.md, plan.md, tasks.md
 ```
