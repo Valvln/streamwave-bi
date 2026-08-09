@@ -83,6 +83,7 @@ Ogni valore è un oggetto sotto la chiave `values`, indicizzato dal proprio iden
     { "file": "data/raw/netflix_titles.csv", "bytes": 0, "sha256": "..." }
   ],
   "values": { "<identificativo>": { } },
+  "catalogs": { "netflix_categories": ["..."], "spotify_genres": ["..."] },
   "inventory_001": { "V01": ["NF.shape.rows", "NF.type.movie", "NF.type.tvshow"] },
   "divergences": [
     {
@@ -101,7 +102,8 @@ Ogni valore è un oggetto sotto la chiave `values`, indicizzato dal proprio iden
 |---|---|
 | `conventions` | le regole di D9 rese parte del dato: cosa conta come mancante, soglia di alta cardinalità, decimali di arrotondamento |
 | `sources` | provenienza per FR-005: nome, dimensione e impronta di ciascun file di origine |
-| `values` | tutti i valori del profilo |
+| `values` | tutti i valori del profilo. Ogni `value` è **un numero**: nessuna eccezione |
+| `catalogs` | gli elenchi di etichette che i valori contano — nomi delle categorie video, dei generi musicali, dei campi di ciascuna sorgente con il tipo osservato, delle categorie riconosciute come musicali, delle corrispondenze lessicali, dei valori fuori dominio. Sono **dati**, non prosa: servono a rendere auditabile un criterio che altrimenti resterebbe un conteggio senza referente. Restano fuori da `values` perché non sono numeri |
 | `inventory_001` | mappa da `V01`-`V14` dell'inventario di FR-020 agli identificativi che li rigenerano. Rende SC-003 verificabile da una macchina invece che da una lettura |
 | `divergences` | esito del confronto automatico di D6. `status` ∈ `coincide`, `diverge`, `ambiguo` |
 

@@ -29,7 +29,7 @@ Le tre storie scrivono in **tre file diversi**, quindi il parallelismo sarebbe t
 
 **Scopo**: predisporre la destinazione dell'artefatto e verificare subito il vincolo che potrebbe annullarsi in silenzio.
 
-- [ ] T001 Creare la cartella `reports/` e verificare con `git check-ignore -v reports/data_profile.json` che il percorso **non** sia intercettato da `.gitignore` (FR-007, SC-012). Se lo fosse, fermarsi: la collocazione va cambiata prima di scrivere una riga di script
+- [X] T001 Creare la cartella `reports/` e verificare con `git check-ignore -v reports/data_profile.json` che il percorso **non** sia intercettato da `.gitignore` (FR-007, SC-012). Se lo fosse, fermarsi: la collocazione va cambiata prima di scrivere una riga di script
 
 ---
 
@@ -37,10 +37,10 @@ Le tre storie scrivono in **tre file diversi**, quindi il parallelismo sarebbe t
 
 **Scopo**: fissare in codice le convenzioni del contratto. **Bloccano tutte e tre le storie**: sia l'artefatto sia il controllo di coerenza dipendono dalla stessa forma del record e dalla stessa formattazione.
 
-- [ ] T002 Creare `scripts/profile_data.py` con il blocco delle convenzioni di [research.md](./research.md) D9 — definizione di valore mancante, soglia di alta cardinalità, decimali di arrotondamento — destinato a finire nella chiave `conventions` dell'artefatto secondo [contracts/profile-artifact.md](./contracts/profile-artifact.md) §3
-- [ ] T003 Implementare in `scripts/profile_data.py` la serializzazione deterministica secondo le quattro regole di [research.md](./research.md) D5: chiavi ordinate, nessun timestamp di esecuzione, arrotondamento dichiarato, ordinamenti espliciti e senza pareggi ambigui (FR-003)
-- [ ] T004 Implementare in `scripts/profile_data.py` il costruttore del record di valore e il formattatore italiano che produce il campo `display` — separatore di migliaia `.`, decimale `,` — secondo [contracts/profile-artifact.md](./contracts/profile-artifact.md) §2. È la decisione D3: la formattazione vive qui e in nessun altro posto
-- [ ] T005 Implementare in `scripts/profile_data.py` l'impronta delle sorgenti (nome, byte, digest) per la chiave `sources` (FR-005) e la guardia di fallimento esplicito su file mancante o colonna assente, che non deve lasciare artefatti parziali (FR-004)
+- [X] T002 Creare `scripts/profile_data.py` con il blocco delle convenzioni di [research.md](./research.md) D9 — definizione di valore mancante, soglia di alta cardinalità, decimali di arrotondamento — destinato a finire nella chiave `conventions` dell'artefatto secondo [contracts/profile-artifact.md](./contracts/profile-artifact.md) §3
+- [X] T003 Implementare in `scripts/profile_data.py` la serializzazione deterministica secondo le quattro regole di [research.md](./research.md) D5: chiavi ordinate, nessun timestamp di esecuzione, arrotondamento dichiarato, ordinamenti espliciti e senza pareggi ambigui (FR-003)
+- [X] T004 Implementare in `scripts/profile_data.py` il costruttore del record di valore e il formattatore italiano che produce il campo `display` — separatore di migliaia `.`, decimale `,` — secondo [contracts/profile-artifact.md](./contracts/profile-artifact.md) §2. È la decisione D3: la formattazione vive qui e in nessun altro posto
+- [X] T005 Implementare in `scripts/profile_data.py` l'impronta delle sorgenti (nome, byte, digest) per la chiave `sources` (FR-005) e la guardia di fallimento esplicito su file mancante o colonna assente, che non deve lasciare artefatti parziali (FR-004)
 
 **Checkpoint**: contratto implementato. Le tre storie possono partire.
 
@@ -52,20 +52,20 @@ Le tre storie scrivono in **tre file diversi**, quindi il parallelismo sarebbe t
 
 **Independent Test**: eseguire lo script due volte e diffare i due artefatti; cercare poi nell'artefatto ciascuno dei quattordici valori dell'inventario di FR-020. Superata se le due esecuzioni coincidono e ogni sigla si risolve.
 
-- [ ] T006 [US1] Implementare in `scripts/profile_data.py` la lettura in sola lettura dei due CSV di `data/raw/` e il profilo di forma — righe, numero e nome dei campi, tipo osservato di ciascuno (FR-012). Il catalogo musicale ha una prima colonna **priva di nome**: va gestita come campo, non ignorata (ritrovamento F5)
-- [ ] T007 [US1] Implementare in `scripts/profile_data.py` la completezza per campo su **tutti** i campi dei due dataset — 12 sul lato video, 21 sul lato musicale — con conteggio e quota di valori mancanti secondo la convenzione di T002, più l'elenco esplicito dei campi non profilati con la ragione (FR-013, FR-019, SC-004)
-- [ ] T008 [US1] Implementare in `scripts/profile_data.py` cardinalità e frequenze dei campi categorici, con l'enumerazione completa sotto la soglia dichiarata e i soli valori più frequenti sopra (FR-014)
-- [ ] T009 [US1] Implementare in `scripts/profile_data.py` il trattamento del campo multi-valore delle categorie video: conteggi sia sulla stringa intera sia sull'insieme di etichette atomiche, ciascuno con la propria granularità dichiarata (FR-018)
-- [ ] T010 [US1] Implementare in `scripts/profile_data.py` la duplicazione degli identificativi di traccia — righe totali, identificativi distinti, quanti ripetuti — emettendo **entrambe** le letture della sovrapposizione come valori distinti: quota di righe che sono ripetizioni ed eccesso del totale non deduplicato sul deduplicato (FR-015, ritrovamento F2)
-- [ ] T011 [US1] Implementare in `scripts/profile_data.py` la struttura del campionamento: righe per genere musicale, in forma che renda visibile se il campione è bilanciato per costruzione (FR-016)
-- [ ] T012 [US1] Implementare in `scripts/profile_data.py` le distribuzioni delle variabili numeriche di entrambi i dataset con misure di posizione (minimo, quartili, mediana, massimo, media) e di dispersione (scarto interquartile e deviazione standard, entrambi — D9) (FR-017)
-- [ ] T013 [US1] Implementare in `scripts/profile_data.py` il conteggio dei valori sentinella e degeneri: zeri dell'indice di popolarità complessivi e per genere, valori fuori dal dominio della classificazione per età (F4), durate nulle o assenti (F6) (FR-017)
-- [ ] T014 [US1] Implementare in `scripts/profile_data.py` il **censimento completo** delle categorie del catalogo video — tutte, con i titoli distinti di ciascuna, nessuna selezione a monte — più il conteggio di quante hanno contenuto musicale dichiarato secondo un criterio esplicito registrato nell'artefatto (FR-021, ritrovamento F1)
-- [ ] T015 [US1] Implementare in `scripts/profile_data.py` il conteggio delle corrispondenze lessicali fra nomi di genere musicale e categorie video, con la **regola di confronto dichiarata** insieme al valore. Il conteggio cambia con la regola: è il ritrovamento F3 (FR-022)
-- [ ] T016 [US1] Implementare in `scripts/profile_data.py` la mappa `inventory_001` che risolve le sigle `V01`-`V14` di FR-020 sugli identificativi che le rigenerano (SC-003)
-- [ ] T017 [US1] Codificare in `scripts/profile_data.py` la tabella delle affermazioni della 001 — ciascuna con enunciato e collocazione — e produrre il blocco `divergences` confrontando ogni affermazione con i valori rigenerati, con stato `coincide`, `diverge` o `ambiguo` (decisione D6, FR-030). F2 e F3 sono già due ingressi attesi
-- [ ] T018 [US1] Completare `scripts/profile_data.py` con l'emissione di `reports/data_profile.json` secondo la struttura di [contracts/profile-artifact.md](./contracts/profile-artifact.md) §3
-- [ ] T019 [US1] Verificare US1 secondo [quickstart.md](./quickstart.md): doppia esecuzione e diff (SC-001), immutabilità di `data/raw/` (SC-002), risoluzione delle quattordici sigle (SC-003), copertura di tutti i campi (SC-004), presenza della risposta a R11 (SC-008), artefatto tracciato (SC-012)
+- [X] T006 [US1] Implementare in `scripts/profile_data.py` la lettura in sola lettura dei due CSV di `data/raw/` e il profilo di forma — righe, numero e nome dei campi, tipo osservato di ciascuno (FR-012). Il catalogo musicale ha una prima colonna **priva di nome**: va gestita come campo, non ignorata (ritrovamento F5)
+- [X] T007 [US1] Implementare in `scripts/profile_data.py` la completezza per campo su **tutti** i campi dei due dataset — 12 sul lato video, 21 sul lato musicale — con conteggio e quota di valori mancanti secondo la convenzione di T002, più l'elenco esplicito dei campi non profilati con la ragione (FR-013, FR-019, SC-004)
+- [X] T008 [US1] Implementare in `scripts/profile_data.py` cardinalità e frequenze dei campi categorici, con l'enumerazione completa sotto la soglia dichiarata e i soli valori più frequenti sopra (FR-014)
+- [X] T009 [US1] Implementare in `scripts/profile_data.py` il trattamento del campo multi-valore delle categorie video: conteggi sia sulla stringa intera sia sull'insieme di etichette atomiche, ciascuno con la propria granularità dichiarata (FR-018)
+- [X] T010 [US1] Implementare in `scripts/profile_data.py` la duplicazione degli identificativi di traccia — righe totali, identificativi distinti, quanti ripetuti — emettendo **entrambe** le letture della sovrapposizione come valori distinti: quota di righe che sono ripetizioni ed eccesso del totale non deduplicato sul deduplicato (FR-015, ritrovamento F2)
+- [X] T011 [US1] Implementare in `scripts/profile_data.py` la struttura del campionamento: righe per genere musicale, in forma che renda visibile se il campione è bilanciato per costruzione (FR-016)
+- [X] T012 [US1] Implementare in `scripts/profile_data.py` le distribuzioni delle variabili numeriche di entrambi i dataset con misure di posizione (minimo, quartili, mediana, massimo, media) e di dispersione (scarto interquartile e deviazione standard, entrambi — D9) (FR-017)
+- [X] T013 [US1] Implementare in `scripts/profile_data.py` il conteggio dei valori sentinella e degeneri: zeri dell'indice di popolarità complessivi e per genere, valori fuori dal dominio della classificazione per età (F4), durate nulle o assenti (F6) (FR-017)
+- [X] T014 [US1] Implementare in `scripts/profile_data.py` il **censimento completo** delle categorie del catalogo video — tutte, con i titoli distinti di ciascuna, nessuna selezione a monte — più il conteggio di quante hanno contenuto musicale dichiarato secondo un criterio esplicito registrato nell'artefatto (FR-021, ritrovamento F1)
+- [X] T015 [US1] Implementare in `scripts/profile_data.py` il conteggio delle corrispondenze lessicali fra nomi di genere musicale e categorie video, con la **regola di confronto dichiarata** insieme al valore. Il conteggio cambia con la regola: è il ritrovamento F3 (FR-022)
+- [X] T016 [US1] Implementare in `scripts/profile_data.py` la mappa `inventory_001` che risolve le sigle `V01`-`V14` di FR-020 sugli identificativi che le rigenerano (SC-003)
+- [X] T017 [US1] Codificare in `scripts/profile_data.py` la tabella delle affermazioni della 001 — ciascuna con enunciato e collocazione — e produrre il blocco `divergences` confrontando ogni affermazione con i valori rigenerati, con stato `coincide`, `diverge` o `ambiguo` (decisione D6, FR-030). F2 e F3 sono già due ingressi attesi
+- [X] T018 [US1] Completare `scripts/profile_data.py` con l'emissione di `reports/data_profile.json` secondo la struttura di [contracts/profile-artifact.md](./contracts/profile-artifact.md) §3
+- [X] T019 [US1] Verificare US1 secondo [quickstart.md](./quickstart.md): doppia esecuzione e diff (SC-001), immutabilità di `data/raw/` (SC-002), risoluzione delle quattordici sigle (SC-003), copertura di tutti i campi (SC-004), presenza della risposta a R11 (SC-008), artefatto tracciato (SC-012)
 
 **Checkpoint**: l'artefatto esiste, è versionabile e rigenerabile. Il rilievo R8 è chiuso sul piano della riproducibilità anche se nessuno ha ancora scritto una riga di prosa.
 
@@ -77,16 +77,16 @@ Le tre storie scrivono in **tre file diversi**, quindi il parallelismo sarebbe t
 
 **Independent Test**: consegnare il solo documento a chi non ha visto i dati e chiedergli, per due misure del framework 001 a scelta, se i campi che servono esistono, più due fragilità dei dataset con il numero che le sostiene.
 
-- [ ] T020 [US2] Creare `docs/data_audit.md` con la sola struttura di heading: inquadramento, profilo del catalogo video, profilo del catalogo musicale, ritrovamenti e conseguenze, copertura delle misure del framework 001, divergenze rispetto alla 001, provenienza e confidenza, limiti dichiarati
-- [ ] T021 [US2] Scrivere in `docs/data_audit.md` l'inquadramento, includendo la nota breve che spiega perché questo documento è pieno di numeri mentre `docs/business_case.md` dichiara di non contenerne: il divieto FR-016 della 001 era locale a quel documento (FR-029)
-- [ ] T022 [US2] Scrivere in `docs/data_audit.md` il profilo del catalogo video — dimensioni, completezza, categorie, durate, valori fuori dominio — marcando ogni valore con la sintassi `valore<!--@ID-->` di [contracts/profile-artifact.md](./contracts/profile-artifact.md) §4 (FR-024, FR-025)
-- [ ] T023 [US2] Scrivere in `docs/data_audit.md` il profilo del catalogo musicale — dimensioni, completezza, duplicazione degli identificativi, struttura del campionamento, distribuzioni, massa di zeri — con la stessa marcatura (FR-024)
-- [ ] T024 [US2] Scrivere in `docs/data_audit.md` la sezione dei ritrovamenti: per ciascuno, cosa vincola a valle — quale granularità è obbligata, dove un totale ingenuo sbaglierebbe, quale fragilità un KPI erediterà (FR-026)
-- [ ] T025 [US2] Scrivere in `docs/data_audit.md` la risposta a R11: quante e quali categorie hanno contenuto musicale dichiarato, il criterio di riconoscimento applicato, e la conseguenza per la confidenza di `BQ1-K1` — una sola categoria significa nessuna mappatura e confidenza alta confermata (FR-021, SC-008). **Registrare l'esito, non ridefinire la North Star**
-- [ ] T026 [US2] Scrivere in `docs/data_audit.md` la copertura delle otto misure del framework 001: per ciascuna, se i campi che la alimentano esistono e con quale completezza. È una constatazione sui campi, **non** un giudizio di idoneità della misura (FR-027, FR-040, SC-009)
-- [ ] T027 [US2] Scrivere in `docs/data_audit.md` la sezione delle divergenze rispetto alla 001, alimentata dal blocco `divergences` dell'artefatto: valore citato, valore rigenerato, dove compariva, ipotesi sulla causa (FR-030, SC-010)
-- [ ] T028 [US2] Scrivere in `docs/data_audit.md` le sezioni di provenienza e confidenza e di limiti dichiarati, riprendendo le otto famiglie di valori della spec e le dieci voci di limite, inclusa la distinzione di `business_case.md` §6 su ciò che la scala non misura (FR-028)
-- [ ] T029 [US2] Verificare US2 per lettura: nessun valore di KPI e nessuna risposta anche parziale a BQ1, BQ2 o BQ3 nel documento (FR-039, SC-011)
+- [X] T020 [US2] Creare `docs/data_audit.md` con la sola struttura di heading: inquadramento, profilo del catalogo video, profilo del catalogo musicale, ritrovamenti e conseguenze, copertura delle misure del framework 001, divergenze rispetto alla 001, provenienza e confidenza, limiti dichiarati
+- [X] T021 [US2] Scrivere in `docs/data_audit.md` l'inquadramento, includendo la nota breve che spiega perché questo documento è pieno di numeri mentre `docs/business_case.md` dichiara di non contenerne: il divieto FR-016 della 001 era locale a quel documento (FR-029)
+- [X] T022 [US2] Scrivere in `docs/data_audit.md` il profilo del catalogo video — dimensioni, completezza, categorie, durate, valori fuori dominio — marcando ogni valore con la sintassi `valore<!--@ID-->` di [contracts/profile-artifact.md](./contracts/profile-artifact.md) §4 (FR-024, FR-025)
+- [X] T023 [US2] Scrivere in `docs/data_audit.md` il profilo del catalogo musicale — dimensioni, completezza, duplicazione degli identificativi, struttura del campionamento, distribuzioni, massa di zeri — con la stessa marcatura (FR-024)
+- [X] T024 [US2] Scrivere in `docs/data_audit.md` la sezione dei ritrovamenti: per ciascuno, cosa vincola a valle — quale granularità è obbligata, dove un totale ingenuo sbaglierebbe, quale fragilità un KPI erediterà (FR-026)
+- [X] T025 [US2] Scrivere in `docs/data_audit.md` la risposta a R11: quante e quali categorie hanno contenuto musicale dichiarato, il criterio di riconoscimento applicato, e la conseguenza per la confidenza di `BQ1-K1` — una sola categoria significa nessuna mappatura e confidenza alta confermata (FR-021, SC-008). **Registrare l'esito, non ridefinire la North Star**
+- [X] T026 [US2] Scrivere in `docs/data_audit.md` la copertura delle otto misure del framework 001: per ciascuna, se i campi che la alimentano esistono e con quale completezza. È una constatazione sui campi, **non** un giudizio di idoneità della misura (FR-027, FR-040, SC-009)
+- [X] T027 [US2] Scrivere in `docs/data_audit.md` la sezione delle divergenze rispetto alla 001, alimentata dal blocco `divergences` dell'artefatto: valore citato, valore rigenerato, dove compariva, ipotesi sulla causa (FR-030, SC-010)
+- [X] T028 [US2] Scrivere in `docs/data_audit.md` le sezioni di provenienza e confidenza e di limiti dichiarati, riprendendo le otto famiglie di valori della spec e le dieci voci di limite, inclusa la distinzione di `business_case.md` §6 su ciò che la scala non misura (FR-028)
+- [X] T029 [US2] Verificare US2 per lettura: nessun valore di KPI e nessuna risposta anche parziale a BQ1, BQ2 o BQ3 nel documento (FR-039, SC-011)
 
 **Checkpoint**: il profilo è leggibile e interpretato. Il documento sta in piedi anche prima che il controllo di coerenza esista.
 
@@ -98,11 +98,11 @@ Le tre storie scrivono in **tre file diversi**, quindi il parallelismo sarebbe t
 
 **Independent Test**: alterare un singolo valore marcato nel documento ed eseguire il comando. Superata se fallisce e nomina il valore.
 
-- [ ] T030 [US3] Creare `scripts/check_audit_coherence.py` con il riconoscimento dei marcatori `valore<!--@ID-->` secondo la grammatica di [contracts/profile-artifact.md](./contracts/profile-artifact.md) §4 e il confronto carattere per carattere fra il testo che precede il marcatore e il campo `display` (FR-033)
-- [ ] T031 [US3] Implementare in `scripts/check_audit_coherence.py` l'uscita con stato di errore su divergenza, con messaggio che riporta identificativo, valore atteso e valore trovato (FR-034)
-- [ ] T032 [US3] Implementare in `scripts/check_audit_coherence.py` l'errore su riferimento non risolvibile — marcatore che punta a un identificativo assente da `values` — e su sigla di `inventory_001` che non si risolve (FR-035)
-- [ ] T033 [US3] Implementare in `scripts/check_audit_coherence.py` l'avviso **non bloccante** sui gruppi di cifre non adiacenti ad alcun marcatore, come lista da vagliare a occhio (decisione D8). È il primo elemento a cadere se il tempo stringe
-- [ ] T034 [US3] Verificare US3 secondo [quickstart.md](./quickstart.md): esito positivo su documento intatto e negativo su documento alterato (SC-006), esecuzione con `data/raw/` rimossa (SC-007, FR-036), lettura degli avvisi per la parte assistita di SC-005
+- [X] T030 [US3] Creare `scripts/check_audit_coherence.py` con il riconoscimento dei marcatori `valore<!--@ID-->` secondo la grammatica di [contracts/profile-artifact.md](./contracts/profile-artifact.md) §4 e il confronto carattere per carattere fra il testo che precede il marcatore e il campo `display` (FR-033)
+- [X] T031 [US3] Implementare in `scripts/check_audit_coherence.py` l'uscita con stato di errore su divergenza, con messaggio che riporta identificativo, valore atteso e valore trovato (FR-034)
+- [X] T032 [US3] Implementare in `scripts/check_audit_coherence.py` l'errore su riferimento non risolvibile — marcatore che punta a un identificativo assente da `values` — e su sigla di `inventory_001` che non si risolve (FR-035)
+- [X] T033 [US3] Implementare in `scripts/check_audit_coherence.py` l'avviso **non bloccante** sui gruppi di cifre non adiacenti ad alcun marcatore, come lista da vagliare a occhio (decisione D8). È il primo elemento a cadere se il tempo stringe
+- [X] T034 [US3] Verificare US3 secondo [quickstart.md](./quickstart.md): esito positivo su documento intatto e negativo su documento alterato (SC-006), esecuzione con `data/raw/` rimossa (SC-007, FR-036), lettura degli avvisi per la parte assistita di SC-005
 
 **Checkpoint**: l'ibrido documento-più-artefatto è protetto. Tutte e tre le storie sono complete.
 
@@ -112,11 +112,11 @@ Le tre storie scrivono in **tre file diversi**, quindi il parallelismo sarebbe t
 
 **Scopo**: chiudere il debito verso la 001 e lasciare il repository coerente.
 
-- [ ] T035 [P] Applicare agli artefatti della 001 una nota datata per ciascuna divergenza con stato `diverge` o `ambiguo`, con il valore corretto e la ragione del cambiamento, **senza cancellare il valore originale** (FR-031). I file interessati sono `docs/business_case.md` e `specs/001-business-case-kpi/research.md`
-- [ ] T036 [P] Aggiornare `README.md` con i due comandi della feature — rigenerazione del profilo e controllo di coerenza — nella sezione Setup, accanto a `scripts/download_data.sh`
-- [ ] T037 [P] Aggiornare `specs/002-data-audit-profiling/checklists/requirements.md` con l'iterazione di implementazione: cosa è stato prodotto, quali criteri sono verificati da comando e quali per lettura
-- [ ] T038 Eseguire integralmente [quickstart.md](./quickstart.md) nell'ordine consigliato e registrare l'esito dei dodici criteri di successo
-- [ ] T039 Verificare il perimetro: nessuna trasformazione persistente prodotta (FR-037), nessuna decisione presa sulle tracce a popolarità zero (FR-038), §3 di `docs/business_case.md` **non** corretta perché è debito testuale assegnato altrove (FR-032)
+- [X] T035 [P] Applicare agli artefatti della 001 una nota datata per ciascuna divergenza con stato `diverge` o `ambiguo`, con il valore corretto e la ragione del cambiamento, **senza cancellare il valore originale** (FR-031). I file interessati sono `docs/business_case.md` e `specs/001-business-case-kpi/research.md`
+- [X] T036 [P] Aggiornare `README.md` con i due comandi della feature — rigenerazione del profilo e controllo di coerenza — nella sezione Setup, accanto a `scripts/download_data.sh`
+- [X] T037 [P] Aggiornare `specs/002-data-audit-profiling/checklists/requirements.md` con l'iterazione di implementazione: cosa è stato prodotto, quali criteri sono verificati da comando e quali per lettura
+- [X] T038 Eseguire integralmente [quickstart.md](./quickstart.md) nell'ordine consigliato e registrare l'esito dei dodici criteri di successo
+- [X] T039 Verificare il perimetro: nessuna trasformazione persistente prodotta (FR-037), nessuna decisione presa sulle tracce a popolarità zero (FR-038), §3 di `docs/business_case.md` **non** corretta perché è debito testuale assegnato altrove (FR-032)
 
 ---
 
