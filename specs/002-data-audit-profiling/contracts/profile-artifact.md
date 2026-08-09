@@ -1,6 +1,6 @@
 # Contratto — `reports/data_profile.json` e marcatura dei valori
 
-**Feature**: 002 Data Audit & Profiling | **Data**: 2026-08-08
+**Feature**: 002 Data Audit & Profiling | **Data**: 2026-08-09
 
 Questo file fissa l'interfaccia fra tre cose che vivono separate: lo **script** che produce l'artefatto, la **persona** che scrive il documento di audit a mano, e il **controllo di coerenza** che verifica che le prime due siano d'accordo. Serve anche alle feature successive, che citeranno identificativi di questo artefatto senza doverne riaprire lo script.
 
@@ -32,17 +32,18 @@ NF.miss.director.pct             quota di titoli senza regista
 NF.cat.count                     numero di categorie distinte
 NF.cat.music.count               quante categorie hanno contenuto musicale dichiarato
 NF.cat.music_musicals.titles     titoli distinti nella categoria musicale
-NF.rating.out_of_domain          valori della classificazione fuori dominio
-NF.movie.duration.median         durata mediana di un film, in minuti
+NF.rating.out_of_domain.values   valori della classificazione fuori dominio
+NF.num.movie_duration_min.median durata mediana di un film, in minuti
 SP.shape.rows                    righe del catalogo musicale
 SP.genre.count                   generi distinti
-SP.genre.per_genre               righe per genere (se costante)
+SP.genre.rows_min                righe del genere meno numeroso
 SP.id.distinct                   identificativi di traccia distinti
-SP.id.dup_share                  quota di righe che sono ripetizioni
+SP.id.duplicate_share            quota di righe che sono ripetizioni
 SP.id.inflation                  eccesso del totale non deduplicato sul deduplicato
 SP.pop.zero.pct                  quota di tracce a popolarità zero
 SP.pop.zero.by_genre.jazz        quota a popolarità zero nel genere indicato
 X.genre_lexical.count            generi musicali con corrispondenza lessicale
+X.claims_001.coincide            affermazioni della 001 che il profilo conferma
 ```
 
 ## 2. Forma del record di valore
@@ -128,21 +129,35 @@ Il catalogo video contiene 8.807<!--@NF.shape.rows--> titoli, di cui
 
 > Il catalogo video contiene 8.807 titoli, di cui 6.131 film e 2.676 serie.
 
+**Le tre forme ammesse**. La prima è nata con il contratto; la seconda e la terza sono state aggiunte dopo che una revisione indipendente ha dimostrato che una marcatura limitata alle cifre lasciava scoperta proprio la zona in cui gli errori passano — le affermazioni derivate scritte a mano.
+
+| Forma | Come si scrive | Come viene verificata |
+|---|---|---|
+| **cifre** | `8.807<!--@NF.shape.rows-->` | confronto carattere per carattere con `display` |
+| **numerale in lettere** | `dodici<!--@X.claims_001.coincide-->` | il numerale è convertito e confrontato con `value` |
+| **letterale** | `` `Music & Musicals`<!--@catalogs.netflix_categories_musical--> `` | il letterale deve essere membro dell'elenco indicato |
+
+I numerali ammessi arrivano fino a venti: oltre, e per qualunque misura, si scrive in cifre. Il terzo spazio dei nomi è `conventions.<chiave>`, con la stessa semantica di appartenenza.
+
 **Regole**:
 
-1. il testo che precede immediatamente il marcatore, fino al primo spazio o inizio di riga, DEVE coincidere **carattere per carattere** con il campo `display` del valore;
+1. il testo che precede immediatamente il marcatore — un letterale fra apici inversi, oppure la sequenza senza spazi fino al primo spazio o inizio di riga — DEVE corrispondere secondo la forma usata;
 2. un identificativo può essere marcato più volte nel documento;
 3. il marcatore funziona ovunque, prosa o cella di tabella;
-4. non esistono altre forme di marcatura. Un numero senza marcatore non è un valore di profilo e il controllo non lo legge.
+4. un marcatore che vive **dentro** un frammento di codice in linea è la sintassi mostrata come esempio, non un'ancora, e non viene verificato: un documento deve poter documentare il proprio meccanismo senza attivarlo;
+5. non esistono altre forme di marcatura. Una quantità senza marcatore non è un valore di profilo e il controllo non la confronta.
 
 ## 5. Cosa il controllo di coerenza verifica
 
 | Condizione | Esito |
 |---|---|
-| il testo prima del marcatore coincide con `display` | passa |
-| il testo prima del marcatore **non** coincide con `display` | **errore**: riporta identificativo, atteso e trovato |
-| il marcatore punta a un identificativo assente da `values` | **errore**: riporta il riferimento non risolvibile |
+| il testo prima del marcatore corrisponde secondo la sua forma | passa |
+| il testo prima del marcatore **non** corrisponde | **errore**: riporta identificativo, atteso e trovato |
+| il marcatore punta a un identificativo assente dai tre spazi dei nomi | **errore**: riporta il riferimento non risolvibile |
+| un riferimento a `catalogs`/`conventions` è usato su un valore non fra apici inversi | **errore** |
 | un identificativo di `inventory_001` punta a un valore assente | **errore** |
-| un gruppo di cifre nel documento non è adiacente ad alcun marcatore | **avviso**, non bloccante (D8) |
+| una cifra o un numerale non è adiacente ad alcun marcatore | **avviso**, non bloccante (D8) |
+
+**Il confine della garanzia, dichiarato.** Il controllo verifica ciò che è ancorato. Non può accorgersi di un'affermazione che *avrebbe dovuto* essere ancorata: per quello esiste l'avviso, che elenca ma non decide. Un esito verde certifica le ancore, non l'intero documento — e questa frase è nel contratto perché la sua assenza è già costata tre errori sfuggiti a un controllo che dichiarava tutto coerente.
 
 Il controllo legge **solo** il documento di audit e l'artefatto, entrambi versionati: non richiede `data/raw/` e non riesegue il profiling (FR-036).

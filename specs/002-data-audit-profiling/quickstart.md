@@ -1,6 +1,6 @@
 # Quickstart — Feature 002: Data Audit & Profiling
 
-**Data**: 2026-08-08 | **Fase**: 1 (Design) | **Spec**: [spec.md](./spec.md)
+**Data**: 2026-08-09 | **Fase**: 1 (Design) | **Spec**: [spec.md](./spec.md)
 
 Guida di verifica: come eseguire ciò che la feature produce e come accertare che i criteri di successo siano soddisfatti. Non contiene codice di implementazione — quello vive negli artefatti del repository.
 
@@ -86,9 +86,11 @@ Verifica **in due parti**, ed è la sola della lista che non si chiude con un co
 python3 scripts/check_audit_coherence.py
 ```
 
-La parte automatica: il comando fallisce se un valore marcato non coincide o se un riferimento non si risolve. La parte assistita: il comando elenca come **avvisi** i gruppi di cifre non adiacenti a un marcatore, e quell'elenco va letto. Ogni voce è una di tre cose — un valore di profilo da marcare (da correggere), una data o un riferimento a una sezione (da ignorare), un numero che non viene dal profilo (da ignorare).
+La parte automatica copre **tre forme di ancoraggio** — cifre confrontate con la forma di visualizzazione, numerali in lettere confrontati con il valore numerico, letterali fra apici inversi verificati come membri di un elenco — e fallisce se una non corrisponde o se un riferimento non si risolve.
 
-Il motivo per cui questa direzione non è automatizzabile è la decisione D8: distinguere in prosa italiana un valore di profilo da una data richiederebbe l'estrazione euristica che FR-025 vieta.
+La parte assistita: il comando elenca come **avvisi** le cifre e i numerali non adiacenti a un marcatore, e quell'elenco va letto. Ogni voce è una di tre cose — un valore di profilo da marcare (da correggere), un riferimento strutturale o una data (da ignorare), un numero che non viene dal profilo (da ignorare).
+
+Il motivo per cui questa direzione resta non automatizzabile è la decisione D8: distinguere in prosa italiana un valore di profilo da una data richiederebbe l'estrazione euristica che FR-025 vieta. La copertura è stata **estesa** dopo la revisione in contesto pulito — che aveva trovato tre errori proprio fra i numerali in lettere, invisibili alla prima versione del controllo — ma estendere la copertura sposta il confine, non lo elimina: un esito verde certifica le ancore, non l'intero documento.
 
 ### SC-006 — Il controllo fallisce quando deve
 

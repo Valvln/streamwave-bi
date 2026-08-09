@@ -1,6 +1,6 @@
 # Research — Feature 002: Data Audit & Profiling
 
-**Data**: 2026-08-08 | **Fase**: 0 (Outline & Research) | **Spec**: [spec.md](./spec.md)
+**Data**: 2026-08-09 | **Fase**: 0 (Outline & Research) | **Spec**: [spec.md](./spec.md)
 
 La Fase 0 ha eseguito una ricognizione in sola lettura sui due file di `data/raw/` per fondare le decisioni tecniche su ciò che i dati sono davvero, e non su ciò che la 001 riporta. La ricognizione **non è il profiling**: non ha prodotto artefatti persistenti e i suoi numeri non entrano in nessun documento. Serve a sapere quali problemi lo script dovrà saper gestire prima di scriverlo.
 

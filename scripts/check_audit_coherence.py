@@ -11,6 +11,17 @@ quindi verificare la coerenza di ogni numero del documento.
 Esce con stato 1 su qualunque errore: un controllo che segnala senza fallire e'
 un controllo che verra' ignorato (FR-034).
 
+Copre tre forme di ancoraggio:
+
+    8.807<!--@NF.shape.rows-->          cifre, confrontate con `display`
+    dodici<!--@X.claims_001.coincide--> numerale in lettere, confrontato con `value`
+    `Music & Musicals`<!--@catalogs.netflix_categories_musical-->
+                                        letterale, verificato come membro di una lista
+
+La seconda e la terza forma esistono perche' la prima da sola lasciava scoperta
+la zona in cui gli errori passano davvero: le affermazioni derivate scritte a
+mano. Un controllo che copre solo le cifre certifica le ancore, non il documento.
+
 Uso:
     python3 scripts/check_audit_coherence.py
 """
@@ -27,16 +38,31 @@ DOC = REPO / "docs" / "data_audit.md"
 PROFILE = REPO / "reports" / "data_profile.json"
 
 # Grammatica della marcatura (contracts/profile-artifact.md §4): il marcatore
-# segue il valore senza spazio interposto. Si cattura il testo che precede
-# immediatamente il marcatore fino al primo spazio o inizio di riga: e' cio' che
-# evita l'estrazione euristica di "tutti i numeri" vietata da FR-025.
-MARKER = re.compile(r"(?P<display>\S*?)<!--@(?P<vid>[A-Za-z0-9._]+)-->")
+# segue il valore senza spazio interposto. Si cattura o un letterale fra apici
+# inversi, o il testo che precede immediatamente il marcatore fino al primo
+# spazio. E' cio' che evita l'estrazione euristica di "tutti i numeri" vietata
+# da FR-025: nulla di non marcato viene mai confrontato.
+MARKER = re.compile(
+    r"(?P<display>`[^`]*`|\S*?)(?P<comment><!--@(?P<vid>[A-Za-z0-9._\[\]]+)-->)"
+)
 
-# Sigle strutturali del progetto, escluse dall'avviso sui gruppi di cifre non
-# marcati. Sono riferimenti, non quantita': segnalarle produrrebbe un elenco
-# cosi' rumoroso da rendere l'avviso inservibile. L'elenco e' dichiarato qui
-# perche' una esclusione non scritta e' una esclusione che nessuno puo'
-# contestare.
+# Numerali italiani ammessi come forma ancorabile. Deliberatamente corto: copre
+# i numeri piccoli che in prosa si scrivono in lettere. Oltre il venti, e per
+# qualunque misura, si scrive in cifre.
+NUMBER_WORDS = {
+    "zero": 0, "uno": 1, "una": 1, "due": 2, "tre": 3, "quattro": 4,
+    "cinque": 5, "sei": 6, "sette": 7, "otto": 8, "nove": 9, "dieci": 10,
+    "undici": 11, "dodici": 12, "tredici": 13, "quattordici": 14,
+    "quindici": 15, "sedici": 16, "diciassette": 17, "diciotto": 18,
+    "diciannove": 19, "venti": 20,
+}
+# Numerali che in italiano sono anche articoli o pronomi: segnalarli come
+# "cifre non marcate" produrrebbe un elenco inservibile.
+AMBIGUOUS_WORDS = {"uno", "una"}
+
+# Sigle strutturali del progetto, escluse dall'avviso. Sono riferimenti, non
+# quantita'. L'elenco e' dichiarato qui perche' una esclusione non scritta e'
+# una esclusione che nessuno puo' contestare.
 STRUCTURAL = re.compile(
     r"""\b(?:
           BQ\d(?:-K\d)?      # sigle KPI del framework 001
@@ -52,7 +78,15 @@ SECTION_REF = re.compile(r"§\s*\d+(?:\.\d+)*")
 # Ancore dei link interni: `[testo](file.md#52-nota-...)` contiene cifre che
 # appartengono alla struttura del documento, non al suo contenuto.
 LINK_TARGET = re.compile(r"\]\([^)]*\)")
+# Il codice in linea fra apici inversi contiene identificativi — `sha256`,
+# `duration_ms`, `TV-Y7` — le cui cifre non sono quantita'. I letterali che
+# *sono* dati vengono ancorati, e l'ancora li sottrae a questa scansione prima.
+INLINE_CODE = re.compile(r"`[^`]*`")
 DIGITS = re.compile(r"\d[\d.,]*")
+WORDS = re.compile(
+    r"\b(" + "|".join(sorted(NUMBER_WORDS, key=len, reverse=True)) + r")\b",
+    re.IGNORECASE,
+)
 
 
 def load() -> tuple[str, dict]:
@@ -72,27 +106,89 @@ def line_of(text: str, position: int) -> int:
     return text.count("\n", 0, position) + 1
 
 
-def check_markers(text: str, values: dict) -> tuple[list[str], int]:
-    """Confronto carattere per carattere fra testo marcato e campo display."""
+def resolve(artifact: dict, vid: str):
+    """Risolve un identificativo nei tre spazi dei nomi dell'artefatto."""
+    for prefix in ("catalogs", "conventions"):
+        if vid.startswith(prefix + "."):
+            container = artifact.get(prefix, {})
+            key = vid[len(prefix) + 1:]
+            if key not in container:
+                return None
+            return (prefix, container[key])
+    if vid in artifact["values"]:
+        return ("values", artifact["values"][vid])
+    return None
+
+
+def check_markers(text: str, artifact: dict) -> tuple[list[str], dict]:
     errors: list[str] = []
-    cited = 0
+    tally = {"cifre": 0, "lettere": 0, "letterali": 0}
+
+    # Un commento che vive *dentro* un frammento di codice in linea e' la
+    # sintassi mostrata come esempio, non un'ancora: il documento ha il diritto
+    # di documentare il proprio meccanismo senza attivarlo. In un'ancora vera su
+    # un letterale il commento sta invece fuori dagli apici.
+    code_spans = [m.span() for m in INLINE_CODE.finditer(text)]
+
     for match in MARKER.finditer(text):
-        cited += 1
+        comment_at = match.start("comment")
+        if any(start <= comment_at < end for start, end in code_spans):
+            continue
+
         vid = match.group("vid")
         found = match.group("display")
         line = line_of(text, match.start())
-        if vid not in values:
+        target = resolve(artifact, vid)
+
+        if target is None:
             errors.append(
                 f"  riga {line}: riferimento non risolvibile @{vid} — "
                 f"l'identificativo non esiste nel profilo"
             )
             continue
-        expected = values[vid]["display"]
-        if found != expected:
+
+        space, payload = target
+
+        # --- Letterale fra apici inversi: appartenenza a un elenco ---
+        if found.startswith("`") and found.endswith("`"):
+            literal = found.strip("`")
+            tally["letterali"] += 1
+            members = payload if isinstance(payload, list) else [payload]
+            members = [str(m) for m in members]
+            if literal not in members:
+                shown = ", ".join(members[:6]) + ("…" if len(members) > 6 else "")
+                errors.append(
+                    f"  riga {line}: @{vid} — «{literal}» non compare "
+                    f"nell'elenco ({shown})"
+                )
+            continue
+
+        if space != "values":
             errors.append(
-                f"  riga {line}: @{vid} — atteso «{expected}», trovato «{found}»"
+                f"  riga {line}: @{vid} — un riferimento a {space} va usato su "
+                f"un letterale fra apici inversi, non su «{found}»"
             )
-    return errors, cited
+            continue
+
+        # --- Numerale in lettere: confronto sul valore numerico ---
+        word = found.lower().strip(".,;:")
+        if word in NUMBER_WORDS:
+            tally["lettere"] += 1
+            if NUMBER_WORDS[word] != payload["value"]:
+                errors.append(
+                    f"  riga {line}: @{vid} — atteso {payload['value']}, "
+                    f"trovato «{found}» ({NUMBER_WORDS[word]})"
+                )
+            continue
+
+        # --- Cifre: confronto carattere per carattere con la forma dichiarata ---
+        tally["cifre"] += 1
+        if found != payload["display"]:
+            errors.append(
+                f"  riga {line}: @{vid} — atteso «{payload['display']}», "
+                f"trovato «{found}»"
+            )
+    return errors, tally
 
 
 def check_inventory(artifact: dict) -> list[str]:
@@ -108,8 +204,8 @@ def check_inventory(artifact: dict) -> list[str]:
     return errors
 
 
-def unmarked_digits(text: str) -> list[str]:
-    """Avviso non bloccante sui gruppi di cifre non adiacenti a un marcatore.
+def unmarked_quantities(text: str) -> list[str]:
+    """Avviso non bloccante su cifre e numerali non adiacenti a un marcatore.
 
     Decisione D8: riconoscere che un numero *sarebbe dovuto* essere marcato
     richiederebbe di distinguere in prosa italiana un valore di profilo da una
@@ -120,6 +216,7 @@ def unmarked_digits(text: str) -> list[str]:
     blank = lambda m: " " * len(m.group(0))
     stripped = MARKER.sub(blank, text)
     stripped = LINK_TARGET.sub(blank, stripped)
+    stripped = INLINE_CODE.sub(blank, stripped)
     stripped = STRUCTURAL.sub(blank, stripped)
     stripped = SECTION_REF.sub(blank, stripped)
 
@@ -135,24 +232,31 @@ def unmarked_digits(text: str) -> list[str]:
         for match in DIGITS.finditer(line):
             token = match.group(0).rstrip(".,")
             if token:
-                warnings.append(f"  riga {number}: «{token}»")
+                warnings.append(f"  riga {number}: «{token}» (cifre)")
+        for match in WORDS.finditer(line):
+            token = match.group(0)
+            if token.lower() not in AMBIGUOUS_WORDS:
+                warnings.append(f"  riga {number}: «{token}» (numerale)")
     return warnings
 
 
 def main() -> int:
     text, artifact = load()
-    values = artifact["values"]
 
-    errors, cited = check_markers(text, values)
+    errors, tally = check_markers(text, artifact)
     errors += check_inventory(artifact)
-    warnings = unmarked_digits(text)
+    warnings = unmarked_quantities(text)
 
     print(f"Documento : {DOC.relative_to(REPO)}")
-    print(f"Profilo   : {PROFILE.relative_to(REPO)} ({len(values)} valori)")
-    print(f"Marcatori : {cited}")
+    print(f"Profilo   : {PROFILE.relative_to(REPO)} ({len(artifact['values'])} valori)")
+    print(
+        f"Marcatori : {sum(tally.values())} "
+        f"({tally['cifre']} in cifre, {tally['lettere']} in lettere, "
+        f"{tally['letterali']} letterali)"
+    )
 
     if warnings:
-        print(f"\nAVVISI ({len(warnings)}) — gruppi di cifre non marcati, da vagliare:")
+        print(f"\nAVVISI ({len(warnings)}) — quantita' non marcate, da vagliare:")
         for warning in warnings:
             print(warning)
 

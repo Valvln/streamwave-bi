@@ -1953,6 +1953,15 @@
       "unit": "percentuale",
       "value": 9.3675
     },
+    "NF.miss.complete_fields": {
+      "dataset": "netflix",
+      "display": "6",
+      "field": null,
+      "granularity": "campo",
+      "label": "campi senza alcun valore mancante",
+      "unit": "conteggio",
+      "value": 6
+    },
     "NF.miss.country.count": {
       "dataset": "netflix",
       "display": "831",
@@ -9746,6 +9755,42 @@
       "label": "frequenza del 10o valore piu' comune di valence (0.202)",
       "unit": "conteggio",
       "value": 201
+    },
+    "X.claims_001.ambiguo": {
+      "dataset": "entrambi",
+      "display": "1",
+      "field": null,
+      "granularity": "affermazione",
+      "label": "affermazioni della 001 sotto-determinate, non confrontabili",
+      "unit": "conteggio",
+      "value": 1
+    },
+    "X.claims_001.coincide": {
+      "dataset": "entrambi",
+      "display": "12",
+      "field": null,
+      "granularity": "affermazione",
+      "label": "affermazioni della 001 che coincidono con il valore rigenerato",
+      "unit": "conteggio",
+      "value": 12
+    },
+    "X.claims_001.diverge": {
+      "dataset": "entrambi",
+      "display": "1",
+      "field": null,
+      "granularity": "affermazione",
+      "label": "affermazioni della 001 che divergono dal valore rigenerato",
+      "unit": "conteggio",
+      "value": 1
+    },
+    "X.claims_001.total": {
+      "dataset": "entrambi",
+      "display": "14",
+      "field": null,
+      "granularity": "affermazione",
+      "label": "affermazioni della feature 001 sottoposte a confronto",
+      "unit": "conteggio",
+      "value": 14
     },
     "X.genre_lexical.count": {
       "dataset": "entrambi",

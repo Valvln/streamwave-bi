@@ -356,6 +356,11 @@ def profile_netflix(profile: Profile) -> None:
         {"name": f if f.strip() else "", "observed_type": types[f]} for f in fields
     ]
     profile.catalogs["netflix_fields_excluded"] = []
+    profile.count(
+        "NF.miss.complete_fields",
+        sum(1 for f in fields if all(not is_missing(r[f]) for r in rows)),
+        "netflix", "campi senza alcun valore mancante", granularity="campo",
+    )
 
     for kind, key, label in (("Movie", "movie", "film"), ("TV Show", "tvshow", "serie")):
         profile.count(f"NF.type.{key}", sum(1 for r in rows if r["type"] == kind),
@@ -791,6 +796,29 @@ def build_divergences(profile: Profile) -> list:
     return registry
 
 
+def add_claim_summary(profile: Profile, registry: list) -> None:
+    """Rende ancorabile il riepilogo del confronto con la 001.
+
+    Il documento di audit riassume in una frase l'esito del confronto ("su N
+    affermazioni verificate, M coincidono"). Finche' quei conteggi restavano
+    prosa scritta a mano erano esattamente il tipo di affermazione che questa
+    feature esiste per impedire: derivata, plausibile e non verificata.
+    """
+    counts = {"coincide": 0, "diverge": 0, "ambiguo": 0}
+    for entry in registry:
+        counts[entry["status"]] = counts.get(entry["status"], 0) + 1
+    profile.count("X.claims_001.total", len(registry), "entrambi",
+                  "affermazioni della feature 001 sottoposte a confronto",
+                  granularity="affermazione")
+    for status, label in (
+        ("coincide", "affermazioni della 001 che coincidono con il valore rigenerato"),
+        ("diverge", "affermazioni della 001 che divergono dal valore rigenerato"),
+        ("ambiguo", "affermazioni della 001 sotto-determinate, non confrontabili"),
+    ):
+        profile.count(f"X.claims_001.{status}", counts[status], "entrambi", label,
+                      granularity="affermazione")
+
+
 # ---------------------------------------------------------------------------
 # Uscita
 # ---------------------------------------------------------------------------
@@ -801,6 +829,10 @@ def main() -> int:
     profile_netflix(profile)
     profile_spotify(profile)
     profile_lexical(profile)
+
+    inventory = build_inventory(profile)
+    divergences = build_divergences(profile)
+    add_claim_summary(profile, divergences)
 
     artifact = {
         "schema_version": SCHEMA_VERSION,
@@ -820,8 +852,8 @@ def main() -> int:
         ],
         "values": profile.values,
         "catalogs": profile.catalogs,
-        "inventory_001": build_inventory(profile),
-        "divergences": build_divergences(profile),
+        "inventory_001": inventory,
+        "divergences": divergences,
     }
 
     OUT.parent.mkdir(parents=True, exist_ok=True)

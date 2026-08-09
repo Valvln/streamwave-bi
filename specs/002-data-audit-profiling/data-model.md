@@ -1,6 +1,6 @@
 # Data Model — Feature 002: Data Audit & Profiling
 
-**Data**: 2026-08-08 | **Fase**: 1 (Design) | **Spec**: [spec.md](./spec.md)
+**Data**: 2026-08-09 | **Fase**: 1 (Design) | **Spec**: [spec.md](./spec.md)
 
 Le entità di questa feature non sono tabelle di un modello dati analitico: il modello dati del progetto è la feature 005. Qui sono gli oggetti che il profiling produce e che il controllo di coerenza verifica. La loro forma serializzata è fissata in [contracts/profile-artifact.md](./contracts/profile-artifact.md); questo documento ne descrive semantica, relazioni e vincoli di integrità.
 
