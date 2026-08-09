@@ -24,7 +24,7 @@ Questa fase non produce numeri di risultato (FR-016). Ispeziona i dataset reali 
 
 Nessun campo di audience, visione o ricavo. Nessun campo di mood.
 
-> **⚠️ Nota di correzione — 2026-08-08, feature 002.** Il profiling riproducibile della feature 002 rigenera **17** valori distinti per `rating`, non 18. La differenza è la definizione di valore mancante: il profilo conta i valori distinti **non mancanti**, mentre il conteggio qui sopra includeva anche il valore vuoto, che non è una classificazione ma la sua assenza.
+> **⚠️ Nota di correzione — 2026-08-09, feature 002.** Il profiling riproducibile della feature 002 rigenera **17** valori distinti per `rating`, non 18. La differenza è la definizione di valore mancante: il profilo conta i valori distinti **non mancanti**, mentre il conteggio qui sopra includeva anche il valore vuoto, che non è una classificazione ma la sua assenza.
 >
 > La cifra corretta è comunque fuorviante come descrizione del dominio: dei 17 valori distinti, solo **14** sono classificazioni per età. Gli altri tre sono durate — `66 min`, `74 min`, `84 min`, una per titolo — finite nel campo sbagliato nella fonte. Il campo è quindi valorizzato al 100% e contiene tre valori errati, che nessuna misura di completezza segnala.
 >
