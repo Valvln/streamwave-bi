@@ -1,6 +1,6 @@
 # Roadmap — StreamWave BI
 
-**Aggiornata**: 2026-08-09 | **Stato**: feature 002 conclusa e mergiata, 003 da aprire
+**Aggiornata**: 2026-08-10 | **Stato**: feature 002 conclusa e mergiata, 003 da aprire
 
 Questo documento è il piano di lavoro del progetto: cosa resta da fare, in quale ordine, con quale stima e con quali dipendenze. È versionato perché la pianificazione — e soprattutto il suo scostamento dalla realtà — fa parte dell'artefatto da portfolio quanto i risultati.
 
@@ -23,7 +23,7 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `001` | Business Case & KPI Framework | ~7 (spese) | — | ✅ conclusa, con debito residuo |
 | `002` | Data Audit & Profiling | ~4,5 (spese, stimate 4) | 001 | ✅ conclusa, PR #2 mergiata |
 | `003` | Data Cleaning & ETL | 6 | 002 | ⬜ prossima |
-| `004` | Synthetic Business Metrics | 5 | 001 | ⬜ |
+| `004` | Synthetic Business Metrics | 6 | 001 | ⬜ ancorata a benchmark, vedi sotto |
 | `005` | Data Model Design | 5 | 003, *chore ambiente* | ⬜ |
 | `006` | Content Taxonomy Bridge | 5 | 002, 005 | ⬜ |
 | `007` | Misure DAX & KPI | 7 | 004, 005, 006 | ⬜ |
@@ -31,9 +31,29 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `009` | Porting Tableau Public | 5 | 007 | ⬜ *stretch, primo a cadere* |
 | `010` | Case Study & Portfolio Integration | 5 | 008 | ⬜ |
 
-**Totale residuo escluso `009`**: ~41 ore, più ~1,5 ore di debito testuale e ~3 ore di chore.
+**Totale residuo escluso `009`**: ~42 ore di feature, più ~2,5 ore di debito testuale e ~5,5 ore di altri chore.
 
 `004` non dipende da `002` e `003`: genera dati che non esistono, quindi non ha bisogno che i dati reali siano puliti. È l'unica feature parallelizzabile e va tenuta come riserva per le giornate in cui il contesto sui dati reali non è fresco.
+
+### Nota sulla `004` — ancoraggio a benchmark pubblici
+
+**Decisione del 2026-08-10: accolta, rifilata.** La 004 come originariamente prevista sarebbe stato l'unico artefatto del progetto in cui la fonte di ogni parametro è "l'analista ha deciso così". Formalmente conforme — la constitution ammette i sintetici con assunzioni dichiarate a confidenza bassa — ma incoerente con la tesi del progetto, che è il principio I. I parametri di scenario vanno ancorati a benchmark pubblici di settore, con fonte, data di accesso e citazione puntuale, e legati ai KPI in un file di assunzioni versionato. Il documento `docs/business_case.md` §7, scheda `BQ3-K1`, prende già questo impegno e non lo ha ancora onorato.
+
+Il perimetro è però molto più stretto di quanto la proposta iniziale prevedesse, perché tre dei valori proposti non hanno un consumatore nel framework:
+
+- **il churn è vietato, non facoltativo**: FR-018 della 001 esclude esplicitamente una riduzione di churn dal modello. Un benchmark di churn finanzierebbe un parametro che il framework proibisce di usare;
+- **l'engagement non ha KPI**: BQ3 ha due sole misure, `premium_tier_adoption_rate` e `arpu_uplift`. Nessuna consuma engagement. Generarne un dataset produrrebbe numeri che nessuna misura legge;
+- **i prezzi sono già fissati**: A4 e FR-017a li stabiliscono come valori puntuali di scenario e vietano di esprimerli a range. Nessun benchmark di ARPU serve a determinarli.
+
+Resta **un solo benchmark indispensabile**: il tasso di conversione a un tier superiore in servizi di streaming, su cui `BQ3-K1` costruisce best/base/worst. La base utenti **non** va quantificata, per la decisione presa sulla divergenza 9 qui sotto.
+
+**Confidenza dei parametri da benchmark**: si istituisce un'**assunzione di trasferimento** gemella di A1, non un quarto livello della scala. Un benchmark di un operatore terzo è dato osservato su qualcun altro e trasferito a StreamWave: è la stessa natura di A1, che §6 del business case tiene fuori scala per costruzione dopo il rilievo R1. Un quarto livello cambierebbe l'asse su cui tutti e 8 i KPI sono già classificati, obbligando a rivederli uno per uno, per coprire un caso che il pattern esistente copre già.
+
+**Determinismo**: la ricerca produce un file di parametri versionato con fonte e data; uno script con seed fisso genera il dataset a partire da quel file. La pipeline resta rieseguibile da una copia pulita; la ricerca no, ed è congelata. Il precedente è il principio V, che già ammette lavoro non automatizzabile purché versionato come artefatto testuale. Se la ricerca alimentasse la generazione a ogni esecuzione, il principio II sarebbe violato.
+
+**Nessun framework di orchestrazione** (LangChain, LangGraph o equivalenti) per questa feature: il passaggio di raccolta produce un valore congelato che nessuno riesegue, e un'orchestrazione a grafo aggiungerebbe una dipendenza, una chiave API e un componente che dopo la prima esecuzione resta inerte. La sede in cui il lavoro con LLM ha senso è la `006` — vedi Decisioni aperte.
+
+**Stima**: da 5 a 6 ore. L'ancoraggio aggiunge circa un'ora di raccolta e citazione, l'uscita dell'engagement dalla generazione ne restituisce altrettante, la revisione in contesto pulito ne aggiunge una. Resta **una sola feature dentro il limite del principio III**: la scomposizione che la proposta dava per necessaria non serve, perché contava dentro la feature l'emendamento della constitution e le note testuali, che sono chore. Da riverificare in fase di `/speckit.specify`.
 
 ### Lavoro fuori dalle feature
 
@@ -43,6 +63,8 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | Debito testuale della 001: rilievi R9, R10, R12 e allineamento di §3 a R11 | ~1 | prima di `007` |
 | Debito testuale della 002: divergenza 3, allineare §5 del documento di audit a citare D3 della 001 e A2/A3 del business case | ~0,5 | prima di `007` |
 | Prassi di correzione degli artefatti già mergiati (divergenza 7 della 002): scriverla in `CLAUDE.md` | ~0,5 | prima di `003` |
+| Emendamento della constitution: ammettere i benchmark pubblici di settore fra le fonti dati, con Sync Impact Report e bump di versione | ~1 | prima di `004` |
+| Debito testuale per l'ancoraggio: assunzione di trasferimento in §2 di `docs/business_case.md`, richiamo in §6, note datate sulle schede `BQ3-K1` e `BQ3-K2` | ~1 | dentro `004` o subito prima |
 | Pubblicazione di prova su workspace Power BI Service e cattura schermate | ~1 | 18 agosto (scadenza trial Pro) |
 
 Nessuno di questi è una feature e nessuno apre un branch numerato. Il principio VI della constitution richiede che ogni feature sia riconducibile a BQ1, BQ2 o BQ3: predisporre una macchina virtuale non risponde ad alcuna domanda di business. Trattarlo come feature significherebbe o violare il principio VI, o inventargli un aggancio narrativo che non ha. Resta lavoro necessario, tracciato qui e non in una spec.
@@ -51,7 +73,7 @@ Il requisito di ambiente va però documentato — il principio II chiede che chi
 
 ## Scostamenti dalla roadmap iniziale
 
-La roadmap costruita a inizio progetto prevedeva 10 voci in 7-10 giornate lavorative. Quattro modifiche, tutte con una ragione:
+La roadmap costruita a inizio progetto prevedeva 10 voci in 7-10 giornate lavorative. Sei modifiche, tutte con una ragione — la quinta è un errore, non una scelta:
 
 1. **Numerazione allineata ai branch.** La roadmap iniziale numerava da 0, il repository da 001. Ogni riferimento incrociato era sfalsato di uno. Vince la numerazione dei branch, che è quella che compare nella history git.
 
@@ -61,7 +83,9 @@ La roadmap costruita a inizio progetto prevedeva 10 voci in 7-10 giornate lavora
 
 4. **Il debito della 001 è distribuito, non accantonato.** Vedi la sezione seguente.
 
-5. **La revisione in contesto pulito diventa una prassi, non un'eccezione della 001.** Era registrata fra i rischi aperti come «nessuna verifica indipendente pianificata dopo la 001», con `007` come candidato. La 002 l'ha invece condotta sul proprio documento e ne ha ricavato quattro affermazioni errate che nessun controllo automatico aveva visto. Il costo è di circa mezz'ora più il tempo di chiusura dei rilievi, e va d'ora in poi messo **dentro** la stima di ogni feature che produce un artefatto di lettura — non fuori, come è successo qui.
+5. **Le due componenti a LLM della roadmap iniziale sono state cancellate senza dichiararlo.** L'elenco originale prevedeva *Synthetic Business Metrics **(Agent 1)*** e *Content Taxonomy Bridge **(Agent 2)***. La ricalibrazione dell'8 agosto ne ha tenuto i contenuti e lasciato cadere entrambe le parentesi, senza registrare lo scostamento fra i quattro dichiarati qui sopra: nel repository non esisteva un'occorrenza di "agent" o "LLM" fino a questa revisione. È l'errore peggiore fra quelli commessi finora dalla regia, perché una decisione rimossa in silenzio non può nemmeno essere contestata. Per la 004 la cancellazione si conferma corretta nel merito, con le ragioni scritte sopra; per la 006 la decisione è riaperta ed è ora tracciata fra le Decisioni aperte.
+
+6. **La revisione in contesto pulito diventa una prassi, non un'eccezione della 001.** Era registrata fra i rischi aperti come «nessuna verifica indipendente pianificata dopo la 001», con `007` come candidato. La 002 l'ha invece condotta sul proprio documento e ne ha ricavato quattro affermazioni errate che nessun controllo automatico aveva visto. Il costo è di circa mezz'ora più il tempo di chiusura dei rilievi, e va d'ora in poi messo **dentro** la stima di ogni feature che produce un artefatto di lettura — non fuori, come è successo qui.
 
 ## Debito della feature 001
 
@@ -76,7 +100,7 @@ La [revisione in contesto pulito](../specs/001-business-case-kpi/review.md) ha p
 | R5, R6 / div. 2, 3, 4 | operatori indefiniti: intervallo occupato, metrica di distanza, pesi e commensurabilità; quadranti contro combinazione pesata | `007` |
 | div. 6 | trattamento delle tracce a popolarità zero | `003` |
 | div. 8 | segno della differenza e titoli privi di durata | `003` (dati) + `007` (segno) |
-| div. 9 | dimensione della base utenti | `004` |
+| div. 9 | dimensione della base utenti | ✅ chiusa per decisione del 2026-08-10: `BQ3-K2` resta **euro per utente al mese e non è scalabile**. Nessuna base utenti viene quantificata. La 004 deve dichiararlo esplicitamente, come la divergenza richiedeva in alternativa |
 | div. 10 | governance della tabella generi → mood | `006` |
 | div. 11 | posizione dell'alternativa "non entrare" | `010` |
 | R13 | ambiguità minori sparse | `004`, `007` |
@@ -114,6 +138,20 @@ La 002 è costata **~4,5 ore contro le 4 stimate**, distribuite su due sessioni 
 
 Va però registrato un limite di questa misura, perché tocca ogni stima futura. I timestamp git della 002 misurano il tempo di una sessione di agent, non ore-uomo: fra il commit dei task e quello dell'implementazione passano 45 minuti per un lavoro che a mano ne varrebbe molti di più. **Le stime in ore restano stime di sforzo umano** — è ciò che il principio III vincola — ma il metro dei timestamp non le verifica più direttamente. Da qui in avanti lo scostamento va letto come indicativo, non come misura.
 
+## Decisioni aperte
+
+Decisioni consapevolmente rinviate. Non sono debito — il debito è lavoro noto da fare, queste sono scelte non ancora prese — e stanno qui perché una decisione rinviata senza un punto in cui va presa è una decisione che si perde. È già successo una volta, ed è lo scostamento 5 qui sopra.
+
+### DA-1 — Uso di un LLM per la tabella di corrispondenza generi → mood (`006`)
+
+**Stato**: rinviata il 2026-08-10. **Va presa**: prima di invocare `/speckit.specify` sulla `006`, e il prompt di consegna di quella feature non è consegnabile se non la riporta risolta.
+
+La roadmap iniziale prevedeva questa componente come *Agent 2*. Le due strade sono: un LLM che **propone** le 42 righe della tabella, con revisione riga per riga e versionamento di prompt, modello e data; oppure una tabella curata interamente a mano.
+
+Quello che va deciso non è solo quale strada, ma se la prima sia compatibile con la **D1 della 001**, che ha respinto a verbale l'approccio a modello con la motivazione che introduce «un modello non spiegabile a un board». La distinzione esiste e regge — D1 respingeva l'estrazione del tono dal campo `description`, il cui output è opaco, mentre una tabella di 42 righe revisionata è ispezionabile — ma **va scritta, non sottintesa**: riaprire una decisione documentata senza dichiarare perché è esattamente il modo in cui una constitution si aggira in silenzio.
+
+Ricadute: la scelta chiude anche la divergenza 10 della 001, la governance di quella tabella. E determina se il progetto conserva la componente di lavoro con LLM che la roadmap iniziale prevedeva, o se la perde — nel qual caso la perdita va dichiarata, non subita.
+
 ## Calendario previsto
 
 | Finestra | Capacità | Contenuto atteso |
@@ -122,9 +160,9 @@ Va però registrato un limite di questa misura, perché tocca ogni stima futura.
 | 10 → 15 agosto | ~2 h/giorno, ~12 h | debito testuale, `003`, chore ambiente |
 | dal 16 agosto | giornate piene, ~6 h/giorno | `004`, `005`, `006`, `007`, `008`, `010` |
 
-Atterraggio stimato: **21-22 agosto**, con `009` escluso.
+Atterraggio stimato: **22-23 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dei due chore che ne discendono.
 
-La stima iniziale di 7-10 giornate lavorative si conferma corretta come misura di sforzo: ~56 ore complessive sono 8-9 giornate piene. Non era sbagliata la stima, era sbagliato leggerla come giorni di calendario a capacità piena.
+La stima iniziale di 7-10 giornate lavorative regge ancora come misura di sforzo, ma è ormai al suo limite superiore: ~61 ore complessive sono 9-10 giornate piene, contro le 7-10 previste. Non era sbagliata la stima, era sbagliato leggerla come giorni di calendario a capacità piena — ma il margine è finito, e la prossima estensione di perimetro la porta fuori.
 
 Il chore dell'ambiente è collocato nella finestra a bassa capacità di proposito: è lavoro a bassa intensità cognitiva — attese di download e di installazione — e sarebbe uno spreco consumarci una giornata piena. Va però completato entro il 15, perché `005` disegna il modello dati per lo strumento che lo ospiterà e conviene averlo visto funzionare prima.
 
