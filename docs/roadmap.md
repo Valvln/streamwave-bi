@@ -22,16 +22,18 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 |---|---|---|---|---|
 | `001` | Business Case & KPI Framework | ~7 (spese) | — | ✅ conclusa, con debito residuo |
 | `002` | Data Audit & Profiling | ~4,5 (spese, stimate 4) | 001 | ✅ conclusa, PR #2 mergiata |
-| `003` | Data Cleaning & ETL | 6 | 002 | ⬜ prossima |
+| `003` | Data Cleaning & ETL | 7 | 002 | ⬜ prossima |
 | `004` | Synthetic Business Metrics | 6 | 001 | ⬜ ancorata a benchmark, vedi sotto |
 | `005` | Data Model Design | 5 | 003, *chore ambiente* | ⬜ |
-| `006` | Content Taxonomy Bridge | 5 | 002, 005 | ⬜ |
-| `007` | Misure DAX & KPI | 7 | 004, 005, 006 | ⬜ |
+| `006` | Content Taxonomy Bridge | 6 | 002, 005 | ⬜ decisione aperta DA-1 |
+| `007` | Misure DAX & KPI | 8 | 004, 005, 006 | ⬜ da scomporre in due |
 | `008` | Dashboard Build — Power BI | 8 | 007 | ⬜ da scomporre in due |
 | `009` | Porting Tableau Public | 5 | 007 | ⬜ *stretch, primo a cadere* |
-| `010` | Case Study & Portfolio Integration | 5 | 008 | ⬜ |
+| `010` | Case Study & Portfolio Integration | 6 | 008 | ⬜ |
 
-**Totale residuo escluso `009`**: ~42 ore di feature, più ~2,5 ore di debito testuale e ~5,5 ore di altri chore.
+**Totale residuo escluso `009`**: ~46 ore di feature, più ~2,5 ore di debito testuale e ~5 ore di altri chore.
+
+Le stime di `003`, `006`, `007` e `010` includono da ora la **revisione in contesto pulito e la chiusura dei rilievi** — circa un'ora ciascuna. Era il rischio aperto lasciato dalla 002, dove quel costo era stato l'intero scostamento; è chiuso incorporandolo invece che continuando a scoprirlo a consuntivo. La conseguenza è che `007` sale a 8 ore e raggiunge `008` fra le feature che vanno scomposte prima di essere aperte, non dopo.
 
 `004` non dipende da `002` e `003`: genera dati che non esistono, quindi non ha bisogno che i dati reali siano puliti. È l'unica feature parallelizzabile e va tenuta come riserva per le giornate in cui il contesto sui dati reali non è fresco.
 
@@ -62,7 +64,6 @@ Resta **un solo benchmark indispensabile**: il tasso di conversione a un tier su
 | Ambiente Power BI: VM Windows 11 x64 e installazione di Power BI Desktop | ~3 | prima di `005` |
 | Debito testuale della 001: rilievi R9, R10, R12 e allineamento di §3 a R11 | ~1 | prima di `007` |
 | Debito testuale della 002: divergenza 3, allineare §5 del documento di audit a citare D3 della 001 e A2/A3 del business case | ~0,5 | prima di `007` |
-| Prassi di correzione degli artefatti già mergiati (divergenza 7 della 002): scriverla in `CLAUDE.md` | ~0,5 | prima di `003` |
 | Emendamento della constitution: ammettere i benchmark pubblici di settore fra le fonti dati, con Sync Impact Report e bump di versione | ~1 | prima di `004` |
 | Debito testuale per l'ancoraggio: assunzione di trasferimento in §2 di `docs/business_case.md`, richiamo in §6, note datate sulle schede `BQ3-K1` e `BQ3-K2` | ~1 | dentro `004` o subito prima |
 | Pubblicazione di prova su workspace Power BI Service e cattura schermate | ~1 | 18 agosto (scadenza trial Pro) |
@@ -130,7 +131,7 @@ La [revisione in contesto pulito](../specs/002-data-audit-profiling/review.md) d
 | div. 5 | riverifica del criterio delle categorie musicali se la fonte cambia, e chi se ne accorge | `006` |
 | div. 4 | se pubblicare numeratore e denominatore accanto alla frase sulla North Star equivalga a pubblicare la misura | `007` |
 | div. 3 | `docs/data_audit.md` §5 contiene due decisioni di modellazione — esclusione delle serie da `BQ1-K2`, ricorso a dati simulati per BQ3 — che sono prese altrove (D3 della 001, A2/A3 del business case) e vanno citate, non riformulate | debito testuale, ~0,5 ore |
-| div. 7 | prassi di correzione degli artefatti già mergiati: nota in loco o errata separata. Va scritta in `CLAUDE.md`, perché oggi è una scelta di metodo presa una volta e non una regola | chore di governance |
+| div. 7 | prassi di correzione degli artefatti già mergiati: nota in loco o errata separata | ✅ chiusa il 2026-08-10: regola scritta in [`CLAUDE.md`](../CLAUDE.md#correzione-degli-artefatti-già-mergiati) — nota in loco, valore originale mai cancellato, e la scelta dichiarata come tale invece che come constatazione |
 
 ### Nota sulla misura del tempo speso
 
@@ -157,12 +158,12 @@ Ricadute: la scelta chiude anche la divergenza 10 della 001, la governance di qu
 | Finestra | Capacità | Contenuto atteso |
 |---|---|---|
 | 8 → 9 agosto | ~4,5 h spese | `002` ✅ conclusa e mergiata |
-| 10 → 15 agosto | ~2 h/giorno, ~12 h | debito testuale, `003`, chore ambiente |
+| 11 → 15 agosto | ~2 h/giorno, ~10 h | `003`, chore ambiente, debito testuale |
 | dal 16 agosto | giornate piene, ~6 h/giorno | `004`, `005`, `006`, `007`, `008`, `010` |
 
-Atterraggio stimato: **22-23 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dei due chore che ne discendono.
+Atterraggio stimato: **23-24 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime.
 
-La stima iniziale di 7-10 giornate lavorative regge ancora come misura di sforzo, ma è ormai al suo limite superiore: ~61 ore complessive sono 9-10 giornate piene, contro le 7-10 previste. Non era sbagliata la stima, era sbagliato leggerla come giorni di calendario a capacità piena — ma il margine è finito, e la prossima estensione di perimetro la porta fuori.
+La stima iniziale di 7-10 giornate lavorative **non regge più**: ~65 ore complessive sono 10-11 giornate piene. Lo sforamento non viene dall'esecuzione, che è stata sostanzialmente in linea, ma da due cose che la stima iniziale non conteneva — la revisione indipendente, diventata prassi perché produce valore, e l'ancoraggio dei parametri sintetici a benchmark citati. Sono entrambe scelte di qualità prese consapevolmente. Il modo onesto di registrarlo è questo, non ricalibrare all'indietro la stima di partenza per farla sembrare azzeccata.
 
 Il chore dell'ambiente è collocato nella finestra a bassa capacità di proposito: è lavoro a bassa intensità cognitiva — attese di download e di installazione — e sarebbe uno spreco consumarci una giornata piena. Va però completato entro il 15, perché `005` disegna il modello dati per lo strumento che lo ospiterà e conviene averlo visto funzionare prima.
 
@@ -172,7 +173,7 @@ Il chore dell'ambiente è collocato nella finestra a bassa capacità di proposit
 
 **Concentrazione del rischio dopo il 16 agosto.** Sei feature su otto cadono nella finestra a giornate piene, incluse le tre più dense. La finestra a bassa capacità non ha margine di recupero: se `003` sfora, lo scostamento si trasferisce intero sulla seconda finestra invece di essere assorbito. La `002` ha sforato di mezz'ora e la finestra l'ha assorbita, ma era la più piccola delle due.
 
-**Il costo della revisione indipendente non è nelle stime.** Il rischio «nessuna verifica pianificata dopo la 001» è chiuso come prassi — la 002 l'ha condotta e ne è valsa la pena — ma se ne apre uno nuovo: nessuna delle stime da `003` in avanti include il tempo di revisione né quello di chiusura dei rilievi, che sulla 002 è stato l'intero scostamento. Va aggiunto alla stima di ogni feature che produce un artefatto destinato a essere letto: `003`, `006`, `007`, `010`.
+**Il perimetro complessivo ha superato la stima iniziale.** Non è più un rischio, è un fatto: ~65 ore contro le 7-10 giornate (49-70 ore) previste all'inizio, con `009` già escluso e nulla di ulteriore da tagliare che non amputi il framework. Da qui in avanti ogni estensione di perimetro va compensata da un taglio dichiarato, non assorbita.
 
 ## Rischi chiusi
 

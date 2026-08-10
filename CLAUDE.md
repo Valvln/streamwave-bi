@@ -46,6 +46,22 @@ Il flusso è `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/s
 
 Fuori da queste due, la sessione esecutiva procede senza chiedere conferma a ogni passo.
 
+## Correzione degli artefatti già mergiati
+
+Quando una feature scopre che un artefatto già mergiato contiene un valore errato o un'affermazione ambigua, la correzione è una **nota in loco**: non un'errata separata, non una riscrittura silenziosa.
+
+1. **Il valore originale resta.** Non si cancella e non si sovrascrive: è la traccia di ciò che quella feature aveva osservato, ed è essa stessa un dato.
+2. **La nota sta accanto al testo che corregge**, non in fondo al documento né in un file a parte. Chi legge quel passaggio deve incontrare la correzione lì, anche se ci è arrivato da un link diretto.
+3. **La nota dichiara**: data, feature che l'ha prodotta, valore o affermazione precedente, valore corretto, causa della divergenza, e la fonte verificabile da cui il nuovo valore proviene.
+
+Se l'affermazione originale è **ambigua e non sbagliata**, non va riscritta. La nota riporta le letture possibili con i rispettivi valori e obbliga chi la cita a valle a dichiarare quale adotta: scegliere al posto di chi ha scritto è una decisione, e spetta a chi ha il contesto per prenderla.
+
+Non tutto ciò che è sbagliato si corregge nel momento in cui lo si trova. Se il difetto è già assegnato a un'altra feature o al debito testuale della roadmap, la feature che lo incontra lo registra come ritrovamento e si ferma lì — precedente: FR-032 della 002.
+
+**Perché in loco e non un'errata.** È una scelta di metodo, non una constatazione, e va difesa come tale: un'errata separata lascia intatto il documento originale ma pretende che chi legge ne conosca l'esistenza; una nota in loco sporca il documento ma raggiunge chiunque legga il passaggio. Per artefatti destinati a essere letti da fuori — che è ciò che questo progetto produce — vince la seconda.
+
+Il precedente esecutivo è il commit `c011103` sulla feature 001. Le correzioni si propongono come commit `fix:` separati, come qualunque altra modifica.
+
 ## Convenzioni
 
 - **Lingua**: prosa in italiano, sempre. Identificativi tecnici in inglese: KPI, misure DAX, colonne, tabelle, file, cartelle, branch. Il progetto non verrà tradotto — non scrivere nulla in inglese "per sicurezza".
