@@ -33,6 +33,15 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+# Il profiler della feature 002 viene **importato**, non riscritto. E' cio' che
+# rende il blocco `denominators` un confronto fra due esecuzioni della stessa
+# logica invece che fra due implementazioni: una differenza segnalata e' una
+# differenza nei dati, mai nell'aritmetica di chi la calcola (decisione T22 in
+# corso d'opera, vedi recalculate_profile_values).
+import profile_data as profiler  # noqa: E402
+
 REPO = Path(__file__).resolve().parent.parent
 RAW = REPO / "data" / "raw"
 PROCESSED = REPO / "data" / "processed"
@@ -452,6 +461,7 @@ class OutputWriter:
     def __init__(self, destination: Path) -> None:
         self.destination = destination
         self._pending: list[tuple[str, bytes, int, int]] = []
+        self._rows: list[tuple[str, list[dict]]] = []
 
     def add(self, filename: str, fieldnames: list[str], rows: list[dict]) -> None:
         buffer = io.StringIO(newline="")
@@ -466,6 +476,24 @@ class OutputWriter:
         writer.writerows(rows)
         payload = buffer.getvalue().encode(CSV_ENCODING)
         self._pending.append((filename, payload, len(rows), len(fieldnames)))
+        self._rows.append((filename, rows))
+
+    def validate(self, schemas: dict, invariants: Invariants) -> None:
+        """T024 - verifica i tipi dichiarati su **ogni** output, prima di scrivere.
+
+        Un tipo che si scopre sbagliato leggendo il file e' un tipo che qualcuno
+        ha gia' letto. La validazione sta qui perche' la scrittura e' differita:
+        e' l'unico punto in cui tutti e quattro gli output esistono e nessuno e'
+        ancora su disco.
+        """
+        invariants.require(
+            {name for name, _ in self._rows} == set(schemas),
+            "ogni output prodotto ha un tipo dichiarato nel contratto",
+            f"schemi per {sorted(schemas)}",
+            f"output prodotti: {sorted(name for name, _ in self._rows)}",
+        )
+        for filename, rows in self._rows:
+            validate_types(filename, rows, schemas[filename], invariants)
 
     def flush(self) -> list[dict]:
         """Scrive gli output e restituisce il blocco `outputs` del rendiconto."""
@@ -941,6 +969,26 @@ def build_netflix_title_category(
     )
     report.catalogs["netflix_categories_normalized"] = categories
 
+    # Decisione tecnica T7, dichiarata con i suoi numeri: dei quattro campi
+    # multi-valore del catalogo video ne viene normalizzato **uno**. Gli altri
+    # tre non alimentano alcuna misura del framework, e normalizzarli
+    # produrrebbe tre tabelle senza lettore. Chi in futuro volesse contare
+    # titoli per paese incontrera' lo stesso problema di sommabilita', non
+    # risolto: va scritto perche' sia una scelta nota e non una svista.
+    not_normalized = ["cast", "country", "director"]
+    report.count(
+        "CL.NF.multivalue.fields_normalized", 1, "netflix",
+        "campi multi-valore del catalogo video normalizzati in una tabella propria",
+        granularity="campo",
+    )
+    report.count(
+        "CL.NF.multivalue.fields_not_normalized", len(not_normalized), "netflix",
+        "campi multi-valore lasciati come stringa di sorgente",
+        granularity="campo",
+    )
+    report.catalogs["netflix_multivalue_not_normalized"] = not_normalized
+    return rows
+
 
 # ===========================================================================
 # T014-T019 - Trasformazioni e output del catalogo musicale
@@ -1320,6 +1368,408 @@ def transform_spotify(
         "tracce il cui scarto fra le repliche discordi supera i dieci punti",
         field="popularity", granularity="traccia deduplicata",
     )
+    # Decisione ereditata D3, dichiarata con il suo numero. La regola — i totali
+    # di catalogo si calcolano sulla grana traccia — non tocca alcuna riga, e
+    # una decisione senza effetto quantificato non e' dichiarata. Cio' che
+    # misura e' l'errore che si commetterebbe ignorandola: di quanto un totale
+    # calcolato sulla grana coppia eccede quello corretto. E' `SP.id.inflation`
+    # del profilo, restituito sui dati trasformati.
+    report.pct(
+        "CL.SP.track.inflation.after",
+        100.0 * (len(pairs) - len(tracks)) / len(tracks), "spotify",
+        "di quanto un totale calcolato sulla grana coppia eccede quello "
+        "corretto sulla grana traccia",
+        granularity="traccia deduplicata",
+    )
+    report.catalogs["spotify_excluded_fields"] = ["(colonna priva di nome)"]
+    return pairs, tracks
+
+
+# ===========================================================================
+# T024 - Validazione dei tipi dichiarati
+#
+# In un CSV il tipo non vive nel file: vive in un contratto. Cio' che rende
+# quel contratto vero non e' riscrivere i valori, ma verificarli (decisione T2).
+# ===========================================================================
+
+ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+INTEGER = re.compile(r"^-?\d+$")
+DECIMAL = re.compile(r"^-?\d+(\.\d+)?([eE][-+]?\d+)?$")
+BOOLEAN = ("True", "False")
+
+
+def _check_type(kind, value: str) -> bool:
+    if isinstance(kind, tuple):            # dominio enumerato chiuso
+        return value in kind
+    if kind == "testo":
+        return True
+    if kind == "testo_non_vuoto":
+        return bool(value)
+    if kind == "intero":
+        return bool(INTEGER.match(value))
+    if kind == "intero_o_vuoto":
+        return value == "" or bool(INTEGER.match(value))
+    if kind == "decimale":
+        return bool(DECIMAL.match(value))
+    if kind == "booleano":
+        return value in BOOLEAN
+    if kind == "data_iso_o_vuoto":
+        return value == "" or bool(ISO_DATE.match(value))
+    raise ValueError(f"tipo dichiarato sconosciuto: {kind}")
+
+
+def validate_types(
+    filename: str, rows: list[dict], schema: dict, invariants: Invariants
+) -> None:
+    """Verifica ogni campo di ogni riga contro il tipo dichiarato nel contratto."""
+    violations = []
+    for index, row in enumerate(rows):
+        for field, kind in schema.items():
+            if not _check_type(kind, row[field]):
+                violations.append((index, field, row[field][:40]))
+                if len(violations) > 5:
+                    break
+        if len(violations) > 5:
+            break
+    invariants.require(
+        not violations,
+        f"ogni campo di {filename} rispetta il tipo dichiarato nel contratto",
+        "zero valori fuori tipo",
+        f"{len(violations)} violazioni: {violations[:5]}",
+    )
+
+
+def output_schemas(profile: dict) -> dict:
+    """Tipi dichiarati in contracts/output-datasets.md §1.1-§1.4."""
+    rating_domain = tuple(profile["conventions"]["rating_domain"]) + ("",)
+    audio = {f: "decimale" for f in (
+        "danceability", "energy", "loudness", "speechiness", "acousticness",
+        "instrumentalness", "liveness", "valence", "tempo",
+    )}
+    pair = {
+        "track_id": "testo_non_vuoto", "artists": "testo", "album_name": "testo",
+        "track_name": "testo", "popularity": "intero", "duration_ms": "intero",
+        "explicit": "booleano", **audio, "key": "intero", "mode": "intero",
+        "time_signature": "intero", "track_genre": "testo_non_vuoto",
+        "is_popularity_zero": "booleano", "is_duration_zero": "booleano",
+        "is_high_zero_genre": "booleano",
+    }
+    track = {k: v for k, v in pair.items()
+             if k not in ("track_genre", "is_high_zero_genre")}
+    track.update(genre_count="intero", has_conflicting_popularity="booleano")
+    return {
+        "netflix_titles.csv": {
+            "show_id": "testo_non_vuoto", "type": ("Movie", "TV Show"),
+            "title": "testo", "director": "testo", "cast": "testo",
+            "country": "testo", "date_added": "data_iso_o_vuoto",
+            "release_year": "intero", "rating": rating_domain,
+            "movie_duration_min": "intero_o_vuoto",
+            "tvshow_seasons": "intero_o_vuoto", "listed_in": "testo",
+            "description": "testo", "is_repaired_duration": "booleano",
+        },
+        "netflix_title_category.csv": {
+            "show_id": "testo_non_vuoto", "category": "testo_non_vuoto",
+        },
+        "spotify_track_genre.csv": pair,
+        "spotify_tracks.csv": track,
+    }
+
+
+# ===========================================================================
+# T022 - Il blocco dei denominatori, per ricalcolo e confronto
+#
+# La parte di questo artefatto che vale piu' delle altre, perche' e' l'unica
+# che esiste per proteggere qualcuno che non e' ancora entrato nel progetto:
+# senza, a valle si citerebbe il valore del profilo credendo di citare quello
+# del dato trasformato.
+#
+# Il ricalcolo **riusa le funzioni del profiler** invece di riscriverle. Una
+# riscrittura avrebbe prodotto differenze dovute a un arrotondamento diverso o
+# a un criterio di ordinamento diverso, cioe' falsi denominatori — e un falso
+# allarme in questo blocco e' peggio di un silenzio, perche' insegna a non
+# fidarsene.
+# ===========================================================================
+
+# I 22 valori del profilo che descrivono la colonna indice priva di nome. La
+# colonna esce dagli output (decisione T11), quindi questi valori non hanno un
+# corrispondente da confrontare: non sono denominatori cambiati, sono
+# denominatori **senza controparte**, ed e' una categoria diversa che va detta
+# invece di essere confusa con l'altra.
+UNNAMED_COLUMN_PREFIXES = ("SP.card.unnamed", "SP.miss.unnamed", "SP.num.unnamed",
+                           "SP.top.unnamed")
+
+# Valori del profilo che la trasformazione **non puo'** toccare, con la ragione.
+# Non sono un residuo non classificato: sono la terza categoria, e dichiararla e'
+# cio' che permette all'invariante di copertura di essere totale.
+OUT_OF_SCOPE = {
+    "X.claims_001.": "descrive la verifica delle affermazioni della 001, non i dati",
+    "X.genre_lexical.": "descrive i vocabolari di etichette dei due cataloghi, che "
+                        "la trasformazione non modifica",
+}
+
+
+def bespoke_recalculation(
+    netflix: list[dict], bridge: list[dict], pairs: list[dict],
+    tracks: list[dict], profile: dict,
+) -> list[tuple]:
+    """Ricalcola i valori che il profiler costruisce a mano, non con i generici.
+
+    Sono 200 valori su 1.030, e comprendono il cambiamento piu' importante della
+    feature: le 114 quote di zeri per genere, che la decisione ereditata D4
+    consuma. Lasciarli fuori dal confronto avrebbe reso il blocco dei
+    denominatori vero per costruzione e falso nella sostanza.
+
+    Ogni voce e' `(identificativo di profilo, valore, tipo)`. Le formule
+    ricalcano quelle di `profile_data.py`: sono conteggi e quote, dove il
+    rischio di divergere per implementazione e' minimo, a differenza degli
+    ordinamenti che i generici gia' coprono riusando il codice originale.
+    """
+    out: list[tuple] = []
+    add = lambda vid, value, kind: out.append((vid, value, kind))
+
+    # --- Catalogo video --------------------------------------------------
+    add("NF.shape.rows", len(netflix), "count")
+    add("NF.shape.fields", len(NETFLIX_TITLE_FIELDS), "count")
+    add("NF.shape.distinct_ids", len({r["show_id"] for r in netflix}), "count")
+    add("NF.type.movie", sum(1 for r in netflix if r["type"] == "Movie"), "count")
+    add("NF.type.tvshow", sum(1 for r in netflix if r["type"] == "TV Show"), "count")
+    add("NF.duration.missing",
+        sum(1 for r in netflix
+            if not r["movie_duration_min"] and not r["tvshow_seasons"]), "count")
+    add("NF.duration.malformed", 0, "count")
+
+    domain = set(profile["conventions"]["rating_domain"])
+    ratings = {r["rating"] for r in netflix if r["rating"]}
+    add("NF.rating.in_domain.values", len(ratings & domain), "count")
+    add("NF.rating.out_of_domain.values", len(ratings - domain), "count")
+    add("NF.rating.out_of_domain.rows",
+        sum(1 for r in netflix if r["rating"] and r["rating"] not in domain), "count")
+    add("NF.miss.complete_fields",
+        sum(1 for f in NETFLIX_COLUMNS
+            if not any(is_missing(r[f]) for r in netflix)), "count")
+
+    per_category: dict[str, int] = {}
+    for row in bridge:
+        per_category[row["category"]] = per_category.get(row["category"], 0) + 1
+    add("NF.cat.count", len(per_category), "count")
+    add("NF.cat.assignments", len(bridge), "count")
+    add("NF.cat.per_title.mean", len(bridge) / len(netflix), "num_cat")
+    for category, titles in per_category.items():
+        add(f"NF.cat.{slug(category)}.titles", titles, "count")
+    musical = [c for c in per_category
+               if any(t in c.lower() for t in profiler.MUSIC_TERMS)]
+    add("NF.cat.music.count", len(musical), "count")
+    add("NF.cat.non_music.count", len(per_category) - len(musical), "count")
+    add("NF.cat.music.titles",
+        len({r["show_id"] for r in bridge if r["category"] in set(musical)}), "count")
+
+    # I tre valori di classificazione fuori dominio non compaiono piu' nel campo
+    # dopo la riparazione di D2, quindi il ricalcolo generico non emette affatto
+    # i loro identificativi. Non e' un'assenza: e' una frequenza che vale zero,
+    # ed e' il modo piu' diretto di misurare l'effetto della decisione sul campo.
+    for value in profile["catalogs"]["netflix_rating_out_of_domain"]:
+        add(f"NF.freq.rating.{slug(value)}", 0, "count")
+
+    # --- Catalogo musicale, grana coppia ---------------------------------
+    add("SP.shape.rows", len(pairs), "count")
+    add("SP.shape.fields", len(SPOTIFY_PAIR_FIELDS), "count")
+
+    multiplicity: dict[str, int] = {}
+    for row in pairs:
+        multiplicity[row["track_id"]] = multiplicity.get(row["track_id"], 0) + 1
+    distinct = len(multiplicity)
+    add("SP.id.distinct", distinct, "count")
+    add("SP.id.repeated", sum(1 for n in multiplicity.values() if n > 1), "count")
+    add("SP.id.duplicate_rows", len(pairs) - distinct, "count")
+    add("SP.id.duplicate_share", 100.0 * (len(pairs) - distinct) / len(pairs), "pct")
+    add("SP.id.inflation", 100.0 * (len(pairs) - distinct) / distinct, "pct")
+    add("SP.id.max_multiplicity", max(multiplicity.values()), "count")
+
+    per_genre: dict[str, int] = {}
+    zero_by_genre: dict[str, int] = {}
+    for row in pairs:
+        genre = row["track_genre"]
+        per_genre[genre] = per_genre.get(genre, 0) + 1
+        if row["is_popularity_zero"] == "True":
+            zero_by_genre[genre] = zero_by_genre.get(genre, 0) + 1
+    add("SP.genre.count", len(per_genre), "count")
+    add("SP.genre.rows_min", min(per_genre.values()), "count")
+    add("SP.genre.rows_max", max(per_genre.values()), "count")
+    add("SP.genre.row_counts_distinct", len(set(per_genre.values())), "count")
+
+    zeros = sum(zero_by_genre.values())
+    add("SP.pop.zero.count", zeros, "count")
+    add("SP.pop.zero.pct", 100.0 * zeros / len(pairs), "pct")
+    for genre, total in per_genre.items():
+        add(f"SP.pop.zero.by_genre.{slug(genre)}",
+            100.0 * zero_by_genre.get(genre, 0) / total, "pct")
+    # La soglia del 60% resta nel profilo come etichetta di un conteggio. Va
+    # riconfrontata con il proprio criterio, non con quello del 50% adottato da
+    # D4: sono due quantita' diverse, e accostarle suggerirebbe che una sia
+    # cambiata di valore quando invece e' cambiata di definizione.
+    add("SP.pop.zero.genres_over_60",
+        sum(1 for g, t in per_genre.items() if zero_by_genre.get(g, 0) / t > 0.60),
+        "count")
+    add("SP.pop.zero.genres_fully_zero",
+        sum(1 for g, t in per_genre.items() if zero_by_genre.get(g, 0) == t), "count")
+
+    durations = [int(r["duration_ms"]) for r in pairs]
+    add("SP.duration.median_s", profiler.statistics.median(durations) / 1000.0, "num_s")
+    add("SP.duration.zero", sum(1 for d in durations if d == 0), "count")
+    for field in profiler.MOOD_FIELDS:
+        add(f"SP.mood.{field}.missing",
+            sum(1 for r in pairs if is_missing(r[field])), "count")
+    return out
+
+
+def _recalculation_reason(vid: str, meta: dict) -> str:
+    if vid.startswith("NF."):
+        field = meta.get("field")
+        if field == "duration":
+            return ("la riparazione di D2 ha restituito la durata a tre titoli "
+                    "che nella fonte ne erano privi")
+        if field == "rating":
+            return ("la riparazione di D2 ha svuotato la classificazione delle "
+                    "tre righe riparate, che era fuori dominio")
+        if field == "date_added":
+            return ("il campo e' stato convertito in forma ISO 8601 e lo spazio "
+                    "iniziale di 88 valori normalizzato")
+        return "la trasformazione del catalogo video ha modificato questo valore"
+    return ("la deduplicazione della grana coppia ha rimosso 450 righe identiche "
+            "a una gia' presente")
+
+
+def recalculate_profile_values(
+    netflix: list[dict], bridge: list[dict], pairs: list[dict],
+    tracks: list[dict], profile: dict,
+    report: CleaningReport, invariants: Invariants,
+) -> dict:
+    """Riesegue il profiling sui dati trasformati e confronta valore per valore.
+
+    Cio' che coincide non entra in `denominators`; cio' che differisce ci entra
+    da solo. La completezza diventa una proprieta' dell'esecuzione e non una
+    promessa di chi scrive (data-model §5).
+    """
+    recomputed = profiler.Profile()
+
+    profiler.profile_fields(
+        recomputed, "NF", "netflix", netflix, list(NETFLIX_COLUMNS))
+    minutes = [float(r["movie_duration_min"]) for r in netflix if r["movie_duration_min"]]
+    seasons = [float(r["tvshow_seasons"]) for r in netflix if r["tvshow_seasons"]]
+    years = [float(r["release_year"]) for r in netflix if not is_missing(r["release_year"])]
+    profiler.profile_numeric(recomputed, "NF", "netflix", "movie_duration_min",
+                             minutes, "minuti", field="duration",
+                             granularity="film", decimals=1)
+    profiler.profile_numeric(recomputed, "NF", "netflix", "tvshow_seasons",
+                             seasons, "stagioni", field="duration",
+                             granularity="serie", decimals=1)
+    profiler.profile_numeric(recomputed, "NF", "netflix", "release_year", years,
+                             "anno", field="release_year",
+                             granularity="titolo", decimals=1)
+
+    types = profiler.profile_fields(
+        recomputed, "SP", "spotify", pairs, list(SPOTIFY_SOURCE_FIELDS))
+    for field in SPOTIFY_SOURCE_FIELDS:
+        if types[field] not in ("intero", "decimale"):
+            continue
+        values = [profiler.parse_number(r[field]) for r in pairs
+                  if not is_missing(r[field])]
+        values = [float(v) for v in values if v is not None]
+        decimals = 1 if field in ("popularity", "duration_ms", "tempo", "loudness") else 4
+        profiler.profile_numeric(recomputed, "SP", "spotify", slug(field), values,
+                                 "valore", field=field,
+                                 granularity="coppia traccia-genere",
+                                 decimals=decimals)
+
+    declared = profile["values"]
+    compared: set[str] = set()
+    changed: list[str] = []
+
+    def register(vid: str, value, display: str, unit: str, dataset: str,
+                 label: str, field=None, granularity=None) -> None:
+        compared.add(vid)
+        if isinstance(value, float):
+            value = round(value, ROUNDING_DECIMALS)
+        if value == declared[vid]["value"]:
+            return
+        head, rest = vid.split(".", 1)
+        cleaning_id = f"{ID_PREFIX}{head}.recalc.{rest}"
+        report.add(cleaning_id, value, display, unit, dataset, label,
+                   field=field, granularity=granularity)
+        report.denominator(
+            vid, cleaning_id, _recalculation_reason(vid, declared[vid]),
+            "netflix_titles.csv" if vid.startswith("NF.") else "spotify_track_genre.csv",
+        )
+        changed.append(vid)
+
+    # --- Famiglie generiche: stesso codice del profiler, nessun rischio di
+    #     differenza dovuta all'implementazione.
+    for vid, record in sorted(recomputed.values.items()):
+        if vid not in declared:
+            continue
+        register(vid, record["value"], record["display"], record["unit"],
+                 record["dataset"], record["label"] + ", dopo la trasformazione",
+                 field=record["field"], granularity=record["granularity"])
+
+    # --- Famiglie che il profiler costruisce a mano.
+    for vid, value, kind in bespoke_recalculation(netflix, bridge, pairs, tracks, profile):
+        if vid not in declared:
+            continue
+        meta = declared[vid]
+        label = meta["label"] + ", dopo la trasformazione"
+        if kind == "count":
+            display, unit = fmt_int(int(value)), "conteggio"
+            value = int(value)
+        elif kind == "pct":
+            display, unit = fmt_dec(float(value), 2) + "%", "percentuale"
+            value = float(value)
+        elif kind == "num_cat":
+            display, unit = fmt_dec(float(value), 2), "categorie"
+            value = float(value)
+        else:
+            display, unit = fmt_dec(float(value), 1), "secondi"
+            value = float(value)
+        register(vid, value, display, unit, meta["dataset"], label,
+                 field=meta["field"], granularity=meta["granularity"])
+
+    without_counterpart = sorted(
+        vid for vid in declared
+        if any(vid.startswith(p) for p in UNNAMED_COLUMN_PREFIXES)
+    )
+    out_of_scope = sorted(
+        vid for vid in declared
+        if any(vid.startswith(p) for p in OUT_OF_SCOPE)
+    )
+    report.catalogs["profile_values_without_counterpart"] = without_counterpart
+    report.catalogs["profile_values_out_of_scope"] = out_of_scope
+
+    # L'invariante che rende **letterale** l'affermazione di data-model §5: un
+    # valore del profilo assente dai denominatori e' un valore che la
+    # trasformazione non tocca. Senza questa verifica l'affermazione sarebbe
+    # vera solo per i valori che qualcuno si e' ricordato di riconfrontare, e
+    # nessuno potrebbe accorgersi dei dimenticati.
+    unclassified = sorted(
+        set(declared) - compared - set(without_counterpart) - set(out_of_scope)
+    )
+    invariants.require(
+        not unclassified,
+        "ogni valore del profilo e' riconfrontato, senza controparte o fuori perimetro",
+        f"zero valori non classificati su {len(declared)}",
+        f"{len(unclassified)} non classificati: {unclassified[:8]}",
+    )
+    invariants.require(
+        len(report.denominators) == len(changed),
+        "ogni valore riconfrontato che differisce ha una voce fra i denominatori",
+        f"{len(changed)} voci",
+        f"{len(report.denominators)} voci",
+    )
+    return {
+        "declared": len(declared),
+        "compared": len(compared),
+        "changed": len(changed),
+        "without_counterpart": len(without_counterpart),
+        "out_of_scope": len(out_of_scope),
+    }
 
 
 # ===========================================================================
@@ -1340,22 +1790,30 @@ def main() -> int:
 
     netflix = transform_netflix(netflix_rows, profile, report, invariants)
     build_netflix_titles(netflix, profile, writer, report, invariants)
-    build_netflix_title_category(netflix, profile, writer, report, invariants)
+    bridge = build_netflix_title_category(netflix, profile, writer, report, invariants)
 
-    transform_spotify(spotify_rows, profile, writer, report, invariants)
+    pairs, tracks = transform_spotify(spotify_rows, profile, writer, report, invariants)
+
+    # T024 - i tipi dichiarati nel contratto, verificati su tutti e quattro gli
+    # output prima che uno solo di essi tocchi il disco.
+    writer.validate(output_schemas(profile), invariants)
+
+    # T022 - il confronto valore per valore con il profilo.
+    recalc = recalculate_profile_values(
+        netflix, bridge, pairs, tracks, profile, report, invariants)
 
     # La scrittura avviene qui e in nessun altro punto: gli output si sono
     # accumulati in memoria e atterrano solo ora, quando l'ultima invariante e'
     # passata. E' cio' che rende strutturale la garanzia di FR-004.
     outputs = writer.flush()
 
-    # Il rendiconto entra da T020. Finche' non c'e',
-    # `reports/cleaning_report.json` **non viene scritto**: un rendiconto
-    # parziale sarebbe peggio di nessun rendiconto, perche' chi lo trova
-    # versionato lo crede completo. La sua assenza e' il segnale che la
-    # pipeline non e' ancora finita.
+    # T021 e T023 - il rendiconto atterra per ultimo, quando i file che descrive
+    # esistono e le loro impronte sono note.
+    write_report(report, sources, outputs)
+
     genre_values = sum(1 for v in report.values if ".by_genre." in v)
-    print("Quattro output prodotti (task T001-T019).")
+    recalc_values = sum(1 for v in report.values if ".recalc." in v)
+    print("Pipeline completa (task T001-T024).")
     print(f"  sorgenti confermate contro il profilo: {len(sources)}")
     print(f"  catalogo video   : {len(netflix_rows)} righe lette, {len(netflix_fields)} campi")
     print(f"  catalogo musicale: {len(spotify_rows)} righe lette, {len(spotify_fields)} campi")
@@ -1365,21 +1823,25 @@ def main() -> int:
         print(f"    - {name}")
     print()
     print(f"  valori di rendicontazione: {len(report.values)}"
-          f"  ({genre_values} quote per genere)")
+          f"  ({genre_values} quote per genere, {recalc_values} ricalcolati)")
     for vid in sorted(report.values):
-        if ".by_genre." in vid:
+        if ".by_genre." in vid or ".recalc." in vid:
             continue
         print(f"    {vid:46} {report.values[vid]['display']:>8}")
     print()
     print(f"  generi a forte concentrazione di zeri: "
           f"{', '.join(report.catalogs['spotify_high_zero_genres'])}")
     print()
+    print(f"  denominatori: {recalc['changed']} cambiati su "
+          f"{recalc['compared']} valori del profilo riconfrontati; "
+          f"{recalc['without_counterpart']} senza controparte")
+    print()
     print(f"  output scritti: {len(outputs)}")
     for entry in outputs:
         print(f"    {entry['path']:44} {entry['rows']:>6} righe  "
               f"{entry['columns']:>2} campi  {entry['bytes']:>9} byte")
     print()
-    print("reports/cleaning_report.json non ancora scritto (da T020): la pipeline non e' completa.")
+    print(f"Rendiconto scritto in {OUT.relative_to(REPO)}")
     return 0
 
 

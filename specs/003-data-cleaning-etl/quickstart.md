@@ -190,14 +190,16 @@ mv /tmp/raw_stash data/raw
 grep -nE 'BQ[123]-K[0-9]' docs/data_cleaning.md          # solo riferimenti al perimetro, mai valori
 grep -niE 'mediana|media|quartile' docs/data_cleaning.md # nessuna occorrenza riferita alla popolarità per genere
 python3 - <<'PY'
-import json
+import json, re
 v = json.load(open('reports/cleaning_report.json'))['values']
-sospetti = [k for k in v if any(t in k for t in ('.median','.mean','.q1','.q3'))]
-print('valori di posizione in cleaning_report:', sospetti or 'nessuno')
+sospetti = [k for k in v if re.search(r'by_genre.*\.(median|mean|q1|q3)$', k)]
+print('misure di posizione della popolarità per genere:', sospetti or 'nessuna')
 PY
 ```
 
-**Atteso**: nessun valore di posizione della popolarità. È il presidio della decisione ereditata D4, che ha scelto la quota di zeri proprio per non pubblicare una mediana a un passo da `BQ2-K1`.
+**Atteso**: nessuna. È il presidio della decisione ereditata D4, che ha scelto la quota di zeri proprio per non pubblicare una mediana a un passo da `BQ2-K1`.
+
+> **Nota di correzione — 2026-08-11, in corso di implementazione (T022).** Questo controllo cercava in origine qualunque identificativo contenente `.median`, `.mean`, `.q1` o `.q3`. Era **più largo di FR-044**, che vieta le misure di posizione *della popolarità per genere*, e produceva due falsi positivi: `SP.pop.zero.by_genre.minimal_techno`, che è una quota di zeri e viene intercettato dalla sottostringa `.min`, e i valori globali `SP.num.popularity.*` che il blocco dei denominatori deve ricalcolare perché la deduplicazione li ha spostati. Il criterio è stato ristretto al proprio scopo dichiarato. Verificato sul profilo della 002: **non esiste alcuna misura di posizione della popolarità per genere**, quindi il ricalcolo non può introdurne una.
 
 ### SC-015 — Le note in loco esistono e non cancellano nulla
 
