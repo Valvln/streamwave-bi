@@ -943,6 +943,386 @@ def build_netflix_title_category(
 
 
 # ===========================================================================
+# T014-T019 - Trasformazioni e output del catalogo musicale
+#
+# Due grane, non intercambiabili, ed e' il ritrovamento centrale dell'audit
+# della 002: la riga della fonte non e' la traccia. La feature ne consegna due
+# output distinti e non sceglie per conto di nessuno quale usare — salvo il
+# vincolo posto dalla decisione ereditata D3, che i totali di catalogo si
+# calcolano sulla grana traccia.
+# ===========================================================================
+
+# Campi di sorgente riportati negli output, nell'ordine della fonte. La prima
+# colonna del catalogo musicale, priva di nome, resta fuori (decisione T11): e'
+# l'indice di riga dell'esportazione, non un dato. Trasportarla produrrebbe una
+# colonna che invita a essere usata come chiave e che non lo e' — dopo la
+# deduplicazione non sarebbe nemmeno piu' contigua.
+SPOTIFY_SOURCE_FIELDS = SPOTIFY_COLUMNS
+
+# Contratto §1.3: grana coppia traccia-genere.
+SPOTIFY_PAIR_FIELDS = SPOTIFY_SOURCE_FIELDS + (
+    "is_popularity_zero", "is_duration_zero", "is_high_zero_genre",
+)
+
+# Contratto §1.4: grana traccia. Perde `track_genre` e `is_high_zero_genre`,
+# che sono proprieta' del genere e non della traccia, e guadagna due colonne
+# che esistono solo a questa grana.
+SPOTIFY_TRACK_FIELDS = tuple(
+    f for f in SPOTIFY_SOURCE_FIELDS if f != "track_genre"
+) + ("is_popularity_zero", "is_duration_zero", "genre_count",
+     "has_conflicting_popularity")
+
+
+def _flag(condition: bool) -> str:
+    """Rappresentazione dei booleani negli output, allineata alla fonte.
+
+    Il campo `explicit` arriva gia' come `True`/`False`: le colonne aggiunte
+    usano la stessa forma invece di introdurne una seconda nello stesso file.
+    """
+    return "True" if condition else "False"
+
+
+def deduplicate_pairs(
+    rows: list[dict], invariants: Invariants
+) -> tuple[list[dict], int, int]:
+    """T014 - Ritrovamento F2: la grana coppia traccia-genere non e' unica.
+
+    Quattrocentoquarantaquattro coppie compaiono piu' di una volta, per 450
+    righe eccedenti. FR-011 chiede che ogni output verifichi la propria grana:
+    su questa la verifica **fallirebbe** se la pipeline si limitasse a
+    trasportare le righe.
+
+    La deduplicazione e' priva di perdita, ma non lo si assume: si verifica che
+    le repliche di una stessa coppia siano identiche su **ogni** attributo prima
+    di scartarle. Se su una versione diversa della fonte divergessero, scartarle
+    butterebbe via informazione, e la pipeline si ferma invece di farlo.
+
+    Sopravvive la prima occorrenza, e l'ordine di sorgente e' conservato
+    (decisione T3).
+    """
+    grouped: dict[tuple[str, str], list[dict]] = {}
+    for row in rows:
+        grouped.setdefault((row["track_id"], row["track_genre"]), []).append(row)
+
+    conflicting = []
+    for key, replicas in grouped.items():
+        if len(replicas) == 1:
+            continue
+        for field in SPOTIFY_SOURCE_FIELDS:
+            if len({r[field] for r in replicas}) > 1:
+                conflicting.append((key, field))
+
+    invariants.require(
+        not conflicting,
+        "le repliche di una stessa coppia traccia-genere sono identiche",
+        "zero attributi discordi fra le repliche (ritrovamento F2)",
+        f"{len(conflicting)} discordanze: {conflicting[:5]}",
+    )
+
+    duplicate_pairs = sum(1 for r in grouped.values() if len(r) > 1)
+    removed = len(rows) - len(grouped)
+
+    seen: set[tuple[str, str]] = set()
+    kept = []
+    for row in rows:
+        key = (row["track_id"], row["track_genre"])
+        if key in seen:
+            continue
+        seen.add(key)
+        kept.append(dict(row))
+
+    invariants.require(
+        len(kept) == len(grouped),
+        "la deduplicazione di coppia conserva una riga per coppia distinta",
+        f"{len(grouped)} coppie distinte",
+        f"{len(kept)} righe conservate",
+    )
+    return kept, duplicate_pairs, removed
+
+
+def mark_degenerate_values(records: list[dict]) -> tuple[int, int]:
+    """T015 - Decisione ereditata D1 e FR-023: si marca, non si elimina.
+
+    Zero e' un valore ammissibile di un indice definito su 0-100, non un valore
+    mancante, e nulla nei dati distingue una traccia genuinamente non popolare da
+    una non misurata. L'indicatore consente a valle sia di includere sia di
+    escludere; l'eliminazione in pipeline sarebbe irreversibile e sceglierebbe
+    per conto di una misura che questa feature non possiede.
+
+    Vale lo stesso per la durata dichiarata pari a zero: contarla e' una
+    constatazione, deciderne il trattamento in una misura non e' di questa
+    feature.
+    """
+    zero_popularity = zero_duration = 0
+    for rec in records:
+        is_zero_pop = int(rec["popularity"]) == 0
+        is_zero_dur = int(rec["duration_ms"]) == 0
+        rec["is_popularity_zero"] = _flag(is_zero_pop)
+        rec["is_duration_zero"] = _flag(is_zero_dur)
+        zero_popularity += is_zero_pop
+        zero_duration += is_zero_dur
+    return zero_popularity, zero_duration
+
+
+def mark_high_zero_genres(
+    records: list[dict], profile: dict, report: CleaningReport,
+    invariants: Invariants,
+) -> dict:
+    """T016 - Decisione ereditata D4: il criterio dei generi a forte
+    concentrazione di zeri.
+
+    Soglia al **50%**, non al 60%. Il 60% e' un numero tondo, cioe' nessuna
+    ragione. Il 50% e' la soglia oltre la quale un genere smette di essere
+    descrivibile dalla propria mediana di popolarita': se piu' della meta' delle
+    righe vale zero, il valore centrale e' zero qualunque cosa facciano le
+    altre. Non e' una proprieta' stimata, e' una proprieta' della definizione di
+    mediana.
+
+    La quota si **ricalcola sulla grana coppia del dataset trasformato** e non
+    si riprende dal profilo: la deduplicazione di T014 ha spostato i
+    denominatori, e su 48 generi la quota cambia (ritrovamento F4).
+
+    Le mediane per genere sarebbero il criterio piu' diretto e sono escluse di
+    proposito: sono a un passo da `BQ2-K1`, e «segmento» non e' ancora definito
+    (FR-044). La quota di zeri e' l'osservazione equivalente che resta dentro il
+    perimetro di questa feature.
+    """
+    per_genre: dict[str, list[int]] = {}
+    for rec in records:
+        stats = per_genre.setdefault(rec["track_genre"], [0, 0])
+        stats[1] += 1
+        if rec["is_popularity_zero"] == "True":
+            stats[0] += 1
+
+    expected_genres = int(profile["values"]["SP.genre.count"]["value"])
+    invariants.require(
+        len(per_genre) == expected_genres,
+        "i generi presenti dopo la deduplicazione sono quelli del profilo",
+        f"{expected_genres} generi (SP.genre.count del profilo)",
+        f"{len(per_genre)} generi",
+    )
+
+    shares = {g: 100.0 * z / n for g, (z, n) in per_genre.items()}
+    high = sorted(g for g, s in shares.items() if s > ZERO_SHARE_THRESHOLD_PCT)
+
+    for rec in records:
+        rec["is_high_zero_genre"] = _flag(rec["track_genre"] in set(high))
+
+    # Ogni genere ha la propria quota ricalcolata: e' cio' che permettera' a
+    # T022 di confrontarle una per una con quelle del profilo e di scoprire da
+    # solo quali sono cambiate, invece di fidarsi di un elenco scritto a mano.
+    for genre in sorted(shares):
+        report.pct(
+            f"CL.SP.zero.by_genre.{slug(genre)}.after", shares[genre], "spotify",
+            f"quota di righe a popolarita' zero nel genere {genre}, dopo la "
+            f"deduplicazione di coppia",
+            field="popularity", granularity="coppia traccia-genere",
+        )
+
+    below = [s for s in shares.values() if s <= ZERO_SHARE_THRESHOLD_PCT]
+    above = [s for s in shares.values() if s > ZERO_SHARE_THRESHOLD_PCT]
+
+    # La sensibilita' della soglia e' obbligatoria (decisione D4): una lista
+    # prodotta da un taglio non va presentata come una proprieta' naturale dei
+    # dati, e chi legge deve poter vedere quanto le stanno vicini i generi
+    # esclusi e inclusi.
+    report.count(
+        "CL.SP.zero.high_genres.count", len(high), "spotify",
+        f"generi la cui quota di righe a popolarita' zero supera il "
+        f"{fmt_dec(ZERO_SHARE_THRESHOLD_PCT, 0)}%",
+        field="popularity", granularity="genere",
+    )
+    report.pct(
+        "CL.SP.zero.high_genres.nearest_below", max(below), "spotify",
+        "quota del genere piu' vicino alla soglia da sotto, escluso",
+        field="popularity", granularity="genere",
+    )
+    report.pct(
+        "CL.SP.zero.high_genres.nearest_above", min(above), "spotify",
+        "quota del genere piu' vicino alla soglia da sopra, incluso",
+        field="popularity", granularity="genere",
+    )
+    report.catalogs["spotify_high_zero_genres"] = high
+    return {"shares": shares, "high": high}
+
+
+def deduplicate_tracks(
+    records: list[dict], profile: dict, invariants: Invariants
+) -> tuple[list[dict], dict]:
+    """T018 - Ritrovamento F3 e decisione tecnica T5: la grana traccia.
+
+    Questa deduplicazione **non** e' priva di perdita: 720 tracce hanno repliche
+    che discordano, e discordano soltanto su `popularity`. La regola conserva il
+    **massimo osservato**, che e' un valore effettivamente presente nella fonte:
+    media e mediana ne produrrebbero uno che nessuna riga contiene.
+
+    Che il disaccordo riguardi solo `popularity` non si assume: si verifica. Se
+    toccasse altri attributi, la regola dichiarata non li coprirebbe e la
+    pipeline si ferma invece di scegliere in silenzio.
+
+    La regola introduce una distorsione verso l'alto, sistematica per
+    costruzione ancorche' minima. Il documento deve dichiararla (FR-019): e' la
+    differenza fra dichiarare una scelta e dichiararne l'effetto.
+    """
+    grouped: dict[str, list[dict]] = {}
+    order: list[str] = []
+    for rec in records:
+        if rec["track_id"] not in grouped:
+            order.append(rec["track_id"])
+        grouped.setdefault(rec["track_id"], []).append(rec)
+
+    stable_fields = tuple(
+        f for f in SPOTIFY_SOURCE_FIELDS if f not in ("track_genre", "popularity")
+    )
+    unexpected = []
+    conflicts = []
+    for track_id, replicas in grouped.items():
+        if len(replicas) == 1:
+            continue
+        for field in stable_fields:
+            if len({r[field] for r in replicas}) > 1:
+                unexpected.append((track_id, field))
+        values = {int(r["popularity"]) for r in replicas}
+        if len(values) > 1:
+            conflicts.append((track_id, max(values) - min(values)))
+
+    invariants.require(
+        not unexpected,
+        "fra le repliche di una traccia discorda soltanto l'indice di popolarita'",
+        "zero attributi discordi oltre a popularity (ritrovamento F3)",
+        f"{len(unexpected)} discordanze impreviste: {unexpected[:5]}",
+    )
+
+    tracks = []
+    for track_id in order:
+        replicas = grouped[track_id]
+        # Si conserva la replica che porta il massimo, cosi' il valore scritto
+        # e' la stringa della fonte e non una sua riscrittura (decisione T2).
+        winner = max(replicas, key=lambda r: int(r["popularity"]))
+        rec = {field: winner[field] for field in SPOTIFY_SOURCE_FIELDS
+               if field != "track_genre"}
+        rec["is_popularity_zero"] = _flag(int(winner["popularity"]) == 0)
+        rec["is_duration_zero"] = _flag(int(winner["duration_ms"]) == 0)
+        rec["genre_count"] = str(len(replicas))
+        rec["has_conflicting_popularity"] = _flag(
+            len({int(r["popularity"]) for r in replicas}) > 1
+        )
+        tracks.append(rec)
+
+    expected_tracks = int(profile["values"]["SP.id.distinct"]["value"])
+    invariants.require(
+        len(tracks) == expected_tracks,
+        "le tracce distinte coincidono con quelle del profilo",
+        f"{expected_tracks} tracce (SP.id.distinct del profilo)",
+        f"{len(tracks)} tracce",
+    )
+
+    expected_max = int(profile["values"]["SP.id.max_multiplicity"]["value"])
+    observed_max = max(int(t["genre_count"]) for t in tracks)
+    invariants.require(
+        observed_max == expected_max,
+        "la molteplicita' massima di una traccia coincide con quella del profilo",
+        f"{expected_max} generi (SP.id.max_multiplicity del profilo)",
+        f"{observed_max} generi",
+    )
+
+    spreads = [s for _, s in conflicts]
+    return tracks, {
+        "tracks": len(conflicts),
+        "spread_max": max(spreads) if spreads else 0,
+        "spread_over_10": sum(1 for s in spreads if s > 10),
+    }
+
+
+def transform_spotify(
+    rows: list[dict], profile: dict, writer: OutputWriter,
+    report: CleaningReport, invariants: Invariants,
+) -> None:
+    """Applica al catalogo musicale T014-T019 e produce i due output."""
+    pairs, duplicate_pairs, removed = deduplicate_pairs(rows, invariants)   # T014
+    zero_popularity, zero_duration = mark_degenerate_values(pairs)          # T015
+    mark_high_zero_genres(pairs, profile, report, invariants)               # T016
+
+    keys = [(r["track_id"], r["track_genre"]) for r in pairs]
+    invariants.require(
+        len(set(keys)) == len(keys),
+        "la grana di spotify_track_genre.csv e' unica su track_id + track_genre",
+        "zero chiavi ripetute",
+        f"{len(keys) - len(set(keys))} chiavi ripetute",
+    )
+
+    # T017
+    pair_rows = [{f: rec[f] for f in SPOTIFY_PAIR_FIELDS} for rec in pairs]
+    writer.add("spotify_track_genre.csv", list(SPOTIFY_PAIR_FIELDS), pair_rows)
+
+    tracks, conflict = deduplicate_tracks(pairs, profile, invariants)       # T018
+
+    track_keys = [t["track_id"] for t in tracks]
+    invariants.require(
+        len(set(track_keys)) == len(track_keys),
+        "la grana di spotify_tracks.csv e' unica su track_id",
+        "zero chiavi ripetute",
+        f"{len(track_keys) - len(set(track_keys))} chiavi ripetute",
+    )
+
+    # T019
+    track_rows = [{f: rec[f] for f in SPOTIFY_TRACK_FIELDS} for rec in tracks]
+    writer.add("spotify_tracks.csv", list(SPOTIFY_TRACK_FIELDS), track_rows)
+
+    report.count(
+        "CL.SP.pair.duplicate_pairs", duplicate_pairs, "spotify",
+        "coppie traccia-genere che nella fonte compaiono piu' di una volta",
+        granularity="coppia traccia-genere",
+    )
+    report.count(
+        "CL.SP.pair.removed_rows", removed, "spotify",
+        "righe rimosse dalla deduplicazione di coppia, identiche a una gia' presente",
+        granularity="coppia traccia-genere",
+    )
+    report.count(
+        "CL.SP.pair.rows.after", len(pairs), "spotify",
+        "righe di spotify_track_genre.csv, alla grana coppia traccia-genere",
+        granularity="coppia traccia-genere",
+    )
+    report.count(
+        "CL.SP.zero.rows.after", zero_popularity, "spotify",
+        "righe a popolarita' zero, conservate e marcate",
+        field="popularity", granularity="coppia traccia-genere",
+    )
+    report.pct(
+        "CL.SP.zero.pct.after", 100.0 * zero_popularity / len(pairs), "spotify",
+        "quota di righe a popolarita' zero dopo la deduplicazione di coppia",
+        field="popularity", granularity="coppia traccia-genere",
+    )
+    report.count(
+        "CL.SP.duration.zero.rows", zero_duration, "spotify",
+        "righe con durata dichiarata pari a zero, contate e marcate, mai corrette",
+        field="duration_ms", granularity="coppia traccia-genere",
+    )
+    report.count(
+        "CL.SP.track.rows.after", len(tracks), "spotify",
+        "righe di spotify_tracks.csv, alla grana traccia deduplicata",
+        granularity="traccia deduplicata",
+    )
+    report.count(
+        "CL.SP.track.popularity_conflict.tracks", conflict["tracks"], "spotify",
+        "tracce le cui repliche discordano sull'indice di popolarita'",
+        field="popularity", granularity="traccia deduplicata",
+    )
+    report.count(
+        "CL.SP.track.popularity_conflict.spread_max", conflict["spread_max"], "spotify",
+        "scarto massimo fra le repliche discordi di una stessa traccia",
+        field="popularity", granularity="traccia deduplicata",
+    )
+    report.count(
+        "CL.SP.track.popularity_conflict.spread_over_10", conflict["spread_over_10"],
+        "spotify",
+        "tracce il cui scarto fra le repliche discordi supera i dieci punti",
+        field="popularity", granularity="traccia deduplicata",
+    )
+
+
+# ===========================================================================
 # main
 # ===========================================================================
 
@@ -962,36 +1342,43 @@ def main() -> int:
     build_netflix_titles(netflix, profile, writer, report, invariants)
     build_netflix_title_category(netflix, profile, writer, report, invariants)
 
+    transform_spotify(spotify_rows, profile, writer, report, invariants)
+
     # La scrittura avviene qui e in nessun altro punto: gli output si sono
     # accumulati in memoria e atterrano solo ora, quando l'ultima invariante e'
     # passata. E' cio' che rende strutturale la garanzia di FR-004.
     outputs = writer.flush()
 
-    # Il catalogo musicale entra da T014, il rendiconto da T020. Finche' non
-    # c'e', `reports/cleaning_report.json` **non viene scritto**: un rendiconto
+    # Il rendiconto entra da T020. Finche' non c'e',
+    # `reports/cleaning_report.json` **non viene scritto**: un rendiconto
     # parziale sarebbe peggio di nessun rendiconto, perche' chi lo trova
     # versionato lo crede completo. La sua assenza e' il segnale che la
     # pipeline non e' ancora finita.
-    print("Catalogo video prodotto (task T001-T013).")
+    genre_values = sum(1 for v in report.values if ".by_genre." in v)
+    print("Quattro output prodotti (task T001-T019).")
     print(f"  sorgenti confermate contro il profilo: {len(sources)}")
     print(f"  catalogo video   : {len(netflix_rows)} righe lette, {len(netflix_fields)} campi")
-    print(f"  catalogo musicale: {len(spotify_rows)} righe lette, {len(spotify_fields)} campi (non ancora trasformato)")
+    print(f"  catalogo musicale: {len(spotify_rows)} righe lette, {len(spotify_fields)} campi")
     print()
     print(f"  invarianti verificate: {len(invariants.checked)}")
     for name in invariants.checked:
         print(f"    - {name}")
     print()
-    print(f"  valori di rendicontazione: {len(report.values)}")
+    print(f"  valori di rendicontazione: {len(report.values)}"
+          f"  ({genre_values} quote per genere)")
     for vid in sorted(report.values):
-        print(f"    {vid:38} {report.values[vid]['display']:>7}")
+        if ".by_genre." in vid:
+            continue
+        print(f"    {vid:46} {report.values[vid]['display']:>8}")
+    print()
+    print(f"  generi a forte concentrazione di zeri: "
+          f"{', '.join(report.catalogs['spotify_high_zero_genres'])}")
     print()
     print(f"  output scritti: {len(outputs)}")
     for entry in outputs:
         print(f"    {entry['path']:44} {entry['rows']:>6} righe  "
               f"{entry['columns']:>2} campi  {entry['bytes']:>9} byte")
-        print(f"      sha256 {entry['sha256']}")
     print()
-    print("Catalogo musicale non ancora trasformato (da T014).")
     print("reports/cleaning_report.json non ancora scritto (da T020): la pipeline non e' completa.")
     return 0
 
