@@ -22,7 +22,7 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 |---|---|---|---|---|
 | `001` | Business Case & KPI Framework | ~7 (spese) | — | ✅ conclusa, con debito residuo |
 | `002` | Data Audit & Profiling | ~4,5 (spese, stimate 4) | 001 | ✅ conclusa, PR #2 mergiata |
-| `003` | Data Cleaning & ETL | 7 | 002 | ⬜ prossima |
+| `003` | Data Cleaning & ETL | 7 | 002 | 🔄 in corso — spec, piano e 48 task chiusi; implementazione avviata |
 | `004` | Synthetic Business Metrics | 6 | 001 | ⬜ ancorata a benchmark, vedi sotto |
 | `005` | Data Model Design | 5 | 003, *chore ambiente* | ⬜ |
 | `006` | Content Taxonomy Bridge | 6 | 002, 005 | ⬜ decisione aperta DA-1 |
@@ -158,9 +158,9 @@ Ricadute: la scelta chiude anche la divergenza 10 della 001, la governance di qu
 | Finestra | Capacità | Contenuto atteso |
 |---|---|---|
 | 8 → 9 agosto | ~4,5 h spese | `002` ✅ conclusa e mergiata |
-| 11 agosto | 2-3,5 h | spec, piano e task della `003` — si chiude sul punto di stop 2 |
+| 11 agosto | 2-3,5 h | spec, piano e 48 task della `003`; poi implementazione fino a **T011** |
 | 12 → 14 agosto | **non pianificata** | nulla. Vedi sotto |
-| 15 agosto | ~2 h | implementazione `003`, o chore ambiente |
+| 15 agosto | ~2 h | `003` da T012, o chore ambiente |
 | dal 16 agosto | giornate piene, ~6 h/giorno | `004`, `005`, `006`, `007`, `008`, `010` |
 
 Atterraggio stimato: **24-25 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime; la finestra non pianificata del 12-14 agosto ne sposta uno.
@@ -169,7 +169,9 @@ Atterraggio stimato: **24-25 agosto**, con `009` escluso. Era 21-22 prima dell'a
 
 Tre giorni in cui il lavoro può essere nullo oppure breve, e non è deciso in anticipo di proposito. La pianificazione non prova a indovinarlo: **nessun lavoro è collocato in quella finestra, e nessuna attività la attraversa a metà.** Il calendario qui sopra è costruito assumendo capacità zero, così che qualunque ora effettivamente spesa sia guadagno e non recupero.
 
-È la ragione per cui l'11 agosto si ferma su spec, piano e task della `003` invece di iniziarne l'implementazione: il punto di stop 2 di [`CLAUDE.md`](../CLAUDE.md#punti-di-stop-del-flusso) è un confine già previsto dal metodo, e farlo coincidere con l'interruzione costa nulla. Il principio III chiede il repository coerente alla fine di ogni sessione; con tre giorni di distanza quel vincolo smette di essere una formalità, perché ciò che resta aperto non perde solo continuità ma il contesto di chi lo aveva aperto.
+Il principio III chiede il repository coerente alla fine di ogni sessione; con tre giorni di distanza quel vincolo smette di essere una formalità, perché ciò che resta aperto non perde solo continuità ma il contesto di chi lo aveva aperto.
+
+L'11 agosto la fase di specifica è costata molto meno del previsto, e l'implementazione è partita lo stesso giorno. Il confine scelto non è più il punto di stop 2 ma **T011**, per una ragione strutturale: i task da T003 a T011 non scrivono alcun file di output — il primo atterra in `data/processed/` a T012. L'intero tratto è quindi interrompibile senza lasciare dati parziali che invecchiano, e coincide con la parte del lavoro che dipende dal contratto invece che dal quadro d'insieme. È il confine di pausa migliore disponibile dentro questa feature.
 
 Se la finestra ospiterà qualcosa, il candidato naturale è il **chore dell'ambiente Power BI**: download e installazioni, nessun contesto da ricostruire, interrompibile in qualunque punto e senza conseguenze se non viene toccato.
 
@@ -182,6 +184,8 @@ Il chore dell'ambiente è collocato nella finestra a bassa capacità di proposit
 **Densità di `008`.** Otto ore per una sola feature sono il limite superiore del principio III, e la voce più esposta a scoprirsi più grande di così davanti allo schermo. Va scomposta in fase di `/speckit.specify` — presumibilmente struttura e pagine da una parte, storytelling e rifiniture dall'altra — non dopo averla aperta.
 
 **Concentrazione del rischio dopo il 16 agosto.** Sei feature su otto cadono nella finestra a giornate piene, incluse le tre più dense. La finestra a bassa capacità non ha margine di recupero: se `003` sfora, lo scostamento si trasferisce intero sulla seconda finestra invece di essere assorbito. La `002` ha sforato di mezz'ora e la finestra l'ha assorbita, ma era la più piccola delle due.
+
+**Il punto di stop 1 è stato saltato sulla `003`.** La sessione esecutiva ha prodotto spec, piano e task di seguito, senza che la spec passasse in revisione prima di diventare un piano — che è il checkpoint di massima leva previsto da [`CLAUDE.md`](../CLAUDE.md#punti-di-stop-del-flusso). Il controllo è stato recuperato a valle sui soli task, con esito positivo: le cinque decisioni ereditate, il blocco dei denominatori, le note in loco sugli artefatti mergiati e le esclusioni di perimetro risultano tutti presenti. Resta che l'assicurazione data è parziale e che una spec non revisionata è già congelata in 48 task. Il prompt della prossima feature deve rendere il punto di stop 1 impossibile da attraversare per inerzia, invece di limitarsi a dichiararlo.
 
 **Il perimetro complessivo ha superato la stima iniziale.** Non è più un rischio, è un fatto: ~65 ore contro le 7-10 giornate (49-70 ore) previste all'inizio, con `009` già escluso e nulla di ulteriore da tagliare che non amputi il framework. Da qui in avanti ogni estensione di perimetro va compensata da un taglio dichiarato, non assorbita.
 
