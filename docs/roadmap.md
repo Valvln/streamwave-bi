@@ -158,10 +158,20 @@ Ricadute: la scelta chiude anche la divergenza 10 della 001, la governance di qu
 | Finestra | Capacità | Contenuto atteso |
 |---|---|---|
 | 8 → 9 agosto | ~4,5 h spese | `002` ✅ conclusa e mergiata |
-| 11 → 15 agosto | ~2 h/giorno, ~10 h | `003`, chore ambiente, debito testuale |
+| 11 agosto | 2-3,5 h | spec, piano e task della `003` — si chiude sul punto di stop 2 |
+| 12 → 14 agosto | **non pianificata** | nulla. Vedi sotto |
+| 15 agosto | ~2 h | implementazione `003`, o chore ambiente |
 | dal 16 agosto | giornate piene, ~6 h/giorno | `004`, `005`, `006`, `007`, `008`, `010` |
 
-Atterraggio stimato: **23-24 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime.
+Atterraggio stimato: **24-25 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime; la finestra non pianificata del 12-14 agosto ne sposta uno.
+
+### La finestra non pianificata del 12-14 agosto
+
+Tre giorni in cui il lavoro può essere nullo oppure breve, e non è deciso in anticipo di proposito. La pianificazione non prova a indovinarlo: **nessun lavoro è collocato in quella finestra, e nessuna attività la attraversa a metà.** Il calendario qui sopra è costruito assumendo capacità zero, così che qualunque ora effettivamente spesa sia guadagno e non recupero.
+
+È la ragione per cui l'11 agosto si ferma su spec, piano e task della `003` invece di iniziarne l'implementazione: il punto di stop 2 di [`CLAUDE.md`](../CLAUDE.md#punti-di-stop-del-flusso) è un confine già previsto dal metodo, e farlo coincidere con l'interruzione costa nulla. Il principio III chiede il repository coerente alla fine di ogni sessione; con tre giorni di distanza quel vincolo smette di essere una formalità, perché ciò che resta aperto non perde solo continuità ma il contesto di chi lo aveva aperto.
+
+Se la finestra ospiterà qualcosa, il candidato naturale è il **chore dell'ambiente Power BI**: download e installazioni, nessun contesto da ricostruire, interrompibile in qualunque punto e senza conseguenze se non viene toccato.
 
 La stima iniziale di 7-10 giornate lavorative **non regge più**: ~65 ore complessive sono 10-11 giornate piene. Lo sforamento non viene dall'esecuzione, che è stata sostanzialmente in linea, ma da due cose che la stima iniziale non conteneva — la revisione indipendente, diventata prassi perché produce valore, e l'ancoraggio dei parametri sintetici a benchmark citati. Sono entrambe scelte di qualità prese consapevolmente. Il modo onesto di registrarlo è questo, non ricalibrare all'indietro la stima di partenza per farla sembrare azzeccata.
 
