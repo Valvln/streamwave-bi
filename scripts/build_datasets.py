@@ -521,6 +521,276 @@ def write_report(report: CleaningReport, sources: list[dict], outputs: list[dict
 
 
 # ===========================================================================
+# T008-T011 - Trasformazioni del catalogo video
+#
+# Nota sull'ordine di esecuzione, che **non** segue la numerazione dei task.
+# La riparazione (T009) precede la separazione delle durate (T008), perche'
+# l'invariante di T008 — ogni titolo ha una durata e la sua unita' corrisponde
+# al tipo — vale soltanto dopo che le tre righe di F1 hanno riavuto la propria.
+# Eseguita prima, la separazione troverebbe tre film senza durata e dovrebbe
+# tollerarli: una invariante che tollera l'eccezione che dovrebbe intercettare
+# non e' una invariante.
+# ===========================================================================
+
+# Le due sole forme che il campo `duration` assume (ritrovamento F5).
+DURATION_MINUTES = re.compile(r"^(\d+) min$")
+DURATION_SEASONS = re.compile(r"^(\d+) Seasons?$")
+
+# Forma testuale inglese di `date_added`: "September 25, 2021".
+DATE_ADDED_PATTERN = re.compile(r"^([A-Za-z]+) (\d{1,2}), (\d{4})$")
+
+
+def repair_rating_shift(records: list[dict], invariants: Invariants) -> list[dict]:
+    """T009 - Decisione ereditata D2: riparazione dello scivolamento di colonna.
+
+    Tre movimenti, e il secondo e' quello che va difeso: il valore sintatticamente
+    di durata viene **spostato** nel campo durata; il campo della classificazione
+    di quelle righe e' posto a **mancante**, perche' il valore corretto e' andato
+    perso nella fonte e inventarlo sarebbe l'unica cosa peggiore che perderlo; le
+    righe restano nel dataset e portano un indicatore.
+
+    Le tre invarianti che rendono la riparazione difendibile verificano la
+    corrispondenza di F1 **in entrambe le direzioni**: non basta che le righe da
+    riparare siano tre, serve che l'insieme delle righe senza durata e quello
+    delle righe con classificazione a forma di durata siano lo stesso insieme.
+    Se su una versione diversa della fonte divergessero, la regola starebbe
+    riscrivendo dati che non ha verificato.
+    """
+    no_duration = {r["show_id"] for r in records if is_missing(r["duration"])}
+    shaped_rating = {
+        r["show_id"] for r in records
+        if RATING_SHIFT_PATTERN.match((r["rating"] or "").strip())
+    }
+
+    invariants.require(
+        len(no_duration) == RATING_SHIFT_EXPECTED_ROWS,
+        "i titoli privi di durata sono quelli attesi dalla regola di riparazione",
+        f"{RATING_SHIFT_EXPECTED_ROWS} titoli (NF.duration.missing del profilo)",
+        f"{len(no_duration)} titoli",
+    )
+    invariants.require(
+        no_duration == shaped_rating,
+        "ogni titolo privo di durata ha una classificazione a forma di durata, e viceversa",
+        "i due insiemi coincidono (ritrovamento F1)",
+        f"solo senza durata: {sorted(no_duration - shaped_rating)}; "
+        f"solo con classificazione a forma di durata: {sorted(shaped_rating - no_duration)}",
+    )
+
+    repaired = []
+    for rec in records:
+        if rec["show_id"] not in no_duration:
+            rec["is_repaired_duration"] = "False"
+            continue
+        moved = (rec["rating"] or "").strip()
+        rec["duration"] = moved
+        rec["rating"] = ""
+        rec["is_repaired_duration"] = "True"
+        repaired.append({"show_id": rec["show_id"], "moved_value": moved})
+
+    invariants.require(
+        len(repaired) == RATING_SHIFT_EXPECTED_ROWS,
+        "la riparazione tocca esattamente il raggio d'azione dichiarato",
+        f"{RATING_SHIFT_EXPECTED_ROWS} righe",
+        f"{len(repaired)} righe",
+    )
+    return sorted(repaired, key=lambda e: e["show_id"])
+
+
+def enforce_rating_domain(
+    records: list[dict], profile: dict, invariants: Invariants
+) -> list[str]:
+    """T010 - FR-015: controllo di dominio sulla classificazione per eta'.
+
+    Operazione **distinta** dalla riparazione di T009, e non la sua conseguenza
+    automatica. Porre a mancante un valore fuori da un dominio gia' dichiarato e
+    versionato (`conventions.rating_domain` del profilo) e' un controllo
+    meccanico, verificabile e ripetibile da chiunque. Spostare un valore in un
+    altro campo e' un'inferenza sulla fonte. E' su questa distinzione che poggia
+    tutta la difesa di D2, quindi le due operazioni restano separate anche nel
+    codice.
+
+    Dopo la riparazione il residuo atteso e' **zero**, e lo zero va comunque
+    prodotto: chi legge non puo' distinguere "non e' stato necessario" da "non
+    e' stato fatto" se il valore non c'e' (data-model §2).
+    """
+    domain = set(profile["conventions"]["rating_domain"])
+    invariants.require(
+        bool(domain),
+        "il profilo dichiara il dominio della classificazione per eta'",
+        "conventions.rating_domain non vuoto",
+        "dominio assente o vuoto",
+    )
+
+    blanked = []
+    for rec in records:
+        value = (rec["rating"] or "").strip()
+        if not value:
+            rec["rating"] = ""
+            continue
+        if value not in domain:
+            rec["rating"] = ""
+            blanked.append(value)
+        else:
+            rec["rating"] = value
+    return sorted(blanked)
+
+
+def split_duration(records: list[dict], invariants: Invariants) -> None:
+    """T008 - FR-014: separazione della durata in due campi tipizzati e distinti.
+
+    Minuti per i film, stagioni per le serie. La pipeline **non** li rende
+    confrontabili e non li aggrega: sono due unita' non convertibili, e che il
+    lato serie resti fuori da `BQ1-K2` e' la decisione D3 della 001, che questa
+    feature cita e non riformula.
+
+    E' una verifica, non una deduzione dalla stringa (ritrovamento F5). Se la
+    corrispondenza fra tipo e unita' non regge, la fonte e' cambiata e la
+    pipeline si ferma invece di indovinare.
+    """
+    unresolved = []
+    for rec in records:
+        raw = (rec["duration"] or "").strip()
+        minutes = DURATION_MINUTES.match(raw)
+        seasons = DURATION_SEASONS.match(raw)
+        if minutes:
+            rec["movie_duration_min"], rec["tvshow_seasons"] = minutes.group(1), ""
+        elif seasons:
+            rec["movie_duration_min"], rec["tvshow_seasons"] = "", seasons.group(1)
+        else:
+            rec["movie_duration_min"], rec["tvshow_seasons"] = "", ""
+            unresolved.append((rec["show_id"], raw))
+
+    invariants.require(
+        not unresolved,
+        "ogni durata assume una delle due forme riconosciute",
+        "zero durate in forma non riconosciuta, dopo la riparazione di D2",
+        f"{len(unresolved)} non riconosciute: {unresolved[:5]}",
+    )
+
+    wrong_unit = [
+        (rec["show_id"], rec["type"], rec["duration"])
+        for rec in records
+        if (rec["type"] == "Movie") != bool(rec["movie_duration_min"])
+    ]
+    invariants.require(
+        not wrong_unit,
+        "l'unita' della durata corrisponde al tipo del titolo",
+        "ogni Movie porta minuti, ogni TV Show porta stagioni",
+        f"{len(wrong_unit)} titoli con unita' incoerente: {wrong_unit[:5]}",
+    )
+
+
+def convert_date_added(records: list[dict], invariants: Invariants) -> dict:
+    """T011 - Decisione tecnica T6: conversione di `date_added` in ISO 8601.
+
+    Usa la mappa esplicita dei mesi di T003. **Vietato** `strptime` con `%B`: e'
+    dipendente dal locale, funziona sotto locale C o inglese e fallisce sotto
+    locale italiano. Sarebbe una violazione di FR-003 che non si manifesta sulla
+    macchina di chi scrive la pipeline e si manifesta su quella di chi la
+    riesegue — cioe' il caso peggiore, perche' rompe esattamente la promessa che
+    la feature esiste per mantenere (ritrovamento F6).
+
+    Gli 88 valori con spazio iniziale vengono normalizzati; i valori vuoti
+    restano vuoti e **non** vengono imputati.
+    """
+    trimmed = converted = missing = 0
+    unresolved = []
+    for rec in records:
+        raw = rec["date_added"] or ""
+        if raw != raw.strip():
+            trimmed += 1
+        value = raw.strip()
+        if not value:
+            rec["date_added"] = ""
+            missing += 1
+            continue
+        match = DATE_ADDED_PATTERN.match(value)
+        month = MONTHS.get(match.group(1)) if match else None
+        if month is None:
+            rec["date_added"] = ""
+            unresolved.append((rec["show_id"], value))
+            continue
+        rec["date_added"] = f"{int(match.group(3)):04d}-{month:02d}-{int(match.group(2)):02d}"
+        converted += 1
+
+    invariants.require(
+        not unresolved,
+        "ogni data valorizzata e' riconosciuta dalla mappa esplicita dei mesi",
+        "zero date in forma non riconosciuta",
+        f"{len(unresolved)} non riconosciute: {unresolved[:5]}",
+    )
+    return {"trimmed": trimmed, "converted": converted, "missing": missing}
+
+
+def transform_netflix(
+    rows: list[dict], profile: dict, report: CleaningReport, invariants: Invariants
+) -> list[dict]:
+    """Applica al catalogo video le quattro trasformazioni di T008-T011.
+
+    Lavora su copie: le righe lette da `data/raw/` non vengono mutate, cosi' come
+    non viene toccato il file (principio II, FR-002).
+    """
+    records = [dict(row) for row in rows]
+
+    repaired = repair_rating_shift(records, invariants)          # T009
+    blanked = enforce_rating_domain(records, profile, invariants)  # T010
+    split_duration(records, invariants)                            # T008
+    dates = convert_date_added(records, invariants)                # T011
+
+    movies = sum(1 for r in records if r["movie_duration_min"])
+    tvshows = sum(1 for r in records if r["tvshow_seasons"])
+    rating_missing = sum(1 for r in records if not r["rating"])
+
+    report.count(
+        "CL.NF.duration.repaired.rows", len(repaired), "netflix",
+        "righe con la durata recuperata dal campo di classificazione",
+        field="duration", granularity="titolo",
+    )
+    report.count(
+        "CL.NF.rating.out_of_domain.blanked", len(blanked), "netflix",
+        "valori di classificazione fuori dominio posti a mancante, oltre a "
+        "quelli gia' svuotati dalla riparazione",
+        field="rating", granularity="titolo",
+    )
+    report.count(
+        "CL.NF.rating.missing.after", rating_missing, "netflix",
+        "valori mancanti nel campo rating dopo la trasformazione",
+        field="rating", granularity="titolo",
+    )
+    report.count(
+        "CL.NF.duration.movie.count.after", movies, "netflix",
+        "film con durata in minuti valorizzata dopo la trasformazione",
+        field="movie_duration_min", granularity="titolo",
+    )
+    report.count(
+        "CL.NF.duration.tvshow.count.after", tvshows, "netflix",
+        "serie con numero di stagioni valorizzato dopo la trasformazione",
+        field="tvshow_seasons", granularity="titolo",
+    )
+    report.count(
+        "CL.NF.date_added.trimmed", dates["trimmed"], "netflix",
+        "valori di date_added con spazio iniziale normalizzato",
+        field="date_added", granularity="titolo",
+    )
+    report.count(
+        "CL.NF.date_added.converted", dates["converted"], "netflix",
+        "valori di date_added convertiti in forma ISO 8601",
+        field="date_added", granularity="titolo",
+    )
+    report.count(
+        "CL.NF.date_added.missing", dates["missing"], "netflix",
+        "valori di date_added vuoti, lasciati vuoti e non imputati",
+        field="date_added", granularity="titolo",
+    )
+
+    report.catalogs["netflix_repaired_titles"] = [e["show_id"] for e in repaired]
+    report.catalogs["netflix_repaired_values"] = sorted(e["moved_value"] for e in repaired)
+    report.catalogs["netflix_rating_blanked_values"] = blanked
+
+    return records
+
+
+# ===========================================================================
 # main
 # ===========================================================================
 
@@ -536,25 +806,32 @@ def main() -> int:
     report = CleaningReport(profile, invariants)
     writer = OutputWriter(PROCESSED)
 
-    # Le trasformazioni entrano da T008. Finche' non ci sono, la pipeline
-    # verifica cio' che puo' verificare e si ferma **senza scrivere nulla**:
-    # ne' CSV, ne' rendiconto. Un rendiconto vuoto sarebbe peggio di nessun
-    # rendiconto, perche' chi lo trova versionato lo crede completo.
-    print("Fondamenta verificate (task T001-T007).")
+    netflix = transform_netflix(netflix_rows, profile, report, invariants)
+
+    # Il catalogo musicale entra da T014, la scrittura degli output da T012.
+    # Finche' non ci sono, la pipeline verifica cio' che puo' verificare e si
+    # ferma **senza scrivere nulla**: ne' CSV, ne' rendiconto. Un rendiconto
+    # parziale sarebbe peggio di nessun rendiconto, perche' chi lo trova
+    # versionato lo crede completo.
+    print("Catalogo video trasformato in memoria (task T001-T011).")
     print(f"  sorgenti confermate contro il profilo: {len(sources)}")
+    print(f"  catalogo video   : {len(netflix_rows)} righe lette, {len(netflix_fields)} campi")
+    print(f"  catalogo musicale: {len(spotify_rows)} righe lette, {len(spotify_fields)} campi (non ancora trasformato)")
+    print(f"  righe trasformate: {len(netflix)}")
+    print()
     print(f"  invarianti verificate: {len(invariants.checked)}")
     for name in invariants.checked:
         print(f"    - {name}")
-    print(f"  catalogo video   : {len(netflix_rows)} righe, {len(netflix_fields)} campi")
-    print(f"  catalogo musicale: {len(spotify_rows)} righe, {len(spotify_fields)} campi")
     print()
-    print("Trasformazioni non ancora implementate (da T008).")
+    print(f"  valori di rendicontazione: {len(report.values)}")
+    for vid in sorted(report.values):
+        print(f"    {vid:38} {report.values[vid]['display']:>7}")
+    print()
+    print("Catalogo musicale e scrittura degli output non ancora implementati (da T012).")
     print("Nessun output scritto: data/processed/ e reports/cleaning_report.json intatti.")
 
-    # Riferimenti volutamente non usati in questo stadio: esistono perche' i
-    # task successivi vi scrivano dentro, e sono qui per rendere evidente che
-    # nulla e' stato scritto.
-    assert not report.values and not writer._pending
+    # Nessun output e' in coda: e' cio' che rende letterale la riga qui sopra.
+    assert not writer._pending
     return 0
 
 
