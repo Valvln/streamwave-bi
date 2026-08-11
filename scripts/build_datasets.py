@@ -791,6 +791,158 @@ def transform_netflix(
 
 
 # ===========================================================================
+# T012-T013 - Output del catalogo video
+#
+# I due file escono dal repository: `.gitignore` li intercetta e nessuno li
+# versiona (FR-007). Cio' che resta tracciato e' la pipeline che li produce e,
+# da T020, il rendiconto che li misura.
+# ===========================================================================
+
+# Ordine dei campi secondo contracts/output-datasets.md §1.1. E' parte del
+# contratto: cambiarlo cambia il file, e il file e' cio' che la feature 005
+# leggera' senza poter chiedere spiegazioni.
+NETFLIX_TITLE_FIELDS = (
+    "show_id", "type", "title", "director", "cast", "country",
+    "date_added", "release_year", "rating", "movie_duration_min",
+    "tvshow_seasons", "listed_in", "description", "is_repaired_duration",
+)
+
+NETFLIX_CATEGORY_FIELDS = ("show_id", "category")
+
+
+def build_netflix_titles(
+    records: list[dict], profile: dict, writer: OutputWriter,
+    report: CleaningReport, invariants: Invariants,
+) -> None:
+    """T012 - `netflix_titles.csv`, grana titolo.
+
+    Nessuna riga eliminata, per alcuna ragione (FR-017): un titolo senza durata
+    resta un titolo del catalogo, e toglierlo cambierebbe il denominatore della
+    North Star `BQ1-K1`. Il conteggio si verifica contro il profilo invece di
+    essere dato per scontato.
+
+    Il campo `listed_in` resta qui **come stringa di sorgente**, accanto alla
+    tabella normalizzata di T013. Rimuoverlo obbligherebbe chi legge il solo
+    dataset alla grana titolo a fare una giunzione per sapere di che cosa parla
+    un titolo; conservarlo non crea ambiguita' purche' nessuno lo conti, ed e'
+    la regola di lettura dichiarata nel contratto §1.
+    """
+    expected_rows = int(profile["values"]["NF.shape.rows"]["value"])
+    invariants.require(
+        len(records) == expected_rows,
+        "nessuna riga del catalogo video e' stata eliminata",
+        f"{expected_rows} titoli (NF.shape.rows del profilo)",
+        f"{len(records)} titoli",
+    )
+
+    keys = [rec["show_id"] for rec in records]
+    invariants.require(
+        len(set(keys)) == len(keys),
+        "la grana di netflix_titles.csv e' unica su show_id",
+        "zero chiavi ripetute",
+        f"{len(keys) - len(set(keys))} chiavi ripetute",
+    )
+
+    rows = [{field: rec[field] for field in NETFLIX_TITLE_FIELDS} for rec in records]
+    writer.add("netflix_titles.csv", list(NETFLIX_TITLE_FIELDS), rows)
+
+    report.count(
+        "CL.NF.titles.rows.after", len(rows), "netflix",
+        "righe di netflix_titles.csv, alla grana titolo",
+        granularity="titolo",
+    )
+
+
+def build_netflix_title_category(
+    records: list[dict], profile: dict, writer: OutputWriter,
+    report: CleaningReport, invariants: Invariants,
+) -> None:
+    """T013 - `netflix_title_category.csv`, grana titolo-categoria.
+
+    Normalizza il **solo** campo delle categorie (FR-012, decisione T7). Il
+    campo e' multi-valore e i conteggi per categoria non sono sommabili sul
+    totale del catalogo: `BQ1-K1` conta titoli per categoria ed e' il caso in cui
+    un totale ingenuo sbaglia. `country`, `cast` e `director` sono anch'essi
+    multi-valore ma nessuna misura del framework li consuma, e normalizzarli
+    produrrebbe tre tabelle senza lettore.
+
+    Il numero di righe di questo file e' il numero di **assegnazioni**, non di
+    titoli, e si verifica contro `NF.cat.assignments` del profilo.
+
+    Non e' una tabella ponte del modello dati. Ne ha la forma, ma nessuno ha
+    ancora deciso se `category` sara' una dimensione ne' con quale chiave: e'
+    la feature 005 (FR-046).
+    """
+    rows = []
+    empty_segments = 0
+    repeated_within_title = []
+    for rec in records:
+        seen = set()
+        for raw in rec["listed_in"].split(","):
+            category = raw.strip()
+            if not category:
+                empty_segments += 1
+                continue
+            if category in seen:
+                repeated_within_title.append((rec["show_id"], category))
+                continue
+            seen.add(category)
+            rows.append({"show_id": rec["show_id"], "category": category})
+
+    invariants.require(
+        empty_segments == 0,
+        "la separazione delle categorie non produce segmenti vuoti",
+        "zero segmenti vuoti",
+        f"{empty_segments} segmenti vuoti",
+    )
+    invariants.require(
+        not repeated_within_title,
+        "nessun titolo elenca due volte la stessa categoria",
+        "zero ripetizioni entro il titolo",
+        f"{len(repeated_within_title)} ripetizioni: {repeated_within_title[:5]}",
+    )
+
+    keys = [(r["show_id"], r["category"]) for r in rows]
+    invariants.require(
+        len(set(keys)) == len(keys),
+        "la grana di netflix_title_category.csv e' unica su show_id + category",
+        "zero chiavi ripetute",
+        f"{len(keys) - len(set(keys))} chiavi ripetute",
+    )
+
+    expected_assignments = int(profile["values"]["NF.cat.assignments"]["value"])
+    invariants.require(
+        len(rows) == expected_assignments,
+        "le assegnazioni di categoria coincidono con quelle del profilo",
+        f"{expected_assignments} assegnazioni (NF.cat.assignments del profilo)",
+        f"{len(rows)} assegnazioni",
+    )
+
+    categories = sorted({r["category"] for r in rows})
+    expected_categories = int(profile["values"]["NF.cat.count"]["value"])
+    invariants.require(
+        len(categories) == expected_categories,
+        "le categorie distinte coincidono con quelle del profilo",
+        f"{expected_categories} categorie (NF.cat.count del profilo)",
+        f"{len(categories)} categorie",
+    )
+
+    writer.add("netflix_title_category.csv", list(NETFLIX_CATEGORY_FIELDS), rows)
+
+    report.count(
+        "CL.NF.category.assignments", len(rows), "netflix",
+        "assegnazioni di categoria, alla grana titolo-categoria",
+        field="listed_in", granularity="titolo-categoria",
+    )
+    report.count(
+        "CL.NF.category.distinct", len(categories), "netflix",
+        "categorie distinte presenti nella tabella normalizzata",
+        field="listed_in", granularity="titolo-categoria",
+    )
+    report.catalogs["netflix_categories_normalized"] = categories
+
+
+# ===========================================================================
 # main
 # ===========================================================================
 
@@ -807,17 +959,23 @@ def main() -> int:
     writer = OutputWriter(PROCESSED)
 
     netflix = transform_netflix(netflix_rows, profile, report, invariants)
+    build_netflix_titles(netflix, profile, writer, report, invariants)
+    build_netflix_title_category(netflix, profile, writer, report, invariants)
 
-    # Il catalogo musicale entra da T014, la scrittura degli output da T012.
-    # Finche' non ci sono, la pipeline verifica cio' che puo' verificare e si
-    # ferma **senza scrivere nulla**: ne' CSV, ne' rendiconto. Un rendiconto
+    # La scrittura avviene qui e in nessun altro punto: gli output si sono
+    # accumulati in memoria e atterrano solo ora, quando l'ultima invariante e'
+    # passata. E' cio' che rende strutturale la garanzia di FR-004.
+    outputs = writer.flush()
+
+    # Il catalogo musicale entra da T014, il rendiconto da T020. Finche' non
+    # c'e', `reports/cleaning_report.json` **non viene scritto**: un rendiconto
     # parziale sarebbe peggio di nessun rendiconto, perche' chi lo trova
-    # versionato lo crede completo.
-    print("Catalogo video trasformato in memoria (task T001-T011).")
+    # versionato lo crede completo. La sua assenza e' il segnale che la
+    # pipeline non e' ancora finita.
+    print("Catalogo video prodotto (task T001-T013).")
     print(f"  sorgenti confermate contro il profilo: {len(sources)}")
     print(f"  catalogo video   : {len(netflix_rows)} righe lette, {len(netflix_fields)} campi")
     print(f"  catalogo musicale: {len(spotify_rows)} righe lette, {len(spotify_fields)} campi (non ancora trasformato)")
-    print(f"  righe trasformate: {len(netflix)}")
     print()
     print(f"  invarianti verificate: {len(invariants.checked)}")
     for name in invariants.checked:
@@ -827,11 +985,14 @@ def main() -> int:
     for vid in sorted(report.values):
         print(f"    {vid:38} {report.values[vid]['display']:>7}")
     print()
-    print("Catalogo musicale e scrittura degli output non ancora implementati (da T012).")
-    print("Nessun output scritto: data/processed/ e reports/cleaning_report.json intatti.")
-
-    # Nessun output e' in coda: e' cio' che rende letterale la riga qui sopra.
-    assert not writer._pending
+    print(f"  output scritti: {len(outputs)}")
+    for entry in outputs:
+        print(f"    {entry['path']:44} {entry['rows']:>6} righe  "
+              f"{entry['columns']:>2} campi  {entry['bytes']:>9} byte")
+        print(f"      sha256 {entry['sha256']}")
+    print()
+    print("Catalogo musicale non ancora trasformato (da T014).")
+    print("reports/cleaning_report.json non ancora scritto (da T020): la pipeline non e' completa.")
     return 0
 
 
