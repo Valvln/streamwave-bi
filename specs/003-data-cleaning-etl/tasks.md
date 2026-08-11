@@ -33,8 +33,8 @@ Vale la stessa constatazione della 002 e per gli stessi motivi: le tre storie sc
 
 **Scopo**: verificare i due vincoli di collocazione prima di scrivere una riga, perché entrambi si annullerebbero in silenzio.
 
-- [ ] T001 Verificare con `git check-ignore -v reports/cleaning_report.json` che il percorso **non** sia intercettato da `.gitignore` (FR-025, SC-004). Se lo fosse, fermarsi: la collocazione va cambiata prima di scrivere la pipeline
-- [ ] T002 Verificare con `git check-ignore -v data/processed/netflix_titles.csv` che gli output **siano** intercettati, e che `data/processed/.gitkeep` resti tracciato (FR-007, SC-004). È il vincolo speculare al precedente e va verificato con la stessa cura: un output che finisce nella history è un output che qualcuno citerà invece di rigenerarlo
+- [X] T001 Verificare con `git check-ignore -v reports/cleaning_report.json` che il percorso **non** sia intercettato da `.gitignore` (FR-025, SC-004). Se lo fosse, fermarsi: la collocazione va cambiata prima di scrivere la pipeline
+- [X] T002 Verificare con `git check-ignore -v data/processed/netflix_titles.csv` che gli output **siano** intercettati, e che `data/processed/.gitkeep` resti tracciato (FR-007, SC-004). È il vincolo speculare al precedente e va verificato con la stessa cura: un output che finisce nella history è un output che qualcuno citerà invece di rigenerarlo
 
 ---
 
@@ -42,11 +42,11 @@ Vale la stessa constatazione della 002 e per gli stessi motivi: le tre storie sc
 
 **Scopo**: fissare in codice le convenzioni del contratto e le guardie che rendono difendibile tutto il resto. **Bloccano tutte e tre le storie**: pipeline, artefatto di rendicontazione e controllo dipendono dalla stessa forma del record e dalle stesse invarianti.
 
-- [ ] T003 Creare `scripts/build_datasets.py` con il blocco delle convenzioni di questa feature, destinato alla chiave `conventions` di `reports/cleaning_report.json` secondo [contracts/output-datasets.md](./contracts/output-datasets.md) §2.2: soglia del 50% di D4, regola del massimo di T5, forma sintattica riconosciuta dalla riparazione di D2, mappa esplicita dei dodici mesi di T6
-- [ ] T004 Implementare in `scripts/build_datasets.py` la lettura in sola lettura dei due CSV di `data/raw/` e la **verifica dell'impronta** contro il blocco `sources` di `reports/data_profile.json` (T10, data-model §1). Se le impronte divergono, segnalarlo in modo esplicito: ogni identificativo del profilo che il documento citerà descriverebbe altri dati
-- [ ] T005 Implementare in `scripts/build_datasets.py` lo scrittore CSV deterministico secondo T4 — terminatore `\n`, quoting minimale, UTF-8 senza BOM, intestazione, nessuna riga finale vuota. Due campi del catalogo video contengono un a capo incorporato (F8): la scrittura deve quotare correttamente, ed è l'unica ragione per cui non si può concatenare stringhe
-- [ ] T006 Implementare in `scripts/build_datasets.py` il costruttore del record di valore e il formattatore italiano del campo `display`, riusando le convenzioni del contratto della 002 §2. Il prefisso degli identificativi è `CL.` e la pipeline **verifica** che non collida con alcun identificativo del profilo (T8, data-model §4)
-- [ ] T007 Implementare in `scripts/build_datasets.py` il motore delle invarianti di T10: una funzione che asserisce e, in caso di violazione, ferma l'esecuzione con un messaggio che nomina l'invariante e i valori trovati, **senza** lasciare output parziali (FR-004). È il pezzo su cui poggia la difendibilità di D2
+- [X] T003 Creare `scripts/build_datasets.py` con il blocco delle convenzioni di questa feature, destinato alla chiave `conventions` di `reports/cleaning_report.json` secondo [contracts/output-datasets.md](./contracts/output-datasets.md) §2.2: soglia del 50% di D4, regola del massimo di T5, forma sintattica riconosciuta dalla riparazione di D2, mappa esplicita dei dodici mesi di T6
+- [X] T004 Implementare in `scripts/build_datasets.py` la lettura in sola lettura dei due CSV di `data/raw/` e la **verifica dell'impronta** contro il blocco `sources` di `reports/data_profile.json` (T10, data-model §1). Se le impronte divergono, segnalarlo in modo esplicito: ogni identificativo del profilo che il documento citerà descriverebbe altri dati
+- [X] T005 Implementare in `scripts/build_datasets.py` lo scrittore CSV deterministico secondo T4 — terminatore `\n`, quoting minimale, UTF-8 senza BOM, intestazione, nessuna riga finale vuota. Due campi del catalogo video contengono un a capo incorporato (F8): la scrittura deve quotare correttamente, ed è l'unica ragione per cui non si può concatenare stringhe
+- [X] T006 Implementare in `scripts/build_datasets.py` il costruttore del record di valore e il formattatore italiano del campo `display`, riusando le convenzioni del contratto della 002 §2. Il prefisso degli identificativi è `CL.` e la pipeline **verifica** che non collida con alcun identificativo del profilo (T8, data-model §4)
+- [X] T007 Implementare in `scripts/build_datasets.py` il motore delle invarianti di T10: una funzione che asserisce e, in caso di violazione, ferma l'esecuzione con un messaggio che nomina l'invariante e i valori trovati, **senza** lasciare output parziali (FR-004). È il pezzo su cui poggia la difendibilità di D2
 
 **Checkpoint**: convenzioni, determinismo e guardie in piedi. Le tre storie possono partire.
 
