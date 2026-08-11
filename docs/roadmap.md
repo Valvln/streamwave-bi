@@ -22,7 +22,7 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 |---|---|---|---|---|
 | `001` | Business Case & KPI Framework | ~7 (spese) | — | ✅ conclusa, con debito residuo |
 | `002` | Data Audit & Profiling | ~4,5 (spese, stimate 4) | 001 | ✅ conclusa, PR #2 mergiata |
-| `003` | Data Cleaning & ETL | 7 | 002 | 🔄 in corso — spec, piano e 48 task chiusi; implementazione avviata |
+| `003` | Data Cleaning & ETL | 7 (~4 spese) | 002 | 🔄 **MVP concluso** — 26 task su 48. Vedi sotto |
 | `004` | Synthetic Business Metrics | 6 | 001 | ⬜ ancorata a benchmark, vedi sotto |
 | `005` | Data Model Design | 5 | 003, *chore ambiente* | ⬜ |
 | `006` | Content Taxonomy Bridge | 6 | 002, 005 | ⬜ decisione aperta DA-1 |
@@ -56,6 +56,16 @@ Resta **un solo benchmark indispensabile**: il tasso di conversione a un tier su
 **Nessun framework di orchestrazione** (LangChain, LangGraph o equivalenti) per questa feature: il passaggio di raccolta produce un valore congelato che nessuno riesegue, e un'orchestrazione a grafo aggiungerebbe una dipendenza, una chiave API e un componente che dopo la prima esecuzione resta inerte. La sede in cui il lavoro con LLM ha senso è la `006` — vedi Decisioni aperte.
 
 **Stima**: da 5 a 6 ore. L'ancoraggio aggiunge circa un'ora di raccolta e citazione, l'uscita dell'engagement dalla generazione ne restituisce altrettante, la revisione in contesto pulito ne aggiunge una. Resta **una sola feature dentro il limite del principio III**: la scomposizione che la proposta dava per necessaria non serve, perché contava dentro la feature l'emendamento della constitution e le note testuali, che sono chore. Da riverificare in fase di `/speckit.specify`.
+
+### Stato della `003` al 2026-08-11
+
+**MVP concluso**: T001-T026, cioè la pipeline completa e l'artefatto di rendicontazione. Esistono i quattro dataset di output, `scripts/build_datasets.py` in 1.849 righe e `reports/cleaning_report.json`. I vincoli strutturali sono verificati: il rendiconto è versionato, `data/processed/` porta il solo `.gitkeep`, `data/raw/` è intatto.
+
+È lo stadio che la strategia di implementazione dichiarava già consegnabile: i dataset sono rigenerabili identici e ogni decisione di trattamento è misurata. La `005` e la `007` potrebbero partirci sopra leggendo il contratto, anche prima che il documento esista.
+
+**Restano T027-T048**, circa 3,5-4 ore: il documento `docs/data_cleaning.md`, l'estensione del controllo di coerenza, le note in loco sugli artefatti mergiati, la revisione in contesto pulito e la chiusura dei suoi rilievi. La feature atterrerà intorno a 7,5-8 ore contro le 7 stimate — scostamento in linea, non un allarme.
+
+Un ritrovamento da non perdere: il contratto degli output scritto in fase di piano **non coincide** con ciò che l'implementazione ha prodotto, e l'allineamento è stato rinviato a T029 (commit `0e959a7`). È una divergenza fra progetto ed esecuzione scoperta al momento giusto, ma va chiusa dentro questa feature: un contratto che descrive qualcosa di diverso dai file reali è peggio di nessun contratto, perché la `005` e la `007` lo leggeranno credendogli.
 
 ### Lavoro fuori dalle feature
 
@@ -158,12 +168,12 @@ Ricadute: la scelta chiude anche la divergenza 10 della 001, la governance di qu
 | Finestra | Capacità | Contenuto atteso |
 |---|---|---|
 | 8 → 9 agosto | ~4,5 h spese | `002` ✅ conclusa e mergiata |
-| 11 agosto | 2-3,5 h | spec, piano e 48 task della `003`; poi implementazione fino a **T011** |
+| 11 agosto | ~4 h spese | `003`: spec, piano, 48 task e **MVP completo** (T001-T026) |
 | 12 → 14 agosto | **non pianificata** | nulla. Vedi sotto |
-| 15 agosto | ~2 h | `003` da T012, o chore ambiente |
+| 15 agosto | ~2 h | `003` da T036, o chore ambiente |
 | dal 16 agosto | giornate piene, ~6 h/giorno | `004`, `005`, `006`, `007`, `008`, `010` |
 
-Atterraggio stimato: **24-25 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime; la finestra non pianificata del 12-14 agosto ne sposta uno.
+Atterraggio stimato: **23-24 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime, poi 24-25 con la finestra non pianificata del 12-14 agosto. Le ore in più dell'11 agosto — quattro contro le due-tre previste — hanno restituito il giorno che la pausa aveva tolto.
 
 ### La finestra non pianificata del 12-14 agosto
 

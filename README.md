@@ -26,13 +26,15 @@ I limiti analitici specifici di ogni singola analisi — cosa quel particolare K
 
 ## Stato
 
-| Fase | Artefatto | Stato |
+Governance: [`constitution`](.specify/memory/constitution.md) v1.0.2 · [metodo di lavoro](CLAUDE.md) · [roadmap e stime](docs/roadmap.md)
+
+| Feature | Deliverable | Stato |
 |---|---|---|
-| Constitution | [`.specify/memory/constitution.md`](.specify/memory/constitution.md) | ✅ v1.0.2 |
-| Specification | [`specs/001-business-case-kpi/spec.md`](specs/001-business-case-kpi/spec.md) | ✅ feature 001 |
-| Plan | [`specs/001-business-case-kpi/plan.md`](specs/001-business-case-kpi/plan.md) | ✅ feature 001 |
-| Tasks | [`specs/001-business-case-kpi/tasks.md`](specs/001-business-case-kpi/tasks.md) | ✅ 29 task |
-| Implementation | [`docs/business_case.md`](docs/business_case.md) | ✅ documento scritto e revisionato ([verbale](specs/001-business-case-kpi/review.md)) |
+| `001` Business Case & KPI Framework | [`docs/business_case.md`](docs/business_case.md) | ✅ conclusa, [revisionata](specs/001-business-case-kpi/review.md) |
+| `002` Data Audit & Profiling | [`docs/data_audit.md`](docs/data_audit.md) · [`reports/data_profile.json`](reports/data_profile.json) | ✅ conclusa, [revisionata](specs/002-data-audit-profiling/review.md) |
+| `003` Data Cleaning & ETL | `scripts/build_datasets.py` · `reports/cleaning_report.json` | 🔄 in corso |
+
+Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](docs/roadmap.md).
 
 ## Il business case
 
