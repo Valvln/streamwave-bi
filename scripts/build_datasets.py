@@ -1763,6 +1763,24 @@ def recalculate_profile_values(
         f"{len(changed)} voci",
         f"{len(report.denominators)} voci",
     )
+    # I numeri della copertura sono essi stessi valori: il documento li cita, e
+    # per la decisione ereditata D5 un'affermazione derivata o ha un
+    # identificativo o non si scrive. Senza questi quattro, la frase che riassume
+    # l'intero blocco dei denominatori sarebbe prosa non verificabile — cioe' il
+    # rilievo R8 della 001, ricreato nel documento che esiste per chiuderlo.
+    report.count("CL.meta.profile_values.total", len(declared), "entrambi",
+                 "valori del profilo della 002")
+    report.count("CL.meta.profile_values.compared", len(compared), "entrambi",
+                 "valori del profilo riconfrontati sui dati trasformati")
+    report.count("CL.meta.profile_values.changed", len(changed), "entrambi",
+                 "valori del profilo che dopo la trasformazione differiscono")
+    report.count("CL.meta.profile_values.without_counterpart",
+                 len(without_counterpart), "entrambi",
+                 "valori del profilo senza controparte, perche' descrivono la "
+                 "colonna indice esclusa dagli output")
+    report.count("CL.meta.profile_values.out_of_scope", len(out_of_scope),
+                 "entrambi",
+                 "valori del profilo che la trasformazione non puo' toccare")
     return {
         "declared": len(declared),
         "compared": len(compared),

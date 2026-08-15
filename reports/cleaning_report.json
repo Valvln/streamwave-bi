@@ -7760,6 +7760,51 @@
       "label": "righe a popolarita' zero, conservate e marcate",
       "unit": "conteggio",
       "value": 15844
+    },
+    "CL.meta.profile_values.changed": {
+      "dataset": "entrambi",
+      "display": "421",
+      "field": null,
+      "granularity": null,
+      "label": "valori del profilo che dopo la trasformazione differiscono",
+      "unit": "conteggio",
+      "value": 421
+    },
+    "CL.meta.profile_values.compared": {
+      "dataset": "entrambi",
+      "display": "1.002",
+      "field": null,
+      "granularity": null,
+      "label": "valori del profilo riconfrontati sui dati trasformati",
+      "unit": "conteggio",
+      "value": 1002
+    },
+    "CL.meta.profile_values.out_of_scope": {
+      "dataset": "entrambi",
+      "display": "6",
+      "field": null,
+      "granularity": null,
+      "label": "valori del profilo che la trasformazione non puo' toccare",
+      "unit": "conteggio",
+      "value": 6
+    },
+    "CL.meta.profile_values.total": {
+      "dataset": "entrambi",
+      "display": "1.030",
+      "field": null,
+      "granularity": null,
+      "label": "valori del profilo della 002",
+      "unit": "conteggio",
+      "value": 1030
+    },
+    "CL.meta.profile_values.without_counterpart": {
+      "dataset": "entrambi",
+      "display": "22",
+      "field": null,
+      "granularity": null,
+      "label": "valori del profilo senza controparte, perche' descrivono la colonna indice esclusa dagli output",
+      "unit": "conteggio",
+      "value": 22
     }
   }
 }
