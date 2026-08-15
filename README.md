@@ -32,7 +32,7 @@ Governance: [`constitution`](.specify/memory/constitution.md) v1.0.2 · [metodo 
 |---|---|---|
 | `001` Business Case & KPI Framework | [`docs/business_case.md`](docs/business_case.md) | ✅ conclusa, [revisionata](specs/001-business-case-kpi/review.md) |
 | `002` Data Audit & Profiling | [`docs/data_audit.md`](docs/data_audit.md) · [`reports/data_profile.json`](reports/data_profile.json) | ✅ conclusa, [revisionata](specs/002-data-audit-profiling/review.md) |
-| `003` Data Cleaning & ETL | `scripts/build_datasets.py` · `reports/cleaning_report.json` | 🔄 in corso |
+| `003` Data Cleaning & ETL | [`docs/data_cleaning.md`](docs/data_cleaning.md) · `scripts/build_datasets.py` · [`reports/cleaning_report.json`](reports/cleaning_report.json) | ✅ conclusa, [revisionata](specs/003-data-cleaning-etl/review.md) |
 
 Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](docs/roadmap.md).
 
@@ -41,6 +41,8 @@ Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](d
 Il primo deliverable è **[`docs/business_case.md`](docs/business_case.md)**: il framework con cui il progetto risponderà alle tre domande. Definisce 8 KPI con formula concettuale, fonte e livello di confidenza, una North Star metric e il perimetro di ciò che l'analisi non proverà a dimostrare. Non contiene risultati: quelli arriveranno dalle feature successive, ciascuno con l'etichetta di affidabilità definita qui.
 
 Il secondo è **[`docs/data_audit.md`](docs/data_audit.md)**: il profilo dei due dataset reali, con ciò che la loro forma vincola per le feature successive. Ogni numero che contiene è rigenerato da uno script e vive in [`reports/data_profile.json`](reports/data_profile.json), versionato perché sia verificabile anche da chi non ha i dati di origine.
+
+Il terzo è **[`docs/data_cleaning.md`](docs/data_cleaning.md)**: la dichiarazione di ogni decisione presa sui dati per portarli allo stato in cui il modello li userà, con la ragione, l'effetto misurato in righe o valori, e i valori del profilo che dopo la trasformazione non valgono più. I dataset che ne escono **non sono versionati** — lo è la pipeline che li produce — quindi il documento e [`reports/cleaning_report.json`](reports/cleaning_report.json) sono ciò che li rende verificabili da chi non può rigenerarli.
 
 ## Setup
 

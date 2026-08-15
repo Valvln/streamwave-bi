@@ -17,20 +17,25 @@ Ogni numero di questo documento porta un marcatore invisibile nel Markdown reso 
 | Forma | Che cosa dichiara |
 |---|---|
 | ancora a un identificativo | il numero è un valore di uno dei due<!--#--> artefatti, e il controllo lo confronta carattere per carattere |
-| numerale in lettere ancorato | come sopra, per i numeri che in prosa si scrivono a parole |
+| numerale in lettere ancorato | come sopra, per i numeri che in prosa si scrivono a parole. **Il controllo la accetta, questo documento non la usa**: vedi la nota sotto la tabella |
 | letterale fra apici inversi | il testo è membro di un elenco registrato negli artefatti |
 | marcatore di non-misurato | il numero **non è un valore di questi artefatti**, e chi scrive lo dichiara |
 
+**Sulla seconda forma.** Il controllo la riconosce perché la usa il documento della feature 002. Questo documento non la usa mai, perché il corollario (b) della decisione D5 — vedi §3 — vieta i numerali in lettere per qualunque fatto misurato, ed è la regola più severa delle due<!--#-->. Dove un fatto misurato ricorre in prosa, qui si scrive in cifre e si ancora. Il conteggio dei marcatori lo mostra: zero<!--#--> numerali in lettere.
+
 `python3 scripts/check_audit_coherence.py` risolve ogni ancora, confronta, e **fallisce** se trova una divergenza, un riferimento inesistente o una quantità priva di entrambi i marcatori. Non richiede `data/raw/`: confronta artefatti tutti versionati.
 
-**Che cosa il controllo copre.** Ogni cifra e ogni numerale del documento. Nessuna quantità può comparire senza che chi scrive abbia dichiarato se sia un valore misurato o no: è la differenza rispetto al documento della feature 002, dove le quantità non marcate producevano un avviso e tre<!--#--> affermazioni errate sono passate proprio da lì.
+**Che cosa il controllo copre.** Ogni cifra, e ogni numerale in lettere **fino a venti<!--#-->**, che non appartenga a una delle classi strutturali escluse: sigle del framework e dei requisiti, numeri di feature, date, versioni, riferimenti di sezione, numeri di divergenza dei verbali, nomi di standard, numerazione degli elenchi ordinati, codice in linea, bersagli dei link, intestazioni e blocchi di codice. L'elenco completo è dichiarato in [`scripts/check_audit_coherence.py`](../scripts/check_audit_coherence.py), perché una esclusione non scritta è una esclusione che nessuno può contestare.
+
+Dentro quel perimetro nessuna quantità può comparire senza che chi scrive abbia dichiarato se sia un valore misurato o no: è la differenza rispetto al documento della feature 002, dove le quantità non marcate producevano un avviso e tre<!--#--> affermazioni errate sono passate proprio da lì.
 
 **Che cosa il controllo non copre**, e va detto perché estendere la copertura sposta il confine invece di eliminarlo:
 
 - **una dichiarazione falsa di non-misurato.** Nessun meccanismo impedisce di marcare come non misurato un numero che invece lo è. Contro questo esiste la revisione in contesto pulito, non il controllo;
 - **le affermazioni qualitative senza contenuto numerico.** «La deduplicazione è priva di perdita» è verificata dalla pipeline come invariante, non da questo controllo;
-- **i numeri che sono fatti dichiarati altrove.** La copertura temporale dei due<!--#--> cataloghi — 2021<!--#--> e 2022<!--#--> — è stabilita dalla constitution fra le fonti dati ammesse, non è un valore di questi artefatti, e porta il marcatore di non-misurato con la fonte citata in prosa;
-- **le soglie.** Una soglia scelta da questa feature è una stipulazione, non un fatto sui dati. Dove è possibile la si ancora al proprio valore registrato fra le convenzioni del rendiconto; dove ricorre in prosa porta il marcatore di non-misurato.
+- **i numeri che sono fatti dichiarati altrove**, ma solo dove lo sono davvero. I due<!--#--> cataloghi hanno coperture diverse per statuto: per il catalogo video l'anno più recente di uscita è **anche** un valore del profilo, 2021<!--@NF.num.release_year.max-->, ed è quindi ancorato; per il catalogo musicale il 2022<!--#--> è stabilito dalla constitution fra le fonti dati ammesse e non compare in alcun artefatto, quindi porta il marcatore di non-misurato con la fonte citata in prosa. La distinzione va fatta invece che appiattita: un numero ancorabile che non viene ancorato è il caso peggiore di questa categoria;
+- **le soglie.** Una soglia scelta da questa feature è una stipulazione, non un fatto sui dati. Dove è possibile la si ancora al proprio valore registrato fra le convenzioni del rendiconto; dove ricorre in prosa porta il marcatore di non-misurato;
+- **le quantità espresse con frazioni o ordinali in lettere** — «un quinto», «la metà», «un decimo di punto». Il vocabolario dei numerali del controllo si ferma a venti<!--#--> e non le riconosce: restano presidiate a mano, e questa riga esiste perché chi legge sappia dove il presidio è umano.
 
 ## 3. Le cinque decisioni ereditate
 
@@ -44,7 +49,7 @@ Cinque<!--#--> decisioni arrivavano dalle revisioni in contesto pulito delle fea
 
 **La ragione**: zero<!--#--> è un valore ammissibile di un indice definito su 0-100<!--#-->, non un valore mancante. Nulla nei dati distingue una traccia genuinamente non popolare da una non misurata, e non esiste alcun criterio osservabile per farlo. Escluderle significherebbe scegliere per conto di una misura che questa feature non possiede. La forma adottata è anche la sola che non pregiudica le altre due<!--#-->: l'indicatore consente a valle sia di includere sia di escludere, mentre l'eliminazione in pipeline sarebbe irreversibile.
 
-**L'effetto**: 15.844<!--@CL.SP.zero.rows.after--> righe marcate, il 13,95%<!--@CL.SP.zero.pct.after--> del totale alla grana coppia traccia-genere. Nessuna riga e' rimossa per il valore di popolarita': e' verificato come invariante a ogni esecuzione.
+**L'effetto**: 15.844<!--@CL.SP.zero.rows.after--> righe marcate, il 13,95%<!--@CL.SP.zero.pct.after--> del totale alla grana coppia traccia-genere. Nessuna riga è rimossa per il valore di popolarità: è verificato come invariante a ogni esecuzione.
 
 **L'obbligo che ne discende**: qualunque misura del framework calcolata sulla popolarità **deve pubblicare accanto al proprio valore la quota di zeri del segmento su cui è calcolata**. Vale in particolare per `BQ2-K1`. La feature 007 eredita l'obbligo, non la scelta.
 
@@ -54,7 +59,7 @@ Cinque<!--#--> decisioni arrivavano dalle revisioni in contesto pulito delle fea
 
 **Il fatto su cui la decisione poggia.** Il profilo registra 3<!--@NF.duration.missing--> titoli privi di durata e 3<!--@NF.rating.out_of_domain.rows--> titoli con classificazione per età fuori dal dominio dichiarato, i cui valori sono `66 min`<!--@catalogs.netflix_rating_out_of_domain-->, `74 min`<!--@catalogs.netflix_rating_out_of_domain--> e `84 min`<!--@catalogs.netflix_rating_out_of_domain-->. Una verifica sui dati di origine mostra che si tratta **degli stessi titoli**: `s5542`<!--@catalogs.netflix_repaired_titles-->, `s5795`<!--@catalogs.netflix_repaired_titles--> e `s5814`<!--@catalogs.netflix_repaired_titles-->. La corrispondenza è totale in entrambe le direzioni — non esiste una riga senza durata con classificazione valida, né una riga con classificazione a forma di durata che abbia una durata.
 
-Sono tre<!--#--> special di stand-up dello stesso artista. Non è un caso sparso: è la firma di un errore di caricamento su un lotto omogeneo, e rende l'ipotesi dello scivolamento di colonna più solida della sola coincidenza numerica.
+I tre<!--#--> titoli sono `Louis C.K. 2017`<!--@catalogs.netflix_repaired_title_names-->, `Louis C.K.: Hilarious`<!--@catalogs.netflix_repaired_title_names--> e `Louis C.K.: Live at the Comedy Store`<!--@catalogs.netflix_repaired_title_names-->: un lotto omogeneo per interprete, registrato nel rendiconto e non da prendere sulla parola. È **compatibile** con un errore di caricamento su un blocco contiguo di righe, e rende l'ipotesi dello scivolamento di colonna più solida della sola coincidenza numerica. Resta un'ipotesi sul processo editoriale di un terzo, che nessun dato di questo progetto può confermare.
 
 **La decisione**, in tre<!--#--> movimenti:
 
@@ -68,7 +73,7 @@ Nel codice le due<!--#--> operazioni sono due<!--#--> funzioni separate, e non p
 
 **Il vincolo che rende la riparazione difendibile.** La regola dichiara in anticipo quante righe si aspetta di toccare, e la pipeline **si ferma con errore** se ne tocca un numero diverso. Una regola di riparazione senza un limite dichiarato al proprio raggio d'azione è una regola che, su una versione diversa della fonte, riscrive dati senza che nessuno se ne accorga.
 
-**L'effetto**: 3<!--@CL.NF.duration.repaired.rows--> righe riparate. Il controllo di dominio, applicato dopo, non trova alcun residuo: 0<!--@CL.NF.rating.out_of_domain.blanked--> valori ulteriori posti a mancante. Nessuna riga e' eliminata, e la pipeline lo verifica confrontando il conteggio con il profilo.
+**L'effetto**: 3<!--@CL.NF.duration.repaired.rows--> righe riparate. Il controllo di dominio, applicato dopo, non trova alcun residuo: 0<!--@CL.NF.rating.out_of_domain.blanked--> valori ulteriori posti a mancante. Nessuna riga è eliminata, e la pipeline lo verifica confrontando il conteggio con il profilo.
 
 **La regola generale che resta in piedi**: fuori da questo caso, nessuna durata mancante viene imputata e nessuna riga viene eliminata perché priva di durata. Un titolo senza durata resta un titolo del catalogo: eliminarlo cambierebbe il denominatore della North Star `BQ1-K1`. L'esclusione dai calcoli spetta alla misura, che deve dichiarare il proprio denominatore.
 
@@ -82,7 +87,7 @@ Nel codice le due<!--#--> operazioni sono due<!--#--> funzioni separate, e non p
 
 **La ragione**: le due<!--#--> quote rispondono a domande diverse e solo una delle due<!--#--> è una sovrastima. La prima è una proprietà del file — quanta parte delle sue righe è ridondante — e ha per denominatore le righe, cioè la grandezza sbagliata. Una sovrastima si misura invece rispetto al valore giusto: quanto il totale errato eccede quello corretto. Il denominatore è il totale sulle tracce distinte, ed è la seconda lettura. Che sia anche quella che la parola *sovrastima* suggerisce più naturalmente lo aveva già osservato la nota di §5.2.
 
-**La conseguenza sul testo**: «circa un quinto» descrive correttamente la prima lettura e non la seconda. La nota in loco che dichiara la lettura adottata va apposta in §5.2 del business case, ed è debito di questa feature.
+**La conseguenza sul testo**: «circa un quinto» descrive correttamente la prima lettura e non la seconda. La nota in loco che dichiara la lettura adottata **è stata apposta** in §5.2 di [`docs/business_case.md`](business_case.md), accanto alla nota di correzione che aveva registrato l'ambiguità: il valore originale non è stato cancellato né riscritto, come vuole la prassi di correzione degli artefatti già mergiati. La stessa prassi è stata seguita in §3.5 di [`docs/data_audit.md`](data_audit.md) per la soglia di D4.
 
 **L'effetto**: sul dato trasformato l'errore vale 26,53%<!--@CL.SP.track.inflation.after-->, non più 27,03%<!--@SP.id.inflation-->, perché la deduplicazione di coppia ha spostato il numeratore. È il valore da citare d'ora in avanti.
 
@@ -123,11 +128,11 @@ Nel codice le due<!--#--> operazioni sono due<!--#--> funzioni separate, e non p
 
 ## 4. Le nove decisioni di trattamento
 
-Nove<!--#--> decisioni sono applicate ai dati. Cinque<!--#--> sono quelle ereditate di §3; quattro<!--#--> sono emerse dalla ricognizione sui dati reali condotta prima di scrivere la pipeline. Ciascuna è dichiarata qui con il proprio effetto misurato.
+Nove<!--#--> decisioni sono applicate ai dati. Cinque<!--#--> discendono dalle decisioni ereditate di §3 — **D2 ne produce due<!--#-->**, perché la riparazione e il controllo di dominio restano operazioni distinte, e **D5 non compare qui** perché è una regola sui documenti e non un trattamento dei dati. Le altre quattro<!--#--> sono emerse dalla ricognizione sui dati reali condotta prima di scrivere la pipeline. Ciascuna è dichiarata con il proprio effetto misurato.
 
 | # | Decisione | Origine | Effetto | Marcatura sui dati |
 |---|---|---|---|---|
-| 1<!--#--> | popolarità zero<!--#--> conservata e marcata | D1 | 15.844<!--@CL.SP.zero<!--#-->.rows.after--> righe | `is_popularity_zero` |
+| 1<!--#--> | popolarità zero<!--#--> conservata e marcata | D1 | 15.844<!--@CL.SP.zero.rows.after--> righe | `is_popularity_zero` |
 | 2<!--#--> | riparazione dello scivolamento di colonna | D2 | 3<!--@CL.NF.duration.repaired.rows--> righe | `is_repaired_duration` |
 | 3<!--#--> | classificazione fuori dominio posta a mancante | D2 | 0<!--@CL.NF.rating.out_of_domain.blanked--> valori residui | — |
 | 4<!--#--> | totali di catalogo sulla grana traccia | D3 | 26,53%<!--@CL.SP.track.inflation.after--> di errore evitato | — |
@@ -139,7 +144,7 @@ Nove<!--#--> decisioni sono applicate ai dati. Cinque<!--#--> sono quelle eredit
 
 Le quattro<!--#--> emerse dalla ricognizione meritano la loro ragione per esteso.
 
-### 6 — La grana coppia traccia-genere non era unica
+### Decisione 6 — La grana coppia traccia-genere non era unica
 
 L'audit della 002 aveva stabilito che la riga della fonte non è la traccia: 114.000<!--@SP.shape.rows--> righe per 89.741<!--@SP.id.distinct--> identificativi distinti. Ne concludeva che esistono due<!--#--> grane non intercambiabili. La ricognizione mostra che **la seconda di quelle due<!--#--> non è unica nemmeno lei**: 444<!--@CL.SP.pair.duplicate_pairs--> coppie traccia-genere compaiono più di una volta, per 450<!--@CL.SP.pair.removed_rows--> righe eccedenti. È un fatto che né la 001 né la 002 registrano.
 
@@ -147,11 +152,11 @@ La deduplicazione è quindi obbligatoria, perché la pipeline verifica la grana 
 
 **L'effetto**: da 114.000<!--@SP.shape.rows--> a 113.550<!--@CL.SP.pair.rows.after--> righe.
 
-### 7 — La deduplicazione a traccia non è priva di perdita
+### Decisione 7 — La deduplicazione a traccia non è priva di perdita
 
 Vedi §6 del documento per la quantificazione. La regola è: dove le repliche di una traccia discordano, la grana deduplicata conserva il **massimo osservato**.
 
-### 8 — Le date erano una trappola di determinismo
+### Decisione 8 — Le date erano una trappola di determinismo
 
 Il campo delle date di aggiunta contiene forme testuali inglesi, e 88<!--@CL.NF.date_added.trimmed--> valori portano uno spazio iniziale. Il problema non è lo spazio, che è banale da normalizzare: è che la conversione ovvia — la funzione di libreria che interpreta il nome del mese — **dipende dal locale del sistema**. Funziona sotto locale inglese e fallisce sotto locale italiano.
 
@@ -159,11 +164,11 @@ Una pipeline che la usasse produrrebbe risultati diversi su macchine diverse, ci
 
 **L'effetto**: 8.797<!--@CL.NF.date_added.converted--> valori convertiti, 10<!--@CL.NF.date_added.missing--> lasciati vuoti e non imputati.
 
-### 9 — Si normalizza un campo multi-valore su quattro
+### Decisione 9 — Si normalizza un campo multi-valore su quattro
 
 Il campo delle categorie del catalogo video è multi-valore, e produce una tabella propria: 19.323<!--@CL.NF.category.assignments--> assegnazioni su 42<!--@CL.NF.category.distinct--> categorie. Ma sono multi-valore anche `country`<!--@catalogs.netflix_multivalue_not_normalized-->, `cast`<!--@catalogs.netflix_multivalue_not_normalized--> e `director`<!--@catalogs.netflix_multivalue_not_normalized-->, che restano stringhe di sorgente.
 
-La ragione è che la normalizzazione ha un consumatore dichiarato solo nel primo caso: `BQ1-K1` conta titoli per categoria, ed è il caso in cui i conteggi non sono sommabili. Gli altri 3<!--@CL.NF.multivalue.fields_not_normalized--> campi non alimentano alcuna misura del framework, e normalizzarli produrrebbe tre<!--#--> tabelle senza lettore.
+La ragione è che la normalizzazione ha un consumatore dichiarato solo nel primo caso: `BQ1-K1` conta titoli per categoria, ed è il caso in cui i conteggi non sono sommabili. Gli altri 3<!--@CL.NF.multivalue.fields_not_normalized--> campi non alimentano alcuna misura del framework, e normalizzarli produrrebbe altrettante tabelle senza lettore.
 
 **Va detto come limite, non come dettaglio**: chi in futuro volesse contare titoli per paese incontrerà lo stesso problema di sommabilità, non risolto.
 
@@ -184,7 +189,7 @@ Il conto dei valori del profilo torna per intero, ed è verificato come invarian
 | fuori perimetro — la trasformazione non può toccarli | 6<!--@CL.meta.profile_values.out_of_scope--> |
 | **totale** | 1.030<!--@CL.meta.profile_values.total--> |
 
-Senza quell'invariante l'affermazione sarebbe vera soltanto per i valori che qualcuno si fosse ricordato di confrontare, e nessuno potrebbe accorgersi dei dimenticati. Alla prima esecuzione ne ha fermati sei<!--#-->.
+Senza quell'invariante l'affermazione sarebbe vera soltanto per i valori che qualcuno si fosse ricordato di confrontare, e nessuno potrebbe accorgersi dei dimenticati. Alla sua prima esecuzione l'invariante ha effettivamente fermato la pipeline su valori che erano stati dimenticati — è un fatto sulla lavorazione, che nessun artefatto registra e che il lettore non può verificare; il conto verificabile è quello della tabella.
 
 ### I cambiamenti che chi legge deve conoscere
 
@@ -192,18 +197,24 @@ Senza quell'invariante l'affermazione sarebbe vera soltanto per i valori che qua
 |---|---:|---:|---|
 | film con durata valorizzata | 6.128<!--@NF.num.movie_duration_min.count--> | 6.131<!--@CL.NF.duration.movie.count.after--> | la riparazione di D2 |
 | titoli privi di durata | 3<!--@NF.duration.missing--> | 0<!--@CL.NF.recalc.duration.missing--> | la riparazione di D2 |
-| classificazioni mancanti | 4<!--@NF.miss.rating.count--> | 7<!--@CL.NF.rating.missing.after--> | la riparazione di D2 svuota tre<!--#--> valori |
-| valori distinti di classificazione | 17<!--@NF.card.rating--> | 14<!--@CL.NF.recalc.card.rating--> | i tre<!--#--> fuori dominio non compaiono più |
+| classificazioni mancanti | 4<!--@NF.miss.rating.count--> | 7<!--@CL.NF.rating.missing.after--> | la riparazione di D2 ne svuota 3<!--@CL.NF.duration.repaired.rows--> |
+| valori distinti di classificazione | 17<!--@NF.card.rating--> | 14<!--@CL.NF.recalc.card.rating--> | i 3<!--@NF.rating.out_of_domain.values--> fuori dominio non compaiono più |
 | date distinte | 1.767<!--@NF.card.date_added--> | 1.714<!--@CL.NF.recalc.card.date_added--> | vedi sotto |
 | righe del catalogo musicale | 114.000<!--@SP.shape.rows--> | 113.550<!--@CL.SP.recalc.shape.rows--> | la deduplicazione di coppia |
 | quota di righe ripetute | 21,28%<!--@SP.id.duplicate_share--> | 20,97%<!--@CL.SP.recalc.id.duplicate_share--> | la deduplicazione di coppia |
 | eccesso del totale non deduplicato | 27,03%<!--@SP.id.inflation--> | 26,53%<!--@CL.SP.recalc.id.inflation--> | la deduplicazione di coppia |
-| righe a popolarità zero<!--#--> | 16.020<!--@SP.pop.zero<!--#-->.count--> | 15.844<!--@CL.SP.recalc.pop.zero<!--#-->.count--> | la deduplicazione di coppia |
-| quota di righe a popolarità zero<!--#--> | 14,05%<!--@SP.pop.zero<!--#-->.pct--> | 13,95%<!--@CL.SP.recalc.pop.zero<!--#-->.pct--> | la deduplicazione di coppia |
+| righe a popolarità zero<!--#--> | 16.020<!--@SP.pop.zero.count--> | 15.844<!--@CL.SP.recalc.pop.zero.count--> | la deduplicazione di coppia |
+| quota di righe a popolarità zero<!--#--> | 14,05%<!--@SP.pop.zero.pct--> | 13,95%<!--@CL.SP.recalc.pop.zero.pct--> | la deduplicazione di coppia |
 
 **Le date distinte meritano una spiegazione, perché il caso è istruttivo.** Il profilo ne conta 1.767<!--@NF.card.date_added-->; dopo la normalizzazione sono 1.714<!--@CL.NF.recalc.card.date_added-->. Il profilo non sbaglia: descrive correttamente il dato grezzo, dove una data con spazio iniziale e la stessa data senza **sono due<!--#--> stringhe diverse**. Ma chi legga quel numero come «quante date distinte esistono nel catalogo» sovrastima. Non è un errore del profilo, è un'ambiguità che solo la trasformazione rende visibile.
 
-**Le quote di zeri per genere cambiano su 78<!--#--> generi su 114<!--@SP.genre.count-->**, e qui va segnalata una distinzione che il lettore incontrerà. Il confronto avviene sul valore, non sulla forma con cui lo si scrive: dei 78<!--#--> generi che cambiano, solo su 48<!--#--> la differenza è visibile anche alla seconda cifra decimale. Sugli altri il valore si sposta oltre. Chi confrontasse le tabelle stampate ne conterebbe 48<!--#-->; il blocco dei denominatori ne registra 78<!--#-->, perché usa il criterio stretto.
+**Le quote di zeri per genere risultano cambiate su 78<!--@CL.SP.zero.by_genre.changed--> generi su 114<!--@SP.genre.count-->, e il numero va letto con cautela**, perché in gran parte non misura un movimento nei dati.
+
+La ragione non è di formattazione. Nel catalogo di origine ogni genere ha **esattamente** 1.000<!--@SP.genre.rows_min--> righe — il campione è bilanciato per costruzione — quindi la quota di zeri di un genere ha per forza una sola cifra decimale. Dopo la deduplicazione i denominatori non sono più tutti uguali e le quote ne acquistano altre. Un confronto stretto le trova quindi quasi sempre diverse.
+
+Quanto di quel 78<!--@CL.SP.zero.by_genre.changed--> sia apparente è misurabile, ed è misurato: 60<!--@CL.SP.zero.by_genre.changed_within_profile_precision--> generi **tornano identici** una volta arrotondata la quota nuova alla precisione con cui il profilo la registrava, e i generi che si spostano di più di mezzo punto sono 3<!--@CL.SP.zero.by_genre.moved_over_half_point-->. Chi confrontasse le tabelle stampate ne conterebbe 48<!--@CL.SP.zero.by_genre.changed_visible-->.
+
+Il blocco dei denominatori li registra comunque tutti e 78<!--@CL.SP.zero.by_genre.changed-->, e la scelta è deliberata: un valore che cambia oltre la precisione con cui era stato pubblicato **è** cambiato, e tacerlo significherebbe decidere per conto di chi lo citerà quale differenza sia trascurabile. Ma il numero che descrive il movimento dei dati è 3<!--@CL.SP.zero.by_genre.moved_over_half_point-->, non 78<!--@CL.SP.zero.by_genre.changed-->.
 
 ## 6. La perdita della deduplicazione
 
@@ -213,9 +224,9 @@ Su 89.741<!--@CL.SP.track.rows.after--> tracce distinte, 720<!--@CL.SP.track.pop
 
 **La regola**: si conserva il **massimo osservato**. È un valore effettivamente presente nella fonte; media e mediana ne produrrebbero uno che nessuna riga contiene. Fra i candidati che conservano un valore osservato — massimo, minimo, prima occorrenza — la prima occorrenza è deterministica ma arbitraria, perché dipende dall'ordine di esportazione della fonte, cioè da nulla di interpretabile. Il massimo è invece leggibile come enunciato: *la popolarità più alta che quella traccia ha registrato nel dataset*.
 
-**L'entità della perdita.** Lo scarto fra le repliche discordi è quasi sempre trascurabile e ha una coda: 13<!--@CL.SP.track.popularity_conflict.spread_over_10--> tracce superano i dieci<!--#--> punti di scarto, e il massimo osservato è 44<!--@CL.SP.track.popularity_conflict.spread_max--> punti.
+**L'entità della perdita, per quanto è misurata.** Le tracce che superano i dieci<!--#--> punti di scarto sono 13<!--@CL.SP.track.popularity_conflict.spread_over_10--> su 720<!--@CL.SP.track.popularity_conflict.tracks-->, e il massimo osservato è 44<!--@CL.SP.track.popularity_conflict.spread_max--> punti. Sono due<!--#--> osservazioni sulla **coda**, non sul centro: quanto valga lo scarto tipico questo documento non lo dice, e non lo dice per la ragione spiegata più sotto.
 
-**La distorsione va dichiarata, non solo la regola.** Conservare il massimo introduce una distorsione **verso l'alto**, sistematica per costruzione ancorché minima. Chi cita un totale o una distribuzione sulla grana traccia cita anche questa regola. Le righe interessate portano un indicatore, così che una misura possa escluderle se la scelta la disturba.
+**La distorsione va dichiarata, non solo la regola.** Conservare il massimo introduce una distorsione **verso l'alto**, sistematica per costruzione. Di quale ampiezza sia, questo documento non lo afferma: le due<!--#--> osservazioni qui sopra riguardano la coda. Chi cita un totale o una distribuzione sulla grana traccia cita anche questa regola. Le righe interessate portano un indicatore, così che una misura possa escluderle se la scelta la disturba.
 
 **Perché non si è misurata la dispersione con una mediana.** Sarebbe stata la strada ovvia, ed è esclusa per non introdurre in questo artefatto una misura di posizione che il perimetro della feature tiene fuori. Il massimo e il conteggio della coda descrivono la stessa cosa senza aprire quella porta.
 
@@ -225,9 +236,11 @@ I 7<!--@CL.SP.zero.high_genres.count--> generi selezionati dal criterio di D4 so
 
 **Questa lista è l'esito di un taglio, non una proprietà naturale dei dati.** La distinzione conta: una lista prodotta da un criterio si legge diversamente da una classifica, e chi la cita a valle deve sapere quale delle due<!--#--> ha in mano.
 
-**La sensibilità della soglia.** Il genere più vicino da sotto — escluso — è al 48,45%<!--@CL.SP.zero.high_genres.nearest_below-->; il più vicino da sopra — incluso — è al 52,50%<!--@CL.SP.zero.high_genres.nearest_above-->. Nessun genere sta a un decimo di punto dal confine: attorno alla soglia c'è un margine di alcuni punti in entrambe le direzioni.
+**La sensibilità della soglia.** Il genere più vicino da sotto — escluso — è al 48,45%<!--@CL.SP.zero.high_genres.nearest_below-->; il più vicino da sopra — incluso — è al 52,50%<!--@CL.SP.zero.high_genres.nearest_above-->. Attorno alla soglia c'è quindi un margine di **1,55<!--#--> punti sotto e 2,50<!--#--> sopra**: nessun genere le sta appiccicato.
 
-**Una constatazione, non la ragione della scelta.** La soglia scartata del 60%<!--#--> sarebbe stata più esposta: con quella, un genere sarebbe rimasto fuori per meno di un punto e mezzo. Che la soglia scelta per una ragione risulti anche la più stabile delle due<!--#--> è una circostanza favorevole verificata a posteriori, e va letta come tale — non come l'argomento che l'ha motivata, che è quello di D4.
+**Il confronto con la soglia scartata, dato per intero.** Con il 60%<!--#--> i margini sarebbero stati 59,09%<!--@CL.SP.zero.high_genres.nearest_below_60--> da sotto e 61,06%<!--@CL.SP.zero.high_genres.nearest_above_60--> da sopra, cioè **0,91<!--#--> punti sotto e 1,06<!--#--> sopra**. L'esposizione della soglia scartata è simmetrica come quella adottata, e più stretta su entrambi i lati.
+
+Se ne ricava che la soglia adottata è la più stabile delle due<!--#-->, e la conclusione poggia sul confronto completo invece che su metà di esso. Resta una **circostanza favorevole verificata a posteriori**, non l'argomento che ha motivato la scelta: quello è in D4 e non dipende da questi margini.
 
 **Le quote sono ricalcolate, non riprese dal profilo.** La deduplicazione ha spostato i denominatori, e usare le quote del profilo avrebbe selezionato l'insieme su dati che non esistono più. L'insieme selezionato risulta comunque **identico** prima e dopo la trasformazione: è una constatazione sulla robustezza del criterio, non una giustificazione della soglia.
 
@@ -293,3 +306,19 @@ Questa feature **non introduce numeri nuovi sul mondo**. Ogni valore che produce
 **Inferenza da evitare — la marcatura di uno zero<!--#--> non è un giudizio sulla traccia.** L'indicatore dice che l'indice di popolarità di quella riga vale zero<!--#-->, non che la traccia sia irrilevante. Nulla nei dati distingue una traccia non popolare da una non misurata.
 
 **Inferenza da evitare — l'insieme dei generi di §7 è l'esito di un taglio.** La soglia è scelta e motivata, e la lista che ne esce va letta come tale.
+
+## 11. Ritrovamenti che questa feature registra e non chiude
+
+Non tutto ciò che si trova si corregge nel momento in cui lo si trova. Dove il difetto appartiene a un'altra feature o al debito dichiarato altrove, questa feature lo registra e si ferma. Sono quattro<!--#-->.
+
+**La grana coppia traccia-genere non era unica, e nessuno lo aveva registrato.** L'audit della feature 002 stabilisce che la riga della fonte non è la traccia e ne ricava due<!--#--> granularità. La seconda non è unica nemmeno lei: 444<!--@CL.SP.pair.duplicate_pairs--> coppie compaiono più di una volta. Questa feature lo tratta come decisione di trattamento e lo dichiara in §4; non modifica il documento di audit, dove l'affermazione originale resta vera perché descrive le granularità, non la loro unicità.
+
+**Il conteggio delle date distinte del profilo si presta a essere letto male.** Vedi §5. Il valore è corretto come descrizione del dato grezzo e fuorviante come risposta alla domanda «quante date esistono». Non è un errore da correggere in loco: è un'ambiguità che solo la trasformazione rende visibile, ed è registrata qui.
+
+**La severità del controllo non è stata estesa al documento di audit.** Il corollario (c) della decisione D5 vale per il documento di questa feature. Applicarlo a quello della 002 richiederebbe di rimarcarne ogni quantità — le occorrenze oggi segnalate come avvisi sono decine, e il comando le elenca — cioè di riscrivere un artefatto già mergiato. Non entra nel perimetro di questa feature e va deciso da chi ha il contesto per farlo.
+
+> **Perché qui non compare un conteggio.** Una versione precedente di questo paragrafo pubblicava il numero degli avvisi. Era l'unico numero del documento che un lettore potesse falsificare in pochi secondi eseguendo il comando di §2, e si è degradato da solo: le note di adozione che questa feature ha aggiunto al documento di audit ne hanno introdotti altri. Un numero prodotto dal controllo non è un valore degli artefatti, cambia a ogni modifica dei documenti, e pubblicarlo in prosa significa impegnarsi a riscriverlo ogni volta. Il conteggio si ottiene eseguendo il comando; qui resta l'affermazione, che non scade.
+
+**Il controllo di coerenza segnalava gli avvisi sulla riga sbagliata.** Le sostituzioni che ripuliscono il testo prima della scansione cancellavano anche i ritorni a capo, e da lì in avanti i numeri di riga slittavano. Il difetto era latente nella feature 002 ed è stato corretto qui, perché il controllo è lo stesso ed estenderlo senza correggerlo avrebbe propagato l'errore. La correzione elimina anche un avviso spurio sul documento di audit, nato dalla fusione di due<!--#--> righe; marcatori ed esito di quel documento restano invariati.
+
+**Il controllo non falliva su un'ancora malformata.** Una revisione in contesto pulito ha trovato in questo documento cinque<!--#--> ancore in cui un marcatore era finito **dentro** l'identificativo. La grammatica non ammette quella forma, il motore ripiegava sull'alternativa e le declassava in silenzio a dichiarazioni di non-misurato: il controllo passava, e il documento reso mostrava testo spezzato al posto dei numeri. Le ancore sono state ripristinate e il controllo ora fallisce su entrambi i sintomi — un'apertura di commento dentro il valore catturato, e una chiusura di commento rimasta nel testo. È il difetto più grave trovato dalla revisione, e il fatto che il controllo non lo vedesse è più grave del difetto.
