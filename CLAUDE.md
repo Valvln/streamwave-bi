@@ -12,6 +12,7 @@ Regola generale, da cui discendono quasi tutte le altre: **se una cosa non è sc
 | [`docs/roadmap.md`](docs/roadmap.md) | ordine delle feature, stime in ore, dipendenze, debito aperto, rischi | la sessione di regia |
 | `specs/NNN-nome/spec.md` | cosa la feature attiva deve fare e cosa non deve fare | la sessione esecutiva, tramite `/speckit.specify` |
 | `specs/NNN-nome/review.md` | verbale di revisione, dove esiste | una sessione di revisione in contesto pulito |
+| [`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md) | la grammatica con cui ogni numero pubblicato è legato all'artefatto che lo produce, e che cosa il controllo garantisce | la feature che estende la grammatica, con nota in coda alla tabella di provenienza |
 
 La constitution prevale su tutto. Questo file non ne ripete i principi né i gate: li presuppone. In caso di conflitto fra le due, vince la constitution e questo file va corretto.
 
@@ -61,6 +62,30 @@ Non tutto ciò che è sbagliato si corregge nel momento in cui lo si trova. Se i
 **Perché in loco e non un'errata.** È una scelta di metodo, non una constatazione, e va difesa come tale: un'errata separata lascia intatto il documento originale ma pretende che chi legge ne conosca l'esistenza; una nota in loco sporca il documento ma raggiunge chiunque legga il passaggio. Per artefatti destinati a essere letti da fuori — che è ciò che questo progetto produce — vince la seconda.
 
 Il precedente esecutivo è il commit `c011103` sulla feature 001. Le correzioni si propongono come commit `fix:` separati, come qualunque altra modifica.
+
+## Le affermazioni derivate sono esse stesse valori
+
+Regola di progetto, nata come decisione **D5 della feature 003** e valida da qui in avanti per ogni documento che pubblichi misure. La feature che l'ha prodotta si è deliberatamente fermata prima di scriverla qui: portarla dagli artefatti di una feature al metodo del progetto è atto di governance, e appartiene alla regia.
+
+> Un confronto, una graduatoria, un rapporto o una differenza costruiti su valori misurati **sono essi stessi valori misurati**. O esistono nell'artefatto con un identificativo proprio e vengono ancorati come qualunque altro numero, o non si scrivono. Non esiste la categoria intermedia dell'affermazione che «si ricava dai numeri già pubblicati e quindi non ha bisogno di fonte».
+>
+> Tre corollari:
+> **(a)** superlativi, ordinali e moltiplicatori riferiti a fatti misurati sono ammessi solo se ancorati a un valore che li sostiene;
+> **(b)** i numerali scritti in lettere sono vietati per qualunque fatto misurato;
+> **(c)** il controllo di coerenza **fallisce** — non avvisa — su un numerale non ancorato in posizione di fatto misurato.
+
+**Perché è una regola e non un consiglio.** Le tre affermazioni errate che la revisione della 002 ha trovato nel documento di audit erano tutte e tre affermazioni derivate: «il secondo campo più incompleto», «tre delle sei corrispondenze», «un dominio quattro volte più ricco». Nessun valore le conteneva, nessun controllo le verificava, ed erano passate sotto un esito verde. È la zona in cui gli errori si concentrano, perché è l'unica in cui chi scrive calcola a mente.
+
+**Il corollario (c) si realizza spostando l'onere su chi scrive**, non facendo indovinare al controllo se un numerale sia un fatto: ogni numerale porta o l'ancora o il marcatore di non-misurato. L'euristica sulla prosa italiana è vietata dalla 002 e resta vietata.
+
+**Due precisazioni che vanno con la regola**, entrambe dovute al rilievo R7 della revisione della 003:
+
+- **il corollario (b) e la forma «numerale in lettere ancorato» convivono.** Il controllo continua ad accettare quella forma perché la usa il documento della 002; i documenti nuovi non la usano, perché (b) è la regola più severa. La forma non viene rimossa dalla grammatica: rimuoverla romperebbe un artefatto già mergiato per guadagnare una semplificazione che nessuno sta chiedendo;
+- **un fatto misurato non deve mai portare il marcatore di non-misurato.** È una dichiarazione materialmente falsa, ed è la categoria che il controllo non può presidiare: contro di essa esiste solo la revisione in contesto pulito.
+
+**La severità stretta di (c) non è retroattiva**: vale per i documenti nuovi ed è dichiarata per documento dentro `scripts/check_audit_coherence.py`. Il documento della 002 resta sotto il regime ad avvisi finché il debito registrato in roadmap non lo chiude.
+
+La grammatica dei marcatori, le esclusioni strutturali e il confine della garanzia stanno in [`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md), che è la fonte unica: un documento pubblicato non delega la propria chiave di lettura a una cartella sotto `specs/`, che il lettore esterno non ha ragione di aprire.
 
 ## Convenzioni
 

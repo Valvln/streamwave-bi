@@ -52,14 +52,18 @@ I due documenti che pubblicano misure — l'audit e il cleaning — legano ogni 
 # 1. Dati raw (non versionati — vedi data/README.md)
 ./scripts/download_data.sh
 
-# 2. Profilo dei dataset (richiede i dati raw del passo 1)
+# 2. Profilo dei dataset di origine (richiede i dati raw del passo 1)
 python3 scripts/profile_data.py
 
-# 3. Coerenza fra il documento di audit e il profilo (NON richiede i dati raw)
+# 3. Pipeline di trasformazione: scrive i quattro dataset in data/processed/
+#    e il rendiconto reports/cleaning_report.json (richiede i dati raw)
+python3 scripts/build_datasets.py
+
+# 4. Coerenza fra i documenti pubblicati e gli artefatti (NON richiede i dati raw)
 python3 scripts/check_audit_coherence.py
 ```
 
-Nessuna dipendenza da installare: gli script usano la sola libreria standard di Python 3. Il passo 3 funziona su una copia del repository priva di `data/raw/`, perché confronta due artefatti entrambi versionati.
+Nessuna dipendenza da installare: gli script usano la sola libreria standard di Python 3. Il passo 4 funziona su una copia del repository priva di `data/raw/`, perché confronta soltanto artefatti versionati — è il modo in cui chi non ha i dati di origine verifica che i numeri dei documenti non siano stati scritti a mano.
 
 ## Struttura
 
@@ -68,7 +72,8 @@ Nessuna dipendenza da installare: gli script usano la sola libreria standard di 
 .claude/        # comandi /speckit.* per Claude Code
 .github/        # prompt /speckit.* per GitHub Copilot
 data/           # raw / interim / processed (gitignored)
-reports/        # artefatti generati e versionati (profilo dei dati)
+docs/           # i documenti pubblicati: business case, audit, cleaning, convenzioni, roadmap
+reports/        # artefatti generati e versionati: profilo dei dati e rendiconto delle trasformazioni
 scripts/        # utility riproducibili
 specs/          # una cartella per feature: spec.md, plan.md, tasks.md
 ```
