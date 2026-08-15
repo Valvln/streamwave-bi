@@ -101,15 +101,15 @@ Vale la stessa constatazione della 002 e per gli stessi motivi: le tre storie sc
 
 > **Ordine di esecuzione consigliato**: costruire prima la Phase 5. Vedi «Strategia di implementazione».
 
-- [ ] T027 [US2] Creare `docs/data_cleaning.md` con l'impianto: perché esiste, cosa contiene, quali artefatti cita, e la dichiarazione di FR-033 su **cosa il controllo di coerenza copre e cosa no**. Il confine va scritto qui perché estendere la copertura lo sposta invece di eliminarlo — è la lezione che la 002 ha già pagato
-- [ ] T028 [US2] Scrivere in `docs/data_cleaning.md` la sezione delle **cinque decisioni ereditate** D1-D5, ciascuna dichiarata chiusa con opzioni, decisione, ragione ed effetto (FR-031, SC-006). Nessuna può essere rinviata a una feature successiva
-- [ ] T029 [US2] Scrivere in `docs/data_cleaning.md` le **nove decisioni di trattamento** di [data-model.md](./data-model.md) §2, ciascuna con enunciato, ragione, effetto quantificato ancorato a un identificativo `CL.` e riferimento all'identificativo del profilo che la motiva (FR-029, SC-005). **Allineare qui anche [contracts/output-datasets.md](./contracts/output-datasets.md)** a ciò che l'implementazione ha effettivamente prodotto — vedi la nota sotto
-- [ ] T030 [US2] Scrivere in `docs/data_cleaning.md` la sezione dei **valori che cambiano**, alimentata dal blocco `denominators`: ogni valore che dopo la trasformazione differisce dal profilo, accanto all'identificativo del profilo da cui differisce, con la ragione (FR-030, SC-007). È la sezione che protegge dal citare l'uno credendo di citare l'altro
-- [ ] T031 [US2] Scrivere in `docs/data_cleaning.md` la quantificazione della **perdita della deduplicazione** (FR-019): quante tracce hanno repliche in disaccordo, su quale attributo, con quale dispersione, e la distorsione verso l'alto che la regola del massimo introduce. Dichiarare la regola senza dichiarare quanto pesa non è dichiararla
-- [ ] T032 [US2] Scrivere in `docs/data_cleaning.md` la dichiarazione di **sensibilità della soglia** di D4: i generi selezionati, la distanza del più vicino da sotto e da sopra, e il fatto che una lista prodotta da un taglio non è una proprietà naturale dei dati. Registrare che l'insieme è invariante alla trasformazione (F4) come constatazione, non come giustificazione della soglia
-- [ ] T033 [US2] Scrivere in `docs/data_cleaning.md` l'elenco dei **campi esclusi dagli output** con la ragione — la sola colonna indice priva di nome (T11) — e la nota su `country`, `cast` e `director`, che restano non normalizzati e lasciano aperto lo stesso problema di sommabilità (T7, FR-010, SC-008)
-- [ ] T034 [US2] Scrivere in `docs/data_cleaning.md` le sezioni obbligatorie dei principi I e IV: provenienza e confidenza delle sei famiglie di valori, incluse le due a confidenza **media** con la ragione della distinzione, e i limiti dichiarati della spec — pulizia non è correttezza semantica, copertura 2021 e 2022, output non ispezionabili da chi non può rigenerarli, quattro inferenze da evitare (FR-034)
-- [ ] T035 [US2] Marcare **ogni** numerale del documento secondo il contratto §3: ancora a un identificativo per i fatti misurati, `<!--#-->` per i non misurati (FR-032, T9). È il task più lento della fase e il più facile da rimandare a dopo: rimandarlo significa rileggere il documento intero invece di decidere una frase alla volta
+- [X] T027 [US2] Creare `docs/data_cleaning.md` con l'impianto: perché esiste, cosa contiene, quali artefatti cita, e la dichiarazione di FR-033 su **cosa il controllo di coerenza copre e cosa no**. Il confine va scritto qui perché estendere la copertura lo sposta invece di eliminarlo — è la lezione che la 002 ha già pagato
+- [X] T028 [US2] Scrivere in `docs/data_cleaning.md` la sezione delle **cinque decisioni ereditate** D1-D5, ciascuna dichiarata chiusa con opzioni, decisione, ragione ed effetto (FR-031, SC-006). Nessuna può essere rinviata a una feature successiva
+- [X] T029 [US2] Scrivere in `docs/data_cleaning.md` le **nove decisioni di trattamento** di [data-model.md](./data-model.md) §2, ciascuna con enunciato, ragione, effetto quantificato ancorato a un identificativo `CL.` e riferimento all'identificativo del profilo che la motiva (FR-029, SC-005). **Allineare qui anche [contracts/output-datasets.md](./contracts/output-datasets.md)** a ciò che l'implementazione ha effettivamente prodotto — vedi la nota sotto
+- [X] T030 [US2] Scrivere in `docs/data_cleaning.md` la sezione dei **valori che cambiano**, alimentata dal blocco `denominators`: ogni valore che dopo la trasformazione differisce dal profilo, accanto all'identificativo del profilo da cui differisce, con la ragione (FR-030, SC-007). È la sezione che protegge dal citare l'uno credendo di citare l'altro
+- [X] T031 [US2] Scrivere in `docs/data_cleaning.md` la quantificazione della **perdita della deduplicazione** (FR-019): quante tracce hanno repliche in disaccordo, su quale attributo, con quale dispersione, e la distorsione verso l'alto che la regola del massimo introduce. Dichiarare la regola senza dichiarare quanto pesa non è dichiararla
+- [X] T032 [US2] Scrivere in `docs/data_cleaning.md` la dichiarazione di **sensibilità della soglia** di D4: i generi selezionati, la distanza del più vicino da sotto e da sopra, e il fatto che una lista prodotta da un taglio non è una proprietà naturale dei dati. Registrare che l'insieme è invariante alla trasformazione (F4) come constatazione, non come giustificazione della soglia
+- [X] T033 [US2] Scrivere in `docs/data_cleaning.md` l'elenco dei **campi esclusi dagli output** con la ragione — la sola colonna indice priva di nome (T11) — e la nota su `country`, `cast` e `director`, che restano non normalizzati e lasciano aperto lo stesso problema di sommabilità (T7, FR-010, SC-008)
+- [X] T034 [US2] Scrivere in `docs/data_cleaning.md` le sezioni obbligatorie dei principi I e IV: provenienza e confidenza delle sei famiglie di valori, incluse le due a confidenza **media** con la ragione della distinzione, e i limiti dichiarati della spec — pulizia non è correttezza semantica, copertura 2021 e 2022, output non ispezionabili da chi non può rigenerarli, quattro inferenze da evitare (FR-034)
+- [X] T035 [US2] Marcare **ogni** numerale del documento secondo il contratto §3: ancora a un identificativo per i fatti misurati, `<!--#-->` per i non misurati (FR-032, T9). È il task più lento della fase e il più facile da rimandare a dopo: rimandarlo significa rileggere il documento intero invece di decidere una frase alla volta
 
 > **Debito di allineamento del contratto, rinviato a T029 — deciso l'11 agosto 2026.**
 >
@@ -129,11 +129,11 @@ Vale la stessa constatazione della 002 e per gli stessi motivi: le tre storie sc
 
 **Independent Test**: alterare un valore ancorato ed eseguire il comando; aggiungere poi una cifra priva di entrambi i marcatori ed eseguirlo di nuovo. Superata se fallisce in entrambi i casi e dice cosa non va.
 
-- [ ] T036 [US3] Estendere `scripts/check_audit_coherence.py` alla risoluzione su **spazio di nomi unito** dei due artefatti, verificando l'assenza di collisioni fra i prefissi (contratto §3.3, T8) invece di assumerla
-- [ ] T037 [US3] Implementare in `scripts/check_audit_coherence.py` la **quarta forma di marcatura**, `<!--#-->`, secondo il contratto §3.1: non verifica il valore, registra che la decisione è stata presa
-- [ ] T038 [US3] Implementare in `scripts/check_audit_coherence.py` la **severità per documento** del contratto §3.2: su `docs/data_cleaning.md` una cifra o un numerale privo di entrambi i marcatori è un **errore**; su `docs/data_audit.md` resta un avviso. È il corollario (c) della decisione ereditata D5 (FR-040)
-- [ ] T039 [US3] Verificare che `scripts/check_audit_coherence.py` continui a trattare `docs/data_audit.md` esattamente come prima: stesso esito, stessi avvisi. Una modifica che rompe la verifica di un documento già mergiato è una regressione, non un'estensione
-- [ ] T040 [US3] Eseguire le verifiche SC-011, SC-012 e SC-013 di [quickstart.md](./quickstart.md), incluse le **due prove di alterazione** e la prova senza `data/raw/`. Se la prova sul numerale non discrimina fra i due documenti, la severità non è stata implementata per documento
+- [X] T036 [US3] Estendere `scripts/check_audit_coherence.py` alla risoluzione su **spazio di nomi unito** dei due artefatti, verificando l'assenza di collisioni fra i prefissi (contratto §3.3, T8) invece di assumerla
+- [X] T037 [US3] Implementare in `scripts/check_audit_coherence.py` la **quarta forma di marcatura**, `<!--#-->`, secondo il contratto §3.1: non verifica il valore, registra che la decisione è stata presa
+- [X] T038 [US3] Implementare in `scripts/check_audit_coherence.py` la **severità per documento** del contratto §3.2: su `docs/data_cleaning.md` una cifra o un numerale privo di entrambi i marcatori è un **errore**; su `docs/data_audit.md` resta un avviso. È il corollario (c) della decisione ereditata D5 (FR-040)
+- [X] T039 [US3] Verificare che `scripts/check_audit_coherence.py` continui a trattare `docs/data_audit.md` esattamente come prima: stesso esito, stessi avvisi. Una modifica che rompe la verifica di un documento già mergiato è una regressione, non un'estensione
+- [X] T040 [US3] Eseguire le verifiche SC-011, SC-012 e SC-013 di [quickstart.md](./quickstart.md), incluse le **due prove di alterazione** e la prova senza `data/raw/`. Se la prova sul numerale non discrimina fra i due documenti, la severità non è stata implementata per documento
 
 **Checkpoint**: il documento non può più divergere dagli artefatti in silenzio.
 
@@ -151,6 +151,7 @@ Vale la stessa constatazione della 002 e per gli stessi motivi: le tre storie sc
 - [ ] T046 Sottoporre `docs/data_cleaning.md` a **revisione in contesto pulito** secondo la prassi di `CLAUDE.md`: sessione separata, solo l'artefatto, senza spec, senza piano, senza history git. Produrre `specs/003-data-cleaning-etl/review.md`
 - [ ] T047 Chiudere i rilievi della revisione dentro questa feature, prima del merge, come ha fatto la 002. Dove un rilievo richiede una decisione oltre la correzione, registrarla in coda al verbale senza modificare il verbale stesso
 - [ ] T048 Riportare alla regia la **regola sulle affermazioni derivate** nel testo che ne è uscito (decisione ereditata D5), perché la porti in `CLAUDE.md`. È atto di governance e non appartiene a questa feature
+- [ ] T049 Chiudere il **drift del README**, segnalato dalla regia l'11 agosto 2026. Sono due punti e vanno chiusi entrambi: la riga della `003` nella tabella di stato resta «🔄 in corso» e **non elenca `docs/data_cleaning.md`**, che è l'artefatto di lettura della feature; e la prosa sotto la tabella presenta «il primo» e «il secondo» deliverable senza il terzo. Va fatto **dopo** T047, perché la riga dichiarerà la feature revisionata e rimanderà a `specs/003-data-cleaning-etl/review.md`, che prima di allora non esiste
 
 ---
 
@@ -183,7 +184,7 @@ Le fasi sono numerate in ordine di priorità delle storie, come vuole il formato
 
 La ragione è la stessa e vale di più qui. T035 impone di marcare **ogni** numerale del documento, non solo i valori: sono qualche centinaio di micro-decisioni. Averle verificate mentre si scrive significa correggere un marcatore nel paragrafo in cui lo si è scritto; scoprirle a fine giornata significa rileggere tutto. Il controllo dipende solo dal contratto e dagli artefatti, non dal documento, quindi è costruibile appena `cleaning_report.json` esiste.
 
-Ordine consigliato: **T001-T026 → T036-T039 → T027-T035 → T040 → T041-T048**.
+Ordine consigliato: **T001-T026 → T036-T039 → T027-T035 → T040 → T041-T049**.
 
 ### MVP: solo User Story 1
 

@@ -106,7 +106,11 @@ CL.SP.zero.high_genres.count            generi che superano la soglia del 50%
 CL.SP.zero.high_genres.nearest_below    quota del genere più vicino da sotto la soglia
 CL.out.netflix_titles.rows              righe del file di output
 CL.out.netflix_titles.bytes             dimensione del file di output
+CL.NF.recalc.<resto>                    valore del profilo ricalcolato sul dato trasformato
+CL.meta.profile_values.changed          quanti valori del profilo non valgono piu'
 ```
+
+> **Nota di allineamento — 2026-08-11, T029.** Le tre ultime famiglie non erano previste quando il contratto è stato scritto e sono emerse dall'implementazione. L'area **`recalc`** distingue un valore del profilo restituito sul dato trasformato da un valore che misura l'effetto di una decisione: coincidono spesso nel numero e mai nella domanda a cui rispondono, e confonderli renderebbe illeggibile il blocco `denominators`. L'area **`meta`** esiste perché i numeri della copertura — quanti valori sono stati riconfrontati, quanti sono cambiati — sono essi stessi affermazioni sui dati, e per la decisione ereditata D5 o hanno un identificativo o non si scrivono.
 
 ### 2.2 Blocchi
 
@@ -116,7 +120,7 @@ CL.out.netflix_titles.bytes             dimensione del file di output
 | `sources` | nome, dimensione e impronta dei file di `data/raw/` letti, **confrontati** con quelli del profilo (T10) |
 | `conventions` | le regole di questa feature rese dato: soglia di D4, regola di scelta della popolarità, forma riconosciuta dalla riparazione di D2, mappa dei mesi |
 | `values` | tutti i valori di rendicontazione. Ogni `value` è un numero, nessuna eccezione |
-| `catalogs` | elenchi di etichette: generi che superano la soglia di D4, identificativi dei titoli riparati, valori originali spostati dalla riparazione |
+| `catalogs` | elenchi di etichette: generi che superano la soglia di D4, identificativi dei titoli riparati, valori originali spostati dalla riparazione, campi multi-valore non normalizzati, e le due liste che chiudono la copertura dei denominatori — vedi la nota qui sotto |
 | `outputs` | per ciascun file prodotto: percorso, righe, colonne, dimensione in byte, `sha256` (FR-008) |
 | `denominators` | il blocco che realizza FR-030 |
 
@@ -144,6 +148,16 @@ CL.out.netflix_titles.bytes             dimensione del file di output
 
 **Regola**: ogni valore del profilo che dopo la trasformazione cambia DEVE avere una voce qui. Il documento la cita; il controllo verifica che entrambi gli identificativi esistano e che il documento non citi il vecchio dove intende il nuovo.
 
+> **Nota di allineamento — 2026-08-11, T029.** La regola qui sopra è vera solo se qualcuno garantisce che **nessun valore cambiato sia stato dimenticato**, e il contratto originale non diceva come. L'implementazione lo garantisce classificando ogni valore del profilo in esattamente una di tre categorie, verificate come invariante a ogni esecuzione:
+>
+> | Categoria | Dove vive | Perché esiste |
+> |---|---|---|
+> | riconfrontato | `denominators` se differisce, altrimenti in nessun posto | è il caso normale |
+> | senza controparte | `catalogs.profile_values_without_counterpart` | descrive la colonna indice che gli output non contengono (decisione T11) |
+> | fuori perimetro | `catalogs.profile_values_out_of_scope` | la trasformazione non può toccarlo per costruzione |
+>
+> Le due liste non sono un'aggiunta di comodo: senza di esse la classificazione non sarebbe totale, e la completezza dichiarata in [`data-model.md`](../data-model.md) §5 sarebbe vera soltanto per i valori che qualcuno si fosse ricordato di confrontare. L'invariante, alla prima esecuzione, ne ha fermati sei che erano stati dimenticati.
+
 Le voci attese, dalla Fase 0: le durate dei film (riparazione), la completezza della classificazione per età (svuotamento), le righe del catalogo musicale (deduplicazione di coppia), e le quote di zeri dei 48 generi che cambiano (F4).
 
 ## 3. Marcatura: la quarta forma
@@ -161,7 +175,11 @@ Le due<!--#--> letture aritmetiche danno valori diversi: 27,03%<!--@SP.id.inflat
 
 Il primo numerale è una proprietà del discorso — *ci sono due letture perché questo documento ne elenca due* — e non un fatto misurato sui dati. Il secondo e il terzo lo sono.
 
-**Semantica**: `<!--#-->` non asserisce nulla sul valore. Dichiara che chi scrive **ha considerato** quel numerale e afferma che non è un fatto sui dati. Il controllo non lo verifica: registra che la decisione è stata presa.
+**Semantica**: `<!--#-->` non asserisce nulla sul valore. Dichiara che chi scrive **ha considerato** quel numerale e afferma che non è un valore di questi artefatti.
+
+> **Nota di allineamento — 2026-08-11, T029.** La formulazione originale diceva «non è un fatto sui dati», ed è risultata troppo stretta scrivendo il documento. Tre categorie di numerali non sono valori degli artefatti e nemmeno pura retorica, e vanno coperte dallo stesso marcatore: le **soglie**, che sono stipulazioni di questa feature e non osservazioni; i **fatti dichiarati altrove**, come la copertura temporale dei due cataloghi, che vive nella constitution e in nessuno dei due artefatti; e i **numerali di struttura del discorso** — «le due letture», «tre corollari» — che non sono quantità misurate. Dove una soglia ha un valore registrato fra le convenzioni la si ancora invece di marcarla, perché ancorare è sempre più forte che dichiarare.
+>
+> **Esclusioni strutturali.** Alcune classi di cifre non richiedono alcun marcatore perché sono riferimenti e non quantità: sigle di KPI, requisiti e criteri, rilievi e decisioni, numeri di feature, date, versioni, riferimenti di sezione, numerazione di elenchi ordinati Markdown, numeri di divergenza dei verbali di revisione e nomi di standard. L'elenco completo è dichiarato in `scripts/check_audit_coherence.py`, perché una esclusione non scritta è una esclusione che nessuno può contestare. Il controllo non lo verifica: registra che la decisione è stata presa.
 
 **Cosa non può fare**: marcare come non-misurato un fatto che lo è. Nessun meccanismo lo impedisce, ed è il confine di questa garanzia — dichiarato qui e ripetuto nel documento come FR-033 richiede. Ciò che il marcatore elimina è la categoria dell'omissione distratta, che è quella in cui la 002 ha perso tre affermazioni. Non elimina la categoria della dichiarazione falsa, contro cui esiste la revisione in contesto pulito.
 
