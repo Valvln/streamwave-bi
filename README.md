@@ -44,6 +44,8 @@ Il secondo è **[`docs/data_audit.md`](docs/data_audit.md)**: il profilo dei due
 
 Il terzo è **[`docs/data_cleaning.md`](docs/data_cleaning.md)**: la dichiarazione di ogni decisione presa sui dati per portarli allo stato in cui il modello li userà, con la ragione, l'effetto misurato in righe o valori, e i valori del profilo che dopo la trasformazione non valgono più. I dataset che ne escono **non sono versionati** — lo è la pipeline che li produce — quindi il documento e [`reports/cleaning_report.json`](reports/cleaning_report.json) sono ciò che li rende verificabili da chi non può rigenerarli.
 
+I due documenti che pubblicano misure — l'audit e il cleaning — legano ogni numero all'artefatto che lo produce con la stessa grammatica, definita in **[`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md)** e verificata da `scripts/check_audit_coherence.py`.
+
 ## Setup
 
 ```bash

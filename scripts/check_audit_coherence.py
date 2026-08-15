@@ -55,7 +55,7 @@ DOCUMENTS = (
     (REPO / "docs" / "data_cleaning.md", True, "feature 003"),
 )
 
-# Grammatica della marcatura (contracts/profile-artifact.md §4): il marcatore
+# Grammatica della marcatura (docs/convenzioni-marcatura.md): il marcatore
 # segue il valore senza spazio interposto. Si cattura o un letterale fra apici
 # inversi, o il testo che precede immediatamente il marcatore fino al primo
 # spazio. E' cio' che evita l'estrazione euristica di "tutti i numeri" vietata

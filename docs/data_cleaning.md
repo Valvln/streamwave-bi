@@ -12,7 +12,7 @@ Il documento **cita** i numeri, non li possiede. Ogni valore che segue vive in u
 
 ## 2. Come si legge, e che cosa il controllo garantisce
 
-Ogni numero di questo documento porta un marcatore invisibile nel Markdown reso e leggibile nel sorgente. Ne esistono quattro<!--#--> forme, dichiarate in [`specs/003-data-cleaning-etl/contracts/output-datasets.md`](../specs/003-data-cleaning-etl/contracts/output-datasets.md) §3:
+Ogni numero di questo documento porta un marcatore invisibile nel Markdown reso e leggibile nel sorgente. Ne esistono quattro<!--#--> forme, dichiarate in [`docs/convenzioni-marcatura.md`](convenzioni-marcatura.md):
 
 | Forma | Che cosa dichiara |
 |---|---|

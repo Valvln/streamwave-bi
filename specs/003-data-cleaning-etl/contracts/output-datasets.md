@@ -162,6 +162,8 @@ Le voci attese, dalla Fase 0: le durate dei film (riparazione), la completezza d
 
 ## 3. Marcatura: la quarta forma
 
+> **Nota di trasferimento — 2026-08-15, divergenza 7 della revisione.** La definizione normativa della grammatica non vive più qui: sta in [`docs/convenzioni-marcatura.md`](../../../docs/convenzioni-marcatura.md), che unisce questa sezione e §4 del contratto della 002. La ragione è che un documento pubblicato delegava la propria chiave di lettura a una cartella di lavorazione, e un lettore esterno non ha ragione di aprirla. **In caso di divergenza fra i due testi vale quello in `docs/`.** Questa sezione resta come traccia di ciò che la feature 003 ha stabilito, e per la parte che il file consolidato non riporta: la motivazione delle scelte, che appartiene al contratto.
+
 Il contratto della 002 ammette tre forme — cifre, numerale in lettere, letterale. Questa feature ne aggiunge una quarta e cambia la severità di una condizione.
 
 ### 3.1 Il marcatore di non-misurato

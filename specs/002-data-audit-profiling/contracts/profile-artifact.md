@@ -112,6 +112,8 @@ Ogni valore è un oggetto sotto la chiave `values`, indicizzato dal proprio iden
 
 ## 4. Grammatica della marcatura
 
+> **Nota di trasferimento — 2026-08-15, feature 003, divergenza 7 della sua revisione.** Questa sezione non è più la definizione normativa della grammatica. Lo è [`docs/convenzioni-marcatura.md`](../../../docs/convenzioni-marcatura.md), che unisce le tre forme definite qui con la quarta introdotta dalla 003 e con la severità per documento. **In caso di divergenza vale il file in `docs/`.** Nulla di ciò che segue è stato modificato o rimosso: la grammatica descritta qui è tuttora esatta ed è la traccia di ciò che la feature 002 aveva stabilito. Il trasferimento serve al lettore esterno, che trovava la chiave di lettura di un documento pubblicato dentro una cartella di lavorazione.
+
 **Forma**: il marcatore segue il valore **senza spazio interposto**.
 
 ```
