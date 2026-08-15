@@ -189,6 +189,23 @@ def check_markers(text: str, artifact: dict) -> tuple[list[str], dict]:
         found = match.group("display")
         line = line_of(text, match.start())
 
+        # --- Marcatore malformato ---
+        # Se il testo catturato come valore contiene a sua volta un'apertura di
+        # commento, l'ancora e' rotta: qualcosa e' stato inserito **dentro**
+        # l'identificativo. La grammatica non ammette `<` in un identificativo,
+        # quindi il motore ripiega sull'alternativa e riconosce il marcatore
+        # interno — declassando in silenzio un valore ancorato a "non
+        # misurato". E' successo davvero, su cinque ancore, e il controllo
+        # passava: senza questa guardia la garanzia di §2 e' falsa proprio nel
+        # caso in cui servirebbe.
+        if "<!--" in found:
+            errors.append(
+                f"  riga {line}: marcatore malformato — il valore catturato "
+                f"«{found}» contiene un'apertura di commento. L'ancora e' "
+                f"rotta e il documento reso mostrera' testo spezzato"
+            )
+            continue
+
         # --- Non misurato: si registra che la decisione e' stata presa ---
         # Il marcatore non asserisce nulla sul valore. Dichiara che chi scrive
         # ha **considerato** quel numerale e afferma che non e' un fatto sui
@@ -252,6 +269,28 @@ def check_markers(text: str, artifact: dict) -> tuple[list[str], dict]:
                 f"trovato «{found}»"
             )
     return errors, tally
+
+
+def residual_comment_ends(text: str) -> list[str]:
+    """Chiusure di commento rimaste nel testo dopo l'estrazione dei marcatori.
+
+    Seconda guardia contro l'ancora rotta. Un commento HTML termina al **primo**
+    `-->`: se dentro un marcatore ne e' finito un altro, la coda dell'ancora
+    resta visibile nel documento reso — il lettore vede `.rows.after-->` dove si
+    aspetta un numero. Cercarla dopo aver rimosso i marcatori ben formati la
+    trova sempre, anche in casi che la prima guardia non prevede.
+    """
+    blank = lambda m: re.sub(r"[^\n]", " ", m.group(0))
+    stripped = MARKER.sub(blank, text)
+    stripped = re.sub(r"<!--.*?-->", blank, stripped, flags=re.DOTALL)
+    errors = []
+    for number, line in enumerate(stripped.split("\n"), start=1):
+        if "-->" in line:
+            errors.append(
+                f"  riga {number}: chiusura di commento «-->» rimasta nel testo "
+                f"— un'ancora e' rotta e sara' visibile nel documento reso"
+            )
+    return errors
 
 
 def check_inventory(artifact: dict) -> list[str]:
@@ -331,6 +370,7 @@ def main() -> int:
     for path, strict, owner in DOCUMENTS:
         text = read_document(path)
         errors, tally = check_markers(text, artifact)
+        errors += residual_comment_ends(text)
         unmarked = unmarked_quantities(text)
         if path is DOCUMENTS[0][0]:
             errors += inventory_errors
