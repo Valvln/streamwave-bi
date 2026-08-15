@@ -1,6 +1,36 @@
 <!--
 SYNC IMPACT REPORT
 ==================
+Emendamento 1.0.2 → 1.1.0 (2026-08-15)
+--------------------------------------
+Bump rationale: MINOR. Nessun principio rimosso né ridefinito in modo incompatibile: si amplia
+l'elenco delle fonti dati ammesse con una classe che prima non c'era, e si estende di conseguenza
+l'enumerazione delle etichette di fonte del principio I. È un ampliamento sostanziale di una guida
+esistente, non un chiarimento: prima dell'emendamento un parametro preso da una pubblicazione di
+settore non era una fonte ammessa, e usarlo sarebbe stato un aggiramento silenzioso.
+Modifica: ammessi i **benchmark pubblici di settore** come quarta fonte dati, a cinque condizioni
+(citazione puntuale, valore congelato in un file versionato, nessuna chiamata di rete a runtime,
+assunzione di trasferimento dichiarata, nessuna promozione automatica del livello di confidenza).
+Aggiunta l'etichetta di fonte `Benchmark (esterno)` al principio I.
+Motivazione: la feature 004 genera i dati sintetici di BQ3. Senza questo emendamento sarebbe
+l'unico artefatto del progetto in cui la fonte di ogni parametro è "l'analista ha deciso così" —
+formalmente conforme, perché i sintetici con assunzioni dichiarate a confidenza bassa erano già
+ammessi, ma incoerente con la tesi che il progetto sostiene, che è il principio I. Un parametro
+di scenario ancorato a una pubblicazione citabile è verificabile da chi legge; uno deciso a
+tavolino no.
+Perché non un quarto livello di confidenza: un benchmark è un dato osservato su un terzo e
+trasferito a StreamWave, cioè la stessa natura di A1 del business case, che §6 tiene fuori scala
+per costruzione. Un quarto livello cambierebbe l'asse su cui tutti e 8 i KPI sono già classificati
+e obbligherebbe a rivederli uno per uno, per coprire un caso che il pattern esistente copre già.
+Template dipendenti:
+  ✅ .specify/templates/spec-template.md — aggiunta l'etichetta `Benchmark (esterno)` all'elenco
+     delle fonti e la condizione di citazione, nello stesso commit
+  ✅ .specify/templates/plan-template.md e tasks-template.md — nessuna modifica: non enumerano fonti
+Artefatti già prodotti: nessuno viola il nuovo testo, che amplia e non restringe. Resta il debito
+testuale già tracciato in docs/roadmap.md — assunzione di trasferimento in §2 di
+docs/business_case.md, richiamo in §6, note datate sulle schede BQ3-K1 e BQ3-K2 — da chiudere
+dentro la 004 o subito prima. È debito preesistente all'emendamento, non creato da esso.
+
 Emendamento 1.0.1 → 1.0.2 (2026-08-08)
 --------------------------------------
 Bump rationale: PATCH. Nessun principio aggiunto, rimosso o ridefinito: si definisce l'unità di
@@ -76,8 +106,10 @@ Case study di Business Intelligence a supporto di una decisione strategica: Stre
 
 Ogni KPI, metrica o numero mostrato in dashboard, report o documentazione DEVE dichiarare in modo leggibile dall'utente finale:
 
-- **Fonte**: `Netflix (reale)`, `Spotify (reale)`, `Sintetico` o `Derivato` (calcolato da più fonti — in tal caso vanno elencate le fonti a monte).
+- **Fonte**: `Netflix (reale)`, `Spotify (reale)`, `Sintetico`, `Benchmark (esterno)` o `Derivato` (calcolato da più fonti — in tal caso vanno elencate le fonti a monte).
 - **Livello di confidenza**: `alto`, `medio` o `basso`, con il criterio di attribuzione documentato nella feature che introduce la metrica.
+
+Un valore etichettato `Benchmark (esterno)` è un dato osservato **su un operatore terzo** e trasferito a StreamWave. L'ancoraggio a una fonte citabile NON DEVE essere trattato come un innalzamento del livello di confidenza: la trasferibilità è una questione diversa dalla solidità del calcolo, e va dichiarata come **assunzione di trasferimento** insieme al valore, sul modello dell'assunzione strutturale che regge l'uso dei proxy. Un parametro di scenario ancorato resta a confidenza `bassa` finché nulla di osservato su StreamWave lo sostiene, e continua quindi a essere presentato come range best/base/worst.
 
 Un valore sintetico NON DEVE essere presentato con precisione superiore a quanto la metodologia giustifica: se la generazione poggia su un'assunzione a una cifra significativa, il risultato non può esserne mostrato con tre.
 
@@ -150,6 +182,17 @@ Una feature che non è riconducibile a nessuna delle tre NON DEVE essere impleme
 - `data/raw/netflix_titles.csv` — catalogo Netflix, proxy del catalogo StreamWave. Copertura fino al 2021: ogni conclusione temporale DEVE tenerne conto (principio IV).
 - `data/raw/spotify_tracks_dataset.csv` — tracce Spotify con audio feature, proxy del mercato musicale.
 - Dati sintetici generati da script versionati, esclusivamente dove i dati reali non esistono (tipicamente BQ3: engagement e revenue di un verticale non ancora lanciato).
+- **Benchmark pubblici di settore** — valori osservati e pubblicati da terzi, usati per ancorare i parametri che alimentano la generazione sintetica invece di stabilirli per scelta dell'analista.
+
+Un benchmark è una fonte ammessa solo se soddisfa **tutte** le condizioni seguenti:
+
+1. **Citazione puntuale**: organizzazione che pubblica, titolo, data di pubblicazione, riferimento recuperabile e data di accesso. Un valore attribuito a «ricerche di settore» non è citato ed è vietato.
+2. **Valore congelato in un file versionato**: il numero adottato vive in un artefatto del repository insieme alla sua citazione, non nella prosa di un documento né in un commento del codice. Chi rilegge deve poter vedere il numero senza rieseguire la ricerca.
+3. **Nessuna chiamata di rete a runtime**: nessuno script contatta una fonte esterna durante l'esecuzione della pipeline. La raccolta è un passaggio umano, non riproducibile, e per questo il suo esito va congelato; la generazione che ne discende resta rieseguibile da una copia pulita a partire dal file versionato (principio II).
+4. **Assunzione di trasferimento dichiarata**: il benchmark descrive un operatore terzo, e l'assunzione che il suo valore si applichi a StreamWave va scritta accanto al valore, non sottintesa.
+5. **Nessuna promozione di confidenza**: vedi principio I.
+
+Un benchmark che non soddisfa una qualsiasi di queste condizioni NON DEVE essere usato: il parametro torna a essere una scelta dell'analista e va dichiarato come tale, il che è ammesso e sempre preferibile a una citazione che non regge il controllo.
 
 L'uso di Netflix come proxy di StreamWave e di Spotify come proxy del mercato musicale è una **assunzione strutturale del case study** e DEVE essere dichiarata in ogni artefatto rivolto all'utente finale, non solo nella documentazione tecnica.
 
@@ -198,4 +241,4 @@ Questa constitution **prevale su ogni altra pratica di progetto**. In caso di co
 
 **Verifica di conformità**: la conformità va verificata a ogni gate di feature (vedi sezione precedente) e durante `/speckit.analyze`. Ogni violazione consapevole DEVE essere registrata nella tabella "Complexity Tracking" del piano della feature, con la giustificazione e l'alternativa più semplice che è stata scartata.
 
-**Version**: 1.0.2 | **Ratified**: 2026-08-06 | **Last Amended**: 2026-08-08
+**Version**: 1.1.0 | **Ratified**: 2026-08-06 | **Last Amended**: 2026-08-15

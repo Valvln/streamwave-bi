@@ -145,8 +145,11 @@
 
 <!--
   ACTION REQUIRED: una riga per ogni metrica o numero introdotto dalla feature.
-  Fonte: Netflix (reale) | Spotify (reale) | Sintetico | Derivato (elencare le fonti a monte).
+  Fonte: Netflix (reale) | Spotify (reale) | Sintetico | Benchmark (esterno) | Derivato
+  (elencare le fonti a monte).
   Confidenza bassa => il valore va espresso come range best/base/worst, mai come numero singolo.
+  Benchmark (esterno) => citazione puntuale e valore congelato in un file versionato; l'ancoraggio
+  non innalza la confidenza (Constitution, Vincoli di Dominio e di Dato).
 -->
 
 | Metrica | Fonte | Confidenza | Criterio di attribuzione | Formato di presentazione |

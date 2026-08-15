@@ -26,7 +26,7 @@ I limiti analitici specifici di ogni singola analisi — cosa quel particolare K
 
 ## Stato
 
-Governance: [`constitution`](.specify/memory/constitution.md) v1.0.2 · [metodo di lavoro](CLAUDE.md) · [roadmap e stime](docs/roadmap.md)
+Governance: [`constitution`](.specify/memory/constitution.md) v1.1.0 · [metodo di lavoro](CLAUDE.md) · [roadmap e stime](docs/roadmap.md)
 
 | Feature | Deliverable | Stato |
 |---|---|---|
