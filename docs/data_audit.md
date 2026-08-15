@@ -156,6 +156,16 @@ I generi interamente a zero sono 0<!--@SP.pop.zero.genres_fully_zero-->: nessun 
 
 **Conseguenza**: una mediana per genere è trascinata verso il basso proprio nei generi più penalizzati. Questo documento **non decide** se quelle righe vadano incluse, escluse o riportate a parte: è la divergenza 6 della revisione, assegnata alla feature 003. Le conta e le localizza.
 
+> **⚠️ Nota di adozione — 2026-08-11, feature 003.** La divergenza 8 della revisione di questo documento chiedeva con quale criterio si selezioni l'insieme dei generi «a forte concentrazione di zeri», osservando che nessuna soglia era fissata e che `country` cadeva dentro o fuori a seconda di dove la si mettesse. La feature 003 ha fissato il criterio, e l'esito **non coincide con questa tabella**.
+>
+> **Il criterio adottato**: quota di righe a popolarità zero superiore al `50.0`<!--@conventions.zero_share_threshold_pct-->%, non al 60%. La ragione non è di comodo ed è quella per cui la soglia è difendibile: oltre metà delle righe a zero, la mediana di popolarità di quel genere è zero qualunque cosa facciano le altre righe. Non è una proprietà stimata, è una proprietà della definizione di mediana — e lega la soglia alla misura che a valle la consumerà invece che a un numero tondo.
+>
+> **L'insieme che ne esce sono 7<!--@CL.SP.zero.high_genres.count--> generi**: `country`<!--@catalogs.spotify_high_zero_genres-->, `iranian`<!--@catalogs.spotify_high_zero_genres-->, `jazz`<!--@catalogs.spotify_high_zero_genres-->, `latin`<!--@catalogs.spotify_high_zero_genres-->, `rock`<!--@catalogs.spotify_high_zero_genres-->, `romance`<!--@catalogs.spotify_high_zero_genres--> e `soul`<!--@catalogs.spotify_high_zero_genres-->. `country` cade **dentro**, e con esso `latin` e `rock`, che questa tabella escludeva o non elencava. Il conteggio di 4<!--@SP.pop.zero.genres_over_60--> generi qui sopra resta corretto **per la soglia del 60%**, che non è più il criterio adottato.
+>
+> **Le quote vanno ricalcolate, non riprese da qui.** La trasformazione ha rimosso 450<!--@CL.SP.pair.removed_rows--> righe ridondanti dalla grana coppia traccia-genere, e le quote di zeri cambiano su 78<!--@CL.SP.zero.by_genre.changed--> dei 114<!--@SP.genre.count--> generi — su 48<!--@CL.SP.zero.by_genre.changed_visible--> la differenza è visibile anche alla seconda cifra decimale. Le quote di questa tabella restano vere sui dati di origine e non descrivono più `data/processed/`.
+>
+> **Sulla frase «distano fra loro un decimo di punto»**: resta vera sui dati di origine, ma non vale più come argomento sulla fragilità del taglio, perché il taglio non passa più fra quei due generi. Sulla soglia adottata il genere più vicino da sotto è al 48,45%<!--@CL.SP.zero.high_genres.nearest_below-->, cioè a diversi punti dal confine. Fonti: [`reports/cleaning_report.json`](../reports/cleaning_report.json), identificativi `CL.SP.zero.high_genres.count`, `CL.SP.zero.high_genres.nearest_below` e `catalogs.spotify_high_zero_genres`; decisione e ragione per esteso in [`docs/data_cleaning.md`](data_cleaning.md) §3, D4, e §7.
+
 ### 3.6 Durata e assi di mood
 
 La durata mediana di una riga è 212,9<!--@SP.duration.median_s--> secondi. Esiste 1<!--@SP.duration.zero--> riga con durata dichiarata pari a zero: è un valore degenere, contato e non corretto.

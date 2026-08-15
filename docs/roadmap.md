@@ -22,7 +22,7 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 |---|---|---|---|---|
 | `001` | Business Case & KPI Framework | ~7 (spese) | — | ✅ conclusa, con debito residuo |
 | `002` | Data Audit & Profiling | ~4,5 (spese, stimate 4) | 001 | ✅ conclusa, PR #2 mergiata |
-| `003` | Data Cleaning & ETL | 7 | 002 | ⬜ prossima |
+| `003` | Data Cleaning & ETL | 7 (~4 spese) | 002 | 🔄 **MVP concluso** — 26 task su 48. Vedi sotto |
 | `004` | Synthetic Business Metrics | 6 | 001 | ⬜ ancorata a benchmark, vedi sotto |
 | `005` | Data Model Design | 5 | 003, *chore ambiente* | ⬜ |
 | `006` | Content Taxonomy Bridge | 6 | 002, 005 | ⬜ decisione aperta DA-1 |
@@ -56,6 +56,16 @@ Resta **un solo benchmark indispensabile**: il tasso di conversione a un tier su
 **Nessun framework di orchestrazione** (LangChain, LangGraph o equivalenti) per questa feature: il passaggio di raccolta produce un valore congelato che nessuno riesegue, e un'orchestrazione a grafo aggiungerebbe una dipendenza, una chiave API e un componente che dopo la prima esecuzione resta inerte. La sede in cui il lavoro con LLM ha senso è la `006` — vedi Decisioni aperte.
 
 **Stima**: da 5 a 6 ore. L'ancoraggio aggiunge circa un'ora di raccolta e citazione, l'uscita dell'engagement dalla generazione ne restituisce altrettante, la revisione in contesto pulito ne aggiunge una. Resta **una sola feature dentro il limite del principio III**: la scomposizione che la proposta dava per necessaria non serve, perché contava dentro la feature l'emendamento della constitution e le note testuali, che sono chore. Da riverificare in fase di `/speckit.specify`.
+
+### Stato della `003` al 2026-08-11
+
+**MVP concluso**: T001-T026, cioè la pipeline completa e l'artefatto di rendicontazione. Esistono i quattro dataset di output, `scripts/build_datasets.py` in 1.849 righe e `reports/cleaning_report.json`. I vincoli strutturali sono verificati: il rendiconto è versionato, `data/processed/` porta il solo `.gitkeep`, `data/raw/` è intatto.
+
+È lo stadio che la strategia di implementazione dichiarava già consegnabile: i dataset sono rigenerabili identici e ogni decisione di trattamento è misurata. La `005` e la `007` potrebbero partirci sopra leggendo il contratto, anche prima che il documento esista.
+
+**Restano T027-T048**, circa 3,5-4 ore: il documento `docs/data_cleaning.md`, l'estensione del controllo di coerenza, le note in loco sugli artefatti mergiati, la revisione in contesto pulito e la chiusura dei suoi rilievi. La feature atterrerà intorno a 7,5-8 ore contro le 7 stimate — scostamento in linea, non un allarme.
+
+Un ritrovamento da non perdere: il contratto degli output scritto in fase di piano **non coincide** con ciò che l'implementazione ha prodotto, e l'allineamento è stato rinviato a T029 (commit `0e959a7`). È una divergenza fra progetto ed esecuzione scoperta al momento giusto, ma va chiusa dentro questa feature: un contratto che descrive qualcosa di diverso dai file reali è peggio di nessun contratto, perché la `005` e la `007` lo leggeranno credendogli.
 
 ### Lavoro fuori dalle feature
 
@@ -158,18 +168,20 @@ Ricadute: la scelta chiude anche la divergenza 10 della 001, la governance di qu
 | Finestra | Capacità | Contenuto atteso |
 |---|---|---|
 | 8 → 9 agosto | ~4,5 h spese | `002` ✅ conclusa e mergiata |
-| 11 agosto | 2-3,5 h | spec, piano e task della `003` — si chiude sul punto di stop 2 |
+| 11 agosto | ~4 h spese | `003`: spec, piano, 48 task e **MVP completo** (T001-T026) |
 | 12 → 14 agosto | **non pianificata** | nulla. Vedi sotto |
-| 15 agosto | ~2 h | implementazione `003`, o chore ambiente |
+| 15 agosto | ~2 h | `003` da T036, o chore ambiente |
 | dal 16 agosto | giornate piene, ~6 h/giorno | `004`, `005`, `006`, `007`, `008`, `010` |
 
-Atterraggio stimato: **24-25 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime; la finestra non pianificata del 12-14 agosto ne sposta uno.
+Atterraggio stimato: **23-24 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime, poi 24-25 con la finestra non pianificata del 12-14 agosto. Le ore in più dell'11 agosto — quattro contro le due-tre previste — hanno restituito il giorno che la pausa aveva tolto.
 
 ### La finestra non pianificata del 12-14 agosto
 
 Tre giorni in cui il lavoro può essere nullo oppure breve, e non è deciso in anticipo di proposito. La pianificazione non prova a indovinarlo: **nessun lavoro è collocato in quella finestra, e nessuna attività la attraversa a metà.** Il calendario qui sopra è costruito assumendo capacità zero, così che qualunque ora effettivamente spesa sia guadagno e non recupero.
 
-È la ragione per cui l'11 agosto si ferma su spec, piano e task della `003` invece di iniziarne l'implementazione: il punto di stop 2 di [`CLAUDE.md`](../CLAUDE.md#punti-di-stop-del-flusso) è un confine già previsto dal metodo, e farlo coincidere con l'interruzione costa nulla. Il principio III chiede il repository coerente alla fine di ogni sessione; con tre giorni di distanza quel vincolo smette di essere una formalità, perché ciò che resta aperto non perde solo continuità ma il contesto di chi lo aveva aperto.
+Il principio III chiede il repository coerente alla fine di ogni sessione; con tre giorni di distanza quel vincolo smette di essere una formalità, perché ciò che resta aperto non perde solo continuità ma il contesto di chi lo aveva aperto.
+
+L'11 agosto la fase di specifica è costata molto meno del previsto, e l'implementazione è partita lo stesso giorno. Il confine scelto non è più il punto di stop 2 ma **T011**, per una ragione strutturale: i task da T003 a T011 non scrivono alcun file di output — il primo atterra in `data/processed/` a T012. L'intero tratto è quindi interrompibile senza lasciare dati parziali che invecchiano, e coincide con la parte del lavoro che dipende dal contratto invece che dal quadro d'insieme. È il confine di pausa migliore disponibile dentro questa feature.
 
 Se la finestra ospiterà qualcosa, il candidato naturale è il **chore dell'ambiente Power BI**: download e installazioni, nessun contesto da ricostruire, interrompibile in qualunque punto e senza conseguenze se non viene toccato.
 
@@ -182,6 +194,8 @@ Il chore dell'ambiente è collocato nella finestra a bassa capacità di proposit
 **Densità di `008`.** Otto ore per una sola feature sono il limite superiore del principio III, e la voce più esposta a scoprirsi più grande di così davanti allo schermo. Va scomposta in fase di `/speckit.specify` — presumibilmente struttura e pagine da una parte, storytelling e rifiniture dall'altra — non dopo averla aperta.
 
 **Concentrazione del rischio dopo il 16 agosto.** Sei feature su otto cadono nella finestra a giornate piene, incluse le tre più dense. La finestra a bassa capacità non ha margine di recupero: se `003` sfora, lo scostamento si trasferisce intero sulla seconda finestra invece di essere assorbito. La `002` ha sforato di mezz'ora e la finestra l'ha assorbita, ma era la più piccola delle due.
+
+**Il prompt non dice chi revisiona al punto di stop 1.** Sulla `003` la sessione esecutiva si è fermata dopo `/speckit.specify` e ha riportato spec, esito della checklist e sei decisioni da contestare, proseguendo solo dopo l'approvazione — il punto di stop ha quindi tenuto. A revisionare è stato però l'autore e non la regia, che la spec non l'ha letta: il controllo è arrivato a valle sui soli task, con esito positivo su decisioni ereditate, denominatori, note in loco ed esclusioni di perimetro, ma resta un'assicurazione parziale su un artefatto già congelato in 48 task. Non è una violazione: [`CLAUDE.md`](../CLAUDE.md#punti-di-stop-del-flusso) prescrive che la spec torni in revisione e non da chi, e l'autore ha più contesto di chiunque. È un'ambiguità del prompt, e i prompti successivi devono nominare il revisore invece di lasciarlo implicito.
 
 **Il perimetro complessivo ha superato la stima iniziale.** Non è più un rischio, è un fatto: ~65 ore contro le 7-10 giornate (49-70 ore) previste all'inizio, con `009` già escluso e nulla di ulteriore da tagliare che non amputi il framework. Da qui in avanti ogni estensione di perimetro va compensata da un taglio dichiarato, non assorbita.
 

@@ -144,6 +144,14 @@ Un totale calcolato senza deduplicare sovrastima di circa un quinto, perché con
 >
 > L'affermazione non viene riscritta, perché scegliere quale delle due letture intendesse significherebbe deciderlo al posto di chi l'ha scritta. Chi cita questo passaggio a valle deve dichiarare quale delle due usa. Fonte: [`reports/data_profile.json`](../reports/data_profile.json), identificativi `SP.id.duplicate_share` e `SP.id.inflation`; discussione in [`docs/data_audit.md`](data_audit.md) §6.
 
+> **⚠️ Nota di adozione — 2026-08-11, feature 003.** La nota precedente obbligava chi cita questo passaggio a dichiarare quale delle due letture adotta. La feature 003 la dichiara: adotta la **seconda**, `SP.id.inflation`, e con essa **27,03%** sui dati di origine.
+>
+> La ragione è che le due quote rispondono a domande diverse e solo una delle due è una sovrastima. La prima è una proprietà del file — quanta parte delle sue righe è ridondante — e ha per denominatore le righe, cioè la grandezza sbagliata. Una sovrastima si misura rispetto al valore giusto: quanto il totale errato eccede quello corretto. Il denominatore è il totale sulle tracce distinte, ed è la seconda lettura.
+>
+> Ne discende che **«circa un quinto» non descrive la lettura adottata**: la quota è più vicina a un quarto. La frase originale resta, perché è la traccia di ciò che quella feature aveva scritto; il valore da citare è quello dichiarato qui.
+>
+> **Sul dato trasformato il valore cambia ancora**: la deduplicazione della grana coppia traccia-genere ha rimosso 450 righe ridondanti, e l'eccesso scende a **26,53%**. Chi calcola su `data/processed/` cita questo; chi descrive i dati di origine cita 27,03%. Fonti: [`reports/cleaning_report.json`](../reports/cleaning_report.json), identificativi `CL.SP.track.inflation.after` e `CL.SP.recalc.id.inflation`; decisione e ragione per esteso in [`docs/data_cleaning.md`](data_cleaning.md) §3, D3.
+
 *(Le percentuali citate qui e altrove nel documento sono **caratteristiche dei dati di origine**, non risultati dell'analisi — vedi la regola sui numeri in §8.)*
 
 ### 5.3 Nota metodologica sugli assi di mood
