@@ -613,7 +613,8 @@ def repair_rating_shift(records: list[dict], invariants: Invariants) -> list[dic
         rec["duration"] = moved
         rec["rating"] = ""
         rec["is_repaired_duration"] = "True"
-        repaired.append({"show_id": rec["show_id"], "moved_value": moved})
+        repaired.append({"show_id": rec["show_id"], "moved_value": moved,
+                         "title": rec["title"]})
 
     invariants.require(
         len(repaired) == RATING_SHIFT_EXPECTED_ROWS,
@@ -813,6 +814,12 @@ def transform_netflix(
 
     report.catalogs["netflix_repaired_titles"] = [e["show_id"] for e in repaired]
     report.catalogs["netflix_repaired_values"] = sorted(e["moved_value"] for e in repaired)
+    # I titoli, non solo gli identificativi. L'argomento che eleva la
+    # riparazione da coincidenza numerica a inferenza motivata poggia
+    # sull'omogeneita' del lotto: senza i nomi, quel fatto resta
+    # un'affermazione che il lettore deve accettare sulla parola, ed e' proprio
+    # la cosa che questa feature si vieta.
+    report.catalogs["netflix_repaired_title_names"] = sorted(e["title"] for e in repaired)
     report.catalogs["netflix_rating_blanked_values"] = blanked
 
     return records
@@ -1188,6 +1195,24 @@ def mark_high_zero_genres(
     report.pct(
         "CL.SP.zero.high_genres.nearest_above", min(above), "spotify",
         "quota del genere piu' vicino alla soglia da sopra, incluso",
+        field="popularity", granularity="genere",
+    )
+    # I margini della soglia **scartata**, per poter confrontare le due su
+    # entrambi i lati. Senza, il confronto fra soglie sarebbe un'affermazione
+    # derivata senza fonte — cioe' cio' che la decisione D5 vieta — e
+    # riportarne un lato solo lo renderebbe anche parziale nella direzione
+    # comoda a chi scrive.
+    legacy = 60.0
+    report.pct(
+        "CL.SP.zero.high_genres.nearest_below_60",
+        max(s for s in shares.values() if s <= legacy), "spotify",
+        "quota del genere piu' vicino da sotto alla soglia scartata del 60%",
+        field="popularity", granularity="genere",
+    )
+    report.pct(
+        "CL.SP.zero.high_genres.nearest_above_60",
+        min(s for s in shares.values() if s > legacy), "spotify",
+        "quota del genere piu' vicino da sopra alla soglia scartata del 60%",
         field="popularity", granularity="genere",
     )
     report.catalogs["spotify_high_zero_genres"] = high
@@ -1768,6 +1793,53 @@ def recalculate_profile_values(
     # identificativo o non si scrive. Senza questi quattro, la frase che riassume
     # l'intero blocco dei denominatori sarebbe prosa non verificabile — cioe' il
     # rilievo R8 della 001, ricreato nel documento che esiste per chiuderlo.
+    # Le quote di zeri per genere sono citate in due documenti, e sono fatti
+    # misurati: senza un identificativo proprio finirebbero marcate come non
+    # misurate, che e' la dichiarazione falsa contro cui nessun meccanismo
+    # protegge. Il conteggio alla forma di visualizzazione serve perche' un
+    # lettore che confronta le tabelle stampate ne conta meno di quanti ne
+    # cambiano davvero, e la differenza va spiegata invece che subita.
+    by_genre = [d for d in report.denominators
+                if d["profile_id"].startswith("SP.pop.zero.by_genre.")]
+    visible = sum(
+        1 for d in by_genre
+        if declared[d["profile_id"]]["display"] != report.values[d["cleaning_id"]]["display"]
+    )
+    report.count("CL.SP.zero.by_genre.changed", len(by_genre), "spotify",
+                 "generi la cui quota di righe a popolarita' zero cambia dopo "
+                 "la trasformazione", field="popularity", granularity="genere")
+    report.count("CL.SP.zero.by_genre.changed_visible", visible, "spotify",
+                 "generi la cui quota cambia in modo visibile anche alla "
+                 "seconda cifra decimale", field="popularity", granularity="genere")
+
+    # Il divario fra i due conteggi qui sopra non e' un movimento nei dati: e'
+    # un artefatto di precisione. Nel profilo ogni genere ha esattamente 1.000
+    # righe, quindi la quota di zeri ha **una sola cifra decimale per
+    # costruzione**; dopo la deduplicazione i denominatori differiscono e le
+    # quote ne acquistano altre. Un confronto stretto le trova quasi sempre
+    # diverse. Questi due valori misurano quanta parte del divario sia
+    # apparente, perche' senza di essi il documento spiegherebbe il fenomeno
+    # con una causa che non e' la sua.
+    entro_precisione = sum(
+        1 for d in by_genre
+        if round(report.values[d["cleaning_id"]]["value"], 1)
+        == declared[d["profile_id"]]["value"]
+    )
+    oltre_mezzo_punto = sum(
+        1 for d in by_genre
+        if abs(report.values[d["cleaning_id"]]["value"]
+               - declared[d["profile_id"]]["value"]) > 0.5
+    )
+    report.count("CL.SP.zero.by_genre.changed_within_profile_precision",
+                 entro_precisione, "spotify",
+                 "generi la cui quota torna identica una volta arrotondata "
+                 "alla precisione con cui il profilo la registra",
+                 field="popularity", granularity="genere")
+    report.count("CL.SP.zero.by_genre.moved_over_half_point",
+                 oltre_mezzo_punto, "spotify",
+                 "generi la cui quota si sposta di piu' di mezzo punto",
+                 field="popularity", granularity="genere")
+
     report.count("CL.meta.profile_values.total", len(declared), "entrambi",
                  "valori del profilo della 002")
     report.count("CL.meta.profile_values.compared", len(compared), "entrambi",

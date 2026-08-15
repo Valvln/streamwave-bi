@@ -50,6 +50,11 @@
       "director"
     ],
     "netflix_rating_blanked_values": [],
+    "netflix_repaired_title_names": [
+      "Louis C.K. 2017",
+      "Louis C.K.: Hilarious",
+      "Louis C.K.: Live at the Comedy Store"
+    ],
     "netflix_repaired_titles": [
       "s5542",
       "s5795",
@@ -6807,6 +6812,33 @@
       "unit": "percentuale",
       "value": 1.5015
     },
+    "CL.SP.zero.by_genre.changed": {
+      "dataset": "spotify",
+      "display": "78",
+      "field": "popularity",
+      "granularity": "genere",
+      "label": "generi la cui quota di righe a popolarita' zero cambia dopo la trasformazione",
+      "unit": "conteggio",
+      "value": 78
+    },
+    "CL.SP.zero.by_genre.changed_visible": {
+      "dataset": "spotify",
+      "display": "48",
+      "field": "popularity",
+      "granularity": "genere",
+      "label": "generi la cui quota cambia in modo visibile anche alla seconda cifra decimale",
+      "unit": "conteggio",
+      "value": 48
+    },
+    "CL.SP.zero.by_genre.changed_within_profile_precision": {
+      "dataset": "spotify",
+      "display": "60",
+      "field": "popularity",
+      "granularity": "genere",
+      "label": "generi la cui quota torna identica una volta arrotondata alla precisione con cui il profilo la registra",
+      "unit": "conteggio",
+      "value": 60
+    },
     "CL.SP.zero.by_genre.chicago_house.after": {
       "dataset": "spotify",
       "display": "0,40%",
@@ -7356,6 +7388,15 @@
       "unit": "percentuale",
       "value": 5.4108
     },
+    "CL.SP.zero.by_genre.moved_over_half_point": {
+      "dataset": "spotify",
+      "display": "3",
+      "field": "popularity",
+      "granularity": "genere",
+      "label": "generi la cui quota si sposta di piu' di mezzo punto",
+      "unit": "conteggio",
+      "value": 3
+    },
     "CL.SP.zero.by_genre.mpb.after": {
       "dataset": "spotify",
       "display": "4,00%",
@@ -7734,6 +7775,15 @@
       "unit": "percentuale",
       "value": 52.5
     },
+    "CL.SP.zero.high_genres.nearest_above_60": {
+      "dataset": "spotify",
+      "display": "61,06%",
+      "field": "popularity",
+      "granularity": "genere",
+      "label": "quota del genere piu' vicino da sopra alla soglia scartata del 60%",
+      "unit": "percentuale",
+      "value": 61.0611
+    },
     "CL.SP.zero.high_genres.nearest_below": {
       "dataset": "spotify",
       "display": "48,45%",
@@ -7742,6 +7792,15 @@
       "label": "quota del genere piu' vicino alla soglia da sotto, escluso",
       "unit": "percentuale",
       "value": 48.4484
+    },
+    "CL.SP.zero.high_genres.nearest_below_60": {
+      "dataset": "spotify",
+      "display": "59,09%",
+      "field": "popularity",
+      "granularity": "genere",
+      "label": "quota del genere piu' vicino da sotto alla soglia scartata del 60%",
+      "unit": "percentuale",
+      "value": 59.0909
     },
     "CL.SP.zero.pct.after": {
       "dataset": "spotify",
