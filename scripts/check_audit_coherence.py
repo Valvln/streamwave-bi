@@ -1,26 +1,37 @@
 #!/usr/bin/env python3
-"""Verifica che il documento di audit e il profilo non siano divergenti.
+"""Verifica che i documenti di lettura e gli artefatti di numeri non divergano.
 
-Confronta ogni valore marcato in `docs/data_audit.md` con il valore
-corrispondente di `reports/data_profile.json` (feature 002, FR-033).
+Confronta ogni valore marcato in `docs/data_audit.md` (feature 002) e in
+`docs/data_cleaning.md` (feature 003) con il valore corrispondente di
+`reports/data_profile.json` e `reports/cleaning_report.json`.
 
-Legge **solo** i due artefatti versionati: non richiede `data/raw/` e non
-riesegue il profiling (FR-036). Chi clona il repository senza token Kaggle puo'
-quindi verificare la coerenza di ogni numero del documento.
+Legge **solo** artefatti versionati: non richiede `data/raw/`, non riesegue il
+profiling e non riesegue la pipeline (FR-036 della 002, FR-041 della 003). Chi
+clona il repository senza token Kaggle puo' quindi verificare la coerenza di
+ogni numero dei due documenti.
 
 Esce con stato 1 su qualunque errore: un controllo che segnala senza fallire e'
-un controllo che verra' ignorato (FR-034).
+un controllo che verra' ignorato (FR-034 della 002, FR-039 della 003).
 
-Copre tre forme di ancoraggio:
+Copre quattro forme di ancoraggio:
 
     8.807<!--@NF.shape.rows-->          cifre, confrontate con `display`
     dodici<!--@X.claims_001.coincide--> numerale in lettere, confrontato con `value`
     `Music & Musicals`<!--@catalogs.netflix_categories_musical-->
                                         letterale, verificato come membro di una lista
+    due<!--#-->                         numerale dichiarato **non misurato**
 
-La seconda e la terza forma esistono perche' la prima da sola lasciava scoperta
-la zona in cui gli errori passano davvero: le affermazioni derivate scritte a
-mano. Un controllo che copre solo le cifre certifica le ancore, non il documento.
+Le prime tre esistono perche' la sola marcatura delle cifre lasciava scoperta la
+zona in cui gli errori passano davvero: le affermazioni derivate scritte a mano.
+La quarta e' la decisione ereditata D5 della 003, corollario (c): sul documento
+della 003 una quantita' priva di entrambi i marcatori e' un **errore**, non un
+avviso, e distinguere un fatto misurato da un numerale retorico non e' compito
+di un'euristica sulla prosa italiana — e' compito di chi scrive, che lo sa in un
+istante. Il marcatore di non-misurato e' il modo di dirlo.
+
+La severita' e' quindi **per documento** (contratto della 003 §3.2): sul
+documento della 002 le quantita' non marcate restano avvisi, perche' applicarvi
+la regola nuova significherebbe rimarcare un artefatto gia' mergiato.
 
 Uso:
     python3 scripts/check_audit_coherence.py
@@ -34,8 +45,15 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-DOC = REPO / "docs" / "data_audit.md"
 PROFILE = REPO / "reports" / "data_profile.json"
+CLEANING = REPO / "reports" / "cleaning_report.json"
+
+# I documenti verificati, con la propria severita'. `strict` decide se una
+# quantita' priva di marcatore sia un errore o un avviso.
+DOCUMENTS = (
+    (REPO / "docs" / "data_audit.md", False, "feature 002"),
+    (REPO / "docs" / "data_cleaning.md", True, "feature 003"),
+)
 
 # Grammatica della marcatura (contracts/profile-artifact.md §4): il marcatore
 # segue il valore senza spazio interposto. Si cattura o un letterale fra apici
@@ -43,7 +61,8 @@ PROFILE = REPO / "reports" / "data_profile.json"
 # spazio. E' cio' che evita l'estrazione euristica di "tutti i numeri" vietata
 # da FR-025: nulla di non marcato viene mai confrontato.
 MARKER = re.compile(
-    r"(?P<display>`[^`]*`|\S*?)(?P<comment><!--@(?P<vid>[A-Za-z0-9._\[\]]+)-->)"
+    r"(?P<display>`[^`]*`|\S*?)"
+    r"(?P<comment><!--(?:@(?P<vid>[A-Za-z0-9._\[\]]+)|(?P<unmeasured>#))-->)"
 )
 
 # Numerali italiani ammessi come forma ancorabile. Deliberatamente corto: copre
@@ -71,9 +90,15 @@ STRUCTURAL = re.compile(
         | 0\d\d               # numeri di feature (001-010)
         | \d{4}-\d{2}-\d{2}   # date
         | v?\d+\.\d+\.\d+     # versioni
+        | [Dd]ivergenz[ae]\s+\d+(?:\s+e\s+\d+)*   # divergenze dei verbali di revisione
+        | ISO\s+\d+           # nomi di standard
     )\b""",
     re.VERBOSE,
 )
+# Numerazione di un elenco ordinato Markdown a inizio riga: e' sintassi, come le
+# intestazioni. L'esclusione e' scritta qui perche' una esclusione non dichiarata
+# e' una esclusione che nessuno puo' contestare.
+ORDERED_LIST = re.compile(r"^\s{0,3}\d+\.\s", re.MULTILINE)
 SECTION_REF = re.compile(r"§\s*\d+(?:\.\d+)*")
 # Ancore dei link interni: `[testo](file.md#52-nota-...)` contiene cifre che
 # appartengono alla struttura del documento, non al suo contenuto.
@@ -89,17 +114,43 @@ WORDS = re.compile(
 )
 
 
-def load() -> tuple[str, dict]:
-    for path in (DOC, PROFILE):
+def load_artifacts() -> tuple[dict, list[str]]:
+    """Unisce i due artefatti in un solo spazio dei nomi, verificando le collisioni.
+
+    La disgiunzione dei prefissi (decisione T8 della 003) e' cio' che rende
+    l'unione sicura, ma non viene **assunta**: una collisione farebbe risolvere
+    un'ancora sul valore sbagliato senza che nulla lo segnali, ed e' esattamente
+    il tipo di errore silenzioso contro cui questo controllo esiste.
+    """
+    artifacts = []
+    for path in (PROFILE, CLEANING):
         if not path.exists():
             raise SystemExit(
                 f"ERRORE: artefatto mancante: {path.relative_to(REPO)}\n"
-                f"        Il controllo confronta documento e profilo: servono "
-                f"entrambi, e sono entrambi versionati."
+                f"        Il controllo confronta i documenti con gli artefatti "
+                f"di numeri: sono tutti versionati e devono esserci."
             )
-    return DOC.read_text(encoding="utf-8"), json.loads(
-        PROFILE.read_text(encoding="utf-8")
-    )
+        artifacts.append(json.loads(path.read_text(encoding="utf-8")))
+
+    merged: dict = {"values": {}, "catalogs": {}, "conventions": {}, "inventory_001": {}}
+    collisions = []
+    for artifact in artifacts:
+        for space in ("values", "catalogs", "conventions"):
+            for key, payload in artifact.get(space, {}).items():
+                if key in merged[space] and merged[space][key] != payload:
+                    collisions.append(f"{space}.{key}")
+                merged[space][key] = payload
+        merged["inventory_001"].update(artifact.get("inventory_001", {}))
+    return merged, sorted(set(collisions))
+
+
+def read_document(path: Path) -> str:
+    if not path.exists():
+        raise SystemExit(
+            f"ERRORE: documento mancante: {path.relative_to(REPO)}\n"
+            f"        Il controllo verifica i documenti dichiarati in DOCUMENTS."
+        )
+    return path.read_text(encoding="utf-8")
 
 
 def line_of(text: str, position: int) -> int:
@@ -122,7 +173,7 @@ def resolve(artifact: dict, vid: str):
 
 def check_markers(text: str, artifact: dict) -> tuple[list[str], dict]:
     errors: list[str] = []
-    tally = {"cifre": 0, "lettere": 0, "letterali": 0}
+    tally = {"cifre": 0, "lettere": 0, "letterali": 0, "non misurati": 0}
 
     # Un commento che vive *dentro* un frammento di codice in linea e' la
     # sintassi mostrata come esempio, non un'ancora: il documento ha il diritto
@@ -135,9 +186,21 @@ def check_markers(text: str, artifact: dict) -> tuple[list[str], dict]:
         if any(start <= comment_at < end for start, end in code_spans):
             continue
 
-        vid = match.group("vid")
         found = match.group("display")
         line = line_of(text, match.start())
+
+        # --- Non misurato: si registra che la decisione e' stata presa ---
+        # Il marcatore non asserisce nulla sul valore. Dichiara che chi scrive
+        # ha **considerato** quel numerale e afferma che non e' un fatto sui
+        # dati. Cio' che elimina e' la categoria dell'omissione distratta, che
+        # e' quella in cui la 002 ha perso tre affermazioni; non elimina la
+        # categoria della dichiarazione falsa, contro cui esiste la revisione
+        # in contesto pulito.
+        if match.group("unmeasured"):
+            tally["non misurati"] += 1
+            continue
+
+        vid = match.group("vid")
         target = resolve(artifact, vid)
 
         if target is None:
@@ -205,20 +268,30 @@ def check_inventory(artifact: dict) -> list[str]:
 
 
 def unmarked_quantities(text: str) -> list[str]:
-    """Avviso non bloccante su cifre e numerali non adiacenti a un marcatore.
+    """Cifre e numerali non adiacenti ad alcun marcatore.
 
-    Decisione D8: riconoscere che un numero *sarebbe dovuto* essere marcato
-    richiederebbe di distinguere in prosa italiana un valore di profilo da una
-    data o da un riferimento a una sezione. E' l'euristica che FR-025 vieta, e
-    trasformarla in un gate produrrebbe fallimenti falsi. L'elenco serve alla
-    revisione, non decide al posto suo.
+    Sul documento della 002 e' un **avviso**: la decisione D8 di quella feature
+    osservava che riconoscere se un numero *sarebbe dovuto* essere marcato
+    richiede di distinguere in prosa italiana un valore di profilo da una data o
+    da un riferimento a una sezione, cioe' l'euristica che FR-025 vieta.
+
+    Sul documento della 003 e' un **errore**, e non perche' l'euristica sia
+    migliorata: perche' l'onere si e' spostato. Con il marcatore di non-misurato
+    chi scrive dichiara l'intenzione, e al controllo non resta nulla da
+    indovinare — una quantita' senza marcatore non e' piu' ambigua, e' omessa.
     """
-    blank = lambda m: " " * len(m.group(0))
+    # La sostituzione preserva i ritorni a capo, non solo la lunghezza. Un
+    # apice inverso spaiato fa estendere `INLINE_CODE` alla riga successiva, e
+    # cancellarne il ritorno a capo sposterebbe di uno tutti i numeri di riga da
+    # li' in avanti: un errore segnalato sulla riga sbagliata e' un errore che
+    # chi lo riceve cerca dove non e'.
+    blank = lambda m: re.sub(r"[^\n]", " ", m.group(0))
     stripped = MARKER.sub(blank, text)
     stripped = LINK_TARGET.sub(blank, stripped)
     stripped = INLINE_CODE.sub(blank, stripped)
     stripped = STRUCTURAL.sub(blank, stripped)
     stripped = SECTION_REF.sub(blank, stripped)
+    stripped = ORDERED_LIST.sub(blank, stripped)
 
     warnings = []
     in_code = False
@@ -241,33 +314,59 @@ def unmarked_quantities(text: str) -> list[str]:
 
 
 def main() -> int:
-    text, artifact = load()
+    artifact, collisions = load_artifacts()
 
-    errors, tally = check_markers(text, artifact)
-    errors += check_inventory(artifact)
-    warnings = unmarked_quantities(text)
+    print(f"Artefatti : {PROFILE.relative_to(REPO)} + {CLEANING.relative_to(REPO)}")
+    print(f"            {len(artifact['values'])} valori in uno spazio dei nomi unito")
 
-    print(f"Documento : {DOC.relative_to(REPO)}")
-    print(f"Profilo   : {PROFILE.relative_to(REPO)} ({len(artifact['values'])} valori)")
-    print(
-        f"Marcatori : {sum(tally.values())} "
-        f"({tally['cifre']} in cifre, {tally['lettere']} in lettere, "
-        f"{tally['letterali']} letterali)"
-    )
+    failed = False
+    if collisions:
+        print(f"\nERRORI (1):")
+        print(f"  i due artefatti collidono su {len(collisions)} chiavi con "
+              f"contenuto diverso: {', '.join(collisions)}")
+        failed = True
 
-    if warnings:
-        print(f"\nAVVISI ({len(warnings)}) — quantita' non marcate, da vagliare:")
-        for warning in warnings:
-            print(warning)
+    inventory_errors = check_inventory(artifact)
 
-    if errors:
-        print(f"\nERRORI ({len(errors)}):")
-        for error in errors:
-            print(error)
-        print("\nESITO: divergenza fra documento e profilo.")
+    for path, strict, owner in DOCUMENTS:
+        text = read_document(path)
+        errors, tally = check_markers(text, artifact)
+        unmarked = unmarked_quantities(text)
+        if path is DOCUMENTS[0][0]:
+            errors += inventory_errors
+
+        severity = "errore" if strict else "avviso"
+        print(f"\nDocumento : {path.relative_to(REPO)} ({owner})")
+        print(
+            f"Marcatori : {sum(tally.values())} "
+            f"({tally['cifre']} in cifre, {tally['lettere']} in lettere, "
+            f"{tally['letterali']} letterali, "
+            f"{tally['non misurati']} non misurati)"
+        )
+        print(f"Severita' : quantita' non marcata = {severity}")
+
+        if unmarked:
+            if strict:
+                errors += [
+                    w + " — priva di ancora e di marcatore di non-misurato"
+                    for w in unmarked
+                ]
+            else:
+                print(f"\n  AVVISI ({len(unmarked)}) — quantita' non marcate, da vagliare:")
+                for warning in unmarked:
+                    print(warning)
+
+        if errors:
+            print(f"\n  ERRORI ({len(errors)}):")
+            for error in errors:
+                print(error)
+            failed = True
+
+    if failed:
+        print("\nESITO: divergenza fra documenti e artefatti.")
         return 1
 
-    print("\nESITO: documento e profilo coerenti.")
+    print("\nESITO: documenti e artefatti coerenti.")
     return 0
 
 
