@@ -31,9 +31,9 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `009` | Porting Tableau Public | 5 | 007 | ⬜ *stretch, primo a cadere* |
 | `010` | Case Study & Portfolio Integration | 6 | 008 | ⬜ |
 
-**Totale residuo escluso `009`**: ~39 ore di feature, più ~3,5 ore di debito testuale e ~5 ore di altri chore.
+**Totale residuo escluso `009`**: ~39 ore di feature, più ~3,5 ore di debito testuale e ~4 ore di altri chore.
 
-Le stime di `006`, `007` e `010` includono la **revisione in contesto pulito e la chiusura dei rilievi** — circa un'ora ciascuna. Era il rischio aperto lasciato dalla 002, dove quel costo era stato l'intero scostamento; è chiuso incorporandolo invece che continuando a scoprirlo a consuntivo. La conseguenza è che `007` sale a 8 ore e raggiunge `008` fra le feature che vanno scomposte prima di essere aperte, non dopo.
+Le stime di `004`, `006`, `007` e `010` includono la **revisione in contesto pulito e la chiusura dei rilievi** — circa un'ora ciascuna. Era il rischio aperto lasciato dalla 002, dove quel costo era stato l'intero scostamento; è chiuso incorporandolo invece che continuando a scoprirlo a consuntivo. La conseguenza è che `007` sale a 8 ore e raggiunge `008` fra le feature che vanno scomposte prima di essere aperte, non dopo.
 
 La `003` è la prima feature la cui stima conteneva la revisione, ed è la prima a chiudere **sotto** la stima: ~6,5 ore contro 7, revisione e chiusura di tredici rilievi incluse. Un solo dato non fa una serie, ma la direzione è quella attesa — lo scostamento delle prime due feature non veniva dall'esecuzione, veniva da un costo reale che la stima non conteneva.
 
@@ -41,7 +41,9 @@ La `003` è la prima feature la cui stima conteneva la revisione, ed è la prima
 
 ### Nota sulla `004` — ancoraggio a benchmark pubblici
 
-**Decisione del 2026-08-10: accolta, rifilata.** La 004 come originariamente prevista sarebbe stato l'unico artefatto del progetto in cui la fonte di ogni parametro è "l'analista ha deciso così". Formalmente conforme — la constitution ammette i sintetici con assunzioni dichiarate a confidenza bassa — ma incoerente con la tesi del progetto, che è il principio I. I parametri di scenario vanno ancorati a benchmark pubblici di settore, con fonte, data di accesso e citazione puntuale, e legati ai KPI in un file di assunzioni versionato. Il documento `docs/business_case.md` §7, scheda `BQ3-K1`, prende già questo impegno e non lo ha ancora onorato.
+**Decisione del 2026-08-10: accolta, rifilata.** La 004 come originariamente prevista sarebbe stato l'unico artefatto del progetto in cui la fonte di ogni parametro è "l'analista ha deciso così". Formalmente conforme — la constitution ammette i sintetici con assunzioni dichiarate a confidenza bassa — ma incoerente con la tesi del progetto, che è il principio I. I parametri di scenario vanno ancorati a benchmark pubblici di settore, con fonte, data di accesso e citazione puntuale, e legati ai KPI in un file di assunzioni versionato. La [constitution](../.specify/memory/constitution.md) li ammette fra le fonti dati dalla **v1.1.0** del 2026-08-15, a cinque condizioni.
+
+*Correzione del 2026-08-15*: questa nota affermava che «`docs/business_case.md` §7, scheda `BQ3-K1`, prende già questo impegno». Non è esatto e va detto invece di essere riscritto in silenzio. La scheda `BQ3-K1` sta in §5.5, non in §7, e l'impegno che prende è diverso: «le assunzioni che generano i tre scenari saranno dichiarate e versionate insieme allo script che le implementa». È un impegno di **versionamento**, non di **ancoraggio a fonte esterna**, ed è tuttora da onorare. L'ancoraggio è un'aggiunta di questa decisione, non l'esecuzione di una promessa già fatta.
 
 Il perimetro è però molto più stretto di quanto la proposta iniziale prevedesse, perché tre dei valori proposti non hanno un consumatore nel framework:
 
@@ -85,7 +87,7 @@ Resta debito, tracciato sotto.
 | Debito testuale della 001: rilievi R9, R10, R12 e allineamento di §3 a R11 | ~1 | prima di `007` |
 | Debito testuale della 002: divergenza 3, allineare §5 del documento di audit a citare D3 della 001 e A2/A3 del business case | ~0,5 | prima di `007` |
 | Debito testuale della 002: portare `docs/data_audit.md` sotto la severità stretta, rimarcandone le quantità | ~1 | prima di `007`, nella stessa sessione della riga sopra |
-| Emendamento della constitution: ammettere i benchmark pubblici di settore fra le fonti dati, con Sync Impact Report e bump di versione | ~1 | prima di `004` |
+| ~~Emendamento della constitution: ammettere i benchmark pubblici di settore fra le fonti dati~~ | — | ✅ fatto il 2026-08-15, **v1.1.0** |
 | Debito testuale per l'ancoraggio: assunzione di trasferimento in §2 di `docs/business_case.md`, richiamo in §6, note datate sulle schede `BQ3-K1` e `BQ3-K2` | ~1 | dentro `004` o subito prima |
 | Pubblicazione di prova su workspace Power BI Service e cattura schermate | ~1 | 18 agosto (scadenza trial Pro) — **a rischio**, vedi sotto |
 
@@ -199,9 +201,9 @@ Ricadute: la scelta chiude anche la divergenza 10 della 001, la governance di qu
 | 11 agosto | ~4 h spese | `003`: spec, piano, 48 task e **MVP completo** (T001-T026) |
 | 12 → 14 agosto | **non pianificata** | nulla, come previsto. Vedi sotto |
 | 15 agosto | ~2,5 h spese | `003` ✅ conclusa e mergiata (T027-T049), revisione inclusa |
-| dal 16 agosto | giornate piene, ~6 h/giorno | `004`, `005`, `006`, `007`, `008`, `010`, più ~8,5 h di chore e debito |
+| dal 16 agosto | giornate piene, ~6 h/giorno | `004`, `005`, `006`, `007`, `008`, `010`, più ~7,5 h di chore e debito |
 
-Atterraggio stimato: **23-24 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime, poi 24-25 con la finestra non pianificata del 12-14 agosto. Le ore in più dell'11 agosto lo avevano riportato a 23-24, e la chiusura della `003` sotto stima lo conferma: restano ~47,5 ore su giornate da ~6, cioè otto giorni pieni.
+Atterraggio stimato: **23-24 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime, poi 24-25 con la finestra non pianificata del 12-14 agosto. Le ore in più dell'11 agosto lo avevano riportato a 23-24, e la chiusura della `003` sotto stima lo conferma: restano ~46,5 ore su giornate da ~6, cioè otto giorni pieni.
 
 **Il chore dell'ambiente Power BI non è stato fatto**, e la finestra a bassa capacità che doveva ospitarlo è chiusa. Va ora incastrato fra `004` e `005`, che è il suo termine ultimo: è l'unica voce del piano che consuma tempo di calendario senza consumare attenzione, e collocarla in una giornata piena è lo spreco che si era cercato di evitare. Se una sessione si apre stanca, è quella da fare.
 
