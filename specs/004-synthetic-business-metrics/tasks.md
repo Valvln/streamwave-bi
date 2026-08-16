@@ -60,7 +60,7 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow dat
 
 ---
 
-## Phase 3: User Story 1 — Il parametro è verificabile alla fonte (Priority: P1) 🎯 MVP *(blocco B)*
+## Phase 3: User Story 1 — Il parametro è verificabile alla fonte (Priority: P1) *(blocco B)*
 
 **Goal**: `data/benchmarks/bq3_tier_upgrade.json` contiene il valore adottato con una citazione che soddisfa tutte e cinque le condizioni della constitution, oppure la feature si ferma con il registro dei rigetti.
 
@@ -80,7 +80,7 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow dat
 
 ---
 
-## Phase 4: User Story 2 — I sei valori si rigenerano da una copia pulita (Priority: P1) *(blocco C)*
+## Phase 4: User Story 2 — I sei valori si rigenerano da una copia pulita (Priority: P1) 🎯 **l'MVP si completa qui** *(blocco C)*
 
 **Goal**: `python3 scripts/build_bq3_scenarios.py` produce `reports/bq3_scenarios.json` in modo deterministico, senza rete e senza `data/raw/`.
 
@@ -90,7 +90,7 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow dat
 - [ ] T016 [US2] Implementare la catena di derivazione di [data-model.md](./data-model.md) §"La catena": `adoption.base` dal benchmark, `worst` e `best` per i due fattori, i tre `uplift` come prodotto per il differenziale diviso 100 (FR-010, FR-012). Il differenziale si **legge dal file**, non si scrive nel codice
 - [ ] T017 [US2] Implementare l'arrotondamento con `ROUND_HALF_UP` **dichiarato esplicitamente**, e non la modalità predefinita di `Decimal`, che è `ROUND_HALF_EVEN` (T5). Le cifre significative sono quelle del benchmark e mai più di due (FR-015, D3)
 - [ ] T018 [US2] Implementare il formattatore del campo `display` con separatore decimale italiano, per formattazione **esplicita** e mai con funzione dipendente dal locale (vincolo ereditato da F6 della 003)
-- [ ] T019 [US2] Implementare la guardia di FR-016: la derivazione **si ferma con errore** se un tasso risultante cade fuori dall'intervallo 0-100, senza lasciare un artefatto parziale
+- [ ] T019 [US2] Implementare la guardia di FR-016: la derivazione **si ferma con errore** se un tasso risultante cade fuori dall'intervallo 0-100, senza lasciare un artefatto parziale. Il messaggio di errore **deve instradare l'uscita, non limitarsi a fermare**: con k = 0,50 lo scenario ottimista supera il 100% per qualunque benchmark oltre il **66,67%**, e poiché i fattori sono fissati prima della ricognizione (FR-011a) l'incompatibilità è scopribile solo qui, a commit già fatti. L'uscita esiste già dentro FR-011a — i fattori possono cambiare dopo, purché il cambiamento sia **dichiarato con la propria ragione** — e il messaggio deve nominarla, perché chi la incontra non sia costretto a dedurla. La probabilità è bassa (un tasso di passaggio a tier superiore oltre due terzi della base sarebbe una notizia); il costo di scriverlo è una riga, quello di incontrarlo impreparati è uno stallo a metà feature
 - [ ] T020 [US2] Calcolare e scrivere le due affermazioni derivate con identificativo proprio — `BQ3.band.spread_pp` e `BQ3.band.ratio` — perché un confronto costruito su valori misurati è esso stesso un valore misurato (FR-031, regola D5)
 - [ ] T021 [US2] Scrivere `reports/bq3_scenarios.json` con `values`, `conventions` (tutte con prefisso `bq3_`, per F2), `sources` con l'impronta del file dei parametri, e `schema_version`. **Nessun timestamp di esecuzione**: se serve datare, si data la fonte, che è un fatto
 - [ ] T022 [US2] Estendere `load_artifacts()` in `scripts/check_audit_coherence.py` al terzo artefatto, **senza indebolire la verifica di collisione** (FR-018). La funzione è già scritta in forma generica su una lista: la modifica è l'aggiunta di un percorso, e va tenuta tale
@@ -144,7 +144,7 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow dat
 
 **Scopo**: chiudere ciò che riguarda il progetto e non la feature, e sottoporre l'artefatto a un lettore che non l'ha costruito.
 
-- [ ] T040 Dichiarare lo **scostamento dalla roadmap sul seed fisso** (FR-024, D1): la nota sulla `004` in [`docs/roadmap.md`](../../docs/roadmap.md) prescrive che «uno script con seed fisso genera il dataset», e questa feature non lo fa. La formulazione precede l'uscita di engagement e base utenti dal perimetro, cioè precede le decisioni che tolgono al seed il proprio oggetto. Una prescrizione superata dai fatti si registra, non si lascia cadere in silenzio
+- [ ] T040 Dichiarare lo **scostamento dalla roadmap sul seed fisso** (FR-024, D1) **dentro `docs/bq3_scenarios.md`**, nella sezione in cui il documento spiega perché la derivazione è deterministica. La nota sulla `004` in `docs/roadmap.md` prescrive che «uno script con seed fisso genera il dataset», e questa feature non lo fa: la formulazione precede l'uscita di engagement e base utenti dal perimetro, cioè precede le decisioni che tolgono al seed il proprio oggetto. **Non toccare `docs/roadmap.md`**: è artefatto di governance e appartiene alla regia, che vi ha già scritto la nota in loco il 2026-08-16. Una prescrizione superata dai fatti si registra dove la feature parla, non nel documento che la prescriveva
 - [ ] T041 [P] Verificare che nessun artefatto della feature presenti `BQ3-K1` o `BQ3-K2` come valore singolo e che nessuno ne innalzi la confidenza sopra `bassa` (SC-005, FR-021). È il divieto più facile da violare per distrazione, perché un valore singolo sta meglio in ogni frase
 - [ ] T042 [P] Rileggere i **cinque divieti** di [contracts/parameters-and-scenarios.md](./contracts/parameters-and-scenarios.md) §3 contro ciò che la feature ha effettivamente prodotto, e correggere il contratto se l'implementazione ne diverge. È la lezione della 003: dove contratto e implementazione divergono, è il contratto a dover essere corretto, non il lettore a doverlo indovinare
 - [ ] T043 Eseguire **l'intero** [quickstart.md](./quickstart.md) dalla Prova 1 alla Prova 9 su una copia pulita, in sequenza. Le verifiche di fase hanno coperto le prove una alla volta; questa copre la loro composizione
