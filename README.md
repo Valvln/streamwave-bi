@@ -33,6 +33,7 @@ Governance: [`constitution`](.specify/memory/constitution.md) v1.1.0 · [metodo 
 | `001` Business Case & KPI Framework | [`docs/business_case.md`](docs/business_case.md) | ✅ conclusa, [revisionata](specs/001-business-case-kpi/review.md) |
 | `002` Data Audit & Profiling | [`docs/data_audit.md`](docs/data_audit.md) · [`reports/data_profile.json`](reports/data_profile.json) | ✅ conclusa, [revisionata](specs/002-data-audit-profiling/review.md) |
 | `003` Data Cleaning & ETL | [`docs/data_cleaning.md`](docs/data_cleaning.md) · `scripts/build_datasets.py` · [`reports/cleaning_report.json`](reports/cleaning_report.json) | ✅ conclusa, [revisionata](specs/003-data-cleaning-etl/review.md) |
+| `004` Synthetic Business Metrics | [`docs/bq3_scenarios.md`](docs/bq3_scenarios.md) · [`data/benchmarks/`](data/benchmarks/) · [`reports/bq3_scenarios.json`](reports/bq3_scenarios.json) | ✅ conclusa |
 
 Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](docs/roadmap.md).
 
@@ -44,7 +45,9 @@ Il secondo è **[`docs/data_audit.md`](docs/data_audit.md)**: il profilo dei due
 
 Il terzo è **[`docs/data_cleaning.md`](docs/data_cleaning.md)**: la dichiarazione di ogni decisione presa sui dati per portarli allo stato in cui il modello li userà, con la ragione, l'effetto misurato in righe o valori, e i valori del profilo che dopo la trasformazione non valgono più. I dataset che ne escono **non sono versionati** — lo è la pipeline che li produce — quindi il documento e [`reports/cleaning_report.json`](reports/cleaning_report.json) sono ciò che li rende verificabili da chi non può rigenerarli.
 
-I due documenti che pubblicano misure — l'audit e il cleaning — legano ogni numero all'artefatto che lo produce con la stessa grammatica, definita in **[`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md)** e verificata da `scripts/check_audit_coherence.py`.
+Il quarto è **[`docs/bq3_scenarios.md`](docs/bq3_scenarios.md)**: i parametri di scenario della terza domanda di business, gli unici numeri del progetto che non descrivono un dato osservato. Il tasso su cui poggiano è un **benchmark pubblicato da un terzo**, congelato in [`data/benchmarks/`](data/benchmarks/) con la propria citazione e con lo scarto fra ciò che la fonte misura e ciò per cui viene usato; da lì una derivazione deterministica ricava i sei valori di [`reports/bq3_scenarios.json`](reports/bq3_scenarios.json). Il documento esiste per dichiarare quel passaggio, non per nasconderlo: ancorare un parametro a una fonte lo rende **verificabile, non vero per StreamWave**.
+
+I tre documenti che pubblicano misure — l'audit, il cleaning e gli scenari — legano ogni numero all'artefatto che lo produce con la stessa grammatica, definita in **[`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md)** e verificata da `scripts/check_audit_coherence.py`.
 
 ## Setup
 
@@ -59,11 +62,14 @@ python3 scripts/profile_data.py
 #    e il rendiconto reports/cleaning_report.json (richiede i dati raw)
 python3 scripts/build_datasets.py
 
-# 4. Coerenza fra i documenti pubblicati e gli artefatti (NON richiede i dati raw)
+# 4. Scenari BQ3 dal benchmark congelato (NON richiede i dati raw né rete)
+python3 scripts/build_bq3_scenarios.py
+
+# 5. Coerenza fra i documenti pubblicati e gli artefatti (NON richiede i dati raw)
 python3 scripts/check_audit_coherence.py
 ```
 
-Nessuna dipendenza da installare: gli script usano la sola libreria standard di Python 3. Il passo 4 funziona su una copia del repository priva di `data/raw/`, perché confronta soltanto artefatti versionati — è il modo in cui chi non ha i dati di origine verifica che i numeri dei documenti non siano stati scritti a mano.
+Nessuna dipendenza da installare: gli script usano la sola libreria standard di Python 3. Il passo 5 funziona su una copia del repository priva di `data/raw/`, perché confronta soltanto artefatti versionati — è il modo in cui chi non ha i dati di origine verifica che i numeri dei documenti non siano stati scritti a mano.
 
 ## Struttura
 
@@ -71,9 +77,9 @@ Nessuna dipendenza da installare: gli script usano la sola libreria standard di 
 .specify/       # Spec Kit: constitution, template, script
 .claude/        # comandi /speckit.* per Claude Code
 .github/        # prompt /speckit.* per GitHub Copilot
-data/           # raw / interim / processed (gitignored)
-docs/           # i documenti pubblicati: business case, audit, cleaning, convenzioni, roadmap
-reports/        # artefatti generati e versionati: profilo dei dati e rendiconto delle trasformazioni
+data/           # raw / interim / processed (gitignored) + benchmarks/ (versionata: non è riproducibile)
+docs/           # i documenti pubblicati: business case, audit, cleaning, scenari, convenzioni, roadmap
+reports/        # artefatti generati e versionati: profilo, rendiconto delle trasformazioni, scenari BQ3
 scripts/        # utility riproducibili
 specs/          # una cartella per feature: spec.md, plan.md, tasks.md
 ```
