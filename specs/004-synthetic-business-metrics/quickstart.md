@@ -98,9 +98,20 @@ Il caso costruito apposta, perché è quello che una prova casuale non troverebb
 python3 scripts/build_bq3_scenarios.py
 ```
 
-**Atteso**: `BQ3.adoption.best` vale `43,5` e non `43,49999...`; ogni `display` è arrotondato secondo `conventions.bq3_rounding` e riporta la virgola come separatore decimale.
+**Atteso**: `BQ3.adoption.best` vale **`44`** e `BQ3.adoption.worst` vale **`15`**; `BQ3.uplift.best` vale `1,74`; ogni `display` riporta la virgola come separatore decimale.
 
-**Perché questo caso**: in virgola mobile `0,29 × 1,5` restituisce `0.43499999999999994`, cioè il confine di arrotondamento visto dal lato sbagliato. È il ritrovamento F3, e questa prova esiste perché il difetto sarebbe stato altrimenti scopribile solo dopo la scelta del benchmark.
+**Perché quei due numeri.** Entrambi gli estremi cadono esattamente sul mezzo — 43,5 e 14,5 — che è il punto in cui la regola dichiarata decide, e questa prova esiste per vederla decidere:
+
+- **contro la virgola mobile**: `0,29 × 1,5` restituisce `0.43499999999999994`, cioè il confine visto dal lato sbagliato. Arrotondato darebbe **43** invece di 44. È il ritrovamento F3, e il difetto sarebbe stato altrimenti scopribile solo dopo la scelta del benchmark;
+- **contro la modalità predefinita**: `ROUND_HALF_EVEN`, che è quella che `Decimal` applica se non gliene si dichiara un'altra, porterebbe 14,5 a **14**. `ROUND_HALF_UP` lo porta a 15.
+
+Un esito sbagliato per la prima ragione e uno sbagliato per la seconda differiscono di un punto percentuale su un valore pubblicato, e nessuno dei due si presenterebbe come errore.
+
+**Attenzione al ripristino**: il file dei parametri va rimesso com'era e la derivazione rieseguita, altrimenti l'artefatto resta sul valore di prova.
+
+```bash
+git checkout data/benchmarks/bq3_tier_upgrade.json && python3 scripts/build_bq3_scenarios.py
+```
 
 ## Prova 8 — Il controllo di coerenza passa in severità stretta *(SC-004, FR-020)*
 
