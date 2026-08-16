@@ -68,9 +68,13 @@ Prefisso `BQ3.`, verificato disgiunto da `NF.`, `SP.`, `CL.`, `X.` (T3). La veri
 | `bq3_band_factor_low` | `0.50` | moltiplicatore dello scenario pessimista, `1 − k` |
 | `bq3_band_factor_high` | `1.50` | moltiplicatore dello scenario ottimista, `1 + k` |
 | `bq3_band_meaning` | prosa | che l'ampiezza **non misura nulla**: è fiducia nel trasferimento, non varianza osservata (FR-011) |
-| `bq3_band_fixed_before` | prosa + riferimento al commit | che i fattori precedono la ricognizione (FR-011a) |
+| `bq3_band_fixed_before` | prosa, **senza alcun hash** | che i fattori precedono la ricognizione, e come verificarlo (FR-011a) |
 | `bq3_rounding` | `ROUND_HALF_UP`, 2 cifre significative al più | la regola di arrotondamento, dichiarata e non ereditata (T5, FR-015) |
 | `bq3_price_delta_eur` | `4.00` | il differenziale di A4, letto e non scritto nel codice (FR-012) |
+
+**Perché `bq3_band_fixed_before` non contiene un riferimento al commit.** Sembrava la forma più forte e non è scrivibile in nessuna delle due direzioni. Nel file dei parametri il campo dovrebbe portare l'hash del commit che lo introduce, che **non esiste ancora** nel momento in cui il file si scrive. Nell'artefatto generato, ricavarlo obbligherebbe lo script a interrogare `git`, cioè a dipendere dalla presenza della history — e la Prova 3 del quickstart gira su una copia pulita che potrebbe non averla, oltre a introdurre in una derivazione deterministica una lettura di stato esterno.
+
+La prova di precedenza **è già la history**, prodotta dal commit isolato della Fase 2. La convenzione dichiara quindi il fatto in prosa e indica come verificarlo — `git log --follow data/benchmarks/bq3_tier_upgrade.json`, che è la Prova 1 del [quickstart](./quickstart.md) — senza incorporare nulla che debba essere tenuto allineato a mano.
 
 Il prefisso `bq3_` è obbligatorio e brutto per la ragione di F2: lo spazio dei nomi di `conventions` è piatto e condiviso fra artefatti, e `rounding_decimals` è già occupato da un'altra feature con contenuto diverso.
 
