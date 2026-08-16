@@ -1,0 +1,74 @@
+{
+  "conventions": {
+    "bq3_band_factor_high": "1.50",
+    "bq3_band_factor_low": "0.50",
+    "bq3_band_fixed_before": "I due fattori sono stati fissati prima che la ricognizione sul benchmark avesse inizio. Questo file e' nato con i soli blocchi band e price: nella sua prima versione la chiave benchmark non esisteva, nemmeno vuota e nemmeno come segnaposto, perche' un campo pronto da riempire renderebbe indistinguibile fissato prima da riempito dopo. La verifica e' git log --follow data/benchmarks/bq3_tier_upgrade.json, che mostra i due commit distinti. Il campo non riporta l'hash del commit che lo introduce: quell'hash non esiste ancora nel momento in cui il file si scrive, e la prova di precedenza e' gia' la history. Fissare la banda dopo aver visto il benchmark la piegherebbe verso l'intervallo che sembra giusto, in un modo che nessun controllo automatico di questo progetto potrebbe rilevare.",
+    "bq3_band_meaning": "L'ampiezza della banda non misura nulla. Non e' una varianza osservata, non e' un intervallo di confidenza e non ha interpretazione probabilistica: dichiara quanta fiducia l'analista ripone nel trasferimento del benchmark a StreamWave. Chi la legge come dispersione statistica le attribuisce un contenuto che non ha.",
+    "bq3_price_delta_eur": "4.00",
+    "bq3_rounding": "ROUND_HALF_UP, dichiarato esplicitamente e non la modalita' predefinita di decimal.Decimal, che e' ROUND_HALF_EVEN. Due famiglie di valori. I tassi in punti percentuali -- BQ3.adoption.* e BQ3.band.spread_pp -- si pubblicano alle cifre significative del benchmark, al piu' due. Gli importi in euro -- BQ3.uplift.* -- si pubblicano a due posizioni decimali fisse, che sono la convenzione con cui si scrive una valuta e non una pretesa di precisione: la precisione effettiva degli importi resta quella del benchmark, cioe' due cifre significative, e 1,20 EUR non va letto come una conoscenza a tre. BQ3.band.ratio non discende dal benchmark ed e' esatto per costruzione. Tutta l'aritmetica in decimal.Decimal, mai in virgola mobile."
+  },
+  "schema_version": 1,
+  "sources": [
+    {
+      "bytes": 12345,
+      "file": "data/benchmarks/bq3_tier_upgrade.json",
+      "sha256": "32b5b83aab7e5501c52624f77e29f3a6e7493698c1e37d92deec060e941cd5b3"
+    }
+  ],
+  "values": {
+    "BQ3.adoption.base": {
+      "display": "30",
+      "label": "tasso di adozione del tier premium, scenario centrale",
+      "scenario": "base",
+      "unit": "punti percentuali della base",
+      "value": "30"
+    },
+    "BQ3.adoption.best": {
+      "display": "45",
+      "label": "tasso di adozione del tier premium, scenario ottimista",
+      "scenario": "best",
+      "unit": "punti percentuali della base",
+      "value": "45"
+    },
+    "BQ3.adoption.worst": {
+      "display": "15",
+      "label": "tasso di adozione del tier premium, scenario pessimista",
+      "scenario": "worst",
+      "unit": "punti percentuali della base",
+      "value": "15"
+    },
+    "BQ3.band.ratio": {
+      "display": "3",
+      "label": "rapporto fra scenario ottimista e pessimista; dipende dai soli fattori della banda e non dal benchmark",
+      "unit": "rapporto",
+      "value": "3"
+    },
+    "BQ3.band.spread_pp": {
+      "display": "30",
+      "label": "ampiezza della banda di adozione, fra scenario ottimista e pessimista",
+      "unit": "punti percentuali",
+      "value": "30"
+    },
+    "BQ3.uplift.base": {
+      "display": "1,20",
+      "label": "variazione del ricavo medio per utente, scenario centrale",
+      "scenario": "base",
+      "unit": "euro per utente al mese",
+      "value": "1.20"
+    },
+    "BQ3.uplift.best": {
+      "display": "1,80",
+      "label": "variazione del ricavo medio per utente, scenario ottimista",
+      "scenario": "best",
+      "unit": "euro per utente al mese",
+      "value": "1.80"
+    },
+    "BQ3.uplift.worst": {
+      "display": "0,60",
+      "label": "variazione del ricavo medio per utente, scenario pessimista",
+      "scenario": "worst",
+      "unit": "euro per utente al mese",
+      "value": "0.60"
+    }
+  }
+}
