@@ -1,0 +1,14 @@
+{
+  "band": {
+    "bq3_band_factor_low": "0.50",
+    "bq3_band_factor_high": "1.50",
+    "bq3_band_meaning": "L'ampiezza della banda non misura nulla. Non e' una varianza osservata, non e' un intervallo di confidenza e non ha interpretazione probabilistica: dichiara quanta fiducia l'analista ripone nel trasferimento del benchmark a StreamWave. Chi la legge come dispersione statistica le attribuisce un contenuto che non ha.",
+    "bq3_band_reason": "k = 0,50, cioe' worst = base x 0,50 e best = base x 1,50. E' una stipulazione e non una derivazione: nessun dato di questo progetto la sostiene e nessun criterio la ricava da qualcosa. In questa condizione la rotondita' del numero e' la ragione, non la sua assenza: un k = 0,37 comunicherebbe a chi legge che il valore viene da un calcolo, e non ne viene. Una stipulazione grossolana deve avere l'aspetto di una stipulazione grossolana. Cio' che k = 0,50 dichiara e' che il trasferimento e' considerato incerto entro un fattore 3 fra i due estremi: il rapporto fra scenario ottimista e pessimista vale (1 + k) / (1 - k) e non dipende dal benchmark adottato, qualunque esso sia. Lo scenario pessimista corrisponde a meta' di quanto ha ottenuto chi il verticale musicale ce l'ha gia'.",
+    "bq3_band_fixed_before": "I due fattori sono stati fissati prima che la ricognizione sul benchmark avesse inizio. Questo file e' nato con i soli blocchi band e price: nella sua prima versione la chiave benchmark non esisteva, nemmeno vuota e nemmeno come segnaposto, perche' un campo pronto da riempire renderebbe indistinguibile fissato prima da riempito dopo. La verifica e' git log --follow data/benchmarks/bq3_tier_upgrade.json, che mostra i due commit distinti. Il campo non riporta l'hash del commit che lo introduce: quell'hash non esiste ancora nel momento in cui il file si scrive, e la prova di precedenza e' gia' la history. Fissare la banda dopo aver visto il benchmark la piegherebbe verso l'intervallo che sembra giusto, in un modo che nessun controllo automatico di questo progetto potrebbe rilevare."
+  },
+  "price": {
+    "bq3_price_delta_eur": "4.00",
+    "bq3_price_delta_source": "Differenziale di prezzo mensile fra il tier Base e il tier Premium, dichiarato in A4 di docs/business_case.md. E' una decisione di scenario e non una misura: A4 lo fissa per scelta, e la determinazione dei prezzi resta fuori dal perimetro di questa feature (A4, FR-017a della 001). Il valore si legge da qui e non si scrive nel codice della derivazione."
+  },
+  "schema_version": 1
+}
