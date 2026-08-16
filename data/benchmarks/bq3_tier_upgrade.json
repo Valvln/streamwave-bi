@@ -10,5 +10,65 @@
     "bq3_price_delta_eur": "4.00",
     "bq3_price_delta_source": "Differenziale di prezzo mensile fra il tier Base e il tier Premium, dichiarato in A4 di docs/business_case.md. E' una decisione di scenario e non una misura: A4 lo fissa per scelta, e la determinazione dei prezzi resta fuori dal perimetro di questa feature (A4, FR-017a della 001). Il valore si legge da qui e non si scrive nel codice della derivazione."
   },
+  "benchmark": {
+    "bq3_benchmark_value": "30",
+    "bq3_benchmark_unit": "punti percentuali della base abbonati",
+    "bq3_benchmark_significant_digits": "2",
+    "citation": {
+      "organization": "Parks Associates",
+      "title": "Parks Associates: 30% of Netflix Subscribers in Premium Service Tier",
+      "publication_date": "2018-07-19",
+      "reference": "https://www.prnewswire.com/news-releases/parks-associates-30-of-netflix-subscribers-in-premium-service-tier-300683486.html",
+      "accessed": "2026-08-16"
+    },
+    "bq3_benchmark_what_it_measures": "La quota di abbonati Netflix che si trovava sul piano Premium, cioe' il piano al prezzo piu' alto del listino, rilevata da Parks Associates sui consumatori statunitensi e pubblicata a luglio 2018. Il comunicato riporta 30% contro 21% di fine 2017, mentre nello stesso periodo il piano Basic scendeva dal 35% al 27%. E' una composizione della base a un istante, non un flusso di passaggi.",
+    "bq3_benchmark_measurement_gap": "Lo scarto fra cio' che la fonte misura e l'uso che se ne fa e' ampio, ha piu' di una direzione, e va conosciuto prima di leggere i sei valori. Cinque divergenze. PRIMA, di definizione: la fonte misura una composizione della base a un istante, cioe' quale quota degli abbonati si trovava sul piano al prezzo piu' alto a meta' 2018. BQ3-K1 chiede un'altra cosa, cioe' quale quota di una base preesistente adotti il tier premium entro dodici mesi dal lancio del verticale musicale. Composizione e flusso non sono la stessa grandezza, e non lo diventano per il fatto che la base di StreamWave parte per intero dal tier Base. SECONDA, ed e' la direzione che spinge verso l'alto: il 30% di Parks e' una composizione di equilibrio che ha avuto anni per accumularsi, in un listino in cui il piano Premium esisteva da tempo, e comprende chi ha sottoscritto Premium direttamente all'iscrizione senza aver mai fatto alcun passaggio. Un tasso di conversione a dodici mesi da una base preesistente non comprende quelle persone e non dispone di quel tempo. Una composizione di equilibrio sta quindi strutturalmente sopra il flusso che le si fa rappresentare, e per questa via il 30% e' ottimista. TERZA, ed e' lo scarto piu' grande: cio' che distingue il piano Premium di Netflix dal Basic e' il numero di schermi simultanei e la qualita' video, cioe' un attributo di servizio, mentre cio' che distingue il tier Premium di StreamWave e' un verticale di contenuto in piu'. Nulla garantisce che la disponibilita' a pagare per piu' schermi e piu' risoluzione somigli a quella per la musica, e il verso di questa divergenza non e' noto nemmeno in linea di principio. QUARTA, ed e' la direzione che spinge verso il basso: il differenziale fra Premium e Basic di Netflix nel 2018 era di 6,00 dollari al mese, superiore ai 4,00 EUR di A4, e a parita' di tutto il resto una quota osservata a fronte di un sovrapprezzo maggiore e' prudente rispetto a un sovrapprezzo minore; per questa via il 30% e' conservativo. QUINTA, di ispezionabilita': il comunicato non nomina lo studio da cui il dato proviene e non dichiara la numerosita' campionaria, quindi la stima e' citabile ma non ispezionabile. IL SEGNO NETTO NON E' NOTO. Le due divergenze di cui si conosce la direzione puntano in verso opposto: stock contro flusso spinge il 30% verso l'alto, il differenziale di prezzo lo spinge verso il basso. Nessun dato di questo progetto consente di pesarle l'una contro l'altra, e la terza divergenza, che e' la piu' grande, non ha nemmeno un verso noto. Dichiararne una sola farebbe apparire il 30% conservativo oppure ottimista a seconda di quale si tace: e' la ragione per cui sono scritte entrambe, ed e' la stessa per cui la confidenza resta bassa e la banda e' larga.",
+    "bq3_benchmark_coverage": "Copertura di mercato: consumatori degli Stati Uniti. Copertura temporale: rilevazione riferita alla prima meta' del 2018, confrontata con una rilevazione di fine 2017. Lo scarto rispetto ad A2 e' di segno opposto a quello dei dataset: A2 dichiara cataloghi aggiornati al 2021 e al 2022, mentre questo benchmark e' anteriore di tre o quattro anni, e precede quindi sia la fase di forte crescita dei tier con pubblicita' sia l'aumento generale dei prezzi. Rispetto a un orizzonte ipotetico di lancio successivo al 2022 il dato e' vecchio, e il mercato si e' mosso nella direzione dei piani piu' economici: se questo rende il 30% ottimista o prudente non e' determinabile con i dati di questo progetto, ed e' una delle ragioni per cui la banda e' larga.",
+    "bq3_benchmark_transfer_assumption": "Il valore descrive Netflix, un operatore terzo, osservato su un mercato e in un periodo che non sono quelli di StreamWave. Assumere che la quota di base che sceglie il tier al prezzo piu' alto si trasferisca a StreamWave e' un'assunzione dell'analista, non un fatto misurato su StreamWave: e' l'assunzione di trasferimento richiesta dalla condizione 4 della constitution, ed e' istituita come A6 in docs/business_case.md. L'ancoraggio rende il parametro verificabile da chi legge, non vero per StreamWave. La confidenza di BQ3-K1 e BQ3-K2 resta bassa e i valori si presentano sempre come range best/base/worst."
+  },
+  "rejected": [
+    {
+      "organization": "Antenna",
+      "title": "Q1'26 State of Subscriptions: Premium SVOD 2025 Year in Review",
+      "value_considered": "27% delle sottoscrizioni Premium SVOD statunitensi erano su piani in bundle nel Q4 2025, da 14% nel Q4 2023",
+      "reason": "E' la metrica strutturalmente piu' vicina fra quelle trovate -- passare a un piano piu' caro per ottenere un verticale di contenuto adiacente e' esattamente il caso di StreamWave, e il dato e' del 2026 invece che del 2018 -- ma non supera la condizione 1. La pagina dell'editore non dichiara una data di pubblicazione, e il report completo e' dietro un modulo di registrazione: l'unico percorso libero e' un indirizzo di CDN che l'editore non pubblica come riferimento citabile e che non c'e' ragione di considerare stabile. Una data di rilascio circola in fonti secondarie ma non e' verificabile presso l'editore, e citare una data non verificata sarebbe precisamente la citazione che non regge il controllo. Respinta sulla citazione, non sulla misura."
+    },
+    {
+      "organization": "Antenna",
+      "title": "Rilevazioni sui traders fra piani con e senza pubblicita'",
+      "value_considered": "11% delle sottoscrizioni ai piani con pubblicita' proveniva da un piano senza pubblicita'; circa 40% nel solo caso Netflix",
+      "reason": "Misura il movimento nella direzione opposta a quella che serve -- dal piano piu' caro a quello piu' economico -- ed e' una composizione delle acquisizioni lorde, non una quota della base esistente. Adottarla come tasso di passaggio a un tier superiore significherebbe leggere un numero al contrario."
+    },
+    {
+      "organization": "Parks Associates",
+      "title": "Rilevazioni 2025-2026 sulla ripartizione fra tier con e senza pubblicita'",
+      "value_considered": "circa 48% degli abbonati Netflix sul tier base con pubblicita' contro circa 53% sul tier senza pubblicita'; 57% di quota ai tier con pubblicita' sugli otto servizi principali",
+      "reason": "Piu' recente del dato adottato e dello stesso editore, ma il tier senza pubblicita' e' il piano storico predefinito: la sua quota misura in larga parte l'inerzia di chi non ha mai cambiato piano, non una decisione di passaggio a un tier superiore. Il verso del mercato in questi anni e' verso i piani piu' economici, e leggere quella quota come propensione all'upgrade sarebbe un errore di interpretazione, non di citazione."
+    },
+    {
+      "organization": "Deloitte",
+      "title": "Digital Media Trends",
+      "value_considered": "nessun valore isolabile",
+      "reason": "La ricognizione non ha trovato nell'edizione consultabile un tasso di passaggio a un tier superiore. Il report pubblica spesa per nucleo familiare, quota di abbonati su piani con pubblicita', sensibilita' al prezzo e misure di fandom: grandezze vicine per tema e diverse per definizione. Le cifre sono inoltre raggiungibili soprattutto tramite comunicati stampa e copertura secondaria."
+    },
+    {
+      "organization": "varie fonti secondarie",
+      "title": "Tasso di adesione ad Amazon Music Unlimited fra i membri Prime",
+      "value_considered": "circa 45-50%, calcolato da terzi",
+      "reason": "Sarebbe l'analogo piu' diretto -- una base video che paga in piu' per la musica -- ma nessun valore del genere risulta pubblicato da Amazon. La percentuale che circola e' un rapporto costruito da siti aggregatori fra un dato di membri Prime statunitensi e un dato di abbonati Music Unlimited globali, cioe' fra denominatori diversi. Non e' una misura pubblicata ed e' aritmeticamente scorretta."
+    },
+    {
+      "organization": "Recurly, RevenueCat, Adapty",
+      "title": "Benchmark di settore su abbonamenti digitali",
+      "value_considered": "46% dei ricavi da abbonamento proveniente da upgrade e upsell; tassi di rinnovo e di conversione da prova per la categoria media e intrattenimento",
+      "reason": "Pubblicano churn, rinnovo e conversione da prova gratuita per abbonamenti su app store, non la quota di base che passa a un tier superiore. Il 46% e' inoltre una quota di ricavo e non una quota di utenti: adottarlo come tasso di adozione significherebbe cambiare denominatore senza dichiararlo."
+    },
+    {
+      "organization": "Statista e siti aggregatori di statistiche",
+      "title": "Raccolte di statistiche sullo streaming",
+      "value_considered": "vari",
+      "reason": "Sono aggregatori secondari, e diversi dei valori pertinenti sono dietro pagamento. Un benchmark si cita presso l'editore che lo ha prodotto: citare un aggregatore sposta la verificabilita' su chi non ha misurato nulla."
+    }
+  ],
   "schema_version": 1
 }
