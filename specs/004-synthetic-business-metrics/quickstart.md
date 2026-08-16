@@ -40,12 +40,14 @@ cat data/benchmarks/bq3_tier_upgrade.json
 ## Prova 3 — La derivazione gira su una copia pulita *(SC-002, FR-017)*
 
 ```bash
-git clone . /tmp/sw-clean && cd /tmp/sw-clean
-ls data/raw/            # atteso: vuota o assente
+git clone --branch 004-synthetic-business-metrics . /tmp/sw-clean && cd /tmp/sw-clean
+ls -A data/raw/         # atteso: nessun CSV
 python3 scripts/build_bq3_scenarios.py
 ```
 
-**Atteso**: l'artefatto viene prodotto senza errori, con la rete staccata e senza `data/raw/`.
+**Atteso**: l'artefatto viene prodotto senza errori, con la rete staccata e senza i dataset di origine.
+
+**Precisazione dovuta all'esecuzione integrale.** `data/raw/` su un clone **non è vuota**: contiene `.gitkeep` e il file di metadati Croissant, che [`data/README.md`](../../data/README.md) dichiara versionato come traccia di provenienza. Ciò che manca sono i due CSV, che è quanto la prova deve accertare. La formulazione precedente — «vuota o assente» — descriveva uno stato che il repository non ha mai avuto.
 
 ## Prova 4 — Doppia esecuzione, diff vuoto *(SC-002, FR-013)*
 
@@ -141,16 +143,20 @@ git checkout docs/bq3_scenarios.md
 ## Prova 9 — Il business case è cresciuto per sole aggiunte *(SC-006, FR-030)*
 
 ```bash
-git diff main -- docs/business_case.md
+git diff origin/main -- docs/business_case.md
 ```
 
 **Atteso**: righe `+` in §2 (`A6`), §6 (il richiamo accanto ad `A1`) e §5.5 (le due note datate). **Nessuna riga `-`** che rimuova un valore o un'affermazione preesistente.
 
 ```bash
-git diff main -- docs/business_case.md | grep "^-" | grep -v "^---"
+git diff origin/main -- docs/business_case.md | grep "^-" | grep -v "^---"
 ```
 
 **Atteso**: nessuna corrispondenza sostanziale.
+
+**Perché `origin/main` e non `main`, e perché la differenza non è cosmetica.** Su un clone `main` **non esiste** come riferimento locale, e `git diff main` termina con `fatal: bad revision 'main'` senza produrre output. La catena `git diff … | grep "^-"` non trova quindi alcuna corrispondenza, e la prova **riporta esito positivo per il fallimento di git anziché per la sua conferma** — cioè il verde ottenuto non verificando nulla, che è precisamente la categoria di difetto contro cui esiste il resto di questo documento. È accaduto alla prima esecuzione integrale di questa lista.
+
+Chi esegue queste prove nel repository di lavoro, dove `main` è un branch locale, non incontra il problema e non ha ragione di sospettarlo: è il motivo per cui la Prova 9 va eseguita sul clone almeno una volta.
 
 E il vincolo di FR-025a e FR-027a, che è l'altro verso della stessa cura:
 

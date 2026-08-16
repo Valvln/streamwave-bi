@@ -41,6 +41,10 @@ Questa sezione è il cuore del contratto. Ognuno dei cinque punti chiude una str
 
 Ogni voce di `values` porta almeno `display`, `value`, `label`, `unit`; le voci di scenario portano anche `scenario`. È la struttura dei due artefatti esistenti, ed è ciò che consente al controllo di risolvere le ancore senza sapere quale feature ha prodotto il valore.
 
+**`value` è una stringa, e va letta in aritmetica decimale.** È l'unica divergenza dell'implementazione rispetto ai due artefatti esistenti, dove `value` è un numero JSON, ed è deliberata: `0,60` e `1,80` non sono rappresentabili esattamente in virgola mobile, e un consumatore che li rileggesse come `float` reintrodurrebbe a valle il difetto che il ritrovamento F3 ha trovato a monte. La stringa porta la cifra esatta che l'artefatto pubblica; chi la consuma la converta in decimale, mai in virgola mobile.
+
+**Conseguenza da conoscere**: la forma di ancoraggio con numerale in lettere — che il controllo confronta contro `value` come numero — non è disponibile sugli identificativi `BQ3.`. È irrilevante in pratica, perché il corollario (b) della grammatica vieta comunque i numerali in lettere per i fatti misurati, ma va scritto qui e non lasciato scoprire a chi ci provasse.
+
 Le chiavi di `conventions` portano **tutte** il prefisso `bq3_`. Non è cosmesi: lo spazio dei nomi di `conventions` è piatto e condiviso fra artefatti, e `rounding_decimals` è già occupato con contenuto diverso (ritrovamento F2). Chi aggiunge una convenzione a questo artefatto senza prefisso la fa collidere.
 
 ## 5. Che cosa il controllo garantisce, e che cosa no
