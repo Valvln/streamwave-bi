@@ -22,7 +22,9 @@ Tutto ciò che la terza domanda di business produce si riduce a questo: un tasso
 
 Non è una generazione di dati. È la **derivazione di sei valori da un parametro e una costante**, ed è la ragione per cui questa spec prende la decisione D1 qui sotto.
 
-Il nome della feature resta `Synthetic Business Metrics` perché è quello con cui la roadmap la traccia dall'inizio del progetto e rinominarla romperebbe i riferimenti incrociati senza guadagno. Ma il nome descrive il suo posto nel piano, non ciò che essa fa: **questa feature non genera alcun dataset sintetico**, e la sezione «Perimetro» lo dichiara al lettore che arrivasse qui aspettandoselo.
+Il nome della feature resta `Synthetic Business Metrics`, ed è **esatto**. I sei valori sono metriche di business sintetiche in senso proprio: non sono osservati su StreamWave, non lo saranno mai con i dati disponibili, e discendono da un benchmark trasferito da un operatore terzo e da una banda stipulata dall'analista. Sintetico è ciò che descrive la loro provenienza, e la descrive bene.
+
+Ciò che non esiste è il **dataset**. Chi arriva qui aspettandosi righe generate — utenti simulati, mesi simulati, un file da cui i valori si ricavano per aggregazione — non le troverà, e la sezione «Perimetro» lo dichiara. La distinzione conta perché è l'unica cosa che il nome potrebbe far credere e che non è vera: non «sintetico», che è giusto, ma «dataset», che non c'è.
 
 ---
 
