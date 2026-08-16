@@ -128,13 +128,13 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow dat
 
 **⚠️ Vincolo che vale per tutta la fase**: `docs/business_case.md` **non è** sotto controllo di coerenza (F4). Un numero scritto nella sua prosa non porta ancora e nessuno lo verifica — è il rilievo R8 della 001, chiuso dalla 002 e da non riaprire. Vale la prassi di [`CLAUDE.md`](../../CLAUDE.md) sugli artefatti già mergiati: **nessun valore originale si cancella o si riscrive**.
 
-- [ ] T033 [US4] Aggiungere in §2 di `docs/business_case.md` l'assunzione strutturale **`A6`**, che istituisce l'assunzione di trasferimento dei benchmark, formulata sul modello di `A1` e con la stessa forma grafica delle altre (FR-025)
-- [ ] T034 [US4] Verificare che `A6` **non contenga** il valore del benchmark né alcuna delle sei cifre derivate: istituisce l'assunzione e rimanda al file dei parametri, dove il numero vive ancorabile (FR-025a)
-- [ ] T035 [US4] Aggiungere in §6, sottosezione «Cosa questa scala non misura», il richiamo ad `A6` **accanto ad `A1`** come seconda assunzione che resta fuori dalla scala di confidenza per costruzione (FR-026)
-- [ ] T036 [US4] Aggiungere una **nota datata** sulla scheda `BQ3-K1` in §5.5 che dichiari data, feature, che cosa è cambiato e la fonte verificabile (FR-027); che **le disdette sono escluse** e il tasso è lordo su base costante, con il rimando a FR-018 della 001 e ad A5 — è la chiusura di **R13 per la parte BQ3** (FR-028); e la composizione della fonte dopo l'ancoraggio **senza riscrivere** la riga «Fonte: Sintetico» esistente (FR-029, D5)
-- [ ] T037 [US4] Aggiungere una **nota datata** sulla scheda `BQ3-K2` in §5.5, che dichiari che il valore è euro per utente al mese e **non è scalabile**, e che l'uplift è a regime e non un ricavo cumulato sui 12 mesi (FR-027, D4)
-- [ ] T038 [US4] Verificare che le due note rispettino FR-027a: nessun valore di benchmark e nessuna delle sei cifre derivate nella prosa. Il differenziale di 4,00 € si cita **come rimando ad A4**, dove già vive, e non si riafferma come numero nuovo
-- [ ] T039 [US4] **Verifica**: eseguire la Prova 9 di [quickstart.md](./quickstart.md) — il diff contro `main` è di sole aggiunte sul testo preesistente, e non introduce cifre vietate (SC-006, FR-030)
+- [X] T033 [US4] Aggiungere in §2 di `docs/business_case.md` l'assunzione strutturale **`A6`**, che istituisce l'assunzione di trasferimento dei benchmark, formulata sul modello di `A1` e con la stessa forma grafica delle altre (FR-025)
+- [X] T034 [US4] Verificare che `A6` **non contenga** il valore del benchmark né alcuna delle sei cifre derivate: istituisce l'assunzione e rimanda al file dei parametri, dove il numero vive ancorabile (FR-025a)
+- [X] T035 [US4] Aggiungere in §6, sottosezione «Cosa questa scala non misura», il richiamo ad `A6` **accanto ad `A1`** come seconda assunzione che resta fuori dalla scala di confidenza per costruzione (FR-026)
+- [X] T036 [US4] Aggiungere una **nota datata** sulla scheda `BQ3-K1` in §5.5 che dichiari data, feature, che cosa è cambiato e la fonte verificabile (FR-027); che **le disdette sono escluse** e il tasso è lordo su base costante, con il rimando a FR-018 della 001 e ad A5 — è la chiusura di **R13 per la parte BQ3** (FR-028); e la composizione della fonte dopo l'ancoraggio **senza riscrivere** la riga «Fonte: Sintetico» esistente (FR-029, D5)
+- [X] T037 [US4] Aggiungere una **nota datata** sulla scheda `BQ3-K2` in §5.5, che dichiari che il valore è euro per utente al mese e **non è scalabile**, e che l'uplift è a regime e non un ricavo cumulato sui 12 mesi (FR-027, D4)
+- [X] T038 [US4] Verificare che le due note rispettino FR-027a: nessun valore di benchmark e nessuna delle sei cifre derivate nella prosa. Il differenziale di 4,00 € si cita **come rimando ad A4**, dove già vive, e non si riafferma come numero nuovo
+- [X] T039 [US4] **Verifica**: eseguire la Prova 9 di [quickstart.md](./quickstart.md) — il diff contro `main` è di sole aggiunte sul testo preesistente, e non introduce cifre vietate (SC-006, FR-030)
 
 **Checkpoint**: SC-006 verificato. Il debito testuale dell'ancoraggio è chiuso e R13-BQ3 con esso.
 

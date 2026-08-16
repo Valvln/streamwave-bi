@@ -60,6 +60,18 @@ Differenziale: **4,00 € al mese**.
 - **Orizzonte**: **12 mesi** dal lancio ipotetico del verticale musicale. Oltre i 12 mesi la fiducia nelle assunzioni degrada al punto da rendere la stima non informativa.
 - **Perimetro geografico**: globale, coerentemente con la copertura dei due cataloghi. Nessuna analisi per singolo mercato nazionale.
 
+### 📌 A6 — I benchmark esterni descrivono altri operatori
+
+Dove un parametro di scenario non è osservabile sui dati di questo progetto, il suo valore centrale è ancorato a un **benchmark pubblico di settore**: un valore osservato e pubblicato da terzi su un operatore che non è StreamWave.
+
+Assumere che un valore così ottenuto si applichi a StreamWave è un'**assunzione di trasferimento**, e va dichiarata accanto al valore ogni volta che il valore compare. L'ancoraggio a una fonte citabile rende il parametro **verificabile** — chi legge può risalire alla pubblicazione e contestarla — non **vero per StreamWave**. Sono due proprietà diverse, e la seconda non discende dalla prima.
+
+**Cosa questo non autorizza**: a innalzare il livello di confidenza di un KPI perché il suo parametro è citato. La trasferibilità è una questione diversa dalla solidità del calcolo. Un parametro ancorato resta a confidenza bassa finché nulla di osservato su StreamWave lo sostenga, e continua a presentarsi come intervallo.
+
+Come A1, A6 è un'assunzione di trasferimento e **non entra nella scala di confidenza** di §6. Il limite che ne deriva è descritto in [§6 — Cosa questa scala non misura](#cosa-questa-scala-non-misura).
+
+I valori adottati, la citazione puntuale di ciascuno, ciò che la fonte misura davvero e lo scarto rispetto all'uso che se ne fa vivono in [`data/benchmarks/`](../data/benchmarks/), non in questa pagina: un numero scritto qui non porterebbe ancora e nessuno lo verificherebbe. Il metodo con cui un valore osservato altrove diventa uno scenario, e i suoi limiti, stanno in [`docs/bq3_scenarios.md`](bq3_scenarios.md).
+
 ## 3. North Star metric
 
 > ### 🎯 `BQ1-K1` — Quota di catalogo già musicale
@@ -299,6 +311,12 @@ Indice delle schede. Le definizioni autorevoli sono le schede di §5.5; qui non 
 
 **Nota**: è qui che vive l'incertezza dell'intera terza domanda. Le assunzioni che generano i tre scenari saranno dichiarate e versionate insieme allo script che le implementa.
 
+**Nota del 2026-08-16 (feature 004)**: le assunzioni annunciate qui sopra ora esistono, e con esse due precisazioni che questa scheda non conteneva.
+
+*Il valore centrale non è più una scelta dell'analista.* È ancorato a un benchmark pubblico di settore secondo A6, con citazione puntuale, e i tre scenari ne discendono per fattori dichiarati **prima** che la ricognizione sulla fonte cominciasse. La riga **Fonte** qui sopra dice `Sintetico` e **non viene riscritta**: era esatta quando è stata scritta, ed è stata superata da un emendamento della constitution, non da un errore. Dopo l'ancoraggio la composizione è `Benchmark (esterno)` per il valore centrale e `Sintetico` per la costruzione degli scenari che ne discendono. Valore, citazione e scarto di misura vivono in [`data/benchmarks/`](../data/benchmarks/); il metodo e i limiti in [`docs/bq3_scenarios.md`](bq3_scenarios.md).
+
+*Le disdette sono escluse* — chiusura del rilievo R13 della revisione della 001, per la parte BQ3. La scheda non diceva se le cancellazioni fossero dentro o fuori dalla misura. Sono **fuori**: il tasso è lordo, su base assunta costante (A5), e FR-018 della 001 tiene il churn fuori dal perimetro del progetto. Ne discende una conseguenza da leggere insieme a `BQ3-K2`, dove è ripresa: l'uplift che deriva da questo tasso è un valore **a regime**, non un ricavo cumulato sull'orizzonte.
+
 ---
 
 #### `BQ3-K2` · `arpu_uplift`
@@ -314,6 +332,12 @@ Indice delle schede. Le definizioni autorevoli sono le schede di §5.5; qui non 
 **Fonte**: Derivato (`BQ3-K1` sintetico + prezzi assunti in A4) · **Confidenza**: **bassa** — eredita l'incertezza del tasso di adozione, che è la sua unica variabile · **Formato**: **range best/base/worst**
 
 **Nota**: il differenziale di prezzo è fissato per scelta (A4), non stimato. Tutta la variabilità del risultato proviene dal tasso di adozione, il che rende l'intervallo leggibile: la sua ampiezza dice quanto siamo incerti sull'adozione, e nient'altro.
+
+**Nota del 2026-08-16 (feature 004)**: due precisazioni sull'unità, entrambe facili da perdere leggendo la formula concettuale.
+
+*Il valore è euro per utente al mese, e non è scalabile.* Nessuna base utenti viene quantificata in questo progetto — è la decisione presa sulla divergenza 9 della revisione della 001 — e l'artefatto che produce i parametri non offre alcuna chiave con cui moltiplicare l'uplift. La formula qui sopra dice «riferito all'intera base utenti»: va letta come l'**unità** della misura, euro per utente, non come un invito a moltiplicarla per una dimensione della base che questo progetto non ha. Un totale di ricavo costruito su questi numeri sarebbe un numero che nessuno ha misurato, presentato con l'autorevolezza di uno misurato.
+
+*L'uplift è a regime, non cumulato sull'orizzonte.* Discende dall'esclusione delle disdette dichiarata nella scheda di `BQ3-K1`: su una base che non perde nessuno il valore mensile a regime e il valore medio sull'orizzonte coincidono, ma è una coincidenza che dipende dall'assunzione, non una proprietà della misura. Chi moltiplicasse l'uplift per la durata dell'orizzonte otterrebbe un cumulato che vale solo sotto A5.
 
 ---
 
@@ -338,6 +362,8 @@ La classificazione non è un giudizio sulla qualità del lavoro: è una propriet
 La scala qualifica la **confidenza interna**: quanto un numero è affidabile rispetto ai dati da cui è calcolato. Non qualifica la **validità esterna**: quanto quel numero descriva StreamWave.
 
 Tra le due si interpone A1, l'assunzione che il catalogo Netflix rappresenti il catalogo di StreamWave e quello Spotify il mercato musicale accessibile. A1 è un'assunzione di **trasferimento** e resta fuori dalla scala per costruzione, per una ragione precisa: si applica identica a tutti i KPI, quindi includerla li collasserebbe tutti sullo stesso livello e la scala perderebbe l'unica cosa che sa fare, cioè distinguere fra loro le misure.
+
+Dal 2026-08-16 accanto ad A1 sta **A6**, l'assunzione che un benchmark pubblico osservato su un operatore terzo si applichi a StreamWave. È della stessa natura — trasferimento, non calcolo — e resta fuori dalla scala per la stessa ragione di fondo. Con una differenza che vale dichiarare invece di lasciar credere che le due assunzioni siano intercambiabili: A1 si applica identica a **tutti** i KPI, mentre A6 riguarda solo quelli il cui parametro è ancorato a un benchmark. A6 non collasserebbe quindi la scala, e resta comunque fuori — perché misura la validità esterna, che è la cosa che questa scala non sa fare, non perché la renderebbe inutile.
 
 Ne discende un limite che vale per l'intero documento e che va letto insieme a ogni singola classificazione: **anche un KPI a confidenza alta è alta rispetto al catalogo proxy, non rispetto a StreamWave.** `BQ1-K1` misura senza margine di errore quanta parte del catalogo Netflix è già musicale; che quella quota descriva StreamWave dipende interamente da A1, che con i dati disponibili non è verificabile. Nessun livello di questa scala, nemmeno il più alto, autorizza a trattare un numero come una misura diretta di StreamWave.
 
