@@ -90,6 +90,12 @@ Ne discende che il file dei parametri nasce in **due momenti**, e la cosa è un 
 
 **La ragione**: il prodotto per il differenziale di prezzo è l'operazione che più facilmente inganna, perché 4,00 € è un valore esatto per costruzione — è una decisione di scenario, non una misura — e moltiplicare per un valore esatto conserva l'illusione di precisione dell'altro fattore. Un tasso noto a due cifre moltiplicato per 4,00 € produce un uplift noto a due cifre, non a quattro, per quanti decimali la divisione in virgola mobile restituisca.
 
+**Nota del 2026-08-16, in fase di implementazione — la regola si sdoppia.** La formulazione originale della decisione e di FR-015 era: «i sei valori si pubblicano con lo stesso numero di cifre significative del benchmark da cui discendono, e mai più di due». Applicata alla lettera agli importi è sbagliata, e il benchmark adottato lo ha reso visibile: `uplift.base` vale 1,20 € e `uplift.best` vale 1,80 €, che portano **tre** cifre significative ciascuno; `uplift.worst`, che vale 0,60 €, era l'unico dei tre già conforme.
+
+La correzione **non** è pubblicare `1,2 €` e `1,8 €`. La seconda cifra decimale di un importo è il centesimo, cioè l'unità in cui la valuta è denominata: è convenzione di scrittura, non una cifra di precisione rivendicata, e un importo scritto senza di essa si legge come malformato invece che come prudente. La regola distingue quindi **cifre significative per i tassi** e **posizioni decimali fisse per gli importi**, e `bq3_rounding` dichiara che la precisione effettiva degli importi resta quella del benchmark — due cifre — perché nessuno legga `1,20 €` come una conoscenza a tre.
+
+Il caso vale oltre questa feature: la regola sulle cifre significative del principio I è scritta per grandezze misurate, e una valuta non è una di quelle. Senza la distinzione, la feature che esiste per non violare il principio I lo avrebbe violato in silenzio proprio nella riga che pubblica.
+
 ---
 
 ### D4 — Le disdette sono escluse *(chiusura di R13 della revisione 001, parte BQ3)*
@@ -268,7 +274,7 @@ Chi legge il business case incontra `A6` fra le assunzioni strutturali, la ritro
 - **FR-012**: I tre uplift MUST essere il prodotto del rispettivo tasso per il differenziale di **4,00 €** fissato in A4. Il differenziale MUST essere letto dal file dei parametri, non scritto nel codice.
 - **FR-013**: La derivazione MUST essere **deterministica**: nessun generatore di numeri casuali, nessun seed, nessuna dipendenza dall'ora di esecuzione. Due esecuzioni consecutive MUST produrre artefatti identici.
 - **FR-014**: Nessun valore dell'artefatto MUST essere scritto a mano. Modificare il benchmark nel file dei parametri e rieseguire MUST cambiare tutti e sei i valori.
-- **FR-015**: I sei valori MUST essere pubblicati con **al più le cifre significative del benchmark**, e mai più di due. La regola di arrotondamento MUST essere dichiarata fra le convenzioni dell'artefatto e applicata dallo script.
+- **FR-015**: I sei valori MUST essere pubblicati alla precisione che il benchmark giustifica, che è di **al più le sue cifre significative e mai più di due**. La regola MUST distinguere due famiglie: i **tassi** — `BQ3.adoption.*` e `BQ3.band.spread_pp` — si pubblicano a cifre significative; gli **importi in euro** — `BQ3.uplift.*` — si pubblicano a **due posizioni decimali fisse**, che sono la convenzione della valuta e non una pretesa di precisione. La convenzione `bq3_rounding` MUST dichiarare entrambe le famiglie e MUST dichiarare che la precisione effettiva degli importi resta quella del benchmark. `BQ3.band.ratio` non discende dal benchmark ed è esatto per costruzione. La regola di arrotondamento MUST essere dichiarata fra le convenzioni dell'artefatto e applicata dallo script. *Vedi la nota di emendamento in D3.*
 - **FR-016**: La derivazione MUST fermarsi con errore se un tasso risultante cade fuori dall'intervallo 0-100.
 - **FR-017**: La derivazione MUST essere eseguibile su una copia pulita del repository **senza rete e senza `data/raw/`**, e NON DEVE leggere alcun dataset reale né alcun output della `003`.
 

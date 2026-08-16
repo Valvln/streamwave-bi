@@ -69,7 +69,7 @@ Prefisso `BQ3.`, verificato disgiunto da `NF.`, `SP.`, `CL.`, `X.` (T3). La veri
 | `bq3_band_factor_high` | `1.50` | moltiplicatore dello scenario ottimista, `1 + k` |
 | `bq3_band_meaning` | prosa | che l'ampiezza **non misura nulla**: è fiducia nel trasferimento, non varianza osservata (FR-011) |
 | `bq3_band_fixed_before` | prosa, **senza alcun hash** | che i fattori precedono la ricognizione, e come verificarlo (FR-011a) |
-| `bq3_rounding` | `ROUND_HALF_UP`, 2 cifre significative al più | la regola di arrotondamento, dichiarata e non ereditata (T5, FR-015) |
+| `bq3_rounding` | `ROUND_HALF_UP`; cifre significative per i tassi, due decimali fissi per gli importi | la regola di arrotondamento, dichiarata e non ereditata, **con la precisione effettiva degli importi** (T5, FR-015) |
 | `bq3_price_delta_eur` | `4.00` | il differenziale di A4, letto e non scritto nel codice (FR-012) |
 
 **Perché `bq3_band_fixed_before` non contiene un riferimento al commit.** Sembrava la forma più forte e non è scrivibile in nessuna delle due direzioni. Nel file dei parametri il campo dovrebbe portare l'hash del commit che lo introduce, che **non esiste ancora** nel momento in cui il file si scrive. Nell'artefatto generato, ricavarlo obbligherebbe lo script a interrogare `git`, cioè a dipendere dalla presenza della history — e la Prova 3 del quickstart gira su una copia pulita che potrebbe non averla, oltre a introdurre in una derivazione deterministica una lettura di stato esterno.
@@ -103,7 +103,17 @@ Tre proprietà, tutte verificabili per ispezione dello script:
 
 Aritmetica in `decimal.Decimal`, mai in virgola mobile (T5, F3). L'arrotondamento è `ROUND_HALF_UP` **dichiarato**, non la modalità predefinita di `Decimal`, che è `ROUND_HALF_EVEN`: la differenza si vede su `0,435`, dove la predefinita darebbe `0,44` e su `0,445` darebbe di nuovo `0,44`. Corretto, e controintuitivo per chi rifà il conto a mano — che è il destinatario dichiarato di questo progetto.
 
-Il numero di cifre significative è **quello del benchmark, e mai più di due** (FR-015, D3). Il campo `display` porta il separatore decimale italiano, la virgola, prodotto per formattazione esplicita e mai da una funzione dipendente dal locale — vincolo ereditato da F6 della 003.
+La precisione è **quella del benchmark, e mai più di due cifre significative** (FR-015, D3), e si applica in due modi a seconda della famiglia:
+
+| Famiglia | Identificativi | Come si pubblica |
+|---|---|---|
+| tassi, in punti percentuali | `BQ3.adoption.*`, `BQ3.band.spread_pp` | a **cifre significative** del benchmark, al più due |
+| importi, in euro | `BQ3.uplift.*` | a **due posizioni decimali fisse** — convenzione della valuta, non pretesa di precisione |
+| rapporto puro | `BQ3.band.ratio` | **esatto**: non discende dal benchmark, vale `(1+k)/(1−k)` per costruzione |
+
+**Perché gli importi non seguono le cifre significative.** Con il benchmark adottato `uplift.base` vale 1,20 € e `uplift.best` vale 1,80 €: applicando le cifre significative si pubblicherebbero `1,2 €` e `1,8 €`. Sarebbe conforme alla lettera e sbagliato — la seconda cifra decimale di un importo è il centesimo, l'unità in cui la valuta è denominata, e toglierla non rende il numero più prudente, lo rende malformato. `bq3_rounding` dichiara perciò **entrambe** le famiglie e dichiara che la precisione effettiva degli importi resta di due cifre significative, così che nessuno legga `1,20 €` come una conoscenza a tre.
+
+Il campo `display` porta il separatore decimale italiano, la virgola, prodotto per formattazione esplicita e mai da una funzione dipendente dal locale — vincolo ereditato da F6 della 003.
 
 ---
 
