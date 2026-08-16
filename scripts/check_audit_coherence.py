@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Verifica che i documenti di lettura e gli artefatti di numeri non divergano.
 
-Confronta ogni valore marcato in `docs/data_audit.md` (feature 002) e in
-`docs/data_cleaning.md` (feature 003) con il valore corrispondente di
-`reports/data_profile.json` e `reports/cleaning_report.json`.
+Confronta ogni valore marcato in `docs/data_audit.md` (feature 002), in
+`docs/data_cleaning.md` (feature 003) e in `docs/bq3_scenarios.md` (feature 004)
+con il valore corrispondente di `reports/data_profile.json`,
+`reports/cleaning_report.json` e `reports/bq3_scenarios.json`.
 
 Legge **solo** artefatti versionati: non richiede `data/raw/`, non riesegue il
 profiling e non riesegue la pipeline (FR-036 della 002, FR-041 della 003). Chi
@@ -47,6 +48,12 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 PROFILE = REPO / "reports" / "data_profile.json"
 CLEANING = REPO / "reports" / "cleaning_report.json"
+SCENARIOS = REPO / "reports" / "bq3_scenarios.json"
+
+# Gli artefatti da unire, dichiarati **una volta sola**: erano elencati sia qui
+# sia nell'intestazione stampata, e un quarto artefatto aggiunto in un solo
+# punto avrebbe prodotto un controllo che verifica tre cose e ne dichiara due.
+ARTIFACTS = (PROFILE, CLEANING, SCENARIOS)
 
 # I documenti verificati, con la propria severita'. `strict` decide se una
 # quantita' priva di marcatore sia un errore o un avviso.
@@ -115,7 +122,7 @@ WORDS = re.compile(
 
 
 def load_artifacts() -> tuple[dict, list[str]]:
-    """Unisce i due artefatti in un solo spazio dei nomi, verificando le collisioni.
+    """Unisce i tre artefatti in un solo spazio dei nomi, verificando le collisioni.
 
     La disgiunzione dei prefissi (decisione T8 della 003) e' cio' che rende
     l'unione sicura, ma non viene **assunta**: una collisione farebbe risolvere
@@ -123,7 +130,7 @@ def load_artifacts() -> tuple[dict, list[str]]:
     il tipo di errore silenzioso contro cui questo controllo esiste.
     """
     artifacts = []
-    for path in (PROFILE, CLEANING):
+    for path in ARTIFACTS:
         if not path.exists():
             raise SystemExit(
                 f"ERRORE: artefatto mancante: {path.relative_to(REPO)}\n"
@@ -355,7 +362,8 @@ def unmarked_quantities(text: str) -> list[str]:
 def main() -> int:
     artifact, collisions = load_artifacts()
 
-    print(f"Artefatti : {PROFILE.relative_to(REPO)} + {CLEANING.relative_to(REPO)}")
+    listed = " + ".join(str(path.relative_to(REPO)) for path in ARTIFACTS)
+    print(f"Artefatti : {listed}")
     print(f"            {len(artifact['values'])} valori in uno spazio dei nomi unito")
 
     failed = False
