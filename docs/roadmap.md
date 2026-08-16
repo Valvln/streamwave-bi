@@ -23,7 +23,7 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `001` | Business Case & KPI Framework | ~7 (spese) | — | ✅ conclusa, con debito residuo |
 | `002` | Data Audit & Profiling | ~4,5 (spese, stimate 4) | 001 | ✅ conclusa, PR #2 mergiata |
 | `003` | Data Cleaning & ETL | ~6,5 (spese, stimate 7) | 002 | ✅ conclusa, PR #3 mergiata, con debito residuo |
-| `004` | Synthetic Business Metrics | 6 | 001 | ⬜ ancorata a benchmark, vedi sotto |
+| `004` | Synthetic Business Metrics | 6 | 001 | 🔄 spec, piano e 46 task; implementazione da aprire |
 | `005` | Data Model Design | 5 | 003, *chore ambiente* | ⬜ |
 | `006` | Content Taxonomy Bridge | 6 | 002, 005 | ⬜ decisione aperta DA-1 |
 | `007` | Misure DAX & KPI | 8 | 004, 005, 006 | ⬜ da scomporre in due |
@@ -57,7 +57,17 @@ Resta **un solo benchmark indispensabile**: il tasso di conversione a un tier su
 
 **Determinismo**: la ricerca produce un file di parametri versionato con fonte e data; uno script con seed fisso genera il dataset a partire da quel file. La pipeline resta rieseguibile da una copia pulita; la ricerca no, ed è congelata. Il precedente è il principio V, che già ammette lavoro non automatizzabile purché versionato come artefatto testuale. Se la ricerca alimentasse la generazione a ogni esecuzione, il principio II sarebbe violato.
 
+> **Nota di correzione — 2026-08-16, feature 004, decisione D1.** La frase qui sopra prescrive che «uno script con **seed fisso** genera il **dataset**». Nessuna delle due cose accade, e la prescrizione è superata dai fatti invece che sbagliata all'origine: è stata scritta il 2026-08-10, **prima** che engagement e quantificazione della base utenti uscissero dal perimetro, cioè prima delle due decisioni che tolgono al seed il proprio oggetto.
+>
+> Ciò che la 004 produce è una **derivazione deterministica di sei valori** — tre tassi di adozione e i tre uplift corrispondenti — da un parametro e una costante. Non esiste alcun dataset di righe e non esiste alcun seed, e la ragione dirimente non è che il caso sia superfluo ma che sia **impossibile in linea di principio**: una simulazione a livello di individuo richiede una numerosità della popolazione, e la divergenza 9 della revisione 001 ha deciso di non quantificarla. Un seed su uno script che non estrae nulla comunicherebbe al lettore che da qualche parte c'è del caso sotto controllo, ed è falso.
+>
+> Resta vero tutto il resto del capoverso: il file dei parametri versionato, il congelamento della ricerca, la rieseguibilità da una copia pulita. **Fonte verificabile**: decisione D1 e requisiti FR-013 e FR-024 di [`specs/004-synthetic-business-metrics/spec.md`](../specs/004-synthetic-business-metrics/spec.md).
+
 **Nessun framework di orchestrazione** (LangChain, LangGraph o equivalenti) per questa feature: il passaggio di raccolta produce un valore congelato che nessuno riesegue, e un'orchestrazione a grafo aggiungerebbe una dipendenza, una chiave API e un componente che dopo la prima esecuzione resta inerte. La sede in cui il lavoro con LLM ha senso è la `006` — vedi Decisioni aperte.
+
+**Se nessuna fonte regge le cinque condizioni — decisione della regia, 2026-08-16.** È l'assunzione più esposta della feature e la spec la dichiara non confermata. La decisione è presa in anticipo perché non blocchi l'implementazione a metà: **la feature non si ferma.** Prosegue dichiarando il parametro come **scelta dell'analista**, che è lo stato ammesso prima dell'emendamento a v1.1.0, e registra la ricognizione fallita con le fonti valutate e i motivi del rigetto. Tutto il resto — derivazione, documento, chiusura di R13-BQ3, `A6` e le note sulle schede — è indipendente da dove viene il numero e vale da solo.
+
+La ricognizione fallita **è essa stessa un risultato pubblicabile**: «abbiamo cercato un benchmark citabile per questa metrica e non esiste in forma gratuitamente recuperabile» è un'informazione che il lettore non ha, ed è più onesta di un numero preso da una fonte che non regge il controllo. Resta intatto il divieto di FR-006 nella sostanza — non inventare, non ripiegare in silenzio — e resta obbligatorio il riporto di T013: cambia solo che la risposta è già scritta e non va attesa.
 
 **Stima**: da 5 a 6 ore. L'ancoraggio aggiunge circa un'ora di raccolta e citazione, l'uscita dell'engagement dalla generazione ne restituisce altrettante, la revisione in contesto pulito ne aggiunge una. Resta **una sola feature dentro il limite del principio III**: la scomposizione che la proposta dava per necessaria non serve, perché contava dentro la feature l'emendamento della constitution e le note testuali, che sono chore. Da riverificare in fase di `/speckit.specify`.
 
@@ -201,6 +211,7 @@ Ricadute: la scelta chiude anche la divergenza 10 della 001, la governance di qu
 | 11 agosto | ~4 h spese | `003`: spec, piano, 48 task e **MVP completo** (T001-T026) |
 | 12 → 14 agosto | **non pianificata** | nulla, come previsto. Vedi sotto |
 | 15 agosto | ~2,5 h spese | `003` ✅ conclusa e mergiata (T027-T049), revisione inclusa |
+| 16 agosto | ~1,5 h spese | `004`: spec revisionata dalla regia, piano e 46 task |
 | dal 16 agosto | giornate piene, ~6 h/giorno | `004`, `005`, `006`, `007`, `008`, `010`, più ~7,5 h di chore e debito |
 
 Atterraggio stimato: **23-24 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime, poi 24-25 con la finestra non pianificata del 12-14 agosto. Le ore in più dell'11 agosto lo avevano riportato a 23-24, e la chiusura della `003` sotto stima lo conferma: restano ~46,5 ore su giornate da ~6, cioè otto giorni pieni.
@@ -224,6 +235,8 @@ La stima iniziale di 7-10 giornate lavorative **non regge più**: ~65 ore comple
 **Densità di `008`.** Otto ore per una sola feature sono il limite superiore del principio III, e la voce più esposta a scoprirsi più grande di così davanti allo schermo. Va scomposta in fase di `/speckit.specify` — presumibilmente struttura e pagine da una parte, storytelling e rifiniture dall'altra — non dopo averla aperta.
 
 **Concentrazione del rischio dopo il 16 agosto.** Sei feature su sei, incluse le tre più dense, più ~8,5 ore di chore e debito, cadono tutte nella finestra a giornate piene. La finestra a bassa capacità si è chiusa senza lasciare arretrato — è la buona notizia — ma anche senza lasciare margine: da qui in avanti ogni sforamento si trasferisce intero sul giorno successivo, perché non esiste più una seconda finestra che lo assorba. Il primo scostamento va quindi letto subito, non a fine feature.
+
+**La `004` ha un terzo punto di fermata, dentro l'implementazione.** Non è un difetto: discende da FR-006 e FR-006a, che obbligano a riportare a Valerio tanto il fallimento della ricognizione quanto la fonte adottata con il proprio scarto di misura. Cade a **T013**, fra la ricerca e la derivazione, e va messo in conto quando si pianifica la giornata: l'implementazione della 004 non è una corsa unica. È anche l'unico punto del progetto in cui una feature si può fermare per una ragione **esterna** — nessuna fonte pubblica che regga le cinque condizioni — e la decisione conseguente è già presa, in coda alla nota sulla 004.
 
 **Il prompt non dice chi revisiona al punto di stop 1.** Sulla `003` la sessione esecutiva si è fermata dopo `/speckit.specify` e ha riportato spec, esito della checklist e sei decisioni da contestare, proseguendo solo dopo l'approvazione — il punto di stop ha quindi tenuto. A revisionare è stato però l'autore e non la regia, che la spec non l'ha letta: il controllo è arrivato a valle sui soli task, con esito positivo su decisioni ereditate, denominatori, note in loco ed esclusioni di perimetro, ma resta un'assicurazione parziale su un artefatto già congelato in 48 task. Non è una violazione: [`CLAUDE.md`](../CLAUDE.md#punti-di-stop-del-flusso) prescrive che la spec torni in revisione e non da chi, e l'autore ha più contesto di chiunque. È un'ambiguità del prompt, e i prompti successivi devono nominare il revisore invece di lasciarlo implicito.
 
