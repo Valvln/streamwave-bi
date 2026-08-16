@@ -1,6 +1,6 @@
 # Roadmap — StreamWave BI
 
-**Aggiornata**: 2026-08-17 | **Stato**: feature 004 conclusa sul branch, da mergiare; 005 da aprire
+**Aggiornata**: 2026-08-17 | **Stato**: feature 004 conclusa e mergiata (PR #4); chore ambiente e 005 il 18 agosto
 
 Questo documento è il piano di lavoro del progetto: cosa resta da fare, in quale ordine, con quale stima e con quali dipendenze. È versionato perché la pianificazione — e soprattutto il suo scostamento dalla realtà — fa parte dell'artefatto da portfolio quanto i risultati.
 
@@ -23,7 +23,7 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `001` | Business Case & KPI Framework | ~7 (spese) | — | ✅ conclusa, con debito residuo |
 | `002` | Data Audit & Profiling | ~4,5 (spese, stimate 4) | 001 | ✅ conclusa, PR #2 mergiata |
 | `003` | Data Cleaning & ETL | ~6,5 (spese, stimate 7) | 002 | ✅ conclusa, PR #3 mergiata, con debito residuo |
-| `004` | Synthetic Business Metrics | ~3 di sessione (stimate 6) | 001 | ✅ conclusa sul branch, 46 task su 46, con debito residuo |
+| `004` | Synthetic Business Metrics | ~3 di sessione (stimate 6) | 001 | ✅ conclusa, PR #4 mergiata, con debito residuo |
 | `005` | Data Model Design | 5 | 003, *chore ambiente* | ⬜ |
 | `006` | Content Taxonomy Bridge | 6 | 002, 005 | ⬜ decisione aperta DA-1 |
 | `007` | Misure DAX & KPI | 8 | 004, 005, 006 | ⬜ da scomporre in due |
@@ -244,12 +244,24 @@ Ricadute: la scelta chiude anche la divergenza 10 della 001, la governance di qu
 | 12 → 14 agosto | **non pianificata** | nulla, come previsto. Vedi sotto |
 | 15 agosto | ~2,5 h spese | `003` ✅ conclusa e mergiata (T027-T049), revisione inclusa |
 | 16 agosto | ~2,5 h di sessione | `004`: spec, piano, 46 task, e implementazione fino alla Prova 9 |
-| 17 agosto | ~0,5 h di sessione | `004`: revisione in contesto pulito, 14 rilievi, chiusura e consuntivo |
-| dal 17 agosto | giornate piene, ~6 h/giorno | `005`, `006`, `007`, `008`, `010`, più ~7,5 h di chore e debito |
+| 17 agosto | ~0,5 h di sessione | `004` ✅ conclusa e mergiata (PR #4), revisione e verbale inclusi |
+| **18 agosto** | ~6 h | **chore ambiente Power BI (~3 h), poi apertura della `005`.** Vedi sotto |
+| dal 19 agosto | giornate piene, ~6 h/giorno | `005`, `006`, `007`, `008`, `010`, più ~6,5 h di chore e debito |
 
-Atterraggio stimato: **23-24 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime, poi 24-25 con la finestra non pianificata del 12-14 agosto. Le ore in più dell'11 agosto lo avevano riportato a 23-24, e le chiusure di `003` e `004` sotto stima lo confermano: restano ~39,5 ore su giornate da ~6, cioè poco meno di sette giorni pieni a partire dal 17 agosto.
+Atterraggio stimato: **23-24 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime, poi 24-25 con la finestra non pianificata del 12-14 agosto. Le ore in più dell'11 agosto lo avevano riportato a 23-24, e le chiusure di `003` e `004` sotto stima lo confermano: restano ~39,5 ore su giornate da ~6, cioè poco meno di sette giorni pieni a partire dal 18 agosto.
 
 **Il chore dell'ambiente Power BI non è stato fatto**, e la finestra a bassa capacità che doveva ospitarlo è chiusa. Va ora incastrato fra `004` e `005`, che è il suo termine ultimo: è l'unica voce del piano che consuma tempo di calendario senza consumare attenzione, e collocarla in una giornata piena è lo spreco che si era cercato di evitare. Se una sessione si apre stanca, è quella da fare.
+
+### Il 18 agosto, in ordine
+
+**Prima il chore, poi la feature**, e non il contrario. La `005` disegna il modello dati per lo strumento che lo ospiterà, e conviene averlo visto funzionare prima di decidere granularità e relazioni: una decisione di modello presa senza aver mai aperto Power BI è una decisione presa su un manuale. Il chore è inoltre l'unica voce interrompibile in qualunque punto del piano residuo — attese di download e di installazione — quindi collocarlo per primo protegge la parte fragile della giornata.
+
+1. **Chore ambiente** (~3 h): VM Windows 11 x64, Power BI Desktop, prima apertura. Non apre branch e non ha spec, per il principio VI. L'esito va scritto nella sezione `Setup` del [README](../README.md), che il principio II richiede: da `007` in avanti la catena include uno strumento che su macOS non esiste.
+2. **`005` Data Model Design** (5 h, di cui ~2 il 18): la regia scrive il prompt di consegna la mattina, a partire da questa roadmap. Il debito da dichiarare nel prompt è già mappato — R4 e R7 della revisione `001` (definizione operativa di «segmento», granularità di `BQ2-K2`), il contratto degli output della `003`, e la divergenza 1 della `003` sulla precisione, che `005` incontra ma **non** chiude.
+
+**Ciò che il 18 agosto non fa**: la `006` e la sua decisione aperta `DA-1`. Va risolta prima di `/speckit.specify` sulla `006`, non prima della `005`.
+
+**Decisione che scade il 18 agosto — la pubblicazione di prova su Power BI Service.** È l'ultimo giorno del trial Pro. La raccomandazione della regia è **lasciarla cadere e dichiararlo**: presuppone la VM appena costruita e qualcosa da pubblicare, e non esiste ancora alcun `.pbix`. Sarebbe un'ora spesa per schermate di un file vuoto, nel giorno in cui il chore e l'apertura della `005` valgono di più. Il rischio era già stato chiuso l'8 agosto — il deliverable è un `.pbix` e Power BI Desktop è gratuito e senza scadenza. **Se Valerio non decide diversamente entro il 18, la voce si considera caduta** e va spostata fra i rischi chiusi con la ragione.
 
 ### La finestra non pianificata del 12-14 agosto — com'è andata
 

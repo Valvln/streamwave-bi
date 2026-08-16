@@ -28,6 +28,23 @@ La regia **non esegue**: non apre branch, non invoca i comandi `/speckit.*`, non
 
 Il confine esiste perché una regia che esegue perde il punto di vista esterno da cui revisiona, e i due ruoli collassano in uno.
 
+## La revisione in contesto pulito
+
+**Chi la esegue è libero; il verbale è obbligatorio.** Sessione separata o subagent isolato sono entrambi ammessi — un subagent che riceve una copia del solo documento in una cartella isolata è anzi un vincolo più stretto di una sessione a cui si incolla il testo, perché non ha modo di sapere che il resto esista. Ciò che non è opzionale è `specs/NNN-nome/review.md`.
+
+Il verbale non è il resoconto della revisione: **è la revisione.** Senza di esso restano un conteggio di rilievi che nessuno può verificare e un diff che non dice quale rilievo abbia chiuso cosa — ed è a sua volta un numero senza fonte, cioè ciò che il principio I vieta. È anche l'artefatto che dimostra il metodo a chi legge il repository da fuori: una feature revisionata senza verbale, accanto a tre che ce l'hanno, non si legge come «fatta diversamente».
+
+Quattro obblighi, tutti nati da un difetto reale:
+
+1. **Il verbale si scrive e si committa quando la revisione torna, prima di toccare l'artefatto.** È l'omissione della `004`, recuperata dopo e dichiarata come recupero.
+2. **Dichiara in apertura cosa è stato letto e cosa no**, incluse le uscite dal perimetro. È ciò che rende il contesto pulito verificabile invece che asserito — precedente: la `003`, dove il revisore dovette aprire lo script di controllo e lo disse.
+3. **Ancora la versione revisionata**, non solo il file: commit e impronta del contenuto letto. I documenti si riscrivono per chiudere i rilievi, e un verbale che cita passaggi non più esistenti diventa illeggibile. È il miglioramento introdotto dalla `004`.
+4. **Il verbale non si corregge.** Chi è stato revisionato può aggiungere un blocco in coda — esito della verifica, decisioni prese, rilievi non accolti — ma non tocca il testo del revisore, nemmeno dove sbaglia. Un verbale riscritto da chi ha revisionato non è più un verbale.
+
+**Nel blocco di chiusura, dichiarare come ogni rilievo è stato chiuso**, distinguendo almeno *risolvendolo* da *indebolendo l'affermazione*. Sono cose diverse e la seconda è legittima — spesso è la sola onesta — ma se non è dichiarata il lettore non può distinguere un difetto riparato da una rivendicazione ritirata. La tabella in coda al verbale della `004` è il modello.
+
+**Ciò che nessun verbale garantisce**: che chi trascrive non abbia ammorbidito. Contro questo non esiste presidio dentro il processo, solo l'ordine dei passi — verbale prima delle correzioni — ed è la ragione per cui l'obbligo 1 viene prima degli altri tre.
+
 ## Cosa la toolchain non fa da sola
 
 **L'apertura del branch.** Il repository non ha `.specify/extensions.yml` e non ha quindi alcun hook `before_specify`. Spec Kit **non crea il branch**. Chi esegue lo apre a mano, da `main` aggiornato, prima di invocare qualunque comando — e lo chiama come la cartella della feature (`002-data-audit-profiling` ↔ `specs/002-data-audit-profiling`).
@@ -104,4 +121,8 @@ Vincola la regia, non chi esegue. Un prompt è consegnabile solo se:
 - [ ] dichiara il **debito ereditato** da feature precedenti, con riferimento puntuale al rilievo o alla divergenza, non con un rimando generico;
 - [ ] dichiara il **perimetro**: cosa la feature non fa e a quale feature quel pezzo spetta;
 - [ ] richiama le **sezioni obbligatorie** della spec — domanda di business, provenienza e confidenza, limiti dichiarati;
+- [ ] dichiara che la feature **chiude il proprio drift sul [README](README.md)**: riga nella tabella di stato, deliverable elencato, prosa dei deliverable estesa, `Setup` e `Struttura` allineati;
+- [ ] dichiara che la revisione in contesto pulito **produce il verbale**, con i quattro obblighi qui sopra;
 - [ ] **non presuppone alcun automatismo.** Se non è scritto, non accade.
+
+**Perché il README ha una voce propria.** È l'unico artefatto che ogni feature modifica e che **nessuna spec possiede**, e per questo è l'unico su cui il drift si è ripetuto: scoperto a valle sulla `003` e chiuso con un task aggiunto in corsa, si è ripresentato identico sulla `004`, dove sarebbe atterrato su `main` con un'affermazione falsa. Un difetto che ricorre due volte non è una svista di chi esegue: è una casella mancante in questa lista.
