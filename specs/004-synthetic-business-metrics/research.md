@@ -93,6 +93,16 @@ La modalità scelta entra fra le convenzioni dell'artefatto (`bq3_rounding`), co
 
 **Il vincolo di FR-011a vale su questo numero**: k è fissato **qui**, in fase di piano, prima che la ricognizione sul benchmark abbia inizio. Vedi T7.
 
+> **Nota del 2026-08-16 — la forma della banda è cambiata, e con essa il tetto.**
+>
+> La forma `(1 − k)` / `(1 + k)` descritta sopra **non produce la simmetria relativa** che D2 prescriveva, ed è un errore di questa decisione, non della sua implementazione. Con k = 0,50 il rapporto fra centrale e pessimista vale 2 mentre quello fra ottimista e centrale vale 1,50: la banda risulta simmetrica in termini **assoluti**. La simmetria relativa richiede fattori **reciproci**, cioè `1/m` e `m`.
+>
+> Se ne è accorta la revisione in contesto pulito del documento pubblicato, che non aveva accesso a questo file. I fattori sono stati portati a `0,50` e `2,00` — il basso invariato, l'alto da 1,50 a 2,00 — con m = 2, e il rapporto fra gli estremi vale ora `m²` = 4 invece di 3.
+>
+> **Il tetto imposto alla ricognizione cambia di conseguenza**: `100 / m`, quindi **50%** e non più 66,67%. Il messaggio della guardia di FR-016 lo calcola dai fattori e non lo porta scritto, quindi resta corretto senza modifiche.
+>
+> La modifica è stata applicata **dopo** l'adozione del benchmark ed è dichiarata per esteso in `bq3_band_fixed_before`, come FR-011a richiede. Il valore originale resta qui perché è ciò che questa fase aveva deciso, ed è esso stesso un dato: la trappola che ha prodotto — una proprietà dichiarata e non verificata — è più istruttiva della decisione corretta.
+
 **Il tetto che k = 0,50 impone, e che va conosciuto prima di incontrarlo.** Lo scenario ottimista vale `benchmark × 1,5`, quindi esce dall'intervallo 0-100 per qualunque benchmark oltre il **66,67%**, e la guardia di FR-016 fermerebbe la derivazione. Poiché i fattori precedono la ricognizione, l'incompatibilità sarebbe scopribile solo in fase di derivazione, a commit già fatti. La probabilità è bassa — un tasso di passaggio a tier superiore oltre due terzi della base sarebbe una notizia, non un benchmark — ma l'uscita va indicata invece di essere dedotta sul momento: FR-011a la contiene già, perché ammette che i fattori cambino dopo purché il cambiamento sia dichiarato con la propria ragione. Il messaggio di errore della guardia deve nominarla (T19 dei task).
 
 ### T7 — L'ordine di esecuzione è imposto, e il commit lo testimonia

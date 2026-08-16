@@ -59,14 +59,16 @@ Prefisso `BQ3.`, verificato disgiunto da `NF.`, `SP.`, `CL.`, `X.` (T3). La veri
 | `BQ3.band.spread_pp` | ampiezza della banda di adozione, in punti percentuali: `best − worst` |
 | `BQ3.band.ratio` | rapporto fra scenario ottimista e pessimista: `best ÷ worst` |
 
-`BQ3.band.ratio` **non dipende dal benchmark**: con banda moltiplicativa vale `(1+k)/(1−k)`, cioè 3 per k = 0,50, qualunque sia il valore adottato. È una proprietà della stipulazione, e il documento può dirlo — con l'ancora, non a mente.
+`BQ3.band.ratio` **non dipende dal benchmark**: con fattori reciproci vale `m²`, cioè 4 per m = 2, qualunque sia il valore adottato. È una proprietà della stipulazione, e il documento può dirlo — con l'ancora, non a mente.
+
+> **Nota del 2026-08-16.** I fattori erano `0.50` e `1.50`, e il rapporto valeva `(1+k)/(1−k)` = 3. Quella forma non realizzava la simmetria **relativa** che D2 prescriveva: il rapporto fra centrale e pessimista valeva 2 mentre quello fra ottimista e centrale valeva 1,50. I fattori sono ora **reciproci** — il loro prodotto vale l'unità — e la simmetria relativa vale per costruzione. Ritrovamento della revisione in contesto pulito; modifica dichiarata in `bq3_band_fixed_before` secondo FR-011a.
 
 ## Le convenzioni
 
 | Chiave | Valore | Che cosa dichiara |
 |---|---|---|
-| `bq3_band_factor_low` | `0.50` | moltiplicatore dello scenario pessimista, `1 − k` |
-| `bq3_band_factor_high` | `1.50` | moltiplicatore dello scenario ottimista, `1 + k` |
+| `bq3_band_factor_low` | `0.50` | moltiplicatore dello scenario pessimista, `1/m` |
+| `bq3_band_factor_high` | `2.00` | moltiplicatore dello scenario ottimista, `m` |
 | `bq3_band_meaning` | prosa | che l'ampiezza **non misura nulla**: è fiducia nel trasferimento, non varianza osservata (FR-011) |
 | `bq3_band_fixed_before` | prosa, **senza alcun hash** | che i fattori precedono la ricognizione, e come verificarlo (FR-011a) |
 | `bq3_rounding` | `ROUND_HALF_UP`; cifre significative per i tassi, due decimali fissi per gli importi | la regola di arrotondamento, dichiarata e non ereditata, **con la precisione effettiva degli importi** (T5, FR-015) |
@@ -111,7 +113,7 @@ La precisione è **quella del benchmark, e mai più di due cifre significative**
 | importi, in euro | `BQ3.uplift.*` | a **due posizioni decimali fisse** — convenzione della valuta, non pretesa di precisione |
 | rapporto puro | `BQ3.band.ratio` | **esatto**: non discende dal benchmark, vale `(1+k)/(1−k)` per costruzione |
 
-**Perché gli importi non seguono le cifre significative.** Con il benchmark adottato `uplift.base` vale 1,20 € e `uplift.best` vale 1,80 €: applicando le cifre significative si pubblicherebbero `1,2 €` e `1,8 €`. Sarebbe conforme alla lettera e sbagliato — la seconda cifra decimale di un importo è il centesimo, l'unità in cui la valuta è denominata, e toglierla non rende il numero più prudente, lo rende malformato. `bq3_rounding` dichiara perciò **entrambe** le famiglie e dichiara che la precisione effettiva degli importi resta di due cifre significative, così che nessuno legga `1,20 €` come una conoscenza a tre.
+**Perché gli importi non seguono le cifre significative.** Con il benchmark adottato `uplift.base` vale 1,20 € e `uplift.best` vale 2,40 €: applicando le cifre significative si pubblicherebbero `1,2 €` e `2,4 €`. Sarebbe conforme alla lettera e sbagliato — la seconda cifra decimale di un importo è il centesimo, l'unità in cui la valuta è denominata, e toglierla non rende il numero più prudente, lo rende malformato. `bq3_rounding` dichiara perciò **entrambe** le famiglie e dichiara che la precisione effettiva degli importi resta di due cifre significative, così che nessuno legga `1,20 €` come una conoscenza a tre.
 
 Il campo `display` porta il separatore decimale italiano, la virgola, prodotto per formattazione esplicita e mai da una funzione dipendente dal locale — vincolo ereditato da F6 della 003.
 

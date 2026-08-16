@@ -95,19 +95,21 @@ git checkout data/benchmarks/bq3_tier_upgrade.json && python3 scripts/build_bq3_
 Il caso costruito apposta, perché è quello che una prova casuale non troverebbe.
 
 ```bash
-# benchmark temporaneo a 29 punti percentuali: worst = 14,5 · best = 43,5
-# uplift.best = 43,5 x 4,00 / 100 = 1,74
+# benchmark temporaneo a 29 punti percentuali: worst = 14,5 · best = 58
+# uplift.best = 58 x 4,00 / 100 = 2,32
 python3 scripts/build_bq3_scenarios.py
 ```
 
-**Atteso**: `BQ3.adoption.best` vale **`44`** e `BQ3.adoption.worst` vale **`15`**; `BQ3.uplift.best` vale `1,74`; ogni `display` riporta la virgola come separatore decimale.
+**Atteso**: `BQ3.adoption.worst` vale **`15`**, `BQ3.adoption.best` vale `58`, `BQ3.uplift.best` vale `2,32`; ogni `display` riporta la virgola come separatore decimale.
 
-**Perché quei due numeri.** Entrambi gli estremi cadono esattamente sul mezzo — 43,5 e 14,5 — che è il punto in cui la regola dichiarata decide, e questa prova esiste per vederla decidere:
+**Perché `worst` e non `best`.** Con fattori reciproci lo scenario ottimista è un prodotto per un intero e non cade mai su un confine di arrotondamento: è il **pessimista** a caderci, perché `29 × 0,50` vale esattamente `14,5`, cioè il punto di mezzo in cui la regola dichiarata deve decidere. Le due<!--#--> insidie convergono lì, e sbagliano nello stesso verso:
 
-- **contro la virgola mobile**: `0,29 × 1,5` restituisce `0.43499999999999994`, cioè il confine visto dal lato sbagliato. Arrotondato darebbe **43** invece di 44. È il ritrovamento F3, e il difetto sarebbe stato altrimenti scopribile solo dopo la scelta del benchmark;
-- **contro la modalità predefinita**: `ROUND_HALF_EVEN`, che è quella che `Decimal` applica se non gliene si dichiara un'altra, porterebbe 14,5 a **14**. `ROUND_HALF_UP` lo porta a 15.
+- **la virgola mobile** calcola `0,29 × 0,5 × 100` come `14.499999999999998`, cioè il confine visto dal lato sbagliato, e arrotonda a **14**. È il ritrovamento F3;
+- **`ROUND_HALF_EVEN`**, la modalità che `Decimal` applica se non gliene si dichiara un'altra, porta `14,5` a **14** perché il quattro è pari.
 
-Un esito sbagliato per la prima ragione e uno sbagliato per la seconda differiscono di un punto percentuale su un valore pubblicato, e nessuno dei due si presenterebbe come errore.
+La risposta corretta è `15`, e ciascuno dei due difetti produrrebbe `14` senza presentarsi come errore: un punto percentuale su un valore pubblicato, dentro un artefatto verde.
+
+*Prima del 2026-08-16 i fattori erano `0,50` e `1,50` e questa prova guardava `best`, dove `29 × 1,5` cadeva su `43,5`. La sostanza non cambia — cambia quale dei due estremi finisce sul confine.*
 
 **Attenzione al ripristino**: il file dei parametri va rimesso com'era e la derivazione rieseguita, altrimenti l'artefatto resta sul valore di prova.
 
