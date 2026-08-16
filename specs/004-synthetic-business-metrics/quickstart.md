@@ -19,10 +19,13 @@ git log --oneline --follow data/benchmarks/bq3_tier_upgrade.json
 **Atteso**: almeno due commit. Il primo introduce i fattori della banda, il differenziale e la loro ragione; il secondo aggiunge il benchmark e la citazione.
 
 ```bash
-git show <primo-commit>:data/benchmarks/bq3_tier_upgrade.json | grep -c benchmark
+git show <primo-commit>:data/benchmarks/bq3_tier_upgrade.json \
+  | python3 -c "import json,sys; print('benchmark' in json.load(sys.stdin))"
 ```
 
-**Atteso**: `0`. Nel primo commit la chiave `benchmark` **non esiste**, nemmeno vuota. Un segnaposto renderebbe indistinguibile «fissato prima» da «riempito dopo» e vanificherebbe la garanzia.
+**Atteso**: `False`. Nel primo commit la chiave `benchmark` **non esiste**, nemmeno vuota. Un segnaposto renderebbe indistinguibile «fissato prima» da «riempito dopo» e vanificherebbe la garanzia.
+
+**Perché sulla chiave e non sulla parola.** La prova cercava `grep -c benchmark` e attendeva `0`. Non funziona, e la ragione è istruttiva: la prosa di `bq3_band_fixed_before` **deve** nominare il benchmark, perché il suo mestiere è dichiarare che i fattori lo precedono. Un `grep` sulla parola conta le occorrenze che dimostrano la precedenza insieme a quella che la violerebbe. FR-011a parla della chiave, e la prova ora guarda la chiave.
 
 ## Prova 2 — La citazione è completa e leggibile senza eseguire nulla *(SC-001, FR-003)*
 

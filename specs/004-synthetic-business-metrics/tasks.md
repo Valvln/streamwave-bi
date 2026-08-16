@@ -39,9 +39,9 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow dat
 
 **Scopo**: verificare le tre trappole di collocazione e di spazio dei nomi **prima** di scrivere una riga. Tutte e tre si annullerebbero in silenzio.
 
-- [ ] T001 Verificare con `git check-ignore -v data/benchmarks/bq3_tier_upgrade.json` che il percorso **non** sia intercettato da `.gitignore`. È il ritrovamento F1: `data/external/*` è ignorato, e la cartella che il nome suggeriva non avrebbe versionato il congelamento richiesto dalla condizione 2 della constitution. Se il percorso risultasse intercettato, fermarsi e cambiare collocazione prima di scrivere il file
-- [ ] T002 [P] Verificare con `git check-ignore -v reports/bq3_scenarios.json` che il percorso **non** sia intercettato (FR-018a, SC-004). Il controllo di coerenza deve poterlo risolvere su una copia pulita senza aver prima eseguito la derivazione
-- [ ] T003 [P] Verificare sui due artefatti esistenti che il prefisso `BQ3.` sia disgiunto da `NF.`, `SP.`, `CL.`, `X.` nello spazio `values`, e che nessuna delle chiavi `bq3_*` previste da [data-model.md](./data-model.md) collida in `conventions`. È il ritrovamento F2: lo spazio di `conventions` è **piatto** e `rounding_decimals` è già occupato con contenuto diverso
+- [X] T001 Verificare con `git check-ignore -v data/benchmarks/bq3_tier_upgrade.json` che il percorso **non** sia intercettato da `.gitignore`. È il ritrovamento F1: `data/external/*` è ignorato, e la cartella che il nome suggeriva non avrebbe versionato il congelamento richiesto dalla condizione 2 della constitution. Se il percorso risultasse intercettato, fermarsi e cambiare collocazione prima di scrivere il file
+- [X] T002 [P] Verificare con `git check-ignore -v reports/bq3_scenarios.json` che il percorso **non** sia intercettato (FR-018a, SC-004). Il controllo di coerenza deve poterlo risolvere su una copia pulita senza aver prima eseguito la derivazione
+- [X] T003 [P] Verificare sui due artefatti esistenti che il prefisso `BQ3.` sia disgiunto da `NF.`, `SP.`, `CL.`, `X.` nello spazio `values`, e che nessuna delle chiavi `bq3_*` previste da [data-model.md](./data-model.md) collida in `conventions`. È il ritrovamento F2: lo spazio di `conventions` è **piatto** e `rounding_decimals` è già occupato con contenuto diverso
 
 **Checkpoint**: le collocazioni reggono e i nomi non collidono. Si può scrivere.
 
@@ -51,9 +51,9 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow dat
 
 **Scopo**: fissare la banda **prima che la ricognizione cominci**, e renderlo verificabile. Blocca ogni fase successiva.
 
-- [ ] T004 Creare `data/benchmarks/bq3_tier_upgrade.json` con i **soli** blocchi `band`, `price` e `schema_version` secondo [data-model.md](./data-model.md) §1: `bq3_band_factor_low` a `0.50`, `bq3_band_factor_high` a `1.50`, il differenziale di `4.00` con rimando ad A4, e la prosa che dichiara che l'ampiezza **non misura nulla** (FR-011). Tutti i numeri come **stringhe**, per T5
-- [ ] T005 Scrivere dentro lo stesso file la **ragione** della scelta di k = 0,50 (T6): che è una stipulazione e non una derivazione, che la rotondità è la ragione e non la sua assenza, e che dichiara un rapporto 3 fra gli estremi qualunque sia il benchmark
-- [ ] T006 Verificare che il file **non contenga** la chiave `benchmark`, nemmeno vuota o con un segnaposto ([data-model.md](./data-model.md) §1). Un campo pronto da riempire renderebbe indistinguibile «fissato prima» da «riempito dopo» e vanificherebbe FR-011a
+- [X] T004 Creare `data/benchmarks/bq3_tier_upgrade.json` con i **soli** blocchi `band`, `price` e `schema_version` secondo [data-model.md](./data-model.md) §1: `bq3_band_factor_low` a `0.50`, `bq3_band_factor_high` a `1.50`, il differenziale di `4.00` con rimando ad A4, e la prosa che dichiara che l'ampiezza **non misura nulla** (FR-011). Tutti i numeri come **stringhe**, per T5
+- [X] T005 Scrivere dentro lo stesso file la **ragione** della scelta di k = 0,50 (T6): che è una stipulazione e non una derivazione, che la rotondità è la ragione e non la sua assenza, e che dichiara un rapporto 3 fra gli estremi qualunque sia il benchmark
+- [X] T006 Verificare che il file **non contenga** la chiave `benchmark`, nemmeno vuota o con un segnaposto ([data-model.md](./data-model.md) §1). Un campo pronto da riempire renderebbe indistinguibile «fissato prima» da «riempito dopo» e vanificherebbe FR-011a
 - [ ] T007 Proporre a Valerio il commit del solo file dei parametri. **È questo commit a costituire la prova di precedenza**: senza di esso FR-011a resta un'affermazione. Non proseguire alla Fase 3 prima che sia stato eseguito
 
 **Checkpoint**: la banda è fissata e la history lo testimonia (quickstart, Prova 1). La ricognizione può cominciare.
