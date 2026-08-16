@@ -70,6 +70,12 @@ Questa è la decisione con più contenuto metodologico della feature, ed è quel
 
 **La simmetria relativa è la forma che non aggiunge affermazioni.** Una banda asimmetrica dichiarerebbe che l'errore di trasferimento è più probabile in una direzione che nell'altra, ed è un'ulteriore affermazione sul mondo che i dati non sostengono. Fra le forme disponibili, la simmetrica è l'unica che non ne fa nessuna.
 
+**I due fattori si fissano prima di conoscere il benchmark, ed è la parte della decisione che costa meno e vale di più.** L'ampiezza della banda è l'unico numero davvero libero di questa feature. Sceglierla dopo aver visto il valore del benchmark significa sceglierla — anche in perfetta buona fede — in modo che l'intervallo risultante «sembri giusto», e **nessun controllo di questo progetto potrebbe mai accorgersene**: i fattori sarebbero ancorati, la derivazione riproducibile, l'esito verde, e il numero comunque scelto a valle del risultato che doveva produrre.
+
+Il progetto ha già il precedente e la formula. §3 del business case fissa la regola di decisione **prima** di misurare, e ne dichiara la natura della garanzia: non l'ignoranza di chi scrive, ma il fatto che la regola sia pubblica e immutabile prima dei risultati, così che ogni scostamento successivo sia visibile a chiunque confronti. Qui vale identica. I fattori sono scritti nel file dei parametri **prima che la ricognizione si concluda**; se dopo cambiano, il cambiamento è dichiarato con la sua ragione, non applicato in silenzio. Vedi FR-011a.
+
+Ne discende che il file dei parametri nasce in **due momenti**, e la cosa è un pregio e non un incidente: prima i fattori e la loro ragione, poi il valore del benchmark e la citazione. La history git è la traccia che rende la precedenza verificabile invece che asserita — chi dubita apre il log e guarda l'ordine. Come i due momenti si traducano in commit è materia del piano, non di questa spec.
+
 **Un obbligo di lettura discende da qui, e va scritto accanto ai valori**: `BQ3-K1` non è un intervallo di confidenza e la sua ampiezza non ha interpretazione probabilistica. §7 del business case istruisce il board a considerare lo scenario *worst* come il caso da poter sostenere; quella lettura resta valida e non richiede che l'intervallo sia probabilistico, ma richiede che nessuno lo tratti come tale.
 
 ---
@@ -128,7 +134,11 @@ Tre precisazioni per chi legge le spec in sequenza.
 
 **Questa feature non calcola KPI.** Produce i **parametri e i valori di scenario** che `BQ3-K1` e `BQ3-K2` consumeranno. La misura DAX, il suo nome nel modello e il valore che comparirà in dashboard sono della `007`. Il confine è netto e verificabile: questa feature non scrive alcuna espressione DAX e non stabilisce alcuna granularità di modello.
 
-**Questa feature non dipende dalla `002` né dalla `003`.** Non legge alcun dataset reale, non apre `data/raw/`, non riesegue la pipeline di cleaning e non cita alcun identificativo di `reports/data_profile.json` o `reports/cleaning_report.json`. È la sola feature del progetto parallelizzabile, ed è una proprietà da preservare: un requisito di questa spec che introducesse una dipendenza dai dati reali andrebbe respinto.
+**Questa feature è indipendente dai dati della `002` e della `003`, non dai loro strumenti.** La distinzione va fatta perché la roadmap chiama la 004 «l'unica feature parallelizzabile» e la formulazione più larga sarebbe falsa.
+
+*Indipendente dai dati*, e questa è la proprietà da preservare: non legge alcun dataset reale, non apre `data/raw/`, non riesegue la pipeline di cleaning e non cita alcun identificativo di `reports/data_profile.json` o `reports/cleaning_report.json`. È ciò che la rende eseguibile in una giornata in cui il contesto sui dati reali non è fresco, ed è ciò che rende respingibile qualunque requisito che introducesse una dipendenza dai dati reali.
+
+*Dipendente dagli strumenti*, e va detto: FR-019 e FR-020 modificano [`docs/convenzioni-marcatura.md`](../../docs/convenzioni-marcatura.md) e `scripts/check_audit_coherence.py`, che sono artefatti della `002` e della `003`. La feature ne eredita la grammatica e ne estende lo spazio dei nomi. Chi la esegue deve conoscere quei due artefatti, anche senza conoscere i dati che descrivono.
 
 **Questa feature aggiunge un terzo artefatto allo spazio dei nomi della marcatura.** Oggi il controllo unisce le mappe `values` di due artefatti; da qui in avanti sono tre. La verifica di collisione che il controllo già esegue non va indebolita, e la fonte unica della grammatica va aggiornata di conseguenza: vedi FR-018 e FR-019.
 
@@ -243,6 +253,7 @@ Chi legge il business case incontra `A6` fra le assunzioni strutturali, la ritro
 - **FR-004**: Il file dei parametri MUST dichiarare, accanto al valore, **che cosa la fonte misura esattamente** e in che modo differisce da ciò per cui viene usato. Lo scostamento è parte dell'assunzione di trasferimento (FR-007).
 - **FR-005**: La feature MUST registrare le fonti valutate e respinte con il motivo del rigetto, non solo quella adottata. Un rigetto non registrato rende non verificabile l'affermazione che la fonte adottata fosse la migliore disponibile.
 - **FR-006**: Se **nessuna** fonte soddisfa tutte e cinque le condizioni della constitution, la feature MUST fermarsi e riportarlo. NON DEVE adottare un valore «plausibile» presentandolo come benchmark, e NON DEVE dichiarare autonomamente il parametro come scelta dell'analista: quella è una decisione fuori dal perimetro di chi esegue.
+- **FR-006a**: La fonte **adottata**, con il proprio scarto di misura (FR-004), MUST essere riportata allo stesso punto di stop e allo stesso revisore in cui si riporterebbe il fallimento di FR-006. L'adozione non è un esito silenzioso. *Ragione*: il rischio principale non è il fallimento rumoroso, che si vede da solo, ma l'**adozione di una fonte «abbastanza vicina»**. FR-004 e il terzo Edge Case ammettono correttamente una metrica adiacente purché lo scarto sia dichiarato, e non esiste né può esistere un presidio automatico su *quanto* adiacente sia troppo. Senza questo requisito la valutazione la fa da solo chi esegue, e lo scarto finisce dichiarato in un file che nessuno rilegge prima del merge.
 - **FR-007**: L'**assunzione di trasferimento** MUST essere scritta accanto al valore nel file dei parametri, e MUST dichiarare che il valore descrive un operatore terzo e non StreamWave.
 - **FR-008**: Nessuno script della feature MUST contattare una fonte esterna durante l'esecuzione. La raccolta è un passaggio umano il cui esito è congelato.
 
@@ -251,6 +262,7 @@ Chi legge il business case incontra `A6` fra le assunzioni strutturali, la ritro
 - **FR-009**: La derivazione MUST produrre esattamente sei valori: tre tassi di adozione (*worst*, *base*, *best*) e i tre uplift di ricavo corrispondenti, espressi in **euro per utente al mese**. NON DEVE produrre alcun valore aggregato sulla base utenti, che non è quantificata.
 - **FR-010**: Lo scenario *base* MUST assumere il valore del benchmark. Gli scenari *worst* e *best* MUST ottenersi applicandogli una coppia di fattori dichiarati e simmetrici in termini relativi.
 - **FR-011**: I due fattori della banda MUST essere **ancorati** fra le convenzioni dell'artefatto prodotto, non solo dichiarati in prosa, e MUST essere accompagnati dalla dichiarazione che l'ampiezza della banda **non misura nulla**: è la fiducia dell'analista nel trasferimento, non una varianza osservata.
+- **FR-011a**: I due fattori MUST essere fissati e scritti nel file dei parametri **prima che la ricognizione sul benchmark si concluda**, e la loro precedenza temporale MUST essere dichiarata. Se dopo la ricognizione vengono cambiati, il cambiamento MUST essere dichiarato con la propria ragione; NON DEVE essere applicato in silenzio. *Ragione*: l'ampiezza della banda è l'unico numero libero della feature, e sceglierla a valore del benchmark noto la piega verso l'intervallo che «sembra giusto» senza che alcun controllo possa rilevarlo. È la stessa garanzia che §3 del business case ottiene fissando la regola di decisione prima di misurare.
 - **FR-012**: I tre uplift MUST essere il prodotto del rispettivo tasso per il differenziale di **4,00 €** fissato in A4. Il differenziale MUST essere letto dal file dei parametri, non scritto nel codice.
 - **FR-013**: La derivazione MUST essere **deterministica**: nessun generatore di numeri casuali, nessun seed, nessuna dipendenza dall'ora di esecuzione. Due esecuzioni consecutive MUST produrre artefatti identici.
 - **FR-014**: Nessun valore dell'artefatto MUST essere scritto a mano. Modificare il benchmark nel file dei parametri e rieseguire MUST cambiare tutti e sei i valori.
@@ -261,6 +273,7 @@ Chi legge il business case incontra `A6` fra le assunzioni strutturali, la ritro
 ### Marcatura e artefatti
 
 - **FR-018**: L'artefatto dei sei valori MUST esporre una mappa `values` con identificativi stabili, secondo la struttura degli artefatti esistenti, così da entrare nello spazio dei nomi della marcatura. La verifica di collisione fra artefatti NON DEVE essere indebolita.
+- **FR-018a**: L'artefatto dei sei valori MUST essere **versionato nel repository**. *Ragione*: FR-020 e SC-004 presuppongono che il controllo di coerenza lo risolva su una copia pulita, e un artefatto rigenerabile ma non versionato renderebbe il controllo eseguibile solo dopo aver eseguito la derivazione. È il precedente di `reports/cleaning_report.json`, versionato perché la 003 lo aveva scritto come requisito e non perché fosse ovvio. Se non è scritto, non accade.
 - **FR-019**: [`docs/convenzioni-marcatura.md`](../../docs/convenzioni-marcatura.md) MUST essere aggiornato: §3 elenca oggi due artefatti e da qui in avanti sono tre, e la tabella di provenienza in coda MUST registrare la data e la feature. È la fonte unica e non può descrivere uno stato superato.
 - **FR-020**: Il documento di lettura prodotto dalla feature MUST essere aggiunto a `DOCUMENTS` in `scripts/check_audit_coherence.py` **sotto severità stretta**, e MUST passare il controllo. Ogni numero che pubblica MUST portare o l'ancora o il marcatore di non-misurato.
 
@@ -274,8 +287,10 @@ Chi legge il business case incontra `A6` fra le assunzioni strutturali, la ritro
 ### Debito testuale su `docs/business_case.md`
 
 - **FR-025**: §2 MUST accogliere una nuova assunzione strutturale **`A6`**, che istituisce l'assunzione di trasferimento dei benchmark, formulata sul modello di `A1` e con la stessa forma grafica delle altre.
+- **FR-025a**: `A6` **NON DEVE contenere il valore del benchmark**, né alcuna delle sei cifre derivate. Istituisce l'assunzione e rimanda al file dei parametri, dove il numero vive ancorabile. *Ragione*: `docs/business_case.md` non è fra i documenti sotto controllo di coerenza, quindi un numero scritto nella sua prosa non porta ancora e nessuno lo verifica. È esattamente il rilievo R8 della revisione 001 — un numero che compare solo in prosa, senza uno script che lo rigeneri, è un debito — che la 002 ha chiuso e che questa feature non deve riaprire.
 - **FR-026**: §6, sottosezione «Cosa questa scala non misura», MUST richiamare `A6` accanto ad `A1` come seconda assunzione che resta fuori dalla scala di confidenza per costruzione.
 - **FR-027**: Le schede `BQ3-K1` e `BQ3-K2` in §5.5 MUST portare ciascuna una **nota datata** che dichiari data, feature, che cosa è cambiato e la fonte verificabile.
+- **FR-027a**: Le note di FR-027 MUST rispettare lo stesso vincolo di FR-025a: **nessun valore di benchmark e nessuna delle sei cifre derivate nella prosa del business case**. La «fonte verificabile» che la nota dichiara è il rimando al file dei parametri e all'artefatto, non il numero trascritto. Vale anche per il differenziale di 4,00 €, che però **è già in A4** e resta dov'è: la nota lo cita come riferimento ad A4, non lo riafferma.
 - **FR-028**: La nota su `BQ3-K1` MUST chiudere R13 per la parte BQ3 dichiarando che **le disdette sono escluse** e che il tasso è lordo su base costante, con il rimando a FR-018 della 001 e ad A5.
 - **FR-029**: La nota su `BQ3-K1` MUST dichiarare la composizione della fonte dopo l'ancoraggio (decisione D5) **senza riscrivere** la riga «Fonte: Sintetico» esistente.
 - **FR-030**: **Nessun valore o affermazione originale di `docs/business_case.md` MUST essere cancellato o sovrascritto.** Gli interventi sono aggiunte; vale comunque la prassi di `CLAUDE.md` sugli artefatti già mergiati.
@@ -305,7 +320,8 @@ Chi legge il business case incontra `A6` fra le assunzioni strutturali, la ritro
 - **SC-005**: Nessun artefatto della feature presenta `BQ3-K1` o `BQ3-K2` come valore singolo, e nessuno ne innalza la confidenza sopra `bassa`.
 - **SC-006**: Un lettore del business case incontra `A6` in §2, la ritrova in §6 e trova le due note datate in §5.5, **senza che alcun valore o affermazione preesistente risulti rimosso** — verificabile confrontando il diff, che deve essere di sole aggiunte sul testo preesistente.
 - **SC-007**: Nessuno script della feature contiene una chiamata di rete, un generatore di numeri casuali o un seed — verificabile per ispezione.
-- **SC-008**: Il tempo complessivo resta entro **6 ore**, revisione in contesto pulito e chiusura dei rilievi incluse.
+
+I sette criteri sono tutti verificabili **sul prodotto**, da chi riceve il repository e senza sapere come è stato costruito. La **stima di 6 ore**, revisione in contesto pulito e chiusura dei rilievi incluse, non compare fra loro: è un vincolo di processo, appartiene alla stima della roadmap e al gate del principio III, e non è una proprietà dell'artefatto. Una feature consegnata in otto ore non è per questo difettosa; una che fallisse SC-004 lo sarebbe.
 
 ---
 
