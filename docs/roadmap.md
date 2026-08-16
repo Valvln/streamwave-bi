@@ -1,6 +1,6 @@
 # Roadmap — StreamWave BI
 
-**Aggiornata**: 2026-08-15 | **Stato**: feature 003 conclusa e mergiata (PR #3), 004 da aprire
+**Aggiornata**: 2026-08-17 | **Stato**: feature 004 conclusa sul branch, da mergiare; 005 da aprire
 
 Questo documento è il piano di lavoro del progetto: cosa resta da fare, in quale ordine, con quale stima e con quali dipendenze. È versionato perché la pianificazione — e soprattutto il suo scostamento dalla realtà — fa parte dell'artefatto da portfolio quanto i risultati.
 
@@ -23,7 +23,7 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `001` | Business Case & KPI Framework | ~7 (spese) | — | ✅ conclusa, con debito residuo |
 | `002` | Data Audit & Profiling | ~4,5 (spese, stimate 4) | 001 | ✅ conclusa, PR #2 mergiata |
 | `003` | Data Cleaning & ETL | ~6,5 (spese, stimate 7) | 002 | ✅ conclusa, PR #3 mergiata, con debito residuo |
-| `004` | Synthetic Business Metrics | 6 | 001 | ⬜ ancorata a benchmark, vedi sotto |
+| `004` | Synthetic Business Metrics | ~3 di sessione (stimate 6) | 001 | ✅ conclusa sul branch, 46 task su 46, con debito residuo |
 | `005` | Data Model Design | 5 | 003, *chore ambiente* | ⬜ |
 | `006` | Content Taxonomy Bridge | 6 | 002, 005 | ⬜ decisione aperta DA-1 |
 | `007` | Misure DAX & KPI | 8 | 004, 005, 006 | ⬜ da scomporre in due |
@@ -31,7 +31,7 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `009` | Porting Tableau Public | 5 | 007 | ⬜ *stretch, primo a cadere* |
 | `010` | Case Study & Portfolio Integration | 6 | 008 | ⬜ |
 
-**Totale residuo escluso `009`**: ~39 ore di feature, più ~3,5 ore di debito testuale e ~4 ore di altri chore.
+**Totale residuo escluso `009`**: ~33 ore di feature, più ~2,5 ore di debito testuale e ~4 ore di altri chore. Erano ~39 e ~3,5 prima della chiusura della `004`, che ha assorbito anche l'ora di debito testuale sull'ancoraggio.
 
 Le stime di `004`, `006`, `007` e `010` includono la **revisione in contesto pulito e la chiusura dei rilievi** — circa un'ora ciascuna. Era il rischio aperto lasciato dalla 002, dove quel costo era stato l'intero scostamento; è chiuso incorporandolo invece che continuando a scoprirlo a consuntivo. La conseguenza è che `007` sale a 8 ore e raggiunge `008` fra le feature che vanno scomposte prima di essere aperte, non dopo.
 
@@ -57,7 +57,17 @@ Resta **un solo benchmark indispensabile**: il tasso di conversione a un tier su
 
 **Determinismo**: la ricerca produce un file di parametri versionato con fonte e data; uno script con seed fisso genera il dataset a partire da quel file. La pipeline resta rieseguibile da una copia pulita; la ricerca no, ed è congelata. Il precedente è il principio V, che già ammette lavoro non automatizzabile purché versionato come artefatto testuale. Se la ricerca alimentasse la generazione a ogni esecuzione, il principio II sarebbe violato.
 
+> **Nota di correzione — 2026-08-16, feature 004, decisione D1.** La frase qui sopra prescrive che «uno script con **seed fisso** genera il **dataset**». Nessuna delle due cose accade, e la prescrizione è superata dai fatti invece che sbagliata all'origine: è stata scritta il 2026-08-10, **prima** che engagement e quantificazione della base utenti uscissero dal perimetro, cioè prima delle due decisioni che tolgono al seed il proprio oggetto.
+>
+> Ciò che la 004 produce è una **derivazione deterministica di sei valori** — tre tassi di adozione e i tre uplift corrispondenti — da un parametro e una costante. Non esiste alcun dataset di righe e non esiste alcun seed, e la ragione dirimente non è che il caso sia superfluo ma che sia **impossibile in linea di principio**: una simulazione a livello di individuo richiede una numerosità della popolazione, e la divergenza 9 della revisione 001 ha deciso di non quantificarla. Un seed su uno script che non estrae nulla comunicherebbe al lettore che da qualche parte c'è del caso sotto controllo, ed è falso.
+>
+> Resta vero tutto il resto del capoverso: il file dei parametri versionato, il congelamento della ricerca, la rieseguibilità da una copia pulita. **Fonte verificabile**: decisione D1 e requisiti FR-013 e FR-024 di [`specs/004-synthetic-business-metrics/spec.md`](../specs/004-synthetic-business-metrics/spec.md).
+
 **Nessun framework di orchestrazione** (LangChain, LangGraph o equivalenti) per questa feature: il passaggio di raccolta produce un valore congelato che nessuno riesegue, e un'orchestrazione a grafo aggiungerebbe una dipendenza, una chiave API e un componente che dopo la prima esecuzione resta inerte. La sede in cui il lavoro con LLM ha senso è la `006` — vedi Decisioni aperte.
+
+**Se nessuna fonte regge le cinque condizioni — decisione della regia, 2026-08-16.** È l'assunzione più esposta della feature e la spec la dichiara non confermata. La decisione è presa in anticipo perché non blocchi l'implementazione a metà: **la feature non si ferma.** Prosegue dichiarando il parametro come **scelta dell'analista**, che è lo stato ammesso prima dell'emendamento a v1.1.0, e registra la ricognizione fallita con le fonti valutate e i motivi del rigetto. Tutto il resto — derivazione, documento, chiusura di R13-BQ3, `A6` e le note sulle schede — è indipendente da dove viene il numero e vale da solo.
+
+La ricognizione fallita **è essa stessa un risultato pubblicabile**: «abbiamo cercato un benchmark citabile per questa metrica e non esiste in forma gratuitamente recuperabile» è un'informazione che il lettore non ha, ed è più onesta di un numero preso da una fonte che non regge il controllo. Resta intatto il divieto di FR-006 nella sostanza — non inventare, non ripiegare in silenzio — e resta obbligatorio il riporto di T013: cambia solo che la risposta è già scritta e non va attesa.
 
 **Stima**: da 5 a 6 ore. L'ancoraggio aggiunge circa un'ora di raccolta e citazione, l'uscita dell'engagement dalla generazione ne restituisce altrettante, la revisione in contesto pulito ne aggiunge una. Resta **una sola feature dentro il limite del principio III**: la scomposizione che la proposta dava per necessaria non serve, perché contava dentro la feature l'emendamento della constitution e le note testuali, che sono chore. Da riverificare in fase di `/speckit.specify`.
 
@@ -79,6 +89,24 @@ Lascia quattro artefatti: `scripts/build_datasets.py`, [`reports/cleaning_report
 
 Resta debito, tracciato sotto.
 
+### Esito della `004` — chiusa il 2026-08-17
+
+**46 task su 46**, in due blocchi di sessione: il 16 agosto dalla spec alla Prova 9 del quickstart, il 17 la chiusura dei rilievi della revisione. I timestamp git coprono ~3 ore contro le 6 stimate, e **lo scarto non va letto come un risparmio**: vale la nota sulla misura del tempo speso più sotto, per cui i timestamp misurano una sessione di agent e non ore-uomo. Ciò che si può dire è che la feature è rientrata nel proprio perimetro senza sforare, e che il blocco E — revisione e chiusura dei rilievi — è stato il più costoso, come previsto.
+
+Lascia quattro artefatti: [`data/benchmarks/bq3_tier_upgrade.json`](../data/benchmarks/bq3_tier_upgrade.json), `scripts/build_bq3_scenarios.py`, [`reports/bq3_scenarios.json`](../reports/bq3_scenarios.json) e [`docs/bq3_scenarios.md`](bq3_scenarios.md). Il primo è la prima cartella di `data/` a essere versionata, e per il motivo opposto a quello delle sorelle: le altre non lo sono perché riproducibili, questa lo è perché non lo è.
+
+**Quattro esiti che valgono oltre la feature.**
+
+*Una proprietà dichiarata in una decisione va verificata sull'implementazione.* La decisione D2 prescriveva una banda «simmetrica in termini relativi». L'implementazione l'ha letta come `1 − k` / `1 + k`, che **non lo è**: la simmetria relativa vale se e solo se il prodotto dei due fattori è l'unità. La banda è stata simmetrica in termini assoluti mentre si dichiarava relativa, per tutta la durata della feature, attraverso spec, piano, contratto, implementazione e due punti di stop della regia. Nessun controllo di questo progetto poteva vederlo — non è un numero sbagliato, è una proprietà mancante — e l'ha trovato la revisione in contesto pulito leggendo il solo documento pubblicato.
+
+*Un esito verde può essere prodotto dal fallimento del comando che doveva verificare.* La Prova 9 del quickstart eseguiva `git diff main -- docs/business_case.md | grep "^-"`. Su un clone `main` non esiste come riferimento locale: git esce con `fatal: bad revision`, non produce output, il `grep` non trova corrispondenze e la prova **riporta esito positivo**. È rimasta così finché il quickstart non è stato eseguito per intero su un clone, cosa che le verifiche di fase — che eseguono le prove una alla volta, nel repository di lavoro — non fanno.
+
+*La regola sulle cifre significative non si applica al denaro.* Il principio I vieta di pubblicare un valore sintetico con precisione superiore a quanto la metodologia giustifica. Applicata alla lettera a un importo produce `1,2 €` dove il valore è `1,20 €`, perché il centesimo è l'unità in cui la valuta è denominata e non una cifra di precisione rivendicata. FR-015 distingue ora due famiglie — cifre significative per i tassi, posizioni decimali fisse per gli importi — e la convenzione dichiara che la precisione effettiva resta quella dell'ingresso. **Vale per ogni documento futuro che pubblichi euro**, cioè per `007` e `008`.
+
+*Il registro dei rigetti non certifica una superlatività.* Rende ispezionabile perché una fonte è stata scartata, ma è compilato da chi sceglie e contiene solo le fonti incontrate: lo spazio di quelle mai trovate non lascia traccia. La rivendicazione sostenibile è «la migliore fra quelle esaminate, secondo un criterio dichiarato», e il criterio adottato qui — solidità della citazione prima della vicinanza al caso d'uso — ha una conseguenza visibile, perché una fonte più vicina per misura è stata respinta perché la citazione non reggeva.
+
+**La ricognizione ha funzionato, ma per poco.** La fonte adottata soddisfa le cinque condizioni della constitution; il suo scarto di misura è ampio e dichiarato in cinque divergenze, di cui **una sola ha un verso noto**, e spinge il valore verso l'alto. Il terzo punto di fermata previsto — T013, il riporto in entrambi gli esiti — è servito esattamente a ciò per cui era stato messo: non a segnalare un fallimento, ma a portare alla regia una fonte adottata con la propria debolezza, su cui la decisione poteva essere diversa.
+
 ### Lavoro fuori dalle feature
 
 | Chore | Ore | Entro |
@@ -88,7 +116,7 @@ Resta debito, tracciato sotto.
 | Debito testuale della 002: divergenza 3, allineare §5 del documento di audit a citare D3 della 001 e A2/A3 del business case | ~0,5 | prima di `007` |
 | Debito testuale della 002: portare `docs/data_audit.md` sotto la severità stretta, rimarcandone le quantità | ~1 | prima di `007`, nella stessa sessione della riga sopra |
 | ~~Emendamento della constitution: ammettere i benchmark pubblici di settore fra le fonti dati~~ | — | ✅ fatto il 2026-08-15, **v1.1.0** |
-| Debito testuale per l'ancoraggio: assunzione di trasferimento in §2 di `docs/business_case.md`, richiamo in §6, note datate sulle schede `BQ3-K1` e `BQ3-K2` | ~1 | dentro `004` o subito prima |
+| Debito testuale per l'ancoraggio: assunzione di trasferimento in §2 di `docs/business_case.md`, richiamo in §6, note datate sulle schede `BQ3-K1` e `BQ3-K2` | ~1 | ✅ chiuso dentro `004` il 2026-08-16, per sole aggiunte |
 | Pubblicazione di prova su workspace Power BI Service e cattura schermate | ~1 | 18 agosto (scadenza trial Pro) — **a rischio**, vedi sotto |
 
 **La pubblicazione di prova entro il 18 agosto va decisa ora, non provata il 18.** Presuppone la VM costruita, Power BI Desktop installato e qualcosa da pubblicare: sono ~4 ore per una cattura di schermate su un file vuoto, in giorni in cui `004` e `005` valgono di più. Il deliverable dichiarato è un `.pbix` e Power BI Desktop è gratuito e senza scadenza — è il rischio già chiuso l'8 agosto. La raccomandazione è **lasciarla cadere e dichiararlo**, invece di scoprire il 18 che non è stata fatta.
@@ -129,7 +157,7 @@ La [revisione in contesto pulito](../specs/001-business-case-kpi/review.md) ha p
 | div. 9 | dimensione della base utenti | ✅ chiusa per decisione del 2026-08-10: `BQ3-K2` resta **euro per utente al mese e non è scalabile**. Nessuna base utenti viene quantificata. La 004 deve dichiararlo esplicitamente, come la divergenza richiedeva in alternativa |
 | div. 10 | governance della tabella generi → mood | `006` |
 | div. 11 | posizione dell'alternativa "non entrare" | `010` |
-| R13 | ambiguità minori sparse | `004`, `007` |
+| R13 | ambiguità minori sparse | parte BQ3 ✅ chiusa dalla `004` — le disdette sono escluse, tasso lordo su base costante; il resto resta a `007` |
 | R9, R10, R12 | correzioni terminologiche sul testo del business case | debito testuale, ~1 ora, da chiudere prima di `007` |
 | div. 5 | soglie decisionali | ✅ chiusa dal commit `862bdca` (§3, condizioni C1-C3) |
 
@@ -179,6 +207,20 @@ La [revisione in contesto pulito](../specs/003-data-cleaning-etl/review.md) del 
 
 **Sulla severità stretta, la decisione della regia.** Non si estende retroattivamente per automatismo, e non resta nemmeno com'è. Il documento della 002 va rimarcato, ma come debito testuale dichiarato e non come lavoro che una feature successiva assorbe di nascosto. La ragione per farlo, contro l'ipotesi di lasciarlo sotto avvisi per sempre: il senso del corollario (c) è che **un controllo che elenca non ferma nessuno**, e decine di avvisi permanenti su un documento pubblicato addestrano chi legge — e chi scrive — a ignorare l'output. La ragione per non farlo ora: `docs/data_audit.md` è già aperto dalla divergenza 3, e le due cose costano meno insieme. Non è una correzione di valori e non tocca quindi la prassi delle note in loco: si aggiungono marcatori, non si riscrive nulla.
 
+## Debito della feature 004
+
+La revisione in contesto pulito del documento degli scenari ha prodotto **14 rilievi**, tutti chiusi dentro la feature prima del merge, come nella 002 e nella 003. Due hanno richiesto decisioni di Valerio perché toccavano scelte già prese: la rimozione di una divergenza e il cambio dei fattori della banda. Resta questo.
+
+| Voce | Contenuto | Chiusa da |
+|---|---|---|
+| verificabilità del benchmark | il valore è ancorato a un **comunicato stampa** e a nient'altro: nessuna copia archiviata, nessun identificativo permanente, e il comunicato non nomina lo studio né la numerosità campionaria. Se quell'indirizzo smettesse di rispondere, la verifica esterna verrebbe meno e resterebbe solo il valore congelato nel repository | ⬜ aperta — vedi sotto |
+| fonte più vicina non citabile | il valore Antenna sui piani in bundle è strutturalmente più vicino al caso di StreamWave ed è del 2026, ma è dietro registrazione e senza data di pubblicazione dichiarata. Se diventasse citabile, la sostituzione va valutata con nota in loco | ⬜ prima di `008` |
+| limite strutturale della banda | nessuna banda moltiplicativa può rappresentare il caso in cui **il trasferimento fallisce**: lo scenario pessimista resta proporzionale al benchmark e non raggiunge lo zero. È dichiarato nel documento e non è correggibile dentro questa forma | ⬜ dichiarato, non chiudibile qui |
+| `value` come stringa | l'artefatto della 004 scrive `value` come stringa decimale, dove i due esistenti scrivono un numero JSON. È deliberato — `0,60` e `1,80` non sono esatti in virgola mobile — ma la `007` deve saperlo, ed è nel contratto | `007`, in lettura |
+| sigle con suffisso letterale | `FR-011a` e simili non rientrano nell'esclusione strutturale del controllo di marcatura, che si chiude su un confine di parola dopo le cifre. Si scrivono fra apici inversi; registrato in `docs/convenzioni-marcatura.md` | ✅ chiusa per convenzione |
+
+**Sulla verificabilità del benchmark, che è il debito che conta.** È il punto su cui l'intera terza domanda di business poggia, ed è più fragile di quanto la presenza di una citazione faccia sembrare. Il documento lo dichiara in §9 invece di lasciarlo dedurre, ma dichiararlo non lo chiude. Le strade sono due e nessuna è dentro il perimetro di questa feature: archiviare una copia del comunicato nel repository, che pone una questione di licenza, oppure trovare una fonte primaria che pubblichi la stessa grandezza con metodo ispezionabile — cosa che la ricognizione non ha trovato. **Va deciso prima che `008` pubblichi quei numeri in una dashboard**, perché è lì che smettono di essere un artefatto tecnico e diventano un'affermazione rivolta a un lettore.
+
 ## Decisioni aperte
 
 Decisioni consapevolmente rinviate. Non sono debito — il debito è lavoro noto da fare, queste sono scelte non ancora prese — e stanno qui perché una decisione rinviata senza un punto in cui va presa è una decisione che si perde. È già successo una volta, ed è lo scostamento 5 qui sopra.
@@ -201,9 +243,11 @@ Ricadute: la scelta chiude anche la divergenza 10 della 001, la governance di qu
 | 11 agosto | ~4 h spese | `003`: spec, piano, 48 task e **MVP completo** (T001-T026) |
 | 12 → 14 agosto | **non pianificata** | nulla, come previsto. Vedi sotto |
 | 15 agosto | ~2,5 h spese | `003` ✅ conclusa e mergiata (T027-T049), revisione inclusa |
-| dal 16 agosto | giornate piene, ~6 h/giorno | `004`, `005`, `006`, `007`, `008`, `010`, più ~7,5 h di chore e debito |
+| 16 agosto | ~2,5 h di sessione | `004`: spec, piano, 46 task, e implementazione fino alla Prova 9 |
+| 17 agosto | ~0,5 h di sessione | `004`: revisione in contesto pulito, 14 rilievi, chiusura e consuntivo |
+| dal 17 agosto | giornate piene, ~6 h/giorno | `005`, `006`, `007`, `008`, `010`, più ~7,5 h di chore e debito |
 
-Atterraggio stimato: **23-24 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime, poi 24-25 con la finestra non pianificata del 12-14 agosto. Le ore in più dell'11 agosto lo avevano riportato a 23-24, e la chiusura della `003` sotto stima lo conferma: restano ~46,5 ore su giornate da ~6, cioè otto giorni pieni.
+Atterraggio stimato: **23-24 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime, poi 24-25 con la finestra non pianificata del 12-14 agosto. Le ore in più dell'11 agosto lo avevano riportato a 23-24, e le chiusure di `003` e `004` sotto stima lo confermano: restano ~39,5 ore su giornate da ~6, cioè poco meno di sette giorni pieni a partire dal 17 agosto.
 
 **Il chore dell'ambiente Power BI non è stato fatto**, e la finestra a bassa capacità che doveva ospitarlo è chiusa. Va ora incastrato fra `004` e `005`, che è il suo termine ultimo: è l'unica voce del piano che consuma tempo di calendario senza consumare attenzione, e collocarla in una giornata piena è lo spreco che si era cercato di evitare. Se una sessione si apre stanca, è quella da fare.
 
@@ -223,13 +267,15 @@ La stima iniziale di 7-10 giornate lavorative **non regge più**: ~65 ore comple
 
 **Densità di `008`.** Otto ore per una sola feature sono il limite superiore del principio III, e la voce più esposta a scoprirsi più grande di così davanti allo schermo. Va scomposta in fase di `/speckit.specify` — presumibilmente struttura e pagine da una parte, storytelling e rifiniture dall'altra — non dopo averla aperta.
 
-**Concentrazione del rischio dopo il 16 agosto.** Sei feature su sei, incluse le tre più dense, più ~8,5 ore di chore e debito, cadono tutte nella finestra a giornate piene. La finestra a bassa capacità si è chiusa senza lasciare arretrato — è la buona notizia — ma anche senza lasciare margine: da qui in avanti ogni sforamento si trasferisce intero sul giorno successivo, perché non esiste più una seconda finestra che lo assorba. Il primo scostamento va quindi letto subito, non a fine feature.
+**Concentrazione del rischio dopo il 17 agosto.** Cinque feature su cinque, incluse le tre più dense, più ~6,5 ore di chore e debito, cadono tutte nella finestra a giornate piene. La finestra a bassa capacità si è chiusa senza lasciare arretrato — è la buona notizia — ma anche senza lasciare margine: da qui in avanti ogni sforamento si trasferisce intero sul giorno successivo, perché non esiste più una seconda finestra che lo assorba. Il primo scostamento va quindi letto subito, non a fine feature.
 
 **Il prompt non dice chi revisiona al punto di stop 1.** Sulla `003` la sessione esecutiva si è fermata dopo `/speckit.specify` e ha riportato spec, esito della checklist e sei decisioni da contestare, proseguendo solo dopo l'approvazione — il punto di stop ha quindi tenuto. A revisionare è stato però l'autore e non la regia, che la spec non l'ha letta: il controllo è arrivato a valle sui soli task, con esito positivo su decisioni ereditate, denominatori, note in loco ed esclusioni di perimetro, ma resta un'assicurazione parziale su un artefatto già congelato in 48 task. Non è una violazione: [`CLAUDE.md`](../CLAUDE.md#punti-di-stop-del-flusso) prescrive che la spec torni in revisione e non da chi, e l'autore ha più contesto di chiunque. È un'ambiguità del prompt, e i prompti successivi devono nominare il revisore invece di lasciarlo implicito.
 
 **Il perimetro complessivo ha superato la stima iniziale.** Non è più un rischio, è un fatto: ~65 ore contro le 7-10 giornate (49-70 ore) previste all'inizio, con `009` già escluso e nulla di ulteriore da tagliare che non amputi il framework. Da qui in avanti ogni estensione di perimetro va compensata da un taglio dichiarato, non assorbita.
 
 ## Rischi chiusi
+
+**Il terzo punto di fermata della `004`** *(chiuso il 2026-08-16)*. Fra la ricerca e la derivazione, a T013, la feature aveva un riporto obbligatorio in entrambi gli esiti — discendeva da FR-006 e FR-006a. Era l'unico punto del progetto in cui una feature si poteva fermare per una ragione **esterna**, cioè l'assenza di una fonte pubblica che reggesse le cinque condizioni. Non è accaduto: una fonte regge, e il riporto è servito a ciò per cui era stato messo, cioè a portare alla regia **una fonte adottata con la propria debolezza** invece di un fallimento. La lezione da tenere: un punto di fermata vale anche quando l'esito è positivo, perché il rischio non è il fallimento rumoroso ma l'adozione silenziosa.
 
 **Ambiente Power BI** *(chiuso il 2026-08-08)*. Power BI Desktop non esiste per macOS. La macchina di sviluppo è però un Mac **Intel x86_64** con 16 GB di RAM e oltre 250 GB liberi: una VM Windows 11 x64 esegue Power BI Desktop in modo nativo, senza l'emulazione x64 che sarebbe stata necessaria su Apple Silicon. Il rischio si riduce al chore di predisposizione. Tableau Public resta il piano di riserva, non il percorso principale.
 
