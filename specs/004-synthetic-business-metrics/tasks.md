@@ -150,7 +150,7 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow dat
 - [X] T043 Eseguire **l'intero** [quickstart.md](./quickstart.md) dalla Prova 1 alla Prova 9 su una copia pulita, in sequenza. Le verifiche di fase hanno coperto le prove una alla volta; questa copre la loro composizione
 - [X] T044 **Revisione in contesto pulito** di `docs/bq3_scenarios.md`: una sessione che riceve **solo** il documento, senza spec, senza piano, senza history git. È l'unica configurazione in cui la revisione dice qualcosa, ed è nella stima (plan, blocco E). Precedenti: le revisioni della 001, 002 e 003
 - [X] T045 Chiudere i rilievi della revisione. Quelli che non si chiudono riscrivendo una frase richiedono **nuovi valori** nell'artefatto, perché la regola D5 non ammette altra strada: un confronto o ha un identificativo o non si scrive
-- [ ] T046 Aggiornare [`docs/roadmap.md`](../../docs/roadmap.md) con l'esito della feature — ore spese contro le 6 stimate, debito residuo, esiti che valgono oltre la feature. **Solo se Valerio lo chiede**: la roadmap è artefatto di governance e appartiene alla regia ([`CLAUDE.md`](../../CLAUDE.md))
+- [X] T046 Aggiornare [`docs/roadmap.md`](../../docs/roadmap.md) con l'esito della feature — ore spese contro le 6 stimate, debito residuo, esiti che valgono oltre la feature. **Solo se Valerio lo chiede**: la roadmap è artefatto di governance e appartiene alla regia ([`CLAUDE.md`](../../CLAUDE.md))
 
 ---
 
