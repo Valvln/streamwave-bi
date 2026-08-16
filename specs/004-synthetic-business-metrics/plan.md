@@ -89,11 +89,12 @@ scripts/
 docs/
 ├── bq3_scenarios.md                 # NUOVO — documento di lettura, severità stretta (T8)
 ├── convenzioni-marcatura.md         # MODIFICATO — §3, §5 e tabella di provenienza (FR-019)
-├── business_case.md                 # MODIFICATO — A6, richiamo in §6, 2 note datate (FR-025..030)
-└── roadmap.md                       # MODIFICATO — lo scostamento sul seed (FR-024)
+└── business_case.md                 # MODIFICATO — A6, richiamo in §6, 2 note datate (FR-025..030)
 
 data/README.md                       # MODIFICATO — la quarta cartella e perché è versionata (T1)
 ```
+
+**`docs/roadmap.md` non è in questo elenco**, ed è deliberato. È artefatto di governance e appartiene alla regia ([`CLAUDE.md`](../../CLAUDE.md)): la feature non lo tocca. La dichiarazione dello scostamento sul seed che FR-024 impone va **negli artefatti della feature** — la sede naturale è `docs/bq3_scenarios.md`, che è il documento in cui il metodo si spiega — e non in una modifica alla roadmap. La nota in loco sulla roadmap è stata scritta dalla regia il 2026-08-16.
 
 **Structure Decision**: nessuna struttura nuova. La feature si innesta sulle tre cartelle che il progetto già usa — `data/` per gli ingressi, `reports/` per gli artefatti generati, `docs/` per ciò che si legge — e ne aggiunge una sola sottocartella, `data/benchmarks/`, la cui **regola di versionamento è invertita** rispetto alle sorelle. L'inversione è deliberata e motivata in T1: le altre non sono versionate perché riproducibili, questa lo è perché non lo è. Va scritta in `data/README.md`, altrimenti il prossimo che legge quella pagina la prende per un errore.
 
@@ -137,6 +138,10 @@ L'ordine non è libero, per T7. Cinque blocchi:
 **Il secondo rischio è la stima di B stessa.** Una ricognizione che deve *rifiutare* fonti costa più di una che ne cerca una qualsiasi, e il registro dei rigetti (FR-005) è lavoro reale. 1,5 ore è la stima onesta; se B sfora, la linea di taglio dichiarata dal prompt di consegna — *ricerca e file dei parametri* da una parte, *derivazione e documento* dall'altra — cade esattamente fra B e C, ed è ancora disponibile.
 
 **Ciò che non è un rischio**: C. Sei valori, nessun ramo, aritmetica esatta scelta in Fase 0. Se C sforasse sarebbe il segnale che qualcosa è stato frainteso, non che il lavoro era grande.
+
+**Il terzo rischio è E, e la formulazione del confine di sosta lo nasconde.** «Da qui in avanti è tutta prosa, che non invecchia» è giusto come criterio di **pausa** — nulla di intermedio resta appeso — e ottimista come ipotesi di **budget**: E contiene quattro aggiunte a un artefatto già mergiato, tre modifiche alla fonte unica della grammatica, una revisione in contesto pulito e la chiusura dei suoi rilievi. Nella 003 la chiusura dei rilievi ha richiesto **nuovi valori** nel rendiconto, non riscritture di frasi, perché la regola D5 non ammette altra strada.
+
+Il confine resta dov'è. Ciò che cambia è l'istruzione in caso di sforamento: **se E sfora, sfora dichiarandolo**. La parte da non comprimere è la chiusura dei rilievi, che nella 003 ha prodotto il valore maggiore dell'intera feature — non il documento, che è la parte più visibile e la più facile da consegnare incompleta senza che si veda.
 
 ## Complexity Tracking
 
