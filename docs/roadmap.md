@@ -117,9 +117,17 @@ Lascia quattro artefatti: [`data/benchmarks/bq3_tier_upgrade.json`](../data/benc
 | Debito testuale della 002: portare `docs/data_audit.md` sotto la severità stretta, rimarcandone le quantità | ~1 | prima di `007`, nella stessa sessione della riga sopra |
 | ~~Emendamento della constitution: ammettere i benchmark pubblici di settore fra le fonti dati~~ | — | ✅ fatto il 2026-08-15, **v1.1.0** |
 | Debito testuale per l'ancoraggio: assunzione di trasferimento in §2 di `docs/business_case.md`, richiamo in §6, note datate sulle schede `BQ3-K1` e `BQ3-K2` | ~1 | ✅ chiuso dentro `004` il 2026-08-16, per sole aggiunte |
-| Pubblicazione di prova su workspace Power BI Service e cattura schermate | ~1 | 18 agosto (scadenza trial Pro) — **a rischio**, vedi sotto |
+| Pubblicazione di prova su workspace Power BI Service e cattura schermate | ~1 | dopo `008`, entro il **25 agosto** (fine abbonamento Microsoft 365) — vedi sotto |
 
 **La pubblicazione di prova entro il 18 agosto va decisa ora, non provata il 18.** Presuppone la VM costruita, Power BI Desktop installato e qualcosa da pubblicare: sono ~4 ore per una cattura di schermate su un file vuoto, in giorni in cui `004` e `005` valgono di più. Il deliverable dichiarato è un `.pbix` e Power BI Desktop è gratuito e senza scadenza — è il rischio già chiuso l'8 agosto. La raccomandazione è **lasciarla cadere e dichiararlo**, invece di scoprire il 18 che non è stata fatta.
+
+> **Nota di correzione — 2026-08-17, regia.** La data è sbagliata e la raccomandazione che ne discendeva si ribalta.
+>
+> **La data.** Non c'è alcuna scadenza il 18 agosto. Non si tratta inoltre di un *trial*: è un **abbonamento Microsoft 365 che include Power BI Pro**, e termina il **25 agosto**. **Fonte verificabile**: verifica di Valerio sul proprio portale di fatturazione, 2026-08-17.
+>
+> **La raccomandazione.** L'argomento contro era che al 18 agosto non esiste alcun `.pbix` e si pubblicherebbe un file vuoto. Regge per il 18 e cade per il 25: l'atterraggio stimato è il 23-24 e la `008` produce la dashboard prima, quindi entro la scadenza esiste qualcosa di vero da pubblicare. La voce **non si lascia cadere**: si sposta a valle della `008`, che è la sua unica precondizione reale.
+>
+> **Ciò che resta vero**: la voce continua a non toccare il deliverable dichiarato, che è il `.pbix`. Se la `008` slitta oltre il 25, cade — e cade senza costo, come l'8 agosto aveva già stabilito.
 
 Nessuno di questi è una feature e nessuno apre un branch numerato. Il principio VI della constitution richiede che ogni feature sia riconducibile a BQ1, BQ2 o BQ3: predisporre una macchina virtuale non risponde ad alcuna domanda di business. Trattarlo come feature significherebbe o violare il principio VI, o inventargli un aggancio narrativo che non ha. Resta lavoro necessario, tracciato qui e non in una spec.
 
@@ -263,6 +271,8 @@ Atterraggio stimato: **23-24 agosto**, con `009` escluso. Era 21-22 prima dell'a
 
 **Decisione che scade il 18 agosto — la pubblicazione di prova su Power BI Service.** È l'ultimo giorno del trial Pro. La raccomandazione della regia è **lasciarla cadere e dichiararlo**: presuppone la VM appena costruita e qualcosa da pubblicare, e non esiste ancora alcun `.pbix`. Sarebbe un'ora spesa per schermate di un file vuoto, nel giorno in cui il chore e l'apertura della `005` valgono di più. Il rischio era già stato chiuso l'8 agosto — il deliverable è un `.pbix` e Power BI Desktop è gratuito e senza scadenza. **Se Valerio non decide diversamente entro il 18, la voce si considera caduta** e va spostata fra i rischi chiusi con la ragione.
 
+> **Nota di correzione — 2026-08-17, regia.** Nessuna decisione scade il 18 agosto: la scadenza è il **25**, e non è un trial. La voce non cade e non va decisa qui — si sposta a valle della `008`. Motivazione estesa nella nota in coda a [Lavoro fuori dalle feature](#lavoro-fuori-dalle-feature). **Il 18 agosto resta quindi il chore ambiente e l'apertura della `005`**, senza altre decisioni pendenti.
+
 ### La finestra non pianificata del 12-14 agosto — com'è andata
 
 Tre giorni in cui il lavoro poteva essere nullo oppure breve, e non è stato deciso in anticipo di proposito. La pianificazione non ha provato a indovinarlo: **nessun lavoro è stato collocato in quella finestra, e nessuna attività l'ha attraversata a metà.** Il calendario è stato costruito assumendo capacità zero, così che qualunque ora effettivamente spesa fosse guadagno e non recupero.
@@ -306,3 +316,5 @@ La stima iniziale di 7-10 giornate lavorative **non regge più**: ~65 ore comple
 **Ambiente Power BI** *(chiuso il 2026-08-08)*. Power BI Desktop non esiste per macOS. La macchina di sviluppo è però un Mac **Intel x86_64** con 16 GB di RAM e oltre 250 GB liberi: una VM Windows 11 x64 esegue Power BI Desktop in modo nativo, senza l'emulazione x64 che sarebbe stata necessaria su Apple Silicon. Il rischio si riduce al chore di predisposizione. Tableau Public resta il piano di riserva, non il percorso principale.
 
 **Scadenza del trial Power BI Pro** *(chiuso il 2026-08-08)*. Impatto basso: il deliverable è un file `.pbix` e Power BI Desktop è gratuito e senza scadenza. Il trial abilita il Service — workspace, pubblicazione, condivisione — che non serve al deliverable dichiarato. Resta la sola azione opportunistica di pubblicare una versione di prova entro il 18, tracciata fra i chore.
+
+> **Nota di correzione — 2026-08-17, regia.** Non è un trial ma un **abbonamento Microsoft 365** che include Power BI Pro, e la data è il **25 agosto**, non il 18. La chiusura del rischio regge intatta — è anzi ciò che permette all'azione opportunistica di essere rinviata senza costo — e resta valido che il Service non serve al deliverable dichiarato.
