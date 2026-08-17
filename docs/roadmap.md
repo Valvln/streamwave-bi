@@ -123,7 +123,7 @@ Lascia quattro artefatti: [`data/benchmarks/bq3_tier_upgrade.json`](../data/benc
 
 > **Nota di correzione — 2026-08-17, regia.** La data è sbagliata e la raccomandazione che ne discendeva si ribalta.
 >
-> **La data.** Non c'è alcuna scadenza il 18 agosto. Non si tratta inoltre di un *trial*: è un **abbonamento Microsoft 365 che include Power BI Pro**, e termina il **25 agosto**. **Fonte verificabile**: verifica di Valerio sul proprio portale di fatturazione, 2026-08-17.
+> **La data.** Non c'è alcuna scadenza il 18 agosto. Non si tratta inoltre di un *trial*: è un **abbonamento Microsoft 365 che include Power BI Pro**. La fatturazione automatica è stata annullata il 2026-08-17 e l'abbonamento **scade da sé il 26 agosto**, senza rischio di rinnovo e senza disdetta anticipata: il Service resta quindi disponibile per tutto il periodo utile. **Fonte verificabile**: verifica di Valerio sul proprio portale di fatturazione, 2026-08-17.
 >
 > **La raccomandazione.** L'argomento contro era che al 18 agosto non esiste alcun `.pbix` e si pubblicherebbe un file vuoto. Regge per il 18 e cade per il 25: l'atterraggio stimato è il 23-24 e la `008` produce la dashboard prima, quindi entro la scadenza esiste qualcosa di vero da pubblicare. La voce **non si lascia cadere**: si sposta a valle della `008`, che è la sua unica precondizione reale.
 >
