@@ -275,6 +275,16 @@ Ne esce una regola, non un aneddoto: **il confine di pausa si sceglie dove il la
 
 La stima iniziale di 7-10 giornate lavorative **non regge più**: ~65 ore complessive sono 10-11 giornate piene. Lo sforamento non viene dall'esecuzione, che è stata sostanzialmente in linea, ma da due cose che la stima iniziale non conteneva — la revisione indipendente, diventata prassi perché produce valore, e l'ancoraggio dei parametri sintetici a benchmark citati. Sono entrambe scelte di qualità prese consapevolmente. Il modo onesto di registrarlo è questo, non ricalibrare all'indietro la stima di partenza per farla sembrare azzeccata.
 
+> **Nota di correzione — 2026-08-17, regia.** Il capoverso qui sopra contiene un valore errato e, di conseguenza, un'affermazione che non si sostiene. Restano entrambi perché sono la traccia di ciò che la regia aveva concluso.
+>
+> **Il valore.** «~65 ore complessive» era il totale precedente e includeva la `009`. Sommando le ore spese dalla tabella di Stato — ~7 + ~4,5 + ~6,5 + ~3 = ~21 — e il residuo dichiarato nella riga dei totali — ~39,5, dove la `009` è esclusa — il progetto vale **~60,5 ore**. Lo scarto di ~5 ore è esattamente la stima della `009`: il totale la contava mentre il testo dichiarava di escluderla.
+>
+> **L'affermazione.** «La stima iniziale non regge più» non discende da quel valore né da quello corretto: ~60,5 ore stanno **dentro** l'intervallo di 49-70 ore, e anche ~65 vi stava. Il confronto reggeva solo scegliendo implicitamente quante ore vale una giornata — a 6 il conto esce dall'intervallo, a 7 vi rientra — e la constitution ammette entrambe le letture. Era un'affermazione derivata priva di ancora in posizione di fatto misurato, cioè la categoria che il §7 di [`convenzioni-marcatura.md`](convenzioni-marcatura.md) vieta. **Causa della divergenza**: il totale non è stato ricalcolato quando la `003` e la `004` hanno chiuso sotto stima e la riga dei totali è stata aggiornata; l'affermazione che vi poggiava non è stata riverificata.
+>
+> **Che cosa resta vero, e va detto così.** Non il superamento, ma la **sostituzione**: dentro lo stesso involucro di ore sono entrate due attività che la stima iniziale non conteneva — la revisione in contesto pulito e l'ancoraggio a benchmark citati — ed è uscita la `009`. Il perimetro non è cresciuto oltre la previsione: a parità di ore, **compra meno**. È un esito più scomodo di quello che il capoverso dichiarava, non più comodo.
+>
+> **Fonte verificabile**: tabella di Stato e riga dei totali di questo stesso documento.
+
 ## Rischi aperti
 
 **Densità di `008`.** Otto ore per una sola feature sono il limite superiore del principio III, e la voce più esposta a scoprirsi più grande di così davanti allo schermo. Va scomposta in fase di `/speckit.specify` — presumibilmente struttura e pagine da una parte, storytelling e rifiniture dall'altra — non dopo averla aperta.
@@ -284,6 +294,10 @@ La stima iniziale di 7-10 giornate lavorative **non regge più**: ~65 ore comple
 **Il prompt non dice chi revisiona al punto di stop 1.** Sulla `003` la sessione esecutiva si è fermata dopo `/speckit.specify` e ha riportato spec, esito della checklist e sei decisioni da contestare, proseguendo solo dopo l'approvazione — il punto di stop ha quindi tenuto. A revisionare è stato però l'autore e non la regia, che la spec non l'ha letta: il controllo è arrivato a valle sui soli task, con esito positivo su decisioni ereditate, denominatori, note in loco ed esclusioni di perimetro, ma resta un'assicurazione parziale su un artefatto già congelato in 48 task. Non è una violazione: [`CLAUDE.md`](../CLAUDE.md#punti-di-stop-del-flusso) prescrive che la spec torni in revisione e non da chi, e l'autore ha più contesto di chiunque. È un'ambiguità del prompt, e i prompti successivi devono nominare il revisore invece di lasciarlo implicito.
 
 **Il perimetro complessivo ha superato la stima iniziale.** Non è più un rischio, è un fatto: ~65 ore contro le 7-10 giornate (49-70 ore) previste all'inizio, con `009` già escluso e nulla di ulteriore da tagliare che non amputi il framework. Da qui in avanti ogni estensione di perimetro va compensata da un taglio dichiarato, non assorbita.
+
+> **Nota di correzione — 2026-08-17, regia.** Il superamento non è avvenuto: ~60,5 ore contro un intervallo previsto di 49-70 stanno dentro, non oltre. Il valore ~65 includeva la `009` che la frase dichiara esclusa. Motivazione estesa nella nota in coda alla sezione [Calendario previsto](#la-finestra-non-pianificata-del-12-14-agosto--comè-andata).
+>
+> **La voce non esce però dai rischi aperti**, e il rischio va riformulato invece che ritirato: non «abbiamo sforato», ma **«non abbiamo più margine»**. Il residuo occupa quasi per intero ciò che resta dell'intervallo iniziale, la `009` è già stata spesa come cuscinetto, e non esiste un secondo taglio disponibile che non amputi il framework. La conseguenza operativa è identica a quella dichiarata sopra e resta valida: ogni estensione di perimetro va compensata da un taglio dichiarato, non assorbita.
 
 ## Rischi chiusi
 

@@ -33,7 +33,7 @@ Governance: [`constitution`](.specify/memory/constitution.md) v1.1.0 · [metodo 
 | `001` Business Case & KPI Framework | [`docs/business_case.md`](docs/business_case.md) | ✅ conclusa, [revisionata](specs/001-business-case-kpi/review.md) |
 | `002` Data Audit & Profiling | [`docs/data_audit.md`](docs/data_audit.md) · [`reports/data_profile.json`](reports/data_profile.json) | ✅ conclusa, [revisionata](specs/002-data-audit-profiling/review.md) |
 | `003` Data Cleaning & ETL | [`docs/data_cleaning.md`](docs/data_cleaning.md) · `scripts/build_datasets.py` · [`reports/cleaning_report.json`](reports/cleaning_report.json) | ✅ conclusa, [revisionata](specs/003-data-cleaning-etl/review.md) |
-| `004` Synthetic Business Metrics | [`docs/bq3_scenarios.md`](docs/bq3_scenarios.md) · [`data/benchmarks/`](data/benchmarks/) · [`reports/bq3_scenarios.json`](reports/bq3_scenarios.json) | ✅ conclusa |
+| `004` Synthetic Business Metrics | [`docs/bq3_scenarios.md`](docs/bq3_scenarios.md) · [`data/benchmarks/`](data/benchmarks/) · [`reports/bq3_scenarios.json`](reports/bq3_scenarios.json) | ✅ conclusa, [revisionata](specs/004-synthetic-business-metrics/review.md) |
 
 Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](docs/roadmap.md).
 
@@ -81,7 +81,7 @@ data/           # raw / interim / processed (gitignored) + benchmarks/ (versiona
 docs/           # i documenti pubblicati: business case, audit, cleaning, scenari, convenzioni, roadmap
 reports/        # artefatti generati e versionati: profilo, rendiconto delle trasformazioni, scenari BQ3
 scripts/        # utility riproducibili
-specs/          # una cartella per feature: spec.md, plan.md, tasks.md
+specs/          # una cartella per feature: spec.md, plan.md, tasks.md, review.md
 ```
 
 ## Dati
