@@ -29,8 +29,8 @@ Ogni altro confine fra fasi è sicuro. I punti di sosta migliori sono la fine de
 
 **Scopo**: mettere in fila ciò che serve prima di scrivere, così che nessuna sezione debba fermarsi a cercare un identificativo.
 
-- [ ] T001 Creare `docs/data_model.md` con la sola struttura delle sedici sezioni previste dal piano, senza contenuto: intestazione, indice implicito dei titoli, e nient'altro
-- [ ] T002 [P] Consolidare in `specs/005-data-model-design/research.md`, in coda a `T2`, l'elenco operativo degli identificativi che il documento userà come ancore, verificando con `python3 -c` che ciascuno esista negli spazi dei nomi uniti di `reports/data_profile.json` e `reports/cleaning_report.json`
+- [X] T001 Creare `docs/data_model.md` con la sola struttura delle sezioni previste dal piano, senza contenuto: intestazione, titoli, e un segnaposto per sezione che nomini il task che la riempie
+- [X] T002 [P] Consolidare in `specs/005-data-model-design/research.md`, in coda a `T2`, l'elenco operativo degli identificativi che il documento userà come ancore, verificando con `python3 -c` che ciascuno esista negli spazi dei nomi uniti di `reports/data_profile.json` e `reports/cleaning_report.json`
 
 **Verifica di fase**: ogni identificativo dell'elenco di `T002` si risolve. Un'ancora che non si risolve va scoperta ora, non quando il controllo fallisce su un documento di sedici sezioni.
 
@@ -40,8 +40,8 @@ Ogni altro confine fra fasi è sicuro. I punti di sosta migliori sono la fine de
 
 **Scopo**: scrivere le due sezioni che tutte le altre presuppongono. Nessuna storia utente può cominciare prima.
 
-- [ ] T003 Scrivere in `docs/data_model.md` la sezione di apertura: che cosa è il documento, che il modello è **progettato e non materializzato** e che nessuna sua affermazione è stata verificata eseguendola (`FR-003`), l'assunzione strutturale A1 richiamata e non sottintesa, e il rinvio a `docs/convenzioni-marcatura.md` per la chiave di lettura delle ancore
-- [ ] T004 Scrivere in `docs/data_model.md` la sezione con la **definizione operativa di «segmento»** (`FR-011`), l'alternativa scartata con le sue conseguenze sulla confidenza dei KPI di BQ2 (`FR-012`), e la dichiarazione che il mood resta nel framework come attributo di confronto e non come criterio di formazione
+- [X] T003 Scrivere in `docs/data_model.md` la sezione di apertura: che cosa è il documento, che il modello è **progettato e non materializzato** e che nessuna sua affermazione è stata verificata eseguendola (`FR-003`), l'assunzione strutturale A1 richiamata e non sottintesa, e il rinvio a `docs/convenzioni-marcatura.md` per la chiave di lettura delle ancore
+- [X] T004 Scrivere in `docs/data_model.md` la sezione con la **definizione operativa di «segmento»** (`FR-011`), l'alternativa scartata con le sue conseguenze sulla confidenza dei KPI di BQ2 (`FR-012`), e la dichiarazione che il mood resta nel framework come attributo di confronto e non come criterio di formazione
 
 **Verifica di fase**: un lettore che si fermi qui sa che cosa il documento sta per descrivere e che cosa è un segmento. È la prima delle tre domande della Prova 7.
 
@@ -53,12 +53,12 @@ Ogni altro confine fra fasi è sicuro. I punti di sosta migliori sono la fine de
 
 **Prova di indipendenza**: per tutti e otto i KPI il documento dichiara le tre grane, le tabelle coinvolte e la giunzione che darebbe un valore sbagliato. Chiusa dalla **Prova 3**.
 
-- [ ] T005 [US1] Scrivere in `docs/data_model.md` la sezione delle **sette tabelle**, divise nelle due stelle disgiunte, ciascuna con ruolo, grana espressa come frase che dice che cosa è una riga, chiave, cardinalità **ancorata** e dataset di provenienza (`FR-006`)
-- [ ] T006 [US1] Scrivere in `docs/data_model.md` la ragione per cui le due stelle **non si toccano**: nessuna chiave comune, tassonomie disgiunte per §5.3 del business case, e il confronto fra cataloghi che avviene fra misure e mai fra righe
-- [ ] T007 [US1] Scrivere in `docs/data_model.md` la sezione **regola di lettura come proprietà dello schema**: per ogni calcolo, la tabella corretta e quella che darebbe un valore sbagliato, con entrambe le cardinalità ancorate (`FR-009`, `FR-010`)
-- [ ] T008 [US1] Scrivere in `docs/data_model.md` la sezione delle **cinque relazioni** con cardinalità e direzione di filtro, la ragione di ciascuna direzione, e la condizione strutturale che rende sicura l'unica bidirezionale, con l'obbligo per chi aggiungesse una relazione in futuro (`FR-007`)
-- [ ] T009 [US1] Scrivere in `docs/data_model.md` la sezione delle **tre grane** — appartenenza, calcolo, risultato — con la ragione per cui due non bastavano, e la chiusura esplicita di `R7` e della divergenza 7 sulla granularità ibrida di `BQ2-K1` e su quella dichiarata di `BQ2-K2` (`FR-008`, `FR-014`)
-- [ ] T010 [US1] Scrivere in `docs/data_model.md` la **matrice degli otto KPI** sulle tre grane, con le tabelle coinvolte, includendo i due di BQ3 dichiarati fuori dal modello (`FR-009`, `FR-029`)
+- [X] T005 [US1] Scrivere in `docs/data_model.md` la sezione delle **sette tabelle**, divise nelle due stelle disgiunte, ciascuna con ruolo, grana espressa come frase che dice che cosa è una riga, chiave, cardinalità **ancorata** e dataset di provenienza (`FR-006`)
+- [X] T006 [US1] Scrivere in `docs/data_model.md` la ragione per cui le due stelle **non si toccano**: nessuna chiave comune, tassonomie disgiunte per §5.3 del business case, e il confronto fra cataloghi che avviene fra misure e mai fra righe
+- [X] T007 [US1] Scrivere in `docs/data_model.md` la sezione **regola di lettura come proprietà dello schema**: per ogni calcolo, la tabella corretta e quella che darebbe un valore sbagliato, con entrambe le cardinalità ancorate (`FR-009`, `FR-010`)
+- [X] T008 [US1] Scrivere in `docs/data_model.md` la sezione delle **cinque relazioni** con cardinalità e direzione di filtro, la ragione di ciascuna direzione, e la condizione strutturale che rende sicura l'unica bidirezionale, con l'obbligo per chi aggiungesse una relazione in futuro (`FR-007`)
+- [X] T009 [US1] Scrivere in `docs/data_model.md` la sezione delle **tre grane** — appartenenza, calcolo, risultato — con la ragione per cui due non bastavano, e la chiusura esplicita di `R7` e della divergenza 7 sulla granularità ibrida di `BQ2-K1` e su quella dichiarata di `BQ2-K2` (`FR-008`, `FR-014`)
+- [X] T010 [US1] Scrivere in `docs/data_model.md` la **matrice degli otto KPI** sulle tre grane, con le tabelle coinvolte, includendo i due di BQ3 dichiarati fuori dal modello (`FR-009`, `FR-029`)
 
 **Verifica di fase**: eseguire la **Prova 3**. Otto righe, nessuna con conteggio zero.
 

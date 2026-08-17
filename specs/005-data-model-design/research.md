@@ -50,6 +50,11 @@ Verifica di copertura eseguita in fase di piano: ogni cardinalità che il modell
 
 **Nessun ritrovamento**: non esiste una grandezza che il modello debba dichiarare e che nessun artefatto pubblichi. Era il rischio che questa verifica esisteva per escludere, perché avrebbe obbligato o a toccare la pipeline della `003` — vietato dal perimetro — o a scrivere un numero senza fonte.
 
+> **Consolidamento del 2026-08-18, `T002`.** La verifica è stata rieseguita risolvendo ogni identificativo della tabella qui sopra sullo spazio dei nomi unito dei tre artefatti: tutti esistono e il loro `display` corrisponde al testo che il documento scrive. Due precisazioni operative emerse eseguendola:
+>
+> - **le ancore si scrivono contestualmente alla prosa**, non in una passata successiva. È la conseguenza diretta del rilievo `R1` della revisione della `003`, dove una sostituzione automatica aveva rotto cinque ancore in silenzio e il controllo passava lo stesso. Una passata di marcatura su un documento già scritto è esattamente la sostituzione automatica che quel rilievo ha reso sospetta;
+> - **il marcatore di non-misurato va invece applicato in blocco, e il blocco va verificato subito.** Applicandolo su questo documento la prima esecuzione ha **raddoppiato** gli otto marcatori già presenti, perché la protezione delle regioni intoccabili spezzava il testo proprio prima del controllo che doveva impedirlo. Il difetto non produceva alcun errore nel controllo di coerenza — un marcatore doppio è marcato due volte, non è malformato — ed è stato visto solo rileggendo il file. È lo stesso genere di difetto di `R1`, e conferma che l'unica difesa è rileggere l'esito di ogni sostituzione automatica invece di fidarsi del suo esito verde.
+
 ## T3 — Nessun `data-model.md` sotto `specs/`
 
 **Decisione**: la Fase 1 di questa feature **non produce** `specs/005-data-model-design/data-model.md`, che il template prevede. La deviazione è dichiarata qui invece di essere taciuta.
