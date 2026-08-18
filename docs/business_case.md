@@ -127,6 +127,20 @@ L'argomento di coerenza strategica si considera **sostenuto** solo se valgono **
 
 **Formulazione misurabile**: ordinando i segmenti musicali per **domanda relativa** (indice di popolarità mediana, scala 0-100) e per **affinità con il catalogo attuale** (distanza sugli assi di mood, scala 0-1), quali segmenti si collocano nel quadrante ad alta domanda e alta affinità? La soglia di ingresso è ordinale: conta la posizione relativa tra segmenti, non un valore assoluto.
 
+> **⚠️ Nota di adozione — 2026-08-18, feature 005.** La formulazione originale qui sopra scrive «segmento musicale (genere/mood)», con una barra che lascia aperte **due letture incompatibili**: un genere dichiarato dalla fonte, oppure un raggruppamento derivato per profilo di mood. È il rilievo `R4` e la divergenza 1 della revisione di questo documento, che osservavano che l'unità di analisi di un'intera domanda di business non era mai stata definita.
+>
+> **L'espressione è ambigua, non sbagliata**, e non viene quindi riscritta. La feature 005 dichiara però quale delle due letture adotta, perché è la feature che ha il contesto per sceglierla e perché ogni misura di BQ2 dipende dalla scelta.
+>
+> **Lettura adottata**: un segmento è un **genere dichiarato dalla fonte musicale**, il valore del campo `track_genre`. I segmenti sono 114.
+>
+> **Ragione principale**: la lettura per mood renderebbe falsa la frase di §5.2 secondo cui «il catalogo musicale assegna una traccia a più segmenti quando è pertinente a più d'uno». L'appartenenza multipla è una proprietà dei generi; il profilo di mood di una traccia è unico, quindi un raggruppamento costruito su di esso assegnerebbe ogni traccia a un solo gruppo. Le altre tre ragioni — circolarità di `BQ2-K2`, esistenza della grana, e confidenza di `BQ2-K1`, che con la lettura per mood scenderebbe da `Spotify (reale)` a `Derivato` — sono in [`docs/data_model.md`](data_model.md) §2.
+>
+> **Che cosa questo non fa.** Non toglie il mood dal framework: ne cambia il ruolo. Il mood non è più il criterio con cui i segmenti si **formano**, è l'attributo con cui i segmenti si **confrontano** — che è esattamente ciò che `BQ2-K2` misura e ciò che §5.3 descrive. La barra resta scritta; questa nota dichiara da quale lato è stata sciolta.
+>
+> **Conseguenza per chi cita a valle**: la graduatoria di `BQ2-K3` ha una voce per segmento, quindi 114 voci. È un vincolo di presentazione per la dashboard, non di calcolo.
+>
+> **Fonte verificabile**: [`docs/data_model.md`](data_model.md) §2; il conteggio dei segmenti è l'identificativo `SP.genre.count` di [`reports/data_profile.json`](../reports/data_profile.json), invariato dopo la trasformazione.
+
 ### BQ3 — Impatto stimato
 
 **Formulazione originale**: che impatto stimato (simulato, con assunzioni dichiarate) avrebbe l'aggiunta del verticale musicale su engagement/revenue?
@@ -165,6 +179,23 @@ Un totale calcolato senza deduplicare sovrastima di circa un quinto, perché con
 > **Sul dato trasformato il valore cambia ancora**: la deduplicazione della grana coppia traccia-genere ha rimosso 450 righe ridondanti, e l'eccesso scende a **26,53%**. Chi calcola su `data/processed/` cita questo; chi descrive i dati di origine cita 27,03%. Fonti: [`reports/cleaning_report.json`](../reports/cleaning_report.json), identificativi `CL.SP.track.inflation.after` e `CL.SP.recalc.id.inflation`; decisione e ragione per esteso in [`docs/data_cleaning.md`](data_cleaning.md) §3, D3.
 
 *(Le percentuali citate qui e altrove nel documento sono **caratteristiche dei dati di origine**, non risultati dell'analisi — vedi la regola sui numeri in §8.)*
+
+> **⚠️ Nota di correzione — 2026-08-18, feature 005.** La frase «ogni scheda KPI dichiara in quale delle due granularità opera» **non regge**, e con essa non regge l'idea che due granularità bastino a descrivere una misura. Chiude il rilievo `R7` e la divergenza 7 della revisione di questo documento.
+>
+> **Affermazione precedente**: esistono due granularità, e ogni KPI opera in una delle due.
+>
+> **Affermazione corretta**: servono **tre** nozioni distinte, e ogni KPI le dichiara tutte. La **grana di appartenenza** stabilisce quale riga dice che un elemento appartiene a un insieme; la **grana di calcolo** dice su quali righe l'aggregazione opera; la **grana del risultato** dice a che cosa si riferisce il numero pubblicato. Le due granularità di questa tabella sono grane del **dato**, e nessuna delle due è la grana del risultato.
+>
+> **Causa della divergenza**: la tabella descrive come i dati sono fatti, e la frase che la chiude la usa per descrivere come una misura opera. Le due cose coincidono solo per i KPI il cui risultato è un valore unico sul catalogo, che sono la maggioranza — e la formulazione è passata perché i casi in cui non coincide sono tutti in BQ2.
+>
+> **I due casi concreti**, entrambi sollevati dalla revisione e nessuno dei due un difetto delle schede:
+>
+> - `BQ2-K1` dichiara «coppia traccia-segmento per l'appartenenza, traccia deduplicata per il calcolo», che sembrava una terza modalità non prevista qui. Sul dato trasformato **non lo è**: la deduplicazione di coppia della feature 003 garantisce a monte che entro un segmento ogni traccia compaia una volta sola, quindi appartenenza e calcolo coincidono sulla coppia. Ciò che la scheda descriveva come un'operazione della misura è una proprietà del dato;
+> - `BQ2-K2` dichiara la coppia traccia-segmento, e la sua formula confronta due profili mediani. Entrambe le affermazioni sono **vere**: la coppia è la grana di ingresso, il segmento è la grana del risultato. Si contraddicevano solo finché una sola nozione doveva reggerle entrambe.
+>
+> Il testo originale non viene riscritto: le due granularità che descrive esistono e la loro non intercambiabilità resta il vincolo più importante di questo progetto. Ciò che era insufficiente è la frase che ne faceva un criterio per le misure.
+>
+> **Fonte verificabile**: [`docs/data_model.md`](data_model.md) §7 e §8, dove le tre nozioni sono definite e applicate a tutti e otto i KPI.
 
 ### 5.3 Nota metodologica sugli assi di mood
 
