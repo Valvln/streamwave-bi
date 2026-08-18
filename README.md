@@ -34,6 +34,7 @@ Governance: [`constitution`](.specify/memory/constitution.md) v1.1.0 · [metodo 
 | `002` Data Audit & Profiling | [`docs/data_audit.md`](docs/data_audit.md) · [`reports/data_profile.json`](reports/data_profile.json) | ✅ conclusa, [revisionata](specs/002-data-audit-profiling/review.md) |
 | `003` Data Cleaning & ETL | [`docs/data_cleaning.md`](docs/data_cleaning.md) · `scripts/build_datasets.py` · [`reports/cleaning_report.json`](reports/cleaning_report.json) | ✅ conclusa, [revisionata](specs/003-data-cleaning-etl/review.md) |
 | `004` Synthetic Business Metrics | [`docs/bq3_scenarios.md`](docs/bq3_scenarios.md) · [`data/benchmarks/`](data/benchmarks/) · [`reports/bq3_scenarios.json`](reports/bq3_scenarios.json) | ✅ conclusa, [revisionata](specs/004-synthetic-business-metrics/review.md) |
+| `005` Data Model Design | [`docs/data_model.md`](docs/data_model.md) | 🚧 in corso — revisione in contesto pulito non ancora eseguita |
 
 Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](docs/roadmap.md).
 
@@ -47,7 +48,9 @@ Il terzo è **[`docs/data_cleaning.md`](docs/data_cleaning.md)**: la dichiarazio
 
 Il quarto è **[`docs/bq3_scenarios.md`](docs/bq3_scenarios.md)**: i parametri di scenario della terza domanda di business, gli unici numeri del progetto che non descrivono un dato osservato. Il tasso su cui poggiano è un **benchmark pubblicato da un terzo**, congelato in [`data/benchmarks/`](data/benchmarks/) con la propria citazione e con lo scarto fra ciò che la fonte misura e ciò per cui viene usato; da lì una derivazione deterministica ricava i sei valori di [`reports/bq3_scenarios.json`](reports/bq3_scenarios.json). Il documento esiste per dichiarare quel passaggio, non per nasconderlo: ancorare un parametro a una fonte lo rende **verificabile, non vero per StreamWave**.
 
-I tre documenti che pubblicano misure — l'audit, il cleaning e gli scenari — legano ogni numero all'artefatto che lo produce con la stessa grammatica, definita in **[`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md)** e verificata da `scripts/check_audit_coherence.py`.
+Il quinto è **[`docs/data_model.md`](docs/data_model.md)**: il modello dati su cui le misure verranno calcolate — quali tabelle esistono, che cosa è una riga di ciascuna, come sono collegate e da quale campo proviene ogni colonna. Esiste come documento e non come file di Power BI perché la constitution lo impone: schema e mapping dei campi sono artefatti testuali, non contenuto di un file binario. Chiude le due ambiguità che il business case aveva lasciato aperte — che cosa sia un «segmento», e quante nozioni di grana servano per descrivere un KPI — e dichiara ciò che il modello rende **impossibile** misurare, incluse le due tabelle che non esistono di proposito. Il modello è **progettato e non materializzato**: nessuna sua affermazione è stata verificata eseguendola.
+
+I quattro documenti che pubblicano misure — l'audit, il cleaning, gli scenari e il modello — legano ogni numero all'artefatto che lo produce con la stessa grammatica, definita in **[`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md)** e verificata da `scripts/check_audit_coherence.py`.
 
 ## Setup
 
@@ -78,7 +81,7 @@ Nessuna dipendenza da installare: gli script usano la sola libreria standard di 
 .claude/        # comandi /speckit.* per Claude Code
 .github/        # prompt /speckit.* per GitHub Copilot
 data/           # raw / interim / processed (gitignored) + benchmarks/ (versionata: non è riproducibile)
-docs/           # i documenti pubblicati: business case, audit, cleaning, scenari, convenzioni, roadmap
+docs/           # i documenti pubblicati: business case, audit, cleaning, scenari, modello dati, convenzioni, roadmap
 reports/        # artefatti generati e versionati: profilo, rendiconto delle trasformazioni, scenari BQ3
 scripts/        # utility riproducibili
 specs/          # una cartella per feature: spec.md, plan.md, tasks.md, review.md
