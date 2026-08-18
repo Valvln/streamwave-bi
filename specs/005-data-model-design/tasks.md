@@ -152,11 +152,11 @@ Ogni altro confine fra fasi è sicuro. I punti di sosta migliori sono la fine de
 
 - [X] T034 Consegnare a un revisore in contesto pulito — sessione separata o subagent isolato — una copia del **solo** `docs/data_model.md` in una cartella priva di ogni altro artefatto, con le tre domande della **Prova 7** e senza spec, piano, contratto o history git
 - [X] T035 Scrivere `specs/005-data-model-design/review.md` con il verbale ricevuto, dichiarando in apertura che cosa è stato letto e cosa no, incluse le eventuali uscite dal perimetro, e ancorando la versione revisionata con commit e impronta del contenuto
-- [ ] T036 **Committare il verbale prima di modificare `docs/data_model.md`**. Nessun rilievo va chiuso prima di questo commit
-- [ ] T037 Chiudere i rilievi su `docs/data_model.md`, senza toccare il testo del revisore
-- [ ] T038 Aggiungere in coda a `specs/005-data-model-design/review.md` il blocco di chiusura, dichiarando per **ogni** rilievo come è stato chiuso e distinguendo *risolvendolo* da *indebolendo l'affermazione*
-- [ ] T039 Rieseguire la **Prova 1**, perché le correzioni possono aver mosso o rotto un'ancora
-- [ ] T040 Eseguire la **Prova 8**
+- [X] T036 **Committare il verbale prima di modificare `docs/data_model.md`**. Nessun rilievo va chiuso prima di questo commit
+- [X] T037 Chiudere i rilievi su `docs/data_model.md`, senza toccare il testo del revisore
+- [X] T038 Aggiungere in coda a `specs/005-data-model-design/review.md` il blocco di chiusura, dichiarando per **ogni** rilievo come è stato chiuso e distinguendo *risolvendolo* da *indebolendo l'affermazione*
+- [X] T039 Rieseguire la **Prova 1**, perché le correzioni possono aver mosso o rotto un'ancora
+- [X] T040 Eseguire la **Prova 8**
 
 **Verifica di fase**: Prova 7 e Prova 8 superate. La Prova 8 fallisce se il verbale è stato committato dopo la modifica del documento, e non è verificabile leggendo il verbale: lo è solo dalla history.
 
@@ -164,8 +164,8 @@ Ogni altro confine fra fasi è sicuro. I punti di sosta migliori sono la fine de
 
 ## Fase 10: Rifinitura e riporto
 
-- [ ] T041 [P] Eseguire la **Prova 6** e verificare che nessun artefatto della feature contenga una funzione DAX o una menzione di `.pbix` come file prodotto (`SC-006`)
-- [ ] T042 [P] Eseguire la **Prova 9**, rileggendo la sezione dei limiti alla ricerca di un'affermazione che il documento non avrebbe avuto alcun vantaggio a scrivere
+- [X] T041 [P] Eseguire la **Prova 6** e verificare che nessun artefatto della feature contenga una funzione DAX o una menzione di `.pbix` come file prodotto (`SC-006`)
+- [X] T042 [P] Eseguire la **Prova 9**, rileggendo la sezione dei limiti alla ricerca di un'affermazione che il documento non avrebbe avuto alcun vantaggio a scrivere
 - [ ] T043 [P] Spuntare in `specs/005-data-model-design/checklists/requirements.md` il riquadro del principio III, ora che la stima è verificata sul piano
 - [ ] T045 Portare la riga della `005` in `README.md` allo stato `✅ conclusa, revisionata`, con il collegamento al verbale ora esistente
 - [ ] T044 Preparare il **riporto alla regia** con: il ritrovamento `F2` sulla materializzazione, rinviato per decisione del 2026-08-17 e da portare ora che la feature chiude; il ritrovamento `F3` sulle 114 voci della graduatoria, che è un vincolo per la `008`; il ritrovamento `T11` sul campione non più bilanciato; e lo scostamento di stima da 5 a ~6,25 ore con la sua causa

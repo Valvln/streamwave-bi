@@ -361,3 +361,48 @@ Non sono difetti: sono punti su cui qualcuno deve decidere, e su cui il document
 ---
 
 **Nota finale sul perimetro.** Dei rilievi qui sopra, R9 dipende in parte da artefatti che non ho potuto aprire (il rendiconto della trasformazione, il profilo di origine, la definizione dell'«invariante di classificazione totale»): se quegli artefatti contengono ciò che il documento presuppone, resta comunque il fatto che il documento non è autosufficiente su quel punto, che è ciò che ho rilevato. R1, R2, R3, R4, R5, R7, R8, R10, R11, R14, R15, R16, R17, R18 sono invece interamente verificabili all'interno del solo file che ho letto, e chi vuole contestarli non ha bisogno di nient'altro che di quello.
+
+---
+
+## Blocco di chiusura — 2026-08-18, feature 005
+
+Aggiunto da chi è stato revisionato. **Non modifica una riga del testo del revisore.**
+
+Il verbale è stato committato in `7a60e68`, prima di qualunque modifica al documento. Le correzioni stanno nei tre commit successivi.
+
+**Come si legge la colonna «Esito»**: *risolto* = il difetto non c'è più; *indebolito* = l'affermazione è stata ritirata o circoscritta, non riparata; *respinto* = il rilievo non regge, con la prova a fianco; *rinviato* = fuori dal perimetro di questa feature.
+
+| # | Esito | Come |
+|---|---|---|
+| R1 | risolto | `BQ2-K3` compone `BQ2-K1` e `BQ2-K2`: non legge tabelle. §8 dichiara l'elenco vuoto, §15 la dipendenza indiretta |
+| R2 | risolto | §11, nuova sottosezione: `BQ1-K3` usa min/max non ponderato sulle 42 categorie, `BQ2-K2` la mediana sulle righe del ponte. Elenchi di §8 corretti; contratto §6.4 |
+| R3 | risolto + respinto | limite in §18, vincolo in §19. **Aggravante respinta**: `type` è in `dim_title` (§10.1), la quota di film è calcolabile |
+| R4 | risolto | riga di §5 riscritta: `dim_title` filtrata per categoria è corretta, non sbagliata |
+| R5 | risolto | cade «è l'unico modo»; la colonna resta, con la ragione rifondata su una proprietà che il modello ha davvero. §14 aggiornata |
+| R6 | risolto | §12 distingue le due deduplicazioni: quella a coppia è priva di perdita, quella a traccia sceglie il massimo. Il valore sul fatto non è frutto di alcuna scelta |
+| R7 | indebolito | cade «il solo punto»; §6 elenca gli altri tre e circoscrive il riquadro alle relazioni |
+| R8 | indebolito | cade l'argomento di merito su `danceability`; resta quello di scala, dichiarato come tale |
+| R9 | risolto + respinto | l'invariante è scritto per esteso (1.030 valori in tre categorie, 1.002 riconfrontati) e la ragione di merito è promossa a prima, perché è dimostrativa. **Punto 3 respinto**: `CL.…recalc.…` è la famiglia del rendiconto, non un artefatto terzo |
+| R10 | risolto | §5 dichiara l'eccezione e rinvia a §18 |
+| R11 | risolto | nuovo limite in §18, nuovo vincolo in §19 per la dashboard |
+| R12 | risolto | §12 definisce `popularity`; §18 non nega più di dire nulla sui pubblici, circoscrive il livello |
+| R13 | risolto + respinto | 2021 ancorato a `NF.num.release_year.max`. **2022 respinto**: il dataset musicale non espone alcun campo di data, il marcatore di non-misurato è corretto — e l'asimmetria è ora dichiarata |
+| R14 | misto | .1 e .4 indeboliti (nessun artefatto pubblica la dispersione); .2 ancorato a `SP.genre.rows_min`; .3 ancorato a `CL.SP.track.inflation.after`, che scioglie anche il denominatore; .5 chiuso con D1 |
+| R15 | risolto | §5 dichiara la trappola della somma; §10.4 dichiara la ridondanza e il suo prezzo |
+| R16 | risolto | `is_repaired_duration` passa a (a), come la gemella |
+| R17 | risolto | §14 estende a `is_duration_zero` l'invariante di caricamento di §13 |
+| R18 | risolto | §6, nuova sottosezione sulla chiave che porta due nomi |
+| R19 | risolto | ragioni riordinate: circolarità in testa, frase pubblicata in fondo come costo. Cade il «quindi» che non discendeva |
+| R20 | indebolito | §4 dichiara dove l'argomento si ferma |
+| R21 | risolto | §15 e contratto §7: due obblighi, due condizioni di dichiarazione |
+| R22 | risolto | tutti e sette: §1 circoscritta, §6 (cammino R1+R2), §7 («pronunciarsi» invece di «dichiarare»), §10.2 (criterio ponte/fatto), §13 (legge l'insieme di partenza), §16 (assenze di colonna in §10), §19 (glossa sugli importi) |
+| D1 | deciso | la scala dell'effetto non è stata valutata, ed è dichiarata come non valutata |
+| D2 | risolto | §18 classifica ogni limite fra strutturale, di dominio e sconsigliato |
+| D3 | **rinviato** | ricontare i segmenti sul dato trasformato richiede di rieseguire la pipeline e aggiungere un'ancora al rendiconto: è la `003`, fuori perimetro. Va nel riporto alla regia |
+| D4 | deciso | entrambe le colonne restano, con i criteri riscritti (R5, R15) |
+| D5 | risolto | è R2: la decisione è presa in §11 |
+| D6 | respinto | l'esclusione delle serie è dichiarata nella scheda di `BQ1-K2` con la sua ragione. Mancava il limite nel modello, non la decisione |
+
+**Sul giudizio di carattere** — «argomenta più forte di quanto misuri» — non c'è nulla da eccepire: dei sei superlativi contestati, cinque sono caduti e uno è stato riformulato. Le tre affermazioni chiuse *indebolendo* sono quelle in cui il numero che le avrebbe sostenute non esiste in alcun artefatto.
+
+**Ciò che questo blocco non garantisce**: che le chiusure siano corrette. Sono state verificate contro gli artefatti citati, non contro un'esecuzione del modello, che continua a non esistere.
