@@ -116,7 +116,7 @@ Questa sezione la trasforma in una proprietà dello schema: per ogni cosa che si
 | un totale del catalogo video | `dim_title`, che ha 8.807<!--@CL.NF.titles.rows.after--> righe | `bridge_title_category`, che ne ha 19.323<!--@CL.NF.category.assignments--> |
 | il numero di titoli **di una categoria** | `dim_title`, che la direzione bidirezionale di R1 rende filtrabile per categoria | `bridge_title_category`, le cui righe sono assegnazioni: entro una sola categoria il conteggio coincide, e smette di coincidere appena la selezione ne comprende più d'una |
 
-**Perché l'errore è pericoloso e non fastidioso.** Nessuna delle colonne sbagliate produce un'eccezione, una cella vuota o un avviso. Producono un numero dell'ordine di grandezza giusto: 113.550<!--@CL.SP.pair.rows.after--> al posto di 89.741<!--@CL.SP.track.rows.after--> è una sovrastima di poco più di un quarto, e nessun lettore di una dashboard ha modo di accorgersene. È la ragione per cui questo modello separa le grane in tabelle distinte invece di lasciarle in una sola e affidarsi alla disciplina di chi scrive le misure.
+**Perché l'errore è pericoloso e non fastidioso.** Nessuna delle colonne sbagliate produce un'eccezione, una cella vuota o un avviso. Producono un numero dell'ordine di grandezza giusto: 113.550<!--@CL.SP.pair.rows.after--> al posto di 89.741<!--@CL.SP.track.rows.after--> è una sovrastima del 26,53%<!--@CL.SP.track.inflation.after--> rispetto al totale corretto, e nessun lettore di una dashboard ha modo di accorgersene. È la ragione per cui questo modello separa le grane in tabelle distinte invece di lasciarle in una sola e affidarsi alla disciplina di chi scrive le misure.
 
 **Come il modello rende difficile l'errore.** Un conteggio di titoli è una misura definita su `dim_title` e porta il nome dei titoli; un conteggio di assegnazioni è una misura diversa, definita sul ponte, e porta un nome diverso. Non esistono due<!--#--> strade per la stessa domanda: esistono due<!--#--> domande, con due<!--#--> nomi. È anche la ragione per cui il campo che elencava le categorie di un titolo **non entra nel modello** — il ponte lo sostituisce, e tenerli entrambi offrirebbe di nuovo la strada sbagliata.
 
@@ -144,9 +144,17 @@ Cinque<!--#--> relazioni. La direzione di filtro dice in quale verso una selezio
 
 Un filtro bidirezionale è sicuro solo finché fra le due<!--#--> tabelle che collega esiste **un solo cammino**. Se ne esistessero due<!--#-->, il motore dovrebbe scegliere quale seguire, e la scelta cambierebbe il risultato senza che nulla lo segnali.
 
-Qui la condizione vale, ed è ispezionabile invece che sperata: il gruppo video ha un solo ponte, nessun ciclo, e i due<!--#--> gruppi sono disgiunti per quanto detto in §4. R1 è quindi l'unico cammino fra `dim_title` e `dim_category`.
+Qui la condizione vale, ed è ispezionabile invece che sperata: il gruppo video ha un solo ponte, nessun ciclo, e i due<!--#--> gruppi sono disgiunti per quanto detto in §4. Fra `dim_title` e `dim_category` esiste quindi **un cammino solo** — R1 fino al ponte, R2 dal ponte alla categoria — ed è quel cammino, non la singola relazione, l'oggetto della condizione.
 
-> **Obbligo per chiunque aggiunga in futuro una tabella o una relazione a questo modello**: verificare che R1 resti l'unico cammino fra `dim_title` e `dim_category`. Una seconda relazione che chiuda un ciclo rende ambiguo il filtro e produce valori diversi a seconda del contesto, **senza alcun errore visibile**. È il solo punto di questo modello in cui una modifica futura può rompere qualcosa in silenzio, e questa riga esiste perché chi la farà lo sappia prima.
+> **Obbligo per chiunque aggiunga in futuro una tabella o una relazione a questo modello**: verificare che fra `dim_title` e `dim_category` continui a esistere un solo cammino. Una seconda relazione che chiuda un ciclo rende ambiguo il filtro e produce valori diversi a seconda del contesto, **senza alcun errore visibile**.
+
+**Non è però il solo punto del modello che può cedere in silenzio**, e scriverlo darebbe a chi lo sorveglia una quiete che non gli spetta. Ce ne sono almeno altri tre<!--#-->, ciascuno dichiarato dove vive: l'invariante che rende costruibile `dim_segment` (§13), la scala su cui il lato video porta i tre<!--#--> assi di mood (§15), e la confusione di grana descritta in §5 e §18. Li accomuna la forma del guasto — un numero esce comunque, e sembra ragionevole — e li distingue chi può provocarli. Questo riquadro riguarda il solo caso che si apre **aggiungendo una relazione**, che è la modifica più facile da fare senza accorgersi di averla fatta.
+
+### Una chiave che porta due nomi
+
+R5 congiunge `dim_segment[segment]` con `fact_track_segment[track_genre]`: gli stessi valori sotto due<!--#--> nomi diversi, per la scelta di §17 che adotta la parola del business case sulla dimensione e conserva quella della fonte sul fatto. È legale e non ambiguo, ma **va saputo prima di tracciare la relazione**, perché sul lato video vale la simmetria opposta — `category` si chiama così su entrambi i lati di R2 — e chi costruisce il modello si aspetta la stessa cosa qui.
+
+È l'unica relazione del modello in cui i due<!--#--> lati non portano lo stesso nome di colonna.
 
 ### Quello che la direzione non può impedire
 
@@ -408,7 +416,11 @@ Ogni marcatura sale alla grana di cui è proprietà, non a quella su cui la trov
 
 Il suo valore non sta nel numero, che è una riga sola: sta nell'obbligo di **dichiarare** se quella traccia entri nella mediana, invece di non accorgersi che esiste.
 
-**Sulla quota di popolarità nulla, che è un obbligo e non un'opzione.** Le righe a popolarità nulla sono 15.844<!--@CL.SP.zero.rows.after--> e non sono distribuite in modo uniforme fra i segmenti. La revisione del business case ha stabilito che ogni misura calcolata sulla popolarità pubblichi accanto al proprio valore la quota di zeri del segmento, perché una mediana calcolata su un segmento pieno di zeri è trascinata verso il basso da un difetto della fonte e non da una debolezza di domanda. Il modello **rende quella quota calcolabile**, tenendo la marcatura alla grana su cui la misura opera; pubblicarla è compito di chi scriverà le misure.
+**Il salto di grana va però verificato al caricamento, come quello di `is_high_zero_genre`.** Sono lo stesso tipo di operazione: una marcatura registrata alla grana coppia viene fatta risalire a una grana più larga, e questo è corretto solo se il valore è costante entro quella grana. Se una traccia portasse `is_duration_zero` con valori diversi su due<!--#--> appartenenze, la colonna non sarebbe costruibile, e il caso va **segnalato** invece che risolto scegliendone uno — la regola è quella di §13, e vale identica qui.
+
+La ragione per cui questo salto non compare fra le derivazioni di §13 è che non costruisce una colonna: sceglie su quale tabella una colonna già esistente viva. L'obbligo di verifica, però, non dipende da quella differenza.
+
+**Sulla quota di popolarità nulla, che è un obbligo e non un'opzione.** Le righe a popolarità nulla sono 15.844<!--@CL.SP.zero.rows.after-->, e la trasformazione ne ha registrato la concentrazione: 7<!--@CL.SP.zero.high_genres.count--> segmenti superano la soglia che essa stessa dichiara. Quanto la distribuzione sia disuguale nessun artefatto lo pubblica, e questo documento non lo afferma: afferma che la soglia è superata su alcuni segmenti, che è il fatto misurato su cui l'obbligo poggia. La revisione del business case ha stabilito che ogni misura calcolata sulla popolarità pubblichi accanto al proprio valore la quota di zeri del segmento, perché una mediana calcolata su un segmento pieno di zeri è trascinata verso il basso da un difetto della fonte e non da una debolezza di domanda. Il modello **rende quella quota calcolabile**, tenendo la marcatura alla grana su cui la misura opera; pubblicarla è compito di chi scriverà le misure.
 
 ## 15. La tabella che la feature successiva riempie
 
@@ -442,7 +454,7 @@ Un'assenza non si vede guardando uno schema. Queste due<!--#--> sono decisioni p
 
 Il modello **non ha una tabella calendario**, e non è una dimenticanza.
 
-Nessuno degli otto<!--#--> KPI del framework è definito su un asse temporale. Il business case dichiara inoltre che i cataloghi descrivono «una fotografia, non una traiettoria» — il lato video è fermo al 2021<!--#-->, il musicale al 2022<!--#--> — ed esclude esplicitamente dal perimetro ogni conclusione su dinamiche successive e ogni analisi di tendenza recente.
+Nessuno degli otto<!--#--> KPI del framework è definito su un asse temporale. Il business case dichiara inoltre che i cataloghi descrivono «una fotografia, non una traiettoria» — il lato video è fermo al 2021<!--@NF.num.release_year.max-->, il musicale al 2022<!--#--> — ed esclude esplicitamente dal perimetro ogni conclusione su dinamiche successive e ogni analisi di tendenza recente.
 
 Una dimensione di calendario in questo modello renderebbe costruibile **con un trascinamento** proprio l'analisi che il business case vieta. Chi la usasse non commetterebbe alcun errore tecnico: otterrebbe un grafico corretto di una cosa che i dati non possono dire. **L'assenza della tabella è la forma strutturale di un limite già dichiarato a parole**, ed è più efficace della dichiarazione perché non richiede che qualcuno l'abbia letta.
 
@@ -478,17 +490,29 @@ Ogni scelta di struttura è anche una porta chiusa, e le porte chiuse non si ved
 
 **Non permette di dimensionare un segmento contandone le righe** — ed è il limite più insidioso, perché il conteggio è l'operazione più naturale che un motore tabellare offre.
 
-Il catalogo musicale era bilanciato per costruzione del campione: ogni segmento aveva lo stesso numero di tracce, quindi contarle misurava il campionamento e non il mercato. Sul dato trasformato **non è più nemmeno bilanciato**: la deduplicazione ha tolto righe in modo non uniforme, e oggi esistono 17<!--@CL.SP.recalc.genre.row_counts_distinct--> conteggi di righe distinti fra i segmenti, con il meno numeroso a 904<!--@CL.SP.recalc.genre.rows_min--> righe.
+Il catalogo musicale era bilanciato per costruzione del campione: ogni segmento portava 1.000<!--@SP.genre.rows_min--> tracce, quindi contarle misurava il campionamento e non il mercato. Sul dato trasformato **non è più nemmeno bilanciato**: la deduplicazione ha tolto righe in modo non uniforme, e oggi esistono 17<!--@CL.SP.recalc.genre.row_counts_distinct--> conteggi di righe distinti fra i segmenti, con il meno numeroso a 904<!--@CL.SP.recalc.genre.rows_min--> righe.
 
-La conseguenza è controintuitiva e va detta com'è: **contare le righe non è diventato meno inutile, è diventato peggio che inutile.** Prima il risultato era costante e la sua inutilità era evidente; ora il risultato varia, e la variazione è un residuo della deduplicazione che chiunque prenderebbe per un segnale di mercato. Il modello non può impedirlo. Questa riga è tutto ciò che può fare.
+La conseguenza è controintuitiva e va detta com'è: **contare le righe non è diventato meno inutile, è diventato peggio che inutile.** Prima il risultato era costante e la sua inutilità era evidente; ora varia, e varia per una ragione che non riguarda il mercato.
+
+**Quanto vari, questo documento non lo dice, e l'omissione è deliberata.** Il rendiconto pubblica il conteggio minimo e quanti conteggi distinti esistano; non pubblica il massimo né alcuna misura di dispersione. Senza quelli, affermare che lo scostamento sia grande — o rassicurare che sia piccolo — sarebbe un numero senza fonte travestito da valutazione. Ciò che si può dire con i valori pubblicati è che i conteggi non sono più tutti uguali e che nulla nel risultato di un conteggio segnala perché. Il modello non può impedirlo; questa riga è tutto ciò che può fare.
 
 **Non regge un confronto fra due<!--#--> cataloghi interi, benché `BQ1-K2` produca un numero solo.** I due<!--#--> lati di quel confronto non sono simmetrici: il lato musicale è il catalogo intero, il lato video sono i **soli film**. L'esclusione delle serie non è una decisione di questo modello — la scheda del KPI la dichiara, con la sua ragione: il catalogo video misura le serie in stagioni, e convertirle in minuti richiederebbe un'assunzione che i dati non contengono.
 
 Il modello ne eredita però due<!--#--> conseguenze che vanno dette qui, perché nessuno le vedrà guardando lo schema. La prima è che «differenza fra la durata mediana del catalogo video e quella del catalogo musicale» è una lettura sbagliata di quel numero, e nulla nel modello la smentisce. La seconda è che il modello **non** rende impossibile quantificare la parte esclusa: `dim_title` conserva `type`, quindi quanti degli 8.807<!--@CL.NF.titles.rows.after--> titoli siano film è calcolabile. Ciò che manca non è il dato, è l'obbligo di pubblicarlo accanto al valore — ed è per questo che il vincolo è registrato in §19 invece di essere chiuso qui.
 
+**Non permette di trattare i segmenti come popolazioni disgiunte**, benché tutto ciò che li riguarda sia presentato per segmento. Una traccia appartiene a più segmenti — è la ragione per cui il fatto ha 113.550<!--@CL.SP.pair.rows.after--> righe contro 89.741<!--@CL.SP.track.rows.after--> tracce — e ne discendono tre<!--#--> conseguenze che nessuno vede guardando una graduatoria.
+
+La prima è che **le quantità per segmento non si sommano**: sommare su tutti i segmenti un conteggio di tracce non restituisce il catalogo, lo eccede. La seconda è che **la stessa traccia contribuisce a più mediane** — per i tre<!--#--> assi di mood con lo stesso identico valore, letto da `dim_track`, e per la popolarità con valori che possono differire, come §12 spiega. La terza riguarda `BQ2-K3`: ordina 114<!--@SP.genre.count--> insiemi che si sovrappongono, mentre una graduatoria si legge come un elenco di alternative fra cui scegliere.
+
+Nessuna di queste è un difetto del modello: sono la struttura del dato, e il modello la rappresenta correttamente. Sono elencate qui perché la rappresentazione corretta di una sovrapposizione **assomiglia in tutto** a quella di una partizione, e la differenza non compare in nessun numero pubblicato.
+
 **Non permette di dire nulla sui pubblici.** Non esiste in questo modello alcuna entità che rappresenti una persona, una visione, un ascolto o un abbonamento, perché nessuna delle due<!--#--> fonti ne contiene. Nessuna relazione di questo modello, per quanto ben disegnata, potrà mai essere letta come una relazione fra spettatori e ascoltatori.
 
-**Copertura del dato**: catalogo video fermo al 2021<!--#-->, catalogo musicale al 2022<!--#-->. Il modello descrive due<!--#--> fotografie e **non ha alcun modo di rappresentare che siano di due<!--#--> momenti diversi** — il che è coerente con l'assenza della dimensione di calendario, e va letto insieme a quella.
+**Copertura del dato**: catalogo video fermo al 2021<!--@NF.num.release_year.max-->, catalogo musicale al 2022<!--#-->. Il modello descrive due<!--#--> fotografie e **non ha alcun modo di rappresentare che siano di due<!--#--> momenti diversi** — il che è coerente con l'assenza della dimensione di calendario, e va letto insieme a quella.
+
+**I due<!--#--> anni non hanno lo stesso statuto, ed è la parte che conta.** Quello del lato video è un fatto osservato: è il massimo del campo che `dim_title` porta come `release_year`, ed è ancorato all'artefatto che lo misura. Quello del lato musicale non lo è: **il catalogo musicale non espone alcun campo di data**, né alla grana traccia né a quella coppia, e nessuna colonna di questo modello ne porta uno. Il 2022<!--#--> è un'affermazione presa dalla documentazione della fonte — l'assunzione A2 del business case — e il profilo dei dati di origine dichiara esplicitamente di non poterla verificare.
+
+Ne discende un limite più stretto di quello enunciato sopra: il modello non solo non rappresenta la distanza fra le due<!--#--> fotografie, ma **non potrebbe rappresentarla nemmeno volendo**, perché su un lato manca il dato con cui la si misurerebbe. Chi in futuro volesse una dimensione di calendario scoprirebbe che è costruibile solo per metà del modello.
 
 ### Tre inferenze da evitare
 
@@ -514,5 +538,6 @@ Questo modello lascia aperte alcune decisioni. Sono elencate qui, con chi le ere
 | la graduatoria dei segmenti ha 114<!--@SP.genre.count--> voci, molte per una lettura a colpo d'occhio | §2 | la dashboard |
 | l'assenza della dimensione di calendario va esposta dove un lettore potrebbe costruirsi da sé una misura temporale | §16 | la dashboard |
 | il conteggio delle righe di un segmento misura il campionamento e non il mercato | §18 | le misure e la dashboard |
+| i segmenti si sovrappongono: le quantità per segmento non si sommano, e la graduatoria di `BQ2-K3` non è una partizione del catalogo | §18 | la dashboard |
 
 **Sulla precisione, una precisazione che evita un equivoco.** Questo modello fissa i **tipi di dato** delle proprie colonne, e fissare un tipo non decide un criterio di confronto. La divergenza aperta riguarda con quale precisione due<!--#--> valori dello stesso fatto, registrati in due<!--#--> artefatti diversi, vadano dichiarati uguali o diversi. È una domanda sul metodo di confronto, non sulla rappresentazione, e questo documento non la tocca.
