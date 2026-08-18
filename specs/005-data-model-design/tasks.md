@@ -150,8 +150,8 @@ Ogni altro confine fra fasi è sicuro. I punti di sosta migliori sono la fine de
 
 > **L'ordine di questa fase non è negoziabile.** Il verbale si scrive e si committa **prima** di toccare l'artefatto. È l'omissione della `004`, recuperata dopo e dichiarata come recupero.
 
-- [ ] T034 Consegnare a un revisore in contesto pulito — sessione separata o subagent isolato — una copia del **solo** `docs/data_model.md` in una cartella priva di ogni altro artefatto, con le tre domande della **Prova 7** e senza spec, piano, contratto o history git
-- [ ] T035 Scrivere `specs/005-data-model-design/review.md` con il verbale ricevuto, dichiarando in apertura che cosa è stato letto e cosa no, incluse le eventuali uscite dal perimetro, e ancorando la versione revisionata con commit e impronta del contenuto
+- [X] T034 Consegnare a un revisore in contesto pulito — sessione separata o subagent isolato — una copia del **solo** `docs/data_model.md` in una cartella priva di ogni altro artefatto, con le tre domande della **Prova 7** e senza spec, piano, contratto o history git
+- [X] T035 Scrivere `specs/005-data-model-design/review.md` con il verbale ricevuto, dichiarando in apertura che cosa è stato letto e cosa no, incluse le eventuali uscite dal perimetro, e ancorando la versione revisionata con commit e impronta del contenuto
 - [ ] T036 **Committare il verbale prima di modificare `docs/data_model.md`**. Nessun rilievo va chiuso prima di questo commit
 - [ ] T037 Chiudere i rilievi su `docs/data_model.md`, senza toccare il testo del revisore
 - [ ] T038 Aggiungere in coda a `specs/005-data-model-design/review.md` il blocco di chiusura, dichiarando per **ogni** rilievo come è stato chiuso e distinguendo *risolvendolo* da *indebolendo l'affermazione*
