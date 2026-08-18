@@ -61,6 +61,7 @@ DOCUMENTS = (
     (REPO / "docs" / "data_audit.md", False, "feature 002"),
     (REPO / "docs" / "data_cleaning.md", True, "feature 003"),
     (REPO / "docs" / "bq3_scenarios.md", True, "feature 004"),
+    (REPO / "docs" / "data_model.md", True, "feature 005"),
 )
 
 # Grammatica della marcatura (docs/convenzioni-marcatura.md): il marcatore
