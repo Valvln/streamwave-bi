@@ -157,7 +157,7 @@ Il modello contiene tre costruzioni che i quattro dataset non forniscono. Sono *
 
 **Il codice di queste derivazioni non è scritto da questa feature.** Il principio II ammette Power Query M; scriverlo sarebbe però materializzazione, che nessuna feature possiede oggi. Il contratto dichiara la regola; chi materializza la applica e riporta ogni divergenza.
 
-## 6. Le quattro cose che la `007` non può decidere da sé, e che questo contratto fissa
+## 6. Le cinque cose che la `007` non può decidere da sé, e che questo contratto fissa
 
 ### 6.1 La popolarità si legge dal fatto, mai dalla dimensione
 
@@ -184,17 +184,32 @@ Ogni KPI dichiara **grana di appartenenza**, **grana di calcolo** e **grana del 
 | KPI | Appartenenza | Calcolo | Risultato | Tabelle |
 |---|---|---|---|---|
 | `BQ1-K1` | assegnazione titolo-categoria | titolo distinto | un valore, sul catalogo video | `dim_title`, `bridge_title_category`, `dim_category` |
-| `BQ1-K2` | — | film per il lato video, traccia deduplicata per il musicale | un valore, sui due cataloghi | `dim_title`, `dim_track` |
-| `BQ1-K3` | — | traccia deduplicata | un valore, sul catalogo musicale | `dim_track`, `dim_category_mood` |
+| `BQ1-K2` | — | film per il lato video, traccia deduplicata per il musicale | un valore, fra i **film** del catalogo video e l'**intero** catalogo musicale | `dim_title`, `dim_track` |
+| `BQ1-K3` | — | traccia deduplicata sul musicale, categoria sul video | un valore, sul catalogo musicale | `dim_track`, `dim_category_mood` |
 | `BQ2-K1` | coppia traccia-segmento | coppia traccia-segmento | **un valore per segmento** | `fact_track_segment`, `dim_segment` |
-| `BQ2-K2` | coppia traccia-segmento | coppia traccia-segmento | **un valore per segmento** | `fact_track_segment`, `dim_track`, `dim_segment`, `dim_category_mood` |
-| `BQ2-K3` | — | segmento | una graduatoria di 114 voci | `dim_segment` |
+| `BQ2-K2` | coppia traccia-segmento | coppia traccia-segmento sul musicale, assegnazione titolo-categoria sul video | **un valore per segmento** | `fact_track_segment`, `dim_track`, `dim_segment`, `bridge_title_category`, `dim_category`, `dim_category_mood` |
+| `BQ2-K3` | — | nessuna propria: compone `BQ2-K1` e `BQ2-K2` | una graduatoria di 114 voci | nessuna letta direttamente; eredita quelle dei due KPI che compone |
 | `BQ3-K1` | — | — | fuori dal modello | nessuna, vedi §8 |
 | `BQ3-K2` | — | — | fuori dal modello | nessuna, vedi §8 |
 
 **Sulla granularità ibrida di `BQ2-K1`**, che il rilievo `R7` segnalava: la scheda dichiarava «coppia traccia-segmento per l'appartenenza, traccia deduplicata per il calcolo». Sul dato trasformato non è una terza modalità. La pipeline della `003` ha deduplicato le coppie — 450 righe rimosse — quindi **entro un segmento ogni traccia compare già una volta sola**: la deduplicazione è garantita a monte e non è un'operazione che la misura debba compiere.
 
-### 6.4 Che cosa la `007` eredita ancora aperto
+### 6.4 Come il lato video diventa un profilo di catalogo, e perché non allo stesso modo per i due KPI
+
+`dim_category_mood` porta una riga per **categoria**. Né `BQ1-K3` né `BQ2-K2` confrontano un segmento con una categoria: entrambi lo confrontano con il **catalogo video**. Il passaggio è un'aggregazione, e il contratto la fissa perché cambia quali tabelle una misura tocca.
+
+| KPI | Che cosa chiede del lato video | Come si aggrega |
+|---|---|---|
+| `BQ1-K3` | l'**intervallo** occupato sul catalogo video, per ciascun asse | minimo e massimo sulle 42 righe di `dim_category_mood`, **senza ponderazione** |
+| `BQ2-K2` | il **profilo mediano** del catalogo video | mediana di ciascun asse sulle 19.323 righe di `bridge_title_category`, ciascuna portando il profilo della propria categoria |
+
+**Perché `BQ1-K3` non pondera**: un intervallo è una proprietà dell'insieme dei profili assegnati, non della composizione del catalogo. Quante volte una categoria compaia non sposta né il minimo né il massimo.
+
+**Perché `BQ2-K2` pondera, e sul ponte**: sul lato musicale il profilo del segmento è una mediana sulle **coppie**, e l'assegnazione titolo-categoria è l'omologo video della coppia. Aggregare un lato sulle appartenenze e l'altro sulle etichette metterebbe a confronto grandezze costruite in modo diverso, il che è precisamente ciò che una distanza non può fare.
+
+**Conseguenza per la `007`**: `bridge_title_category` e `dim_category` entrano fra le tabelle di `BQ2-K2`, e non vi entrano per `BQ1-K3`. Il contratto **non** dice nulla su come i 42 profili vengano costruiti: quello è §7.
+
+### 6.5 Che cosa la `007` eredita ancora aperto
 
 | Questione | Origine | Perché non si chiude qui |
 |---|---|---|
@@ -202,6 +217,8 @@ Ogni KPI dichiara **grana di appartenenza**, **grana di calcolo** e **grana del 
 | se le righe a durata degenere entrano nella mediana di `BQ1-K2` | marcatura `is_duration_zero` | è una decisione statistica, non strutturale. Il modello garantisce solo che la marcatura sia visibile alla misura |
 | arrotondamento e precisione di presentazione di ogni misura | §5 di questo contratto, e `FR-015` della `004` per gli importi in euro | il modello non arrotonda per non decidere di nascosto |
 | ogni misura sulla popolarità pubblica la quota di zeri del segmento | divergenza 6 della revisione `001` | è un obbligo di pubblicazione, non di struttura. Il modello lo rende **calcolabile**; pubblicarlo è della `007` |
+| il peso relativo con cui `BQ2-K3` combina `BQ2-K1` e `BQ2-K2` | scheda di `BQ2-K3`, che impone di dichiararlo esplicitamente | è una scelta di composizione fra misure, non di struttura. Nessuno l'ha ancora fissata |
+| che `BQ1-K2` confronti i soli film con l'intero catalogo musicale va dichiarato accanto al valore | nota di esclusione delle serie nella scheda del KPI | il modello conserva `type`, quindi la quota di film è calcolabile: manca l'obbligo di pubblicarla, che è della `007` e della `008` |
 
 ## 7. La tabella che la `006` riempie
 

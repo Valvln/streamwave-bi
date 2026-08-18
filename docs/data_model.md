@@ -114,11 +114,19 @@ Questa sezione la trasforma in una proprietà dello schema: per ogni cosa che si
 | un totale del catalogo musicale | `dim_track`, che ha 89.741<!--@CL.SP.track.rows.after--> righe | `fact_track_segment`, che ne ha 113.550<!--@CL.SP.pair.rows.after--> e conta più volte le stesse tracce |
 | qualunque cosa **per segmento** | `fact_track_segment`, dove l'appartenenza esiste | `dim_track`, che non sa a quali segmenti una traccia appartenga |
 | un totale del catalogo video | `dim_title`, che ha 8.807<!--@CL.NF.titles.rows.after--> righe | `bridge_title_category`, che ne ha 19.323<!--@CL.NF.category.assignments--> |
-| qualunque cosa **per categoria** | `bridge_title_category` | `dim_title`, che nel modello non porta più l'elenco delle proprie categorie |
+| il numero di titoli **di una categoria** | `dim_title`, che la direzione bidirezionale di R1 rende filtrabile per categoria | `bridge_title_category`, le cui righe sono assegnazioni: entro una sola categoria il conteggio coincide, e smette di coincidere appena la selezione ne comprende più d'una |
 
 **Perché l'errore è pericoloso e non fastidioso.** Nessuna delle colonne sbagliate produce un'eccezione, una cella vuota o un avviso. Producono un numero dell'ordine di grandezza giusto: 113.550<!--@CL.SP.pair.rows.after--> al posto di 89.741<!--@CL.SP.track.rows.after--> è una sovrastima di poco più di un quarto, e nessun lettore di una dashboard ha modo di accorgersene. È la ragione per cui questo modello separa le grane in tabelle distinte invece di lasciarle in una sola e affidarsi alla disciplina di chi scrive le misure.
 
 **Come il modello rende difficile l'errore.** Un conteggio di titoli è una misura definita su `dim_title` e porta il nome dei titoli; un conteggio di assegnazioni è una misura diversa, definita sul ponte, e porta un nome diverso. Non esistono due<!--#--> strade per la stessa domanda: esistono due<!--#--> domande, con due<!--#--> nomi. È anche la ragione per cui il campo che elencava le categorie di un titolo **non entra nel modello** — il ponte lo sostituisce, e tenerli entrambi offrirebbe di nuovo la strada sbagliata.
+
+### Due eccezioni a questa tabella, che vanno lette insieme a §18
+
+Questa sezione dice quale tabella regge una domanda. **Non dice che ogni domanda che quella tabella regge abbia senso**, ed è una distinzione che la forma tabellare nasconde.
+
+**La prima riguarda l'aggregazione per segmento.** Il conteggio delle righe di un segmento si calcola su `fact_track_segment`, cioè sulla tabella qui dichiarata corretta, e resta privo di significato per la ragione esposta in §18. È il solo caso in cui questa tabella indica la porta giusta verso una domanda sbagliata, e chi consulta §5 prima di scrivere una misura per segmento non ha nulla, qui, che lo mandi a leggerla: questo capoverso esiste per quello.
+
+**La seconda riguarda una colonna.** `dim_track.genre_count` è un intero sulla dimensione, e la sua somma su tutte le tracce vale 113.550<!--@CL.SP.pair.rows.after--> — cioè restituisce il conteggio delle appartenenze **a partire dalla tabella che questa sezione dichiara corretta per i totali di catalogo**. Il numero è giusto per ciò che è e sbagliato per ciò che sembra. §17 nasconde le chiavi proprio per chiudere quella strada; questa colonna la riapre in forma numerica, ed è il prezzo dichiarato della sua presenza — vedi §10.4.
 
 ## 6. Le relazioni e le direzioni di filtro
 
@@ -175,15 +183,19 @@ La correzione alle due<!--#--> affermazioni del business case è portata sul doc
 | KPI | Appartenenza | Calcolo | Risultato | Tabelle |
 |---|---|---|---|---|
 | `BQ1-K1` | assegnazione titolo-categoria | titolo distinto | un valore, sul catalogo video | `dim_title`, `bridge_title_category`, `dim_category` |
-| `BQ1-K2` | non si applica | film sul lato video, traccia deduplicata sul musicale | un valore, sui due<!--#--> cataloghi | `dim_title`, `dim_track` |
-| `BQ1-K3` | non si applica | traccia deduplicata | un valore, sul catalogo musicale | `dim_track`, `dim_category_mood` |
+| `BQ1-K2` | non si applica | film sul lato video, traccia deduplicata sul musicale | un valore, fra i **film** del catalogo video e l'**intero** catalogo musicale | `dim_title`, `dim_track` |
+| `BQ1-K3` | non si applica | traccia deduplicata sul musicale, categoria sul video | un valore, sul catalogo musicale | `dim_track`, `dim_category_mood` |
 | `BQ2-K1` | coppia traccia-segmento | coppia traccia-segmento | **un valore per segmento** | `fact_track_segment`, `dim_segment` |
-| `BQ2-K2` | coppia traccia-segmento | coppia traccia-segmento | **un valore per segmento** | `fact_track_segment`, `dim_track`, `dim_segment`, `dim_category_mood` |
-| `BQ2-K3` | non si applica | segmento | una graduatoria di segmenti | `dim_segment` |
+| `BQ2-K2` | coppia traccia-segmento | coppia traccia-segmento sul musicale, assegnazione titolo-categoria sul video | **un valore per segmento** | `fact_track_segment`, `dim_track`, `dim_segment`, `bridge_title_category`, `dim_category`, `dim_category_mood` |
+| `BQ2-K3` | non si applica | nessuna propria: compone `BQ2-K1` e `BQ2-K2` | una graduatoria di segmenti | nessuna letta direttamente; eredita quelle dei due<!--#--> KPI che compone |
 | `BQ3-K1` | fuori dal modello | fuori dal modello | fuori dal modello | nessuna |
 | `BQ3-K2` | fuori dal modello | fuori dal modello | fuori dal modello | nessuna |
 
 **Le due<!--#--> righe di BQ3 non sono una dimenticanza.** I valori di scenario della terza domanda di business non descrivono righe di un catalogo: non hanno una grana, non si aggregano e non si filtrano per segmento. Vivono in un artefatto proprio, [`reports/bq3_scenarios.json`](../reports/bq3_scenarios.json), e il modo in cui entrano in un report è una decisione delle feature successive. Dichiararli qui come fuori dal modello è più utile che ometterli, perché un elenco parziale lascerebbe chi legge a chiedersi se le righe mancanti siano state trattate o perse.
+
+**Su `BQ2-K3`, che non legge alcuna tabella.** La sua scheda lo dichiara `Derivato (BQ2-K1 + BQ2-K2)`: è un ordinamento dei segmenti secondo la combinazione di due<!--#--> misure già calcolate, con il peso relativo dei due<!--#--> criteri dichiarato esplicitamente. Non tocca quindi alcun dato direttamente, ed è la ragione per cui la sua casella non elenca tabelle invece di elencarne una. La colonna esiste per dire proprio questo: un elenco vuoto e un elenco dimenticato si scrivono allo stesso modo, e questa riga distingue i due<!--#--> casi. Ne discende che `BQ2-K3` dipende dal profilo di mood del lato video **attraverso `BQ2-K2`**, e non per una lettura propria — vedi §15.
+
+**Su `BQ1-K3` e `BQ2-K2`, che aggregano il lato video in due<!--#--> modi diversi.** Le loro caselle di calcolo non coincidono, e la differenza non è una svista: la regola sta in §11, ed è la sola parte di questo modello in cui la grana di calcolo di un KPI è diversa sui due<!--#--> lati del confronto.
 
 **Su `BQ1-K1`, la trappola già segnalata dalla scheda.** Il denominatore è il conteggio dei titoli distinti, non delle assegnazioni di categoria. Sono 8.807<!--@CL.NF.titles.rows.after--> contro 19.323<!--@CL.NF.category.assignments-->, e il modello tiene le due<!--#--> misure su due<!--#--> tabelle diverse con due<!--#--> nomi diversi proprio perché la scheda non debba essere ricordata a memoria.
 
@@ -291,6 +303,31 @@ Il business case definisce tre<!--#--> assi comuni su cui i due<!--#--> catalogh
 
 Nessuna normalizzazione, nessuna trasformazione, nessun riscalamento. È ciò che rende letteralmente vera l'affermazione del business case secondo cui sul lato musicale i tre<!--#--> assi sono letti direttamente.
 
+### Come il lato video diventa un profilo di catalogo
+
+`dim_category_mood` porta una riga per **categoria**: 42<!--@CL.NF.category.distinct--> profili. Nessuno dei KPI che la usano confronta però un segmento con una categoria — li confrontano entrambi con il **catalogo video**, che è un altro oggetto. Il passaggio dall'uno all'altro è un'aggregazione, e un'aggregazione non dichiarata è una decisione presa da chi scrive la misura senza sapere di prenderla.
+
+Il modello la dichiara qui, e **non è la stessa per i due<!--#--> KPI**.
+
+| KPI | Che cosa chiede del lato video | Come si aggrega |
+|---|---|---|
+| `BQ1-K3` | l'**intervallo** occupato dal catalogo video su ciascun asse | minimo e massimo sulle 42<!--@CL.NF.category.distinct--> righe di `dim_category_mood`, senza ponderazione |
+| `BQ2-K2` | il **profilo mediano** del catalogo video | mediana di ciascun asse sulle 19.323<!--@CL.NF.category.assignments--> righe del ponte, ciascuna portando il profilo della propria categoria |
+
+**Perché per `BQ1-K3` non si pondera.** La sua scheda chiede la quota di tracce che cade «all'interno dell'intervallo occupato dai generi del catalogo video». Un intervallo è una proprietà dell'**insieme dei profili assegnati**, non della composizione del catalogo: quante volte una categoria compaia non sposta né il minimo né il massimo. Ponderare qui non renderebbe il valore più giusto, lo renderebbe indefinito.
+
+**Perché per `BQ2-K2` si pondera, e sul ponte.** Tre<!--#--> ragioni, in ordine di forza.
+
+La prima è la **simmetria del confronto**, che è ciò che rende quella distanza una distanza. Sul lato musicale il profilo del segmento è una mediana sulle coppie: una traccia che appartiene a più segmenti contribuisce alla mediana di ciascuno. L'assegnazione titolo-categoria è l'esatto omologo video della coppia — un titolo che sta in più categorie contribuisce a ciascuna — e aggregare un lato sulle appartenenze e l'altro sulle etichette metterebbe a confronto due<!--#--> grandezze costruite in modo diverso.
+
+La seconda è che **il catalogo video è fatto di titoli**, non di categorie. Una mediana non ponderata sulle 42<!--@CL.NF.category.distinct--> righe darebbe alla categoria più rara lo stesso peso della più diffusa, e il numero che ne esce descriverebbe la tassonomia invece del catalogo.
+
+La terza è di costruibilità: è l'unica delle due<!--#--> forme che non richiede una **seconda** regola di aggregazione un livello più sotto. Mediare per titolo obbligherebbe prima a comporre in un profilo unico le categorie di ciascuno degli 8.807<!--@CL.NF.titles.rows.after--> titoli, cioè a decidere di nuovo la stessa cosa a una grana diversa.
+
+**Che cosa questa regola non decide.** Nulla su **come** i 42<!--@CL.NF.category.distinct--> profili vengano costruiti: quello è il lavoro della feature successiva, e le sue condizioni sono in §15. Qui si fissa soltanto che cosa se ne fa una volta che esistono.
+
+**Perché la decisione sta in questo documento e non nelle misure.** Perché cambia quali tabelle una misura tocca — `bridge_title_category` e `dim_category` entrano in `BQ2-K2` solo per questo — e ciò che cambia lo schema appartiene allo schema. Lasciata aperta, sarebbe stata una decisione che tre<!--#--> feature diverse potevano ciascuna supporre presa da un'altra.
+
 ### Perché il ritmo non è `tempo`
 
 I primi due<!--#--> assi hanno un corrispondente ovvio. Il terzo ha due<!--#--> candidati, e la scelta va motivata perché l'altro è quello che il nome suggerisce.
@@ -317,7 +354,19 @@ Questa è la sezione che chi scriverà `BQ2-K1` deve leggere prima di scrivere l
 
 **La ragione di merito la conferma.** Prendere il massimo fra le repliche significherebbe portare dentro un segmento un valore osservato su una riga di un **altro** segmento. Una traccia che sta in due<!--#--> segmenti contribuirebbe a entrambe le mediane con lo stesso numero, che descrive la sua popolarità nel migliore dei due<!--#--> — spostando verso l'alto la mediana del segmento in cui era meno popolare.
 
-**Che cosa il modello non può fare.** Non esiste un valore giusto: la fonte ne portava due<!--#-->, e la deduplicazione ne ha dovuto scegliere uno. La marcatura `has_conflicting_popularity` resta sulla dimensione delle tracce, visibile, proprio perché la perdita non resti implicita — è l'unico modo di sapere quali righe sono affette.
+### Quale deduplicazione, perché la trasformazione ne compie due
+
+Le due<!--#--> hanno esiti opposti, e confonderle cambia che cosa si crede di leggere.
+
+Quella alla **grana coppia** — le 450<!--@CL.SP.pair.removed_rows--> righe di §3.4 e §7 — è dichiarata *priva di perdita*: le repliche di una stessa coppia sono identiche su ogni attributo, e la pipeline lo verifica prima di scartarle, fermandosi se ne trovasse di discordi. Quella alla **grana traccia** non lo è: dove le repliche di una traccia discordano, conserva il massimo osservato.
+
+Ne discende il punto che conta per chi scrive `BQ2-K1`: **il valore di popolarità che `fact_track_segment` porta non è il prodotto di alcuna scelta.** È il valore osservato per quella coppia. La selezione del massimo appartiene interamente all'insieme alla grana traccia, che questo modello non usa.
+
+**Che cosa resta comunque fuori dalla portata del modello.** Non esiste un valore unico della popolarità di una traccia, e il modello non lo costruisce: la fonte ne registra uno per ciascuna appartenenza, e su 720<!--@CL.SP.track.popularity_conflict.tracks--> tracce quei valori non coincidono. Il modello non risolve la discordanza — la tiene alla grana a cui esiste.
+
+**A che cosa serve `has_conflicting_popularity`, dopo tutto questo.** Non a documentare una perdita, che il modello non subisce. Serve a rendere visibile sulla dimensione una proprietà strutturale del modello: **per quelle tracce la popolarità non è una proprietà della traccia**, e la stessa traccia contribuisce con numeri diversi alle mediane di segmenti diversi. È la condizione (c) di §9, per una ragione diversa da quella che le si potrebbe attribuire leggendo il titolo della colonna.
+
+Va detto che **la stessa informazione è già derivabile** dal fatto, confrontando minimo e massimo di `popularity` per `track_id` — in una forma che dà anche l'entità dello scarto e non solo il segnale. La colonna è quindi una ridondanza, tenuta perché quel confronto richiede che a qualcuno venga in mente di farlo, e la marcatura no. È una comodità dichiarata come tale, non una necessità.
 
 **Conseguenza per chi scriverà le misure**: nel modello **non esiste** una popolarità alla grana traccia, e la sua assenza è deliberata. Se una misura futura dovesse averne bisogno, il valore va ripreso dall'insieme alla grana traccia e la differenza va dichiarata, non assorbita.
 
@@ -350,7 +399,7 @@ Ogni marcatura sale alla grana di cui è proprietà, non a quella su cui la trov
 | `is_high_zero_genre` | un segmento | `dim_segment` | `BQ2-K1`: 7<!--@CL.SP.zero.high_genres.count--> segmenti superano la soglia dichiarata dalla trasformazione |
 | `is_popularity_zero` | un'appartenenza | `fact_track_segment` | `BQ2-K1`: è ciò che rende calcolabile la quota di zeri di un segmento |
 | `is_duration_zero` | una traccia | `dim_track` | `BQ1-K2`, lato musicale: 1<!--@CL.SP.duration.zero.rows--> riga |
-| `has_conflicting_popularity` | una traccia | `dim_track` | nessuna misura: è la traccia della perdita descritta in §12 |
+| `has_conflicting_popularity` | una traccia | `dim_track` | nessuna misura: segnala le tracce che contribuiscono con valori diversi alle mediane di segmenti diversi, §12 |
 | `is_repaired_duration` | un titolo | `dim_title` | `BQ1-K2`, lato video: 3<!--@CL.NF.duration.repaired.rows--> titoli |
 
 **Perché `is_high_zero_genre` sale sulla dimensione.** L'insieme di partenza la replica su ogni riga della grana coppia. Lasciarla lì autorizzerebbe ad aggregarla — a contare 113.550<!--@CL.SP.pair.rows.after--> volte una proprietà che vale 114<!--@SP.genre.count--> volte, ottenendo un numero che non significa niente.
@@ -363,7 +412,9 @@ Il suo valore non sta nel numero, che è una riga sola: sta nell'obbligo di **di
 
 ## 15. La tabella che la feature successiva riempie
 
-Tre<!--#--> KPI su otto<!--#--> — `BQ1-K3`, `BQ2-K2` e `BQ2-K3` — non esistono senza il profilo di mood del lato video, che **questo documento non costruisce**. Sul lato musicale i tre<!--#--> assi sono letti dalla fonte; sul lato video vanno assegnati a ciascuna categoria, e assegnarli è un lavoro interpretativo che appartiene alla feature successiva.
+Tre<!--#--> KPI su otto<!--#--> non esistono senza il profilo di mood del lato video, che **questo documento non costruisce**: `BQ1-K3` e `BQ2-K2` lo leggono, `BQ2-K3` ne dipende **attraverso `BQ2-K2`**, che compone insieme a `BQ2-K1`. Sul lato musicale i tre<!--#--> assi sono letti dalla fonte; sul lato video vanno assegnati a ciascuna categoria, e assegnarli è un lavoro interpretativo che appartiene alla feature successiva.
+
+Come i profili di categoria diventino il profilo di catalogo che quei KPI confrontano è deciso in §11, e non da chi riempie questa tabella.
 
 Il modello ne dichiara la forma, con zero<!--#--> righe.
 
@@ -431,6 +482,10 @@ Il catalogo musicale era bilanciato per costruzione del campione: ogni segmento 
 
 La conseguenza è controintuitiva e va detta com'è: **contare le righe non è diventato meno inutile, è diventato peggio che inutile.** Prima il risultato era costante e la sua inutilità era evidente; ora il risultato varia, e la variazione è un residuo della deduplicazione che chiunque prenderebbe per un segnale di mercato. Il modello non può impedirlo. Questa riga è tutto ciò che può fare.
 
+**Non regge un confronto fra due<!--#--> cataloghi interi, benché `BQ1-K2` produca un numero solo.** I due<!--#--> lati di quel confronto non sono simmetrici: il lato musicale è il catalogo intero, il lato video sono i **soli film**. L'esclusione delle serie non è una decisione di questo modello — la scheda del KPI la dichiara, con la sua ragione: il catalogo video misura le serie in stagioni, e convertirle in minuti richiederebbe un'assunzione che i dati non contengono.
+
+Il modello ne eredita però due<!--#--> conseguenze che vanno dette qui, perché nessuno le vedrà guardando lo schema. La prima è che «differenza fra la durata mediana del catalogo video e quella del catalogo musicale» è una lettura sbagliata di quel numero, e nulla nel modello la smentisce. La seconda è che il modello **non** rende impossibile quantificare la parte esclusa: `dim_title` conserva `type`, quindi quanti degli 8.807<!--@CL.NF.titles.rows.after--> titoli siano film è calcolabile. Ciò che manca non è il dato, è l'obbligo di pubblicarlo accanto al valore — ed è per questo che il vincolo è registrato in §19 invece di essere chiuso qui.
+
 **Non permette di dire nulla sui pubblici.** Non esiste in questo modello alcuna entità che rappresenti una persona, una visione, un ascolto o un abbonamento, perché nessuna delle due<!--#--> fonti ne contiene. Nessuna relazione di questo modello, per quanto ben disegnata, potrà mai essere letta come una relazione fra spettatori e ascoltatori.
 
 **Copertura del dato**: catalogo video fermo al 2021<!--#-->, catalogo musicale al 2022<!--#-->. Il modello descrive due<!--#--> fotografie e **non ha alcun modo di rappresentare che siano di due<!--#--> momenti diversi** — il che è coerente con l'assenza della dimensione di calendario, e va letto insieme a quella.
@@ -454,6 +509,8 @@ Questo modello lascia aperte alcune decisioni. Sono elencate qui, con chi le ere
 | l'arrotondamento e la precisione di presentazione di ogni misura | §13, e la convenzione sugli importi in euro fissata dagli scenari | le misure |
 | ogni misura sulla popolarità pubblica accanto al proprio valore la quota di zeri del segmento | revisione del business case, divergenza 6 | le misure |
 | il modo in cui i valori di scenario entrano nel report, non essendo un fatto di questo modello | §8 | le misure o la dashboard |
+| `BQ1-K2` confronta i soli film con l'intero catalogo musicale: l'asimmetria va dichiarata accanto al valore, e la quota di film è calcolabile da `type` | §18 | le misure e la dashboard |
+| il peso relativo con cui `BQ2-K3` combina `BQ2-K1` e `BQ2-K2`, che la sua scheda impone di dichiarare esplicitamente e che nessuno ha ancora fissato | §8 | le misure |
 | la graduatoria dei segmenti ha 114<!--@SP.genre.count--> voci, molte per una lettura a colpo d'occhio | §2 | la dashboard |
 | l'assenza della dimensione di calendario va esposta dove un lettore potrebbe costruirsi da sé una misura temporale | §16 | la dashboard |
 | il conteggio delle righe di un segmento misura il campionamento e non il mercato | §18 | le misure e la dashboard |
