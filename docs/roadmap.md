@@ -1,6 +1,6 @@
 # Roadmap — StreamWave BI
 
-**Aggiornata**: 2026-08-17 | **Stato**: feature 004 conclusa e mergiata (PR #4); chore ambiente e 005 il 18 agosto
+**Aggiornata**: 2026-08-18 | **Stato**: chore ambiente eseguito; feature 005 conclusa, in attesa di merge; la materializzazione del modello va decisa prima della 006
 
 Questo documento è il piano di lavoro del progetto: cosa resta da fare, in quale ordine, con quale stima e con quali dipendenze. È versionato perché la pianificazione — e soprattutto il suo scostamento dalla realtà — fa parte dell'artefatto da portfolio quanto i risultati.
 
@@ -24,16 +24,22 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `002` | Data Audit & Profiling | ~4,5 (spese, stimate 4) | 001 | ✅ conclusa, PR #2 mergiata |
 | `003` | Data Cleaning & ETL | ~6,5 (spese, stimate 7) | 002 | ✅ conclusa, PR #3 mergiata, con debito residuo |
 | `004` | Synthetic Business Metrics | ~3 di sessione (stimate 6) | 001 | ✅ conclusa, PR #4 mergiata, con debito residuo |
-| `005` | Data Model Design | 5 | 003, *chore ambiente* | ⬜ |
+| `005` | Data Model Design | ~2,8 di sessione (stimate 5) | 003, *chore ambiente* | ✅ conclusa, con debito residuo |
 | `006` | Content Taxonomy Bridge | 6 | 002, 005 | ⬜ decisione aperta DA-1 |
-| `007` | Misure DAX & KPI | 8 | 004, 005, 006 | ⬜ da scomporre in due |
-| `008` | Dashboard Build — Power BI | 8 | 007 | ⬜ da scomporre in due |
+| `007` | Misure DAX & KPI | 9 | 004, 005, 006, *materializzazione* | ⬜ **da scomporre**, non più facoltativo |
+| `008` | Dashboard Build — Power BI | 9 | 007 | ⬜ **da scomporre**, non più facoltativo |
 | `009` | Porting Tableau Public | 5 | 007 | ⬜ *stretch, primo a cadere* |
 | `010` | Case Study & Portfolio Integration | 6 | 008 | ⬜ |
 
-**Totale residuo escluso `009`**: ~33 ore di feature, più ~2,5 ore di debito testuale e ~4 ore di altri chore. Erano ~39 e ~3,5 prima della chiusura della `004`, che ha assorbito anche l'ora di debito testuale sull'ancoraggio.
+**Totale residuo escluso `009`**: ~30 ore di feature, più ~2,5 ore di debito testuale e ~3 ore di altri chore. Erano ~33, ~2,5 e ~4 prima della chiusura della `005`: la feature esce e il chore ambiente è fatto, ma `007` e `008` salgono di un'ora ciascuna per la nota qui sotto, e la materializzazione del modello entra fra i chore.
 
 Le stime di `004`, `006`, `007` e `010` includono la **revisione in contesto pulito e la chiusura dei rilievi** — circa un'ora ciascuna. Era il rischio aperto lasciato dalla 002, dove quel costo era stato l'intero scostamento; è chiuso incorporandolo invece che continuando a scoprirlo a consuntivo. La conseguenza è che `007` sale a 8 ore e raggiunge `008` fra le feature che vanno scomposte prima di essere aperte, non dopo.
+
+> **Nota di correzione — 2026-08-18, regia.** L'elenco qui sopra **non contiene la `005`**, e non per una ragione: la sua stima di 5 ore è anteriore alla riga che istituisce la regola, e non è mai stata riallineata quando la regola è stata scritta. La `005` è quindi l'unica feature dopo la `002` ad aver affrontato revisione e chiusura dei rilievi **fuori stima**. La sessione che l'ha eseguita lo ha riportato in forma più larga — «nessuna stima di questo progetto ha mai previsto un costo di chiusura dei rilievi» — che non è esatta: quattro feature su cinque lo prevedevano.
+>
+> **Il difetto è però doppio, e la seconda metà conta più della prima.** L'ora stanziata è forfettaria e non scala con l'artefatto: `docs/data_model.md` è il documento più lungo del progetto e la sua revisione ha prodotto **22 rilievi e 6 divergenze**, contro i 13-14 delle tre precedenti. Chiuderli è costato il blocco intero. La correzione non è aggiungere una voce mancante, è **legare la voce alla taglia**: da qui in avanti la stima di revisione e chiusura vale ~1 ora per un documento sotto le ~400 righe e **~2 ore sopra**. Ne discende che `007` e `008` — che producono gli artefatti più densi che restano — vanno stimate con 2 ore ciascuna, non 1.
+>
+> **Fonte verificabile**: `specs/005-data-model-design/review.md`, blocco di chiusura; timestamp git del branch `005-data-model-design`.
 
 La `003` è la prima feature la cui stima conteneva la revisione, ed è la prima a chiudere **sotto** la stima: ~6,5 ore contro 7, revisione e chiusura di tredici rilievi incluse. Un solo dato non fa una serie, ma la direzione è quella attesa — lo scostamento delle prime due feature non veniva dall'esecuzione, veniva da un costo reale che la stima non conteneva.
 
@@ -107,17 +113,36 @@ Lascia quattro artefatti: [`data/benchmarks/bq3_tier_upgrade.json`](../data/benc
 
 **La ricognizione ha funzionato, ma per poco.** La fonte adottata soddisfa le cinque condizioni della constitution; il suo scarto di misura è ampio e dichiarato in cinque divergenze, di cui **una sola ha un verso noto**, e spinge il valore verso l'alto. Il terzo punto di fermata previsto — T013, il riporto in entrambi gli esiti — è servito esattamente a ciò per cui era stato messo: non a segnalare un fallimento, ma a portare alla regia una fonte adottata con la propria debolezza, su cui la decisione poteva essere diversa.
 
+### Esito della `005` — chiusa il 2026-08-18
+
+**45 task su 45**, in due blocchi: la notte del 17 dalla spec al MVP del documento, il 18 sera il completamento, la revisione e la chiusura dei rilievi. I timestamp git coprono ~2,8 ore contro le 5 stimate, con la solita avvertenza — misurano una sessione di agent, non ore-uomo. T045 è stato aggiunto in corsa, come T049 sulla `003`.
+
+Lascia **un solo artefatto**, [`docs/data_model.md`](data_model.md), ed è il più lungo del progetto. È la prima feature a non produrre né dati né codice: il suo output è una descrizione, e la constitution lo impone — il principio V vuole schema e mapping dei campi come artefatti testuali invece che come contenuto di un file binario.
+
+**Chiude due voci di debito della `001`** che nessuna feature precedente poteva chiudere: la definizione operativa di «segmento» (R4 / divergenza 1) e la granularità di `BQ2-K2` (R7 / divergenza 7). Entrambe atterrano su `docs/business_case.md` come note in loco, e le due note **non sono dello stesso tipo** — una correzione dove l'affermazione era insufficiente, una nota di adozione dove l'espressione era ambigua e non sbagliata. La distinzione è quella che la prassi di correzione prescrive, ed è la prima volta che viene applicata per intero.
+
+**Tre esiti che valgono oltre la feature.**
+
+*Un documento senza artefatto proprio può stare in severità stretta.* `docs/data_model.md` non genera alcun file sotto `reports/`: le sue 198 ancore risolvono contro gli artefatti delle feature precedenti. Ne discende che la severità stretta non richiede che una feature produca dati — richiede che ogni suo numero venga da qualche parte, il che è cosa diversa e più debole. È ciò che rende il regime applicabile anche a `007` e `010`, che pubblicheranno prosa su misure calcolate altrove.
+
+*Il presidio contro il verde falso è entrato nelle prove.* La Prova 6 del quickstart è l'unica in cui l'assenza di output è l'esito atteso, ed è quindi l'unica esposta al difetto che aveva prodotto un esito positivo sulla `004` — un comando fallito che non stampa nulla. La prova stampa il codice di uscita e distingue `1`, cioè ha cercato e non ha trovato, da `2`, cioè non ha potuto cercare. È la lezione della `004` diventata forma.
+
+*Il blocco di chiusura distingue quattro esiti e non due.* Ai due della `004` — *risolto* e *indebolito* — se ne aggiungono altri due: *respinto*, con la prova a fianco, e *rinviato* fuori perimetro. Tre rilievi sono stati respinti in tutto o in parte, ciascuno con il proprio controllo. È un miglioramento e va tenuto: un verbale in cui nessun rilievo cade non sta dimostrando che il revisore avesse sempre ragione, sta dimostrando che nessuno ha controllato.
+
+**La revisione ha trovato ciò che nessun controllo poteva vedere**, come nelle tre precedenti e con margine più largo: 22 rilievi e 6 divergenze su un documento già riletto da chi lo aveva scritto. Fra questi un fatto misurato dichiarato non-misurato — la categoria che le convenzioni indicano esplicitamente come impresidiabile dallo script — una contraddizione fra due sezioni distanti, e una decisione analitica che tre feature diverse avrebbero potuto ciascuna supporre presa da un'altra.
+
 ### Lavoro fuori dalle feature
 
 | Chore | Ore | Entro |
 |---|---|---|
-| Ambiente Power BI: VM Windows 11 x64 e installazione di Power BI Desktop | ~3 | prima di `005` |
+| ~~Ambiente Power BI: VM Windows 11 x64 e installazione di Power BI Desktop~~ | — | ✅ fatto il 2026-08-18: VMware, Windows 11 x64, primo accesso a Power BI Desktop riuscito |
+| **Materializzazione del modello dati in Power BI Desktop** | ~2 | **prima di `007`** — voce nuova, vedi sotto |
 | Debito testuale della 001: rilievi R9, R10, R12 e allineamento di §3 a R11 | ~1 | prima di `007` |
 | Debito testuale della 002: divergenza 3, allineare §5 del documento di audit a citare D3 della 001 e A2/A3 del business case | ~0,5 | prima di `007` |
 | Debito testuale della 002: portare `docs/data_audit.md` sotto la severità stretta, rimarcandone le quantità | ~1 | prima di `007`, nella stessa sessione della riga sopra |
 | ~~Emendamento della constitution: ammettere i benchmark pubblici di settore fra le fonti dati~~ | — | ✅ fatto il 2026-08-15, **v1.1.0** |
 | Debito testuale per l'ancoraggio: assunzione di trasferimento in §2 di `docs/business_case.md`, richiamo in §6, note datate sulle schede `BQ3-K1` e `BQ3-K2` | ~1 | ✅ chiuso dentro `004` il 2026-08-16, per sole aggiunte |
-| Pubblicazione di prova su workspace Power BI Service e cattura schermate | ~1 | dopo `008`, entro il **25 agosto** (fine abbonamento Microsoft 365) — vedi sotto |
+| Pubblicazione di prova su workspace Power BI Service e cattura schermate | ~1 | dopo `008`, entro il **26 agosto** (fine abbonamento Microsoft 365) — **finestra stretta**, vedi sotto |
 
 **La pubblicazione di prova entro il 18 agosto va decisa ora, non provata il 18.** Presuppone la VM costruita, Power BI Desktop installato e qualcosa da pubblicare: sono ~4 ore per una cattura di schermate su un file vuoto, in giorni in cui `004` e `005` valgono di più. Il deliverable dichiarato è un `.pbix` e Power BI Desktop è gratuito e senza scadenza — è il rischio già chiuso l'8 agosto. La raccomandazione è **lasciarla cadere e dichiararlo**, invece di scoprire il 18 che non è stata fatta.
 
@@ -127,7 +152,15 @@ Lascia quattro artefatti: [`data/benchmarks/bq3_tier_upgrade.json`](../data/benc
 >
 > **La raccomandazione.** L'argomento contro era che al 18 agosto non esiste alcun `.pbix` e si pubblicherebbe un file vuoto. Regge per il 18 e cade per il 25: l'atterraggio stimato è il 23-24 e la `008` produce la dashboard prima, quindi entro la scadenza esiste qualcosa di vero da pubblicare. La voce **non si lascia cadere**: si sposta a valle della `008`, che è la sua unica precondizione reale.
 >
-> **Ciò che resta vero**: la voce continua a non toccare il deliverable dichiarato, che è il `.pbix`. Se la `008` slitta oltre il 25, cade — e cade senza costo, come l'8 agosto aveva già stabilito.
+> **Ciò che resta vero**: la voce continua a non toccare il deliverable dichiarato, che è il `.pbix`. Se la `008` slitta oltre il 26, cade — e cade senza costo, come l'8 agosto aveva già stabilito.
+>
+> **Quanto è stretta la finestra — aggiornamento del 2026-08-18.** L'atterraggio stimato è ora il **24-25 agosto** e l'abbonamento scade il **26**: fra la `008` e la scadenza restano uno o due giorni, e la voce è l'ultima della catena. Non va quindi pianificata come una coda ma come la **prima cosa da fare appena la `008` produce un `.pbix` leggibile**, anche prima che la feature sia chiusa. È un'ora, e l'unica finestra in cui esiste.
+
+**La materializzazione del modello — decisione della regia, 2026-08-18.** La `005` ha progettato il modello e non lo ha mai eseguito: nessuna direzione di filtro è stata provata, nessuna cardinalità messa alla prova da un motore. Il buco era noto e rinviato; la `005` chiude e va assegnato. **È un chore, non una feature**, per la stessa ragione del chore ambiente — caricare quattro CSV e tracciare cinque relazioni non risponde a BQ1, BQ2 o BQ3, e il principio V colloca l'interazione con la GUI fuori dall'automazione.
+
+Ha però una **conseguenza analitica che un chore normalmente non ha**, e per questo porta un obbligo di riporto: se il motore contraddice il documento — una cardinalità che si rivela molti-a-molti, una direzione di filtro che non regge — quello non è un intoppo di configurazione, è un difetto di progettazione trovato dall'unica prova che la `005` non poteva eseguire. In quel caso **si chiude con una nota in loco su `docs/data_model.md`**, che è debito della `005`, e non ridisegnando il modello dentro il chore.
+
+Va prima di `007` perché è la sua precondizione: una misura DAX non si verifica contro un documento. Non produce un deliverable dichiarato — il `.pbix` resta della `008` — e il file che ne esce è materiale di lavoro finché quella feature non lo raccoglie.
 
 Nessuno di questi è una feature e nessuno apre un branch numerato. Il principio VI della constitution richiede che ogni feature sia riconducibile a BQ1, BQ2 o BQ3: predisporre una macchina virtuale non risponde ad alcuna domanda di business. Trattarlo come feature significherebbe o violare il principio VI, o inventargli un aggancio narrativo che non ha. Resta lavoro necessario, tracciato qui e non in una spec.
 
@@ -155,8 +188,8 @@ La [revisione in contesto pulito](../specs/001-business-case-kpi/review.md) ha p
 
 | Voce | Contenuto | Chiusa da |
 |---|---|---|
-| R4 / div. 1 | definizione operativa di "segmento": genere della fonte o raggruppamento per mood | `005` |
-| R7 / div. 7 | granularità di `BQ2-K2` e riformulazione di §5.2 | `005` |
+| R4 / div. 1 | definizione operativa di "segmento": genere della fonte o raggruppamento per mood | ✅ chiusa dalla `005`, §2: **un segmento è un genere dichiarato dalla fonte**, il valore di `track_genre`, e ne esistono 114. Il raggruppamento per mood è respinto perché renderebbe circolare `BQ2-K2`, che misura proprio l'affinità di mood. Nota di adozione su §4 del business case: l'espressione ambigua **non** è stata riscritta |
+| R7 / div. 7 | granularità di `BQ2-K2` e riformulazione di §5.2 | ✅ chiusa dalla `005`: le nozioni di grana necessarie sono **tre** e non due — quella dell'ingresso, quella su cui si aggrega, quella del risultato — e §5.2 ne dichiarava una sola. Nota di correzione in loco sul business case |
 | R8 | provenienza dei numeri sui dati citati nel business case | ✅ chiusa dalla `002`: `reports/data_profile.json` rigenera i valori citati |
 | R11 | quali categorie video compongono `BQ1-K1` e se la selezione è una mappatura | ✅ chiusa dalla `002` sul piano osservativo: una sola categoria, nessuna mappatura. Resta la parte testuale, sotto |
 | R5, R6 / div. 2, 3, 4 | operatori indefiniti: intervallo occupato, metrica di distanza, pesi e commensurabilità; quadranti contro combinazione pesata | `007` |
@@ -229,6 +262,21 @@ La revisione in contesto pulito del documento degli scenari ha prodotto **14 ril
 
 **Sulla verificabilità del benchmark, che è il debito che conta.** È il punto su cui l'intera terza domanda di business poggia, ed è più fragile di quanto la presenza di una citazione faccia sembrare. Il documento lo dichiara in §9 invece di lasciarlo dedurre, ma dichiararlo non lo chiude. Le strade sono due e nessuna è dentro il perimetro di questa feature: archiviare una copia del comunicato nel repository, che pone una questione di licenza, oppure trovare una fonte primaria che pubblichi la stessa grandezza con metodo ispezionabile — cosa che la ricognizione non ha trovato. **Va deciso prima che `008` pubblichi quei numeri in una dashboard**, perché è lì che smettono di essere un artefatto tecnico e diventano un'affermazione rivolta a un lettore.
 
+## Debito della feature 005
+
+La [revisione in contesto pulito](../specs/005-data-model-design/review.md) del documento del modello ha prodotto **22 rilievi e 6 divergenze**, il bilancio più pesante del progetto. Tutti chiusi dentro la feature prima del merge, con tre rilievi respinti in tutto o in parte e uno rinviato. Resta questo.
+
+| Voce | Contenuto | Chiusa da |
+|---|---|---|
+| **materializzazione del modello** | il modello è progettato e mai eseguito: nessuna cardinalità è stata messa alla prova da un motore | ⬜ chore di ~2 ore prima di `007`, vedi [Lavoro fuori dalle feature](#lavoro-fuori-dalle-feature). Se il motore contraddice il documento, si chiude con nota in loco |
+| conteggio dei segmenti letto dal profilo di origine | i 114 segmenti sono ancorati al profilo dei dati **di origine**, e la loro validità sul dato trasformato è argomentata per invariante invece che ricontata | ✅ **decisa dalla regia il 2026-08-18: non si riconta**, vedi sotto |
+| graduatoria di `BQ2-K3` a 114 voci | vincolo di presentazione, non di calcolo: una graduatoria di 114 elementi non si legge a colpo d'occhio | `008`, già registrato in §19 del documento e nella nota sul business case |
+| campione musicale non più bilanciato | il catalogo di origine aveva 1.000 righe per segmento; dopo la trasformazione esistono 17 conteggi distinti, il minore a 904. Il rendiconto **non pubblica** il massimo né alcuna misura di dispersione | ⬜ dichiarato, non chiudibile qui — vale per `007` |
+
+**Sul conteggio dei segmenti, la decisione e la sua ragione.** L'alternativa esisteva: ricontare i 114 segmenti sul dato trasformato e ancorarli lì eliminerebbe l'intera §3.4, cioè un'intera sezione di argomento sostituita da un numero. Costa però rieseguire la pipeline — che richiede `data/raw/`, quindi il download da Kaggle — e aggiungere un'ancora a `reports/cleaning_report.json`, cioè riaprire la `003`. **Non si fa**, per due ragioni: l'invariante è scritto per esteso e verificabile da chi legge, e riaprire una feature mergiata per sostituire un argomento corretto con un numero equivalente è costo senza guadagno. La decisione si riapre solo se `007` ha bisogno di quel conteggio ancorato sul dato trasformato per una misura pubblicata — nel qual caso il costo è già dentro il suo perimetro.
+
+**Sul campione non più bilanciato, ciò che il documento ha fatto bene.** Ha dichiarato il fatto e si è fermato lì, senza dire se lo scostamento sia grande o piccolo, perché nessun artefatto pubblica la dispersione e affermarlo sarebbe stato un numero senza fonte. È l'applicazione corretta della regola sulle affermazioni derivate, in un punto in cui la tentazione di rassicurare il lettore era alta. Chi in `007` costruirà una misura per segmento eredita il fatto, non una valutazione.
+
 ## Decisioni aperte
 
 Decisioni consapevolmente rinviate. Non sono debito — il debito è lavoro noto da fare, queste sono scelte non ancora prese — e stanno qui perché una decisione rinviata senza un punto in cui va presa è una decisione che si perde. È già successo una volta, ed è lo scostamento 5 qui sopra.
@@ -253,12 +301,16 @@ Ricadute: la scelta chiude anche la divergenza 10 della 001, la governance di qu
 | 15 agosto | ~2,5 h spese | `003` ✅ conclusa e mergiata (T027-T049), revisione inclusa |
 | 16 agosto | ~2,5 h di sessione | `004`: spec, piano, 46 task, e implementazione fino alla Prova 9 |
 | 17 agosto | ~0,5 h di sessione | `004` ✅ conclusa e mergiata (PR #4), revisione e verbale inclusi |
-| **18 agosto** | ~6 h | **chore ambiente Power BI (~3 h), poi apertura della `005`.** Vedi sotto |
-| dal 19 agosto | giornate piene, ~6 h/giorno | `005`, `006`, `007`, `008`, `010`, più ~6,5 h di chore e debito |
+| 18 agosto | ~2,8 h di sessione | chore ambiente ✅ eseguito; `005` ✅ conclusa, revisione e verbale inclusi |
+| **dal 19 agosto** | giornate piene, ~6 h/giorno | materializzazione del modello, `006`, `007`, `008`, `010`, più ~5,5 h di chore e debito |
 
-Atterraggio stimato: **23-24 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004` e dell'inclusione del costo di revisione nelle stime, poi 24-25 con la finestra non pianificata del 12-14 agosto. Le ore in più dell'11 agosto lo avevano riportato a 23-24, e le chiusure di `003` e `004` sotto stima lo confermano: restano ~39,5 ore su giornate da ~6, cioè poco meno di sette giorni pieni a partire dal 18 agosto.
+Atterraggio stimato: **24-25 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004`, poi 24-25 con la finestra non pianificata del 12-14 agosto, poi 23-24 dopo le chiusure sotto stima di `003` e `004`. Torna ora a 24-25: restano **~35,5 ore** su giornate da ~6, cioè poco meno di sei giorni pieni a partire dal 19 agosto.
+
+**Il movimento non viene da un ritardo.** La `005` ha chiuso sotto stima come le due precedenti, e il chore ambiente è fatto. A spostare la data sono due voci che prima non c'erano: la **materializzazione del modello**, ~2 ore, che la `005` ha reso esigibile invece di scoprirla dentro la `007`; e l'ora aggiuntiva su `007` e `008` per il costo di chiusura dei rilievi, che la `005` ha dimostrato sottodimensionato. Sono entrambe correzioni della stima, non scivolamenti dell'esecuzione — ed è la distinzione che questa riga esiste per registrare.
 
 **Il chore dell'ambiente Power BI non è stato fatto**, e la finestra a bassa capacità che doveva ospitarlo è chiusa. Va ora incastrato fra `004` e `005`, che è il suo termine ultimo: è l'unica voce del piano che consuma tempo di calendario senza consumare attenzione, e collocarla in una giornata piena è lo spreco che si era cercato di evitare. Se una sessione si apre stanca, è quella da fare.
+
+> **Aggiornamento — 2026-08-18.** Eseguito nel suo termine ultimo, come previsto. La stima era ~3 ore e non è stata misurata separatamente: è stato installato mentre la sessione lavorava ad altro, il che è precisamente la ragione per cui era stato classificato come voce interrompibile.
 
 ### Il 18 agosto, in ordine
 
@@ -268,6 +320,8 @@ Atterraggio stimato: **23-24 agosto**, con `009` escluso. Era 21-22 prima dell'a
 2. **`005` Data Model Design** (5 h, di cui ~2 il 18): la regia scrive il prompt di consegna la mattina, a partire da questa roadmap. Il debito da dichiarare nel prompt è già mappato — R4 e R7 della revisione `001` (definizione operativa di «segmento», granularità di `BQ2-K2`), il contratto degli output della `003`, e la divergenza 1 della `003` sulla precisione, che `005` incontra ma **non** chiude.
 
 **Ciò che il 18 agosto non fa**: la `006` e la sua decisione aperta `DA-1`. Va risolta prima di `/speckit.specify` sulla `006`, non prima della `005`.
+
+**Com'è andata.** Entrambe le voci sono state eseguite nell'ordine previsto: VM, Windows 11 x64 e primo accesso a Power BI Desktop riuscito, poi la `005`, conclusa in giornata con revisione e verbale. L'ordine ha retto ed è servito — ma va detto con precisione che cosa ha dato, perché la ragione scritta sopra era più forte del vero. **Aprire lo strumento non ha cambiato alcuna decisione di modello**: le grane, le relazioni e le direzioni di filtro sono state decise sugli artefatti della `003` e sulle schede dei KPI, come sarebbero state decise comunque. Ciò che l'ordine ha davvero prodotto è più modesto e più utile: ha reso visibile che il modello **non era stato eseguito**, che è il ritrovamento principale della feature. Averlo scoperto con lo strumento installato lo rende un chore di due ore; scoprirlo dentro la `007` sarebbe stato un blocco.
 
 **Decisione che scade il 18 agosto — la pubblicazione di prova su Power BI Service.** È l'ultimo giorno del trial Pro. La raccomandazione della regia è **lasciarla cadere e dichiararlo**: presuppone la VM appena costruita e qualcosa da pubblicare, e non esiste ancora alcun `.pbix`. Sarebbe un'ora spesa per schermate di un file vuoto, nel giorno in cui il chore e l'apertura della `005` valgono di più. Il rischio era già stato chiuso l'8 agosto — il deliverable è un `.pbix` e Power BI Desktop è gratuito e senza scadenza. **Se Valerio non decide diversamente entro il 18, la voce si considera caduta** e va spostata fra i rischi chiusi con la ragione.
 
@@ -297,9 +351,9 @@ La stima iniziale di 7-10 giornate lavorative **non regge più**: ~65 ore comple
 
 ## Rischi aperti
 
-**Densità di `008`.** Otto ore per una sola feature sono il limite superiore del principio III, e la voce più esposta a scoprirsi più grande di così davanti allo schermo. Va scomposta in fase di `/speckit.specify` — presumibilmente struttura e pagine da una parte, storytelling e rifiniture dall'altra — non dopo averla aperta.
+**Densità di `007` e `008`.** Nove ore ciascuna **superano** il limite del principio III, che non è più questione di margine: una feature stimata sopra le 6-7 ore non va avviata, va scomposta prima. La scomposizione smette quindi di essere raccomandata e diventa una condizione di apertura. Per `008` il taglio presumibile resta struttura e pagine da una parte, storytelling e rifiniture dall'altra; per `007` va deciso in fase di prompt, non davanti allo schermo.
 
-**Concentrazione del rischio dopo il 17 agosto.** Cinque feature su cinque, incluse le tre più dense, più ~6,5 ore di chore e debito, cadono tutte nella finestra a giornate piene. La finestra a bassa capacità si è chiusa senza lasciare arretrato — è la buona notizia — ma anche senza lasciare margine: da qui in avanti ogni sforamento si trasferisce intero sul giorno successivo, perché non esiste più una seconda finestra che lo assorba. Il primo scostamento va quindi letto subito, non a fine feature.
+**Concentrazione del rischio dopo il 18 agosto.** Quattro feature su quattro, incluse le due più dense, più ~5,5 ore di chore e debito, cadono tutte nella finestra a giornate piene. La finestra a bassa capacità si è chiusa senza lasciare arretrato — è la buona notizia — ma anche senza lasciare margine: da qui in avanti ogni sforamento si trasferisce intero sul giorno successivo, perché non esiste più una seconda finestra che lo assorba. Il primo scostamento va quindi letto subito, non a fine feature.
 
 **Il prompt non dice chi revisiona al punto di stop 1.** Sulla `003` la sessione esecutiva si è fermata dopo `/speckit.specify` e ha riportato spec, esito della checklist e sei decisioni da contestare, proseguendo solo dopo l'approvazione — il punto di stop ha quindi tenuto. A revisionare è stato però l'autore e non la regia, che la spec non l'ha letta: il controllo è arrivato a valle sui soli task, con esito positivo su decisioni ereditate, denominatori, note in loco ed esclusioni di perimetro, ma resta un'assicurazione parziale su un artefatto già congelato in 48 task. Non è una violazione: [`CLAUDE.md`](../CLAUDE.md#punti-di-stop-del-flusso) prescrive che la spec torni in revisione e non da chi, e l'autore ha più contesto di chiunque. È un'ambiguità del prompt, e i prompti successivi devono nominare il revisore invece di lasciarlo implicito.
 
@@ -318,3 +372,5 @@ La stima iniziale di 7-10 giornate lavorative **non regge più**: ~65 ore comple
 **Scadenza del trial Power BI Pro** *(chiuso il 2026-08-08)*. Impatto basso: il deliverable è un file `.pbix` e Power BI Desktop è gratuito e senza scadenza. Il trial abilita il Service — workspace, pubblicazione, condivisione — che non serve al deliverable dichiarato. Resta la sola azione opportunistica di pubblicare una versione di prova entro il 18, tracciata fra i chore.
 
 > **Nota di correzione — 2026-08-17, regia.** Non è un trial ma un **abbonamento Microsoft 365** che include Power BI Pro, e la data è il **25 agosto**, non il 18. La chiusura del rischio regge intatta — è anzi ciò che permette all'azione opportunistica di essere rinviata senza costo — e resta valido che il Service non serve al deliverable dichiarato.
+>
+> *Precisazione del 2026-08-18*: la data corretta è il **26 agosto**, non il 25. Il 25 è l'ultimo giorno coperto; l'abbonamento cessa il giorno dopo.
