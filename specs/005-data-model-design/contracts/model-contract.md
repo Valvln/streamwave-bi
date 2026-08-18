@@ -231,12 +231,17 @@ Ogni KPI dichiara **grana di appartenenza**, **grana di calcolo** e **grana del 
 | `mood_valence` | decimale 0-1 | asse positività di §5.3 |
 | `mood_danceability` | decimale 0-1 | asse ritmo di §5.3 |
 
-**Obblighi della `006`**, che discendono dalla forma e non la ridiscutono:
+**Due obblighi non negoziabili**, che vincolano il contenuto della tabella:
 
-1. **copertura totale attesa**: 42 righe, una per categoria. Se la `006` decidesse di non coprirle tutte, la scopertura è una decisione da dichiarare, e le misure che leggono la tabella devono dire che cosa fanno sulle categorie mancanti;
-2. **le tre colonne stanno sulla stessa scala del lato musicale.** È la condizione che rende il confronto di `BQ2-K2` una distanza fra grandezze commensurabili. Una scala diversa su un solo asse rende la distanza priva di significato senza produrre alcun errore visibile;
-3. **la confidenza non sale.** La tabella è costruita dall'analista: è lo strato interpretativo che tiene `BQ1-K3`, `BQ2-K2` e `BQ2-K3` a confidenza **media**, e nessuna cura nella costruzione la porta ad alta;
-4. **la decisione aperta `DA-1` resta aperta.** Questo contratto non dice né chi né come costruisca le righe.
+1. **le tre colonne stanno sulla stessa scala del lato musicale.** È la condizione che rende il confronto di `BQ2-K2` una distanza fra grandezze commensurabili. Una scala diversa su un solo asse rende la distanza priva di significato senza produrre alcun errore visibile;
+2. **la confidenza non sale.** La tabella è costruita dall'analista: è lo strato interpretativo che tiene `BQ1-K3`, `BQ2-K2` e `BQ2-K3` a confidenza **media**, e nessuna cura nella costruzione la porta ad alta.
+
+**Due condizioni di dichiarazione**, che vincolano ciò che va scritto accanto alla tabella:
+
+3. **copertura attesa totale**: 42 righe, una per categoria. Se la `006` decidesse di non coprirle tutte, l'obbligo effettivo non è la copertura ma la **dichiarazione** della scopertura, e le misure che leggono la tabella devono dire che cosa fanno sulle categorie mancanti;
+4. **la decisione aperta `DA-1` resta aperta.** Questo contratto non dice né chi né come costruisca le righe: non è un vincolo, è la dichiarazione che un vincolo qui non viene posto.
+
+**Che cosa la `006` non decide**: come i 42 profili si aggreghino in un profilo di catalogo. Lo fissa §6.4, e non è ridiscutibile riempiendo la tabella.
 
 ## 8. Che cosa questo contratto garantisce e cosa no
 
