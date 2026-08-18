@@ -1,7 +1,5 @@
 # Modello dati — StreamWave BI
 
-> 🚧 **Documento in lavorazione — feature `005`.** Le sezioni con un segnaposto non sono ancora scritte. Il documento non è ancora registrato nel controllo di coerenza e il [README](../README.md) non vi rinvia: nessuno lo sta leggendo come definitivo.
-
 ## 1. Che cosa è questo documento
 
 Descrive il modello dati su cui le feature successive calcoleranno gli otto<!--#--> KPI del [business case](business_case.md): quali tabelle esistono, che cosa è una riga di ciascuna, come sono collegate, e da quale campo di quale dataset proviene ogni colonna.
@@ -191,44 +189,273 @@ La correzione alle due<!--#--> affermazioni del business case è portata sul doc
 
 ## 9. Quali colonne entrano nel modello, e perché
 
-*Sezione non ancora scritta — `T011`.*
+I quattro<!--#--> insiemi di partenza contengono molte più colonne di quante questo modello ne usi. Prenderle tutte sarebbe la scelta di comodo — non si butta via niente, si decide dopo — e sarebbe sbagliata: un modello che espone tutto invita a costruire misure che il framework non ha definito, e una misura non definita nel business case è un'estensione dello scope che la constitution vieta senza motivazione esplicita.
+
+Il modello adotta quindi una regola dichiarata invece di decidere colonna per colonna.
+
+> **Una colonna entra nel modello se, e solo se, vale almeno una di queste tre<!--#--> condizioni:**
+> **(a)** una misura del framework la legge;
+> **(b)** identifica una riga per un lettore umano;
+> **(c)** rende visibile una proprietà strutturale del modello.
+
+Ne discende la parte che conta: **l'assenza di una colonna è una decisione, non una dimenticanza.** §10 elenca perciò anche ciò che è stato lasciato fuori, con la ragione — perché un elenco di ciò che c'è non permette a nessuno di contestare ciò che manca.
+
+**Perché una regola e non un giudizio caso per caso.** Un giudizio caso per caso non si può contestare: chi non è d'accordo su una colonna deve discuterla da sola, e chi la aggiungesse in futuro non avrebbe alcun criterio da rispettare. Con una regola, la discussione si sposta dove è utile — se la condizione valga per quella colonna — e chi vuole aggiungerne una deve dire quale delle tre<!--#--> soddisfa.
 
 ## 10. Il mapping dei campi
 
-*Sezione non ancora scritta — `T012`, `T013`.*
+Ogni colonna dichiara da quale campo di quale insieme proviene. Dove non è una lettura diretta, la regola di derivazione è in §13.
+
+### 10.1 `dim_title`
+
+| Colonna | Campo di origine | Tipo | Perché entra |
+|---|---|---|---|
+| `show_id` | `show_id` | testo | chiave |
+| `title` | `title` | testo | (b) |
+| `release_year` | `release_year` | intero | (b) |
+| `type` | `type` | `Movie` / `TV Show` | (a) — `BQ1-K2` misura i soli film |
+| `movie_duration_min` | `movie_duration_min` | intero, vuoto per le serie | (a) — `BQ1-K2`, lato video |
+| `is_repaired_duration` | `is_repaired_duration` | booleano | (c) — vedi §14 |
+
+**Fuori**: `director`, `cast`, `country`, `date_added`, `rating`, `description`, `tvshow_seasons`, `listed_in`.
+
+**Su `release_year`, una precisazione che serve.** Entra per identificare un titolo — due<!--#--> film possono avere lo stesso nome — e **non è una dimensione temporale**. Ordinare una misura su di esso produrrebbe una lettura di tendenza, che il business case esclude esplicitamente dal perimetro. Vedi §16.
+
+**Su `listed_in`, l'esclusione che conta più delle altre.** Il contratto della trasformazione conserva quel campo sull'insieme alla grana titolo, dichiarando che va bene «purché nessuno lo conti». Nel modello è **sostituito** dal ponte: tenerli entrambi offrirebbe due<!--#--> strade per la stessa domanda, di cui una sbagliata. È la forma strutturale di un'avvertenza che la trasformazione poteva solo scrivere.
+
+### 10.2 `bridge_title_category`
+
+| Colonna | Campo di origine | Tipo | Perché entra |
+|---|---|---|---|
+| `show_id` | `show_id` | testo | chiave, verso `dim_title` |
+| `category` | `category` | testo | chiave, verso `dim_category` |
+
+Nessun'altra colonna, e non per parsimonia: **un ponte che porta attributi smette di essere un ponte** e diventa una tabella su cui qualcuno aggregherà.
+
+### 10.3 `dim_category`
+
+| Colonna | Campo di origine | Tipo | Perché entra |
+|---|---|---|---|
+| `category` | derivata, §13 | testo | chiave |
+
+### 10.4 `dim_track`
+
+| Colonna | Campo di origine | Tipo | Perché entra |
+|---|---|---|---|
+| `track_id` | `track_id` | testo | chiave |
+| `track_name` | `track_name` | testo | (b) |
+| `artists` | `artists` | testo | (b) |
+| `duration_min` | derivata da `duration_ms`, §13 | decimale | (a) — `BQ1-K2`, lato musicale |
+| `energy` | `energy` | decimale `0-1` | (a) — asse **energia**, §11 |
+| `valence` | `valence` | decimale `0-1` | (a) — asse **positività**, §11 |
+| `danceability` | `danceability` | decimale `0-1` | (a) — asse **ritmo**, §11 |
+| `genre_count` | `genre_count` | intero | (c) — dice a quanti segmenti una traccia appartiene |
+| `is_duration_zero` | `is_duration_zero` | booleano | (a) — vedi §14 |
+| `has_conflicting_popularity` | `has_conflicting_popularity` | booleano | (c) — vedi §12 |
+
+**Fuori**: `album_name`, `explicit`, `key`, `loudness`, `mode`, `speechiness`, `acousticness`, `instrumentalness`, `liveness`, `tempo`, `time_signature`, `popularity`, `is_popularity_zero`.
+
+**Sull'esclusione delle altre caratteristiche audio.** Il business case fissa **tre<!--#--> assi comuni definiti a priori**, e nessun KPI ne usa altri. Un modello che ne esponesse dieci<!--#--> renderebbe naturale costruire una misura su un asse che nessuno ha definito, cioè aggiungere al framework una dimensione di analisi senza dichiararlo. L'esclusione è la stessa scelta dell'assenza della dimensione di calendario, presa due<!--#--> volte per la stessa ragione: **il modello non offre ciò che il framework non ha definito.**
+
+`tempo` è escluso benché sia il candidato alternativo per l'asse ritmo — la ragione del rigetto è in §11. Sta fuori dal modello proprio perché nessuno lo adotti credendolo equivalente.
+
+`popularity` e `is_popularity_zero` non sono qui perché vivono sul fatto: è la decisione di §12.
+
+### 10.5 `dim_segment`
+
+| Colonna | Campo di origine | Tipo | Perché entra |
+|---|---|---|---|
+| `segment` | derivata da `track_genre`, §13 | testo | chiave |
+| `is_high_zero_genre` | `is_high_zero_genre` | booleano | (a) — vedi §14 |
+
+### 10.6 `fact_track_segment`
+
+| Colonna | Campo di origine | Tipo | Perché entra |
+|---|---|---|---|
+| `track_id` | `track_id` | testo | chiave, verso `dim_track` |
+| `track_genre` | `track_genre` | testo | chiave, verso `dim_segment` |
+| `popularity` | `popularity` | intero `0-100` | (a) — `BQ2-K1`, vedi §12 |
+| `is_popularity_zero` | `is_popularity_zero` | booleano | (a) — vedi §14 |
+
+**Fuori**: tutte le altre. Gli attributi della traccia si leggono attraverso la relazione R4; replicarli sul fatto creerebbe di nuovo la seconda strada che §5 esiste per chiudere.
 
 ## 11. I tre assi di mood
 
-*Sezione non ancora scritta — `T014`.*
+Il business case definisce tre<!--#--> assi comuni su cui i due<!--#--> cataloghi diventano confrontabili — **energia**, **positività**, **ritmo** — e dichiara che sul lato musicale sono misurati direttamente, mentre sul lato video vanno assegnati. Quali campi realizzino i tre<!--#--> assi non era però stato deciso da nessuno: è una decisione di modello, e questa sezione la prende.
+
+| Asse | Campo | Scala |
+|---|---|---|
+| energia | `energy` | `0-1` |
+| positività | `valence` | `0-1` |
+| ritmo | `danceability` | `0-1` |
+
+Nessuna normalizzazione, nessuna trasformazione, nessun riscalamento. È ciò che rende letteralmente vera l'affermazione del business case secondo cui sul lato musicale i tre<!--#--> assi sono letti direttamente.
+
+### Perché il ritmo non è `tempo`
+
+I primi due<!--#--> assi hanno un corrispondente ovvio. Il terzo ha due<!--#--> candidati, e la scelta va motivata perché l'altro è quello che il nome suggerisce.
+
+`tempo` è la velocità in battiti al minuto. Adottarlo avrebbe due<!--#--> conseguenze, entrambe sfavorevoli. La prima è che **non vive sulla scala dichiarata**: renderlo confrontabile con gli altri due<!--#--> assi richiederebbe di normalizzarlo, cioè di interporre una trasformazione dove il business case dichiara che non ce n'è. La seconda è che normalizzare richiede di scegliere **su quale massimo** — e quella scelta è una delle decisioni che la revisione del business case ha già segnalato come indefinite e assegnato alle misure. Il modello importerebbe un problema aperto invece di risolverne uno.
+
+`danceability` vive su `0-1` e la glossa del business case per l'asse ritmo — «regolarità e propulsione ritmica» — descrive un indice composito di regolarità del battito, non una frequenza. È la definizione del secondo campo, non del primo.
+
+### Il limite di «misurato direttamente»
+
+I tre<!--#--> campi sono **calcolati dalla fonte**, con un metodo che la fonte non pubblica in dettaglio. «Misurato direttamente» significa quindi una cosa più stretta di quanto sembri: **questo progetto li legge senza trasformarli**, non che siano una misura fisica di una proprietà del suono.
+
+È uno strato interpretativo che sta a monte del progetto e su cui il progetto non ha alcuna presa. Non abbassa la confidenza dei KPI che lo usano — la scala di confidenza misura gli strati che questo progetto interpone, non quelli della fonte — ma va saputo da chi difende un numero davanti a qualcuno che chieda che cosa significhi esattamente «positività» pari a `0,42`.
 
 ## 12. La popolarità: da quale tabella si legge
 
-*Sezione non ancora scritta — `T015`.*
+Questa è la sezione che chi scriverà `BQ2-K1` deve leggere prima di scrivere la misura, perché senza di essa il numero dipende da quale tabella ha collegato per caso.
+
+**Il fatto.** La trasformazione dichiara che sull'insieme alla grana traccia la popolarità è il **massimo osservato fra le repliche** della stessa traccia. Su 720<!--@CL.SP.track.popularity_conflict.tracks--> tracce le repliche discordavano, e su quelle righe il valore alla grana traccia non coincide con quello che la stessa traccia porta alla grana coppia. Lo scarto massimo è di 44<!--@CL.SP.track.popularity_conflict.spread_max--> punti su una scala `0-100`, e le tracce che si scostano di più di dieci<!--#--> punti sono 13<!--@CL.SP.track.popularity_conflict.spread_over_10-->.
+
+> **Decisione: la misura legge la popolarità dalla tabella di fatto**, cioè il valore che la riga di *quel* segmento porta. Sulla dimensione delle tracce la colonna non entra affatto.
+
+**La ragione dirimente non è di gusto.** È la regola di lettura non negoziabile della trasformazione: un'analisi per genere si calcola sull'insieme alla grana coppia. `BQ2-K1` è una mediana per segmento, quindi è un'analisi per genere, quindi legge da lì. La decisione non è un'opinione di questo documento: è l'applicazione di un vincolo già scritto.
+
+**La ragione di merito la conferma.** Prendere il massimo fra le repliche significherebbe portare dentro un segmento un valore osservato su una riga di un **altro** segmento. Una traccia che sta in due<!--#--> segmenti contribuirebbe a entrambe le mediane con lo stesso numero, che descrive la sua popolarità nel migliore dei due<!--#--> — spostando verso l'alto la mediana del segmento in cui era meno popolare.
+
+**Che cosa il modello non può fare.** Non esiste un valore giusto: la fonte ne portava due<!--#-->, e la deduplicazione ne ha dovuto scegliere uno. La marcatura `has_conflicting_popularity` resta sulla dimensione delle tracce, visibile, proprio perché la perdita non resti implicita — è l'unico modo di sapere quali righe sono affette.
+
+**Conseguenza per chi scriverà le misure**: nel modello **non esiste** una popolarità alla grana traccia, e la sua assenza è deliberata. Se una misura futura dovesse averne bisogno, il valore va ripreso dall'insieme alla grana traccia e la differenza va dichiarata, non assorbita.
 
 ## 13. Le derivazioni interne al modello
 
-*Sezione non ancora scritta — `T016`.*
+Tre<!--#--> costruzioni che gli insiemi di partenza non forniscono. Sono derivazioni **interne al modello**, non modifiche alla pipeline: nessuna aggiunge, seleziona o interpreta informazione, e per questo nessuna abbassa la confidenza di ciò che vi poggia.
+
+| Derivazione | Regola |
+|---|---|
+| `dim_category` | i valori distinti di `category` nel ponte |
+| `dim_segment` | i valori distinti di `track_genre` nel fatto, più `is_high_zero_genre` |
+| `dim_track.duration_min` | `duration_ms` diviso `60000` |
+
+**Su `dim_segment`, un invariante da verificare e non da assumere.** La marcatura `is_high_zero_genre` è costante entro un segmento: è una proprietà del segmento che l'insieme di partenza replica su ogni riga per comodità di lettura. La derivazione la fa risalire alla dimensione, e questo è corretto **solo se** l'invarianza tiene. Chi costruisce il modello deve quindi verificarla al caricamento: un segmento che portasse due<!--#--> valori diversi renderebbe la dimensione non costruibile, e va **segnalato** invece che risolto scegliendone uno.
+
+**Su `duration_min`, il divieto di arrotondare.** La conversione è una divisione esatta e non porta alcun arrotondamento a livello di colonna. Arrotondare qui arrotonderebbe **ogni traccia prima della mediana**, che è una decisione statistica presa di nascosto e capace di spostare il risultato. L'arrotondamento è una scelta di presentazione e appartiene a chi scriverà le misure.
+
+**Perché la conversione sta nel modello e non nella misura.** `BQ1-K2` è una differenza fra due<!--#--> mediane espresse in minuti. Se la conversione vivesse dentro la misura, i due<!--#--> lati arriverebbero al confronto per strade diverse — uno letto, l'altro calcolato — e la simmetria del confronto dipenderebbe da come la misura è scritta. Convertire nel modello mette i due<!--#--> lati sulla stessa unità **prima** che qualcuno li confronti.
+
+**Il codice di queste derivazioni non è scritto qui.** La constitution ammette Power Query M fra i linguaggi di trasformazione, quindi scriverlo sarebbe legittimo; sarebbe però materializzazione, che questa feature non fa. Questo documento dichiara la regola; chi materializza la applica, e riporta ogni divergenza invece di aggiustarla.
 
 ## 14. Le marcature ereditate dalla trasformazione
 
-*Sezione non ancora scritta — `T017`.*
+La trasformazione non ha eliminato le righe problematiche: le ha **marcate**, per una decisione presa allora e mai ritirata. Il modello deve portare quelle marcature fino al punto in cui una misura le può leggere, altrimenti la decisione di conservarle non serve a nulla.
+
+Ogni marcatura sale alla grana di cui è proprietà, non a quella su cui la trovi scritta.
+
+| Marcatura | Proprietà di | Tabella | Che cosa condiziona |
+|---|---|---|---|
+| `is_high_zero_genre` | un segmento | `dim_segment` | `BQ2-K1`: 7<!--@CL.SP.zero.high_genres.count--> segmenti superano la soglia dichiarata dalla trasformazione |
+| `is_popularity_zero` | un'appartenenza | `fact_track_segment` | `BQ2-K1`: è ciò che rende calcolabile la quota di zeri di un segmento |
+| `is_duration_zero` | una traccia | `dim_track` | `BQ1-K2`, lato musicale: 1<!--@CL.SP.duration.zero.rows--> riga |
+| `has_conflicting_popularity` | una traccia | `dim_track` | nessuna misura: è la traccia della perdita descritta in §12 |
+| `is_repaired_duration` | un titolo | `dim_title` | `BQ1-K2`, lato video: 3<!--@CL.NF.duration.repaired.rows--> titoli |
+
+**Perché `is_high_zero_genre` sale sulla dimensione.** L'insieme di partenza la replica su ogni riga della grana coppia. Lasciarla lì autorizzerebbe ad aggregarla — a contare 113.550<!--@CL.SP.pair.rows.after--> volte una proprietà che vale 114<!--@SP.genre.count--> volte, ottenendo un numero che non significa niente.
+
+**Perché `is_duration_zero` sale sulla dimensione delle tracce**, benché la trasformazione la registri alla grana coppia. La durata è una proprietà della traccia e non della sua appartenenza a un segmento; soprattutto, la sola misura che la riguarda — `BQ1-K2` — si calcola per dichiarazione della propria scheda sulle tracce deduplicate. Lasciarla sul fatto la renderebbe invisibile all'unica misura interessata.
+
+Il suo valore non sta nel numero, che è una riga sola: sta nell'obbligo di **dichiarare** se quella traccia entri nella mediana, invece di non accorgersi che esiste.
+
+**Sulla quota di popolarità nulla, che è un obbligo e non un'opzione.** Le righe a popolarità nulla sono 15.844<!--@CL.SP.zero.rows.after--> e non sono distribuite in modo uniforme fra i segmenti. La revisione del business case ha stabilito che ogni misura calcolata sulla popolarità pubblichi accanto al proprio valore la quota di zeri del segmento, perché una mediana calcolata su un segmento pieno di zeri è trascinata verso il basso da un difetto della fonte e non da una debolezza di domanda. Il modello **rende quella quota calcolabile**, tenendo la marcatura alla grana su cui la misura opera; pubblicarla è compito di chi scriverà le misure.
 
 ## 15. La tabella che la feature successiva riempie
 
-*Sezione non ancora scritta — `T018`.*
+Tre<!--#--> KPI su otto<!--#--> — `BQ1-K3`, `BQ2-K2` e `BQ2-K3` — non esistono senza il profilo di mood del lato video, che **questo documento non costruisce**. Sul lato musicale i tre<!--#--> assi sono letti dalla fonte; sul lato video vanno assegnati a ciascuna categoria, e assegnarli è un lavoro interpretativo che appartiene alla feature successiva.
+
+Il modello ne dichiara la forma, con zero<!--#--> righe.
+
+| Colonna | Tipo | Vincolo |
+|---|---|---|
+| `category` | testo | chiave, e deve essere una delle 42<!--@CL.NF.category.distinct--> categorie del catalogo video |
+| `mood_energy` | decimale `0-1` | asse energia |
+| `mood_valence` | decimale `0-1` | asse positività |
+| `mood_danceability` | decimale `0-1` | asse ritmo |
+
+**Perché la forma si fissa qui e il contenuto no.** Se la forma la decidesse chi riempie la tabella, questo modello dovrebbe essere riaperto per accoglierla — e la dipendenza fra le due<!--#--> feature si rovescerebbe a metà lavoro. Fissando la forma prima, riempirla non richiede di modificare nulla di ciò che questo documento ha chiuso.
+
+Quattro<!--#--> obblighi discendono dalla forma, e non sono negoziabili da chi la riempie:
+
+1. **la copertura attesa è totale**: una riga per ciascuna delle 42<!--@CL.NF.category.distinct--> categorie. Una copertura parziale è ammessa, ma va **dichiarata**, e le misure che leggono la tabella devono dire che cosa fanno sulle categorie mancanti — perché una categoria senza profilo sparisce silenziosamente da una media;
+2. **le tre<!--#--> colonne stanno sulla stessa scala del lato musicale.** È la condizione che rende il confronto di `BQ2-K2` una distanza fra grandezze commensurabili. Una scala diversa anche su un solo asse rende la distanza priva di significato **senza produrre alcun errore visibile**: il numero esce comunque, e sembra ragionevole;
+3. **la confidenza non sale.** La tabella è costruita dall'analista, non osservata: è lo strato interpretativo che tiene i tre<!--#--> KPI che la usano a confidenza media, e nessuna cura nella costruzione li porta ad alta. La cura riduce l'errore, non cambia la natura del dato;
+4. **questo documento non dice né chi né come costruisca le righe.** È una decisione aperta della roadmap, e resta aperta.
 
 ## 16. Le assenze che sono decisioni
 
-*Sezione non ancora scritta — `T019`.*
+Un'assenza non si vede guardando uno schema. Queste due<!--#--> sono decisioni prese, e senza questa sezione chiunque materializzasse il modello le annullerebbe per abitudine.
+
+### Nessuna dimensione di calendario
+
+Il modello **non ha una tabella calendario**, e non è una dimenticanza.
+
+Nessuno degli otto<!--#--> KPI del framework è definito su un asse temporale. Il business case dichiara inoltre che i cataloghi descrivono «una fotografia, non una traiettoria» — il lato video è fermo al 2021<!--#-->, il musicale al 2022<!--#--> — ed esclude esplicitamente dal perimetro ogni conclusione su dinamiche successive e ogni analisi di tendenza recente.
+
+Una dimensione di calendario in questo modello renderebbe costruibile **con un trascinamento** proprio l'analisi che il business case vieta. Chi la usasse non commetterebbe alcun errore tecnico: otterrebbe un grafico corretto di una cosa che i dati non possono dire. **L'assenza della tabella è la forma strutturale di un limite già dichiarato a parole**, ed è più efficace della dichiarazione perché non richiede che qualcuno l'abbia letta.
+
+Ne discende un vincolo per chi costruirà la dashboard: se una vista temporale servisse davvero, aggiungere la tabella è un'estensione del perimetro del progetto e va decisa come tale, non risolta aggiungendo una tabella.
+
+### Il profilo di mood non è dentro la dimensione delle categorie
+
+Le tre<!--#--> colonne di §15 potrebbero tecnicamente vivere come colonne aggiuntive di `dim_category`. Il modello le tiene separate, con una relazione a uno a uno, per una ragione che non è di ordine.
+
+`dim_category` è **osservata**: contiene le etichette che la fonte ha assegnato. Il profilo di mood è **costruito dall'analista**. Fonderle in una tabella sola metterebbe fianco a fianco, indistinguibili in un elenco di campi, un dato letto e un dato interpretato — e nascondere quella giuntura è precisamente ciò che il principio di provenienza esiste per impedire. Chi guarda il modello deve poter vedere dove finisce l'osservazione e comincia l'interpretazione.
 
 ## 17. Nomi e convenzioni
 
-*Sezione non ancora scritta — `T020`.*
+**Lingua**: la prosa di questo documento è in italiano; ogni identificativo — tabelle, colonne, misure — è in inglese. È la convenzione del progetto, e la ragione è che gli identificativi sono la parte più costosa da rinominare a valle.
+
+**Tabelle**: prefisso `dim_` per le dimensioni, `fact_` per i fatti, `bridge_` per i ponti. Il prefisso dice il ruolo, che è l'informazione che serve per sapere se un'aggregazione su quella tabella ha senso.
+
+**Colonne**: `snake_case`. Il nome della fonte è conservato ovunque non ci sia una ragione per cambiarlo, perché ogni rinomina è un punto in cui la tracciabilità verso il contratto della trasformazione si interrompe. L'unica eccezione è `segment`, chiave della propria dimensione, dove il modello adotta la parola del business case — e l'equazione con il nome della fonte è dichiarata in §2.
+
+**Misure**: i nomi sono quelli **semantici già pubblicati** dal business case — `music_adjacent_catalog_share`, `segment_demand_index`, e così via. Non è una scelta di questo documento: il business case dichiara che il nome semantico «è quello che diventerà il nome della misura nel modello dati», ed è un impegno già preso. Inventare qui una convenzione nuova significherebbe rompere l'unico collegamento fra la scheda di un KPI e la misura che lo calcola.
+
+**Colonne nascoste**: le colonne chiave che servono solo a reggere una relazione non compaiono nell'elenco dei campi offerto a chi costruisce un grafico. Una colonna tecnica visibile è un invito a costruirci sopra una misura, e le chiavi sono la categoria su cui quell'errore è più facile — un conteggio di `track_id` sul fatto restituisce 113.550<!--@CL.SP.pair.rows.after-->, che non è il numero delle tracce.
 
 ## 18. Che cosa questo modello rende impossibile misurare
 
-*Sezione non ancora scritta — `T021`.*
+Ogni scelta di struttura è anche una porta chiusa, e le porte chiuse non si vedono guardando uno schema. Questa sezione le elenca, perché l'omissione di un limite è di fatto un'affermazione implicita.
+
+**Non risponde a nessuna delle tre<!--#--> domande di business.** Questo documento non contiene alcun risultato. Chi cercasse qui il valore di un KPI o una graduatoria di segmenti non li troverà: il modello dice dove i numeri si calcoleranno, non quanto valgono.
+
+**Non permette di raggruppare i segmenti in famiglie più larghe.** I segmenti sono quelli dichiarati dalla fonte, e sono 114<!--@SP.genre.count-->. Qualunque macro-raggruppamento sarebbe un secondo strato interpretativo che questo modello non introduce e che nessuna feature del progetto possiede.
+
+**Non permette alcuna analisi temporale.** Vedi §16: è una decisione, non un limite subìto.
+
+**Non permette di dimensionare un segmento contandone le righe** — ed è il limite più insidioso, perché il conteggio è l'operazione più naturale che un motore tabellare offre.
+
+Il catalogo musicale era bilanciato per costruzione del campione: ogni segmento aveva lo stesso numero di tracce, quindi contarle misurava il campionamento e non il mercato. Sul dato trasformato **non è più nemmeno bilanciato**: la deduplicazione ha tolto righe in modo non uniforme, e oggi esistono 17<!--@CL.SP.recalc.genre.row_counts_distinct--> conteggi di righe distinti fra i segmenti, con il meno numeroso a 904<!--@CL.SP.recalc.genre.rows_min--> righe.
+
+La conseguenza è controintuitiva e va detta com'è: **contare le righe non è diventato meno inutile, è diventato peggio che inutile.** Prima il risultato era costante e la sua inutilità era evidente; ora il risultato varia, e la variazione è un residuo della deduplicazione che chiunque prenderebbe per un segnale di mercato. Il modello non può impedirlo. Questa riga è tutto ciò che può fare.
+
+**Non permette di dire nulla sui pubblici.** Non esiste in questo modello alcuna entità che rappresenti una persona, una visione, un ascolto o un abbonamento, perché nessuna delle due<!--#--> fonti ne contiene. Nessuna relazione di questo modello, per quanto ben disegnata, potrà mai essere letta come una relazione fra spettatori e ascoltatori.
+
+**Copertura del dato**: catalogo video fermo al 2021<!--#-->, catalogo musicale al 2022<!--#-->. Il modello descrive due<!--#--> fotografie e **non ha alcun modo di rappresentare che siano di due<!--#--> momenti diversi** — il che è coerente con l'assenza della dimensione di calendario, e va letto insieme a quella.
+
+### Tre inferenze da evitare
+
+**Che una relazione nel modello indichi una relazione nel mondo.** Una relazione dichiara come i dati si giuntano, non che esista un legame causale o comportamentale fra le entità che rappresentano. Vale in particolare per il collegamento fra categorie video e profili di mood: è una corrispondenza costruita fra due<!--#--> tassonomie disgiunte, non una somiglianza osservata.
+
+**Che un modello progettato sia un modello funzionante.** Nessuna affermazione di questo documento è stata verificata eseguendola, come §1 dichiara. Una direzione di filtro qui dichiarata sicura potrebbe rivelarsi ambigua davanti allo schermo.
+
+**Che il modello garantisca la correttezza delle misure.** Il modello rende **difficile** la giunzione sbagliata; non rende impossibile la misura sbagliata. Una misura scritta contro la tabella giusta con la logica sbagliata produce un numero sbagliato, e nessuno schema può accorgersene. Contro questo esistono la revisione indipendente e l'ancoraggio dei valori, non la struttura.
 
 ## 19. I vincoli che le feature a valle ereditano
 
-*Sezione non ancora scritta — `T022`.*
+Questo modello lascia aperte alcune decisioni. Sono elencate qui, con chi le eredita, perché una decisione rinviata senza un punto in cui va presa è una decisione che si perde.
+
+| Vincolo | Da dove viene | Chi lo chiude |
+|---|---|---|
+| a quale precisione si confrontano i valori del profilo e quelli del rendiconto | revisione della trasformazione, divergenza 1 | le misure |
+| se le righe a durata degenere entrino nella mediana di `BQ1-K2` | marcatura `is_duration_zero`, §14 | le misure |
+| l'arrotondamento e la precisione di presentazione di ogni misura | §13, e la convenzione sugli importi in euro fissata dagli scenari | le misure |
+| ogni misura sulla popolarità pubblica accanto al proprio valore la quota di zeri del segmento | revisione del business case, divergenza 6 | le misure |
+| il modo in cui i valori di scenario entrano nel report, non essendo un fatto di questo modello | §8 | le misure o la dashboard |
+| la graduatoria dei segmenti ha 114<!--@SP.genre.count--> voci, molte per una lettura a colpo d'occhio | §2 | la dashboard |
+| l'assenza della dimensione di calendario va esposta dove un lettore potrebbe costruirsi da sé una misura temporale | §16 | la dashboard |
+| il conteggio delle righe di un segmento misura il campionamento e non il mercato | §18 | le misure e la dashboard |
+
+**Sulla precisione, una precisazione che evita un equivoco.** Questo modello fissa i **tipi di dato** delle proprie colonne, e fissare un tipo non decide un criterio di confronto. La divergenza aperta riguarda con quale precisione due<!--#--> valori dello stesso fatto, registrati in due<!--#--> artefatti diversi, vadano dichiarati uguali o diversi. È una domanda sul metodo di confronto, non sulla rappresentazione, e questo documento non la tocca.
