@@ -34,7 +34,7 @@ Governance: [`constitution`](.specify/memory/constitution.md) v1.1.0 · [metodo 
 | `002` Data Audit & Profiling | [`docs/data_audit.md`](docs/data_audit.md) · [`reports/data_profile.json`](reports/data_profile.json) | ✅ conclusa, [revisionata](specs/002-data-audit-profiling/review.md) |
 | `003` Data Cleaning & ETL | [`docs/data_cleaning.md`](docs/data_cleaning.md) · `scripts/build_datasets.py` · [`reports/cleaning_report.json`](reports/cleaning_report.json) | ✅ conclusa, [revisionata](specs/003-data-cleaning-etl/review.md) |
 | `004` Synthetic Business Metrics | [`docs/bq3_scenarios.md`](docs/bq3_scenarios.md) · [`data/benchmarks/`](data/benchmarks/) · [`reports/bq3_scenarios.json`](reports/bq3_scenarios.json) | ✅ conclusa, [revisionata](specs/004-synthetic-business-metrics/review.md) |
-| `005` Data Model Design | [`docs/data_model.md`](docs/data_model.md) | 🚧 in corso — revisione in contesto pulito non ancora eseguita |
+| `005` Data Model Design | [`docs/data_model.md`](docs/data_model.md) | ✅ conclusa, [revisionata](specs/005-data-model-design/review.md) |
 
 Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](docs/roadmap.md).
 

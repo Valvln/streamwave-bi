@@ -38,10 +38,9 @@
 - [x] **Principio VI**: la spec dichiara a quale domanda di business risponde e in che modo vi contribuisce. Il ponte è scritto per esteso, non asserito
 - [x] **Principio IV**: sezione «Limiti Dichiarati» compilata, e dichiara cosa il modello rende **impossibile** misurare oltre a cosa abilita
 - [x] **Principio I**: sezione «Provenienza e Confidenza» compilata per ogni struttura introdotta, con la dichiarazione esplicita che la feature non introduce metriche
-- [ ] **Principio III**: stima entro la giornata lavorativa — **da riverificare in fase di `/speckit.plan`**, con la scomposizione `005a`/`005b` già decisa in caso di sforamento
+- [x] **Principio III**: verificato sul piano — la stima rivista è risultata dentro le 6-7 ore, e la scomposizione `005a`/`005b` non si è attivata
 
 ## Note
 
-- L'unico riquadro non spuntato è il principio III, che si verifica sul piano e non sulla spec. La scomposizione è già decisa in anticipo e non va inventata a metà lavoro.
+- Il riquadro del principio III è stato spuntato in fase di rifinitura, sulla stima del piano. Lo **scostamento fra quella stima e il lavoro effettivo** è materia del riporto alla regia, non di questa lista: qui si verifica che la feature fosse dimensionata come una giornata, non quanto sia poi costata.
 - Due esiti della spec vanno approvati dalla regia prima di procedere: la decisione `D1` su «segmento» e la domanda sulla materializzazione del modello (ritrovamento `F2`).
-</content>

@@ -132,7 +132,7 @@ Ogni altro confine fra fasi è sicuro. I punti di sosta migliori sono la fine de
 
 - [X] T031 Aggiungere in `README.md` la riga della `005` nella tabella di stato, con i deliverable e il collegamento a `specs/005-data-model-design/review.md` (`FR-031`)
 - [X] T032 Estendere in `README.md` la prosa dei deliverable con il paragrafo sul modello dati, e allineare le sezioni `Setup` e `Struttura` a ciò che la feature aggiunge
-- [ ] T033 Eseguire la **Prova 5**
+- [X] T033 Eseguire la **Prova 5**
 
 **Verifica di fase**: Prova 5 superata con `1` a entrambe le righe. È il drift che si è già ripetuto due volte, sulla `003` e sulla `004`.
 
@@ -166,9 +166,9 @@ Ogni altro confine fra fasi è sicuro. I punti di sosta migliori sono la fine de
 
 - [X] T041 [P] Eseguire la **Prova 6** e verificare che nessun artefatto della feature contenga una funzione DAX o una menzione di `.pbix` come file prodotto (`SC-006`)
 - [X] T042 [P] Eseguire la **Prova 9**, rileggendo la sezione dei limiti alla ricerca di un'affermazione che il documento non avrebbe avuto alcun vantaggio a scrivere
-- [ ] T043 [P] Spuntare in `specs/005-data-model-design/checklists/requirements.md` il riquadro del principio III, ora che la stima è verificata sul piano
-- [ ] T045 Portare la riga della `005` in `README.md` allo stato `✅ conclusa, revisionata`, con il collegamento al verbale ora esistente
-- [ ] T044 Preparare il **riporto alla regia** con: il ritrovamento `F2` sulla materializzazione, rinviato per decisione del 2026-08-17 e da portare ora che la feature chiude; il ritrovamento `F3` sulle 114 voci della graduatoria, che è un vincolo per la `008`; il ritrovamento `T11` sul campione non più bilanciato; e lo scostamento di stima da 5 a ~6,25 ore con la sua causa
+- [X] T043 [P] Spuntare in `specs/005-data-model-design/checklists/requirements.md` il riquadro del principio III, ora che la stima è verificata sul piano
+- [X] T045 Portare la riga della `005` in `README.md` allo stato `✅ conclusa, revisionata`, con il collegamento al verbale ora esistente
+- [X] T044 Preparare il **riporto alla regia** con: il ritrovamento `F2` sulla materializzazione, rinviato per decisione del 2026-08-17 e da portare ora che la feature chiude; il ritrovamento `F3` sulle 114 voci della graduatoria, che è un vincolo per la `008`; il ritrovamento `T11` sul campione non più bilanciato; e lo scostamento di stima da 5 a ~6,25 ore con la sua causa
 
 **Verifica di fase**: tutte e nove le prove superate.
 

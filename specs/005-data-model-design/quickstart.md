@@ -89,11 +89,15 @@ grep -c '005-data-model-design/review.md' README.md
 grep -c 'docs/data_model.md' README.md
 ```
 
-**Deve comparire**: `1` a entrambe.
+**Deve comparire**: `1`, poi `2`.
 
-**Fallisce se**: una delle due riporta `0`. Il collegamento al verbale è la parte che si dimentica più spesso — è successo sulla `003` e di nuovo sulla `004`.
+**Fallisce se**: la prima riporta `0` — manca il collegamento al verbale, che è la parte che si dimentica più spesso: è successo sulla `003` e di nuovo sulla `004`. Oppure se la seconda riporta meno di `2`.
 
 **Perché conta**: il README è l'unico artefatto che ogni feature modifica e che nessuna spec possiede. Il drift vi si è ripetuto due volte, ed è la ragione per cui esiste una casella dedicata nella checklist di consegna.
+
+> **Correzione a questa prova — 2026-08-18, in fase di rifinitura.** La prova attendeva `1` a entrambe. È sbagliato, e il valore giusto è più informativo: il deliverable compare su **due** righe del README, quella della tabella di stato e quella della prosa che descrive i deliverable uno per uno.
+>
+> Un `1` sulla seconda riga non sarebbe quindi un successo: significherebbe che la feature ha aggiunto la propria riga alla tabella e **non ha esteso la prosa**, che è esattamente una delle quattro forme di drift che la checklist di consegna elenca. La prova, come scritta in origine, avrebbe dato esito positivo proprio nel caso che esiste per intercettare.
 
 ## Prova 6 — Il perimetro è rispettato
 
