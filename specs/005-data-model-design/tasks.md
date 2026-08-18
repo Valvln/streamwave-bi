@@ -104,10 +104,10 @@ Ogni altro confine fra fasi è sicuro. I punti di sosta migliori sono la fine de
 
 > **Non interrompere fra T023 e T026.** Fra la registrazione e il primo verde il repository ha un controllo che fallisce.
 
-- [ ] T023 Marcare ogni cifra e ogni numerale di `docs/data_model.md` con l'ancora al valore che lo produce, oppure con il marcatore di non-misurato, secondo la grammatica di `docs/convenzioni-marcatura.md` (`FR-004`)
-- [ ] T024 Registrare `docs/data_model.md` in `DOCUMENTS` di `scripts/check_audit_coherence.py` con `strict = True` e proprietario `feature 005`
-- [ ] T025 Eseguire `python3 scripts/check_audit_coherence.py` e correggere le sole **marcature**, mai i valori, fino all'esito verde
-- [ ] T026 Eseguire la **Prova 1** e la **Prova 2** del quickstart e verificare che il conteggio dei documenti passi da tre a quattro
+- [X] T023 Marcare ogni cifra e ogni numerale di `docs/data_model.md` con l'ancora al valore che lo produce, oppure con il marcatore di non-misurato, secondo la grammatica di `docs/convenzioni-marcatura.md` (`FR-004`)
+- [X] T024 Registrare `docs/data_model.md` in `DOCUMENTS` di `scripts/check_audit_coherence.py` con `strict = True` e proprietario `feature 005`
+- [X] T025 Eseguire `python3 scripts/check_audit_coherence.py` e correggere le sole **marcature**, mai i valori, fino all'esito verde
+- [X] T026 Eseguire la **Prova 1** e la **Prova 2** del quickstart e verificare che il conteggio dei documenti passi da tre a quattro
 
 **Verifica di fase**: Prova 1 e Prova 2 superate. Nessun avviso residuo sul documento nuovo, che è sotto severità stretta e non ne ammette.
 
@@ -117,10 +117,10 @@ Ogni altro confine fra fasi è sicuro. I punti di sosta migliori sono la fine de
 
 **Scopo**: chiudere sull'artefatto già mergiato i due debiti che questa feature ha risolto, senza riscriverne il testo.
 
-- [ ] T027 Aggiungere a §5.2 di `docs/business_case.md` la **nota in loco** che dichiara l'insufficienza delle due granularità, con data, feature, affermazione precedente, affermazione corretta, causa della divergenza e fonte verificabile, coprendo sia la granularità ibrida di `BQ2-K1` sia la grana del risultato di `BQ2-K2` (`FR-013`, `FR-014`)
-- [ ] T028 Aggiungere a §4, domanda BQ2, di `docs/business_case.md` la **nota in loco** che dichiara come la barra «genere/mood» è stata sciolta e che il mood resta come attributo di confronto (`FR-015`)
-- [ ] T029 Eseguire la **Prova 4** e verificare che il testo originale di entrambi i passaggi sia ancora presente
-- [ ] T030 Rieseguire `python3 scripts/check_audit_coherence.py`, perché `docs/business_case.md` non è fra i documenti controllati ma le note citano identificativi che devono esistere
+- [X] T027 Aggiungere a §5.2 di `docs/business_case.md` la **nota in loco** che dichiara l'insufficienza delle due granularità, con data, feature, affermazione precedente, affermazione corretta, causa della divergenza e fonte verificabile, coprendo sia la granularità ibrida di `BQ2-K1` sia la grana del risultato di `BQ2-K2` (`FR-013`, `FR-014`)
+- [X] T028 Aggiungere a §4, domanda BQ2, di `docs/business_case.md` la **nota in loco** che dichiara come la barra «genere/mood» è stata sciolta e che il mood resta come attributo di confronto (`FR-015`)
+- [X] T029 Eseguire la **Prova 4** e verificare che il testo originale di entrambi i passaggi sia ancora presente
+- [X] T030 Rieseguire `python3 scripts/check_audit_coherence.py`, perché `docs/business_case.md` non è fra i documenti controllati ma le note citano identificativi che devono esistere
 
 **Verifica di fase**: Prova 4 superata con `2`, `1`, `1`. Un valore diverso da `1` sulle ultime due significa che il testo originale è stato riscritto invece che annotato.
 
@@ -130,11 +130,17 @@ Ogni altro confine fra fasi è sicuro. I punti di sosta migliori sono la fine de
 
 **Scopo**: l'unico artefatto che ogni feature modifica e che nessuna spec possiede.
 
-- [ ] T031 Aggiungere in `README.md` la riga della `005` nella tabella di stato, con i deliverable e il collegamento a `specs/005-data-model-design/review.md` (`FR-031`)
-- [ ] T032 Estendere in `README.md` la prosa dei deliverable con il paragrafo sul modello dati, e allineare le sezioni `Setup` e `Struttura` a ciò che la feature aggiunge
+- [X] T031 Aggiungere in `README.md` la riga della `005` nella tabella di stato, con i deliverable e il collegamento a `specs/005-data-model-design/review.md` (`FR-031`)
+- [X] T032 Estendere in `README.md` la prosa dei deliverable con il paragrafo sul modello dati, e allineare le sezioni `Setup` e `Struttura` a ciò che la feature aggiunge
 - [ ] T033 Eseguire la **Prova 5**
 
 **Verifica di fase**: Prova 5 superata con `1` a entrambe le righe. È il drift che si è già ripetuto due volte, sulla `003` e sulla `004`.
+
+> **Aggiunta in corsa — 2026-08-18, `T045`.** La riga del README non può dichiarare `✅ conclusa, revisionata` in questa fase, perché la revisione avviene nella Fase 9 e il verbale non esiste ancora. Scriverlo qui lascerebbe nel repository, alla fine di questa sessione, **un'affermazione falsa su un artefatto pubblico** — che è esattamente il difetto che la `004` ha rischiato di portare su `main`.
+>
+> La riga viene quindi scritta ora in stato `🚧 in corso`, **senza il collegamento al verbale**, e `T045` la porta allo stato finale dopo la Fase 9. Il precedente dell'aggiunta di un task in corsa è `T049` della `003`.
+>
+> **Conseguenza sulla Prova 5**, che va detta perché altrimenti sembrerebbe fallita: la sua prima riga cerca il collegamento al verbale e in questa fase restituisce `0`. Non è un difetto del README, è la conseguenza di non poter linkare un file che non esiste — un collegamento morto su un artefatto pubblico è peggio di un collegamento assente. `T033` resta quindi **aperto** e si esegue dopo `T045`, quando entrambe le righe della prova possono essere vere insieme.
 
 ---
 
@@ -161,6 +167,7 @@ Ogni altro confine fra fasi è sicuro. I punti di sosta migliori sono la fine de
 - [ ] T041 [P] Eseguire la **Prova 6** e verificare che nessun artefatto della feature contenga una funzione DAX o una menzione di `.pbix` come file prodotto (`SC-006`)
 - [ ] T042 [P] Eseguire la **Prova 9**, rileggendo la sezione dei limiti alla ricerca di un'affermazione che il documento non avrebbe avuto alcun vantaggio a scrivere
 - [ ] T043 [P] Spuntare in `specs/005-data-model-design/checklists/requirements.md` il riquadro del principio III, ora che la stima è verificata sul piano
+- [ ] T045 Portare la riga della `005` in `README.md` allo stato `✅ conclusa, revisionata`, con il collegamento al verbale ora esistente
 - [ ] T044 Preparare il **riporto alla regia** con: il ritrovamento `F2` sulla materializzazione, rinviato per decisione del 2026-08-17 e da portare ora che la feature chiude; il ritrovamento `F3` sulle 114 voci della graduatoria, che è un vincolo per la `008`; il ritrovamento `T11` sul campione non più bilanciato; e lo scostamento di stima da 5 a ~6,25 ore con la sua causa
 
 **Verifica di fase**: tutte e nove le prove superate.

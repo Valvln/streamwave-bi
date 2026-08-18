@@ -61,15 +61,26 @@ done
 
 ```bash
 grep -c 'Nota di correzione — 2026-08-18' docs/business_case.md
+grep -c 'Nota di adozione — 2026-08-18' docs/business_case.md
 grep -c 'due granularità distinte e non intercambiabili' docs/business_case.md
 grep -c 'segmento musicale (genere/mood)' docs/business_case.md
 ```
 
-**Deve comparire**: `2` alla prima riga — una nota per §5.2 e una per §4 — e `1` a ciascuna delle altre due.
+**Deve comparire**: `1`, `1`, `1`, `2`.
 
-**Fallisce se**: la prima riporta un numero diverso da `2`, oppure una delle altre riporta `0`. Uno zero significa che il testo originale è stato **riscritto invece che annotato**, che la prassi di correzione degli artefatti già mergiati vieta: il valore originale è la traccia di ciò che quella feature aveva osservato ed è esso stesso un dato.
+Il `2` dell'ultima riga non è un difetto ed è la parte più informativa della prova: l'espressione compare una volta nel testo originale di §4 e una seconda volta **dentro la nota di adozione, che la cita testualmente**. Il conteggio verifica quindi due cose insieme — che l'originale sia ancora lì, e che la nota citi esattamente la frase su cui interviene invece di parafrasarla.
+
+**Fallisce se**: una delle prime tre riporta un numero diverso da `1`, o l'ultima un numero diverso da `2`. Uno zero sulle ultime due significa che il testo originale è stato **riscritto invece che annotato**, che la prassi di correzione degli artefatti già mergiati vieta: il testo originale è la traccia di ciò che quella feature aveva scritto ed è esso stesso un dato. Un `1` sull'ultima significa invece che la nota non cita più l'espressione che dichiara di sciogliere.
 
 **Perché conta**: è la sola prova che distingue una correzione da una cancellazione, e la distinzione è il cuore della prassi.
+
+> **Correzione a questa prova — 2026-08-18, in fase di implementazione.** La prova cercava in origine **due** note di correzione. È sbagliato, e la ragione vale più della prova: le due note non sono dello stesso tipo.
+>
+> §5.2 contiene un'affermazione **insufficiente** — «ogni scheda KPI dichiara in quale delle due granularità opera», che non regge perché le nozioni necessarie sono tre — e va corretta: è una **nota di correzione**.
+>
+> §4 contiene un'espressione **ambigua e non sbagliata** — «segmento musicale (genere/mood)» — che la prassi di progetto vieta espressamente di riscrivere: chi la incontra dichiara quale lettura adotta, e la scelta spetta a chi ha il contesto per prenderla. È una **nota di adozione**, sul precedente della nota che la feature 003 ha lasciato su §5.2 dello stesso documento.
+>
+> Chiamarle entrambe correzioni avrebbe fatto passare per errore ciò che era una scelta lasciata aperta, il che è un'affermazione sul lavoro di qualcun altro.
 
 ## Prova 5 — Il README non è in drift
 
