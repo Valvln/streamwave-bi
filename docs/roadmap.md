@@ -1,6 +1,6 @@
 # Roadmap — StreamWave BI
 
-**Aggiornata**: 2026-08-18 | **Stato**: chore ambiente eseguito; feature 005 conclusa, in attesa di merge; la materializzazione del modello va decisa prima della 006
+**Aggiornata**: 2026-08-19 | **Stato**: feature 005 conclusa e mergiata (PR #5); `DA-1` risolta e la 006 è apribile; la materializzazione del modello resta da fare prima della 007
 
 Questo documento è il piano di lavoro del progetto: cosa resta da fare, in quale ordine, con quale stima e con quali dipendenze. È versionato perché la pianificazione — e soprattutto il suo scostamento dalla realtà — fa parte dell'artefatto da portfolio quanto i risultati.
 
@@ -25,7 +25,7 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `003` | Data Cleaning & ETL | ~6,5 (spese, stimate 7) | 002 | ✅ conclusa, PR #3 mergiata, con debito residuo |
 | `004` | Synthetic Business Metrics | ~3 di sessione (stimate 6) | 001 | ✅ conclusa, PR #4 mergiata, con debito residuo |
 | `005` | Data Model Design | ~2,8 di sessione (stimate 5) | 003, *chore ambiente* | ✅ conclusa, con debito residuo |
-| `006` | Content Taxonomy Bridge | 6 | 002, 005 | ⬜ decisione aperta DA-1 |
+| `006` | Content Taxonomy Bridge | 6 | 002, 005 | ⬜ `DA-1` risolta, apribile |
 | `007` | Misure DAX & KPI | 9 | 004, 005, 006, *materializzazione* | ⬜ **da scomporre**, non più facoltativo |
 | `008` | Dashboard Build — Power BI | 9 | 007 | ⬜ **da scomporre**, non più facoltativo |
 | `009` | Porting Tableau Public | 5 | 007 | ⬜ *stretch, primo a cadere* |
@@ -196,7 +196,7 @@ La [revisione in contesto pulito](../specs/001-business-case-kpi/review.md) ha p
 | div. 6 | trattamento delle tracce a popolarità zero | ✅ chiusa dalla `003`, D1: incluse e marcate, mai eliminate. **Ne discende un obbligo per `007`**: ogni misura calcolata sulla popolarità pubblica accanto al proprio valore la quota di zeri del segmento, in particolare `BQ2-K1` |
 | div. 8 | segno della differenza e titoli privi di durata | ✅ **parte dati** chiusa dalla `003`, D2: i 3 titoli privi di durata sono gli stessi 3 con classificazione fuori dominio, riparati per spostamento di campo e non imputati. Il **segno della differenza** di `BQ1-K2` resta a `007` |
 | div. 9 | dimensione della base utenti | ✅ chiusa per decisione del 2026-08-10: `BQ3-K2` resta **euro per utente al mese e non è scalabile**. Nessuna base utenti viene quantificata. La 004 deve dichiararlo esplicitamente, come la divergenza richiedeva in alternativa |
-| div. 10 | governance della tabella generi → mood | `006` |
+| div. 10 | governance della tabella generi → mood | ✅ chiusa dalla regia il 2026-08-19 insieme a `DA-1`: costruisce la `006`, approva Valerio sulla revisione in contesto pulito, si contesta citando il criterio, e la tabella porta un **numero di versione** che ogni valore dipendente dichiara |
 | div. 11 | posizione dell'alternativa "non entrare" | `010` |
 | R13 | ambiguità minori sparse | parte BQ3 ✅ chiusa dalla `004` — le disdette sono escluse, tasso lordo su base costante; il resto resta a `007` |
 | R9, R10, R12 | correzioni terminologiche sul testo del business case | debito testuale, ~1 ora, da chiudere prima di `007` |
@@ -281,6 +281,8 @@ La [revisione in contesto pulito](../specs/005-data-model-design/review.md) del 
 
 Decisioni consapevolmente rinviate. Non sono debito — il debito è lavoro noto da fare, queste sono scelte non ancora prese — e stanno qui perché una decisione rinviata senza un punto in cui va presa è una decisione che si perde. È già successo una volta, ed è lo scostamento 5 qui sopra.
 
+**Una decisione risolta resta in questa sezione, con la propria risoluzione sotto al testo che la teneva aperta.** Non si sposta altrove e non si cancella: la ragione per cui era stata rinviata è parte di come è stata poi decisa, e separarle renderebbe la seconda illeggibile. Oggi **non ci sono decisioni aperte**: `DA-1` è l'unica voce, ed è chiusa.
+
 ### DA-1 — Uso di un LLM per la tabella di corrispondenza generi → mood (`006`)
 
 **Stato**: rinviata il 2026-08-10. **Va presa**: prima di invocare `/speckit.specify` sulla `006`, e il prompt di consegna di quella feature non è consegnabile se non la riporta risolta.
@@ -290,6 +292,34 @@ La roadmap iniziale prevedeva questa componente come *Agent 2*. Le due strade so
 Quello che va deciso non è solo quale strada, ma se la prima sia compatibile con la **D1 della 001**, che ha respinto a verbale l'approccio a modello con la motivazione che introduce «un modello non spiegabile a un board». La distinzione esiste e regge — D1 respingeva l'estrazione del tono dal campo `description`, il cui output è opaco, mentre una tabella di 42 righe revisionata è ispezionabile — ma **va scritta, non sottintesa**: riaprire una decisione documentata senza dichiarare perché è esattamente il modo in cui una constitution si aggira in silenzio.
 
 Ricadute: la scelta chiude anche la divergenza 10 della 001, la governance di quella tabella. E determina se il progetto conserva la componente di lavoro con LLM che la roadmap iniziale prevedeva, o se la perde — nel qual caso la perdita va dichiarata, non subita.
+
+#### Risolta il 2026-08-19 — un LLM propone, con il criterio scritto prima
+
+**La compatibilità con D1 si chiude, e la ragione va scritta perché è ciò che distingue una decisione riaperta da una aggirata.** D1 respinse l'estrazione del tono dal campo `description` per due motivi: un modello non spiegabile a un board, e lo sfondamento del vincolo di giornata. Il primo non si applica qui, per tre differenze che non sono di grado:
+
+- **la scala.** Là erano 8.807 titoli, un output che nessuno verifica riga per riga. Qui sono 42 categorie per tre assi, cioè 126 numeri, che una persona controlla in una seduta;
+- **la posizione del modello.** Là il modello sarebbe stato *dentro la pipeline*, e rieseguire l'analisi avrebbe significato rieseguirlo. Qui produce una **prima stesura**, l'esito si congela in una tabella versionata, e **nessuno script chiama mai il modello**. È la forma del benchmark della `004`: un passaggio non riproducibile il cui esito è congelato, con la derivazione a valle deterministica. Il principio V la ammette già;
+- **che cosa arriva al lettore.** Una tabella contestabile riga per riga. Da dove vengono i numeri è una questione di provenienza, non di opacità.
+
+Il secondo motivo di D1 non decide in nessuna direzione: costruire 126 valori a mano e revisionarne 126 proposti sono costi dello stesso ordine, e nessuna delle due strade è stata scelta per rapidità.
+
+**L'obiezione che regge non è l'opacità, è l'ancoraggio.** La tabella è l'unico strato interpretativo del progetto e porta tre KPI su otto. Se un modello propone i valori, il lavoro del revisore scivola da autore a **ratificatore**, e chi rilegge 126 numeri plausibili si ancora a quelli che ha davanti. È lo stesso meccanismo per cui nella `002` tre affermazioni derivate erano passate sotto un controllo verde: nessuno le aveva ricalcolate perché sembravano giuste.
+
+**Il presidio è l'ordine dei passi, ed è già in uso nel progetto.** Il criterio di assegnazione si scrive e **si committa da solo, prima che qualunque valore esista**. È la forma di `FR-011a` della `004` — i fattori della banda fissati e committati prima che la ricognizione cominciasse, perché «fissato prima» fosse distinguibile da «riempito dopo» — e vale qui identica. Ne discende un **terzo punto di fermata** per la `006`, dopo il commit del criterio e prima che il modello proponga alcunché: è il punto di massima leva della feature, perché un criterio sbagliato non produce un valore sbagliato, li produce tutti.
+
+Ne discende anche una misura che oggi non esiste: **quante righe la revisione ha spostato rispetto alla proposta**. Va registrata. Se ne sposta zero, non è un successo — è un ritrovamento, e va dichiarato come tale.
+
+**Che cosa la feature deve produrre, in ordine**: il criterio, committato da solo; poi la proposta del modello, con prompt, modello e data versionati; poi la revisione riga per riga contro il criterio, con il conteggio degli spostamenti; poi la tabella congelata in un artefatto versionato, che nessuno script rigenera.
+
+#### La governance della tabella — divergenza 10 della `001`, chiusa qui
+
+Quattro domande, quattro risposte.
+
+**Chi la costruisce**: la sessione della `006`, sul criterio che ha scritto per primo. **Chi la approva**: Valerio, sull'esito della revisione in contesto pulito, che riceve la sola tabella più il criterio e nient'altro. **Con quale criterio si contesta una riga**: quello scritto al primo passo — una contestazione è legittima se lo cita, e altrimenti è un'opinione sul mood di un genere, che non è contestabile perché non è verificabile.
+
+**Se le revisioni invalidino i valori già pubblicati**: sì, e il presidio deve essere meccanico e non di buon senso. La tabella porta un **numero di versione**, e ogni valore pubblicato che ne dipende — `BQ1-K3`, `BQ2-K2`, `BQ2-K3` — dichiara su quale versione è stato calcolato. Senza quel legame si ricade nella classe di difetto del totale a ~65 ore corretto il 2026-08-17: un numero giusto quando è stato scritto e mai più riverificato, che nessuno può distinguere da uno ancora valido.
+
+**Il progetto conserva quindi la componente di lavoro con LLM** che la roadmap iniziale prevedeva come *Agent 2*, in una sola delle due sedi originarie: la `004` l'ha lasciata cadere con le ragioni scritte più sopra, la `006` la tiene. Lo scostamento 5 è chiuso in entrambe le direzioni.
 
 ## Calendario previsto
 
