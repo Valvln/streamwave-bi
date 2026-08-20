@@ -58,7 +58,7 @@ L'artefatto finale (FR-012) e il quarto membro di `ARTIFACTS` (FR-023, D6). Port
     "proposal_sha256": "<impronta del file letto in fase di verifica>"
   },
   "verification": {
-    "verified_by": "<chi ha condotto la verifica indipendente, dichiaratamente diverso da chi ha ottenuto la proposta>",
+    "verified_by": "<l'attore dispatchato per la verifica — es. 'subagent, non ha prodotto la proposta' oppure 'Valerio' — non una formula generica: deve nominare chi, non solo affermare l'indipendenza>",
     "changes_count": 0,
     "changes": [
       // presente solo se changes_count > 0: una voce per cella modificata
