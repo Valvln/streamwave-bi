@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Verifica che i documenti di lettura e gli artefatti di numeri non divergano.
 
-Confronta ogni valore marcato in `docs/data_audit.md` (feature 002), in
-`docs/data_cleaning.md` (feature 003) e in `docs/bq3_scenarios.md` (feature 004)
-con il valore corrispondente di `reports/data_profile.json`,
-`reports/cleaning_report.json` e `reports/bq3_scenarios.json`.
+Confronta ogni valore marcato in ciascun documento di `DOCUMENTS` con il valore
+corrispondente nello spazio dei nomi unito di `ARTIFACTS`. Le due tuple sono
+l'unico elenco: questa intestazione non li ripete per nome, perche' la versione
+che li ripeteva ha gia' prodotto una volta un controllo che verificava tre cose
+e ne dichiarava due.
 
 Legge **solo** artefatti versionati: non richiede `data/raw/`, non riesegue il
 profiling e non riesegue la pipeline (FR-036 della 002, FR-041 della 003). Chi
@@ -34,6 +35,13 @@ La severita' e' quindi **per documento** (contratto della 003 §3.2): sul
 documento della 002 le quantita' non marcate restano avvisi, perche' applicarvi
 la regola nuova significherebbe rimarcare un artefatto gia' mergiato.
 
+Oltre alla marcatura, il controllo presidia **la tassonomia delle categorie**
+(D6 della 006): l'insieme delle categorie coperte da `dim_category_mood` deve
+coincidere con quello del catalogo video. E' la chiusura della divergenza 5
+della revisione della 002 — «nessuno sa chi si accorgerebbe se la tassonomia
+della fonte cambiasse» — e la risposta e' questo controllo, che fallisce invece
+di avvisare.
+
 Uso:
     python3 scripts/check_audit_coherence.py
 """
@@ -49,11 +57,17 @@ REPO = Path(__file__).resolve().parent.parent
 PROFILE = REPO / "reports" / "data_profile.json"
 CLEANING = REPO / "reports" / "cleaning_report.json"
 SCENARIOS = REPO / "reports" / "bq3_scenarios.json"
+MOOD = REPO / "data" / "curated" / "dim_category_mood.json"
 
 # Gli artefatti da unire, dichiarati **una volta sola**: erano elencati sia qui
 # sia nell'intestazione stampata, e un quarto artefatto aggiunto in un solo
 # punto avrebbe prodotto un controllo che verifica tre cose e ne dichiara due.
-ARTIFACTS = (PROFILE, CLEANING, SCENARIOS)
+ARTIFACTS = (PROFILE, CLEANING, SCENARIOS, MOOD)
+
+# Le due chiavi che il presidio di tassonomia confronta (D6 della 006). La
+# prima e' l'insieme coperto dalla tabella dei profili di mood, la seconda il
+# catalogo delle categorie video: devono coincidere.
+TAXONOMY_GUARD = ("mood_categories", "netflix_categories_normalized")
 
 # I documenti verificati, con la propria severita'. `strict` decide se una
 # quantita' priva di marcatore sia un errore o un avviso.
@@ -315,6 +329,60 @@ def check_inventory(artifact: dict) -> list[str]:
     return errors
 
 
+def check_category_taxonomy(artifact: dict) -> list[str]:
+    """La tabella dei profili di mood copre esattamente le categorie del catalogo.
+
+    Chiude la divergenza 5 della revisione della 002 (D6 della 006). Il rilievo
+    era che `Music & Musicals` regge `BQ1-K1` come unica categoria a contenuto
+    musicale dichiarato, e che **nessuno si accorgerebbe** se la tassonomia
+    della fonte cambiasse: nessun documento lo prometteva, nessuno script lo
+    verificava.
+
+    La risposta non e' un marcatore nella prosa — un marcatore verifica che un
+    testo citi un valore, non che due insiemi coincidano — ma un confronto sui
+    **dati** dei due artefatti, che vive percio' fuori da `check_markers`.
+
+    Fallisce, non avvisa: e' l'unica severita' che chiude un rilievo il cui
+    contenuto e' precisamente che nessuno se ne accorgerebbe.
+
+    Sulla copertura parziale (FR-014 della 006): sarebbe una divergenza, e
+    questo controllo la segnalerebbe come tale. Riconoscerla invece come stato
+    dichiarato richiederebbe un campo esplicito nell'artefatto, che non esiste
+    perche' il caso non si e' presentato — la tabella copre tutte le categorie.
+    Introdurlo prima che serva significherebbe scrivere l'unica scappatoia
+    capace di neutralizzare questo controllo, senza che nulla la richieda.
+    """
+    catalogs = artifact["catalogs"]
+    covered_key, expected_key = TAXONOMY_GUARD
+
+    missing_keys = [k for k in TAXONOMY_GUARD if k not in catalogs]
+    if missing_keys:
+        return [
+            f"  catalogo assente dallo spazio dei nomi unito: "
+            f"{', '.join('catalogs.' + k for k in missing_keys)}\n"
+            f"    il presidio di tassonomia non puo' essere eseguito, ed e' un "
+            f"errore e non un motivo per saltarlo"
+        ]
+
+    covered = set(catalogs[covered_key])
+    expected = set(catalogs[expected_key])
+    if covered == expected:
+        return []
+
+    errors = [
+        f"  la tassonomia delle categorie e' divergente: "
+        f"{len(covered)} coperte da catalogs.{covered_key}, "
+        f"{len(expected)} attese da catalogs.{expected_key}"
+    ]
+    for label, difference in (
+        ("nel catalogo ma senza profilo di mood", expected - covered),
+        ("con un profilo di mood ma fuori dal catalogo", covered - expected),
+    ):
+        if difference:
+            errors.append(f"    {label}: {', '.join(sorted(difference))}")
+    return errors
+
+
 def unmarked_quantities(text: str) -> list[str]:
     """Cifre e numerali non adiacenti ad alcun marcatore.
 
@@ -373,6 +441,18 @@ def main() -> int:
         print(f"\nERRORI (1):")
         print(f"  i due artefatti collidono su {len(collisions)} chiavi con "
               f"contenuto diverso: {', '.join(collisions)}")
+        failed = True
+
+    # Prima del ciclo sui documenti, e indipendente da esso: opera sui dati
+    # degli artefatti, non sul testo di un documento.
+    taxonomy_errors = check_category_taxonomy(artifact)
+    print(f"Tassonomia: {len(artifact['catalogs'].get(TAXONOMY_GUARD[0], ()))} "
+          f"categorie con profilo di mood, "
+          f"{len(artifact['catalogs'].get(TAXONOMY_GUARD[1], ()))} nel catalogo video")
+    if taxonomy_errors:
+        print(f"\nERRORI ({len(taxonomy_errors)}):")
+        for error in taxonomy_errors:
+            print(error)
         failed = True
 
     inventory_errors = check_inventory(artifact)
