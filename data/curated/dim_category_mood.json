@@ -1,0 +1,1135 @@
+{
+  "schema_version": 1,
+  "version": 1,
+  "source": {
+    "proposal_file": "data/curated/dim_category_mood_proposal.json",
+    "proposal_sha256": "aab390467afa025102cdf179cef18b88b7f6a943f6a32f662d2a2f087bf63a47"
+  },
+  "verification": {
+    "verified_by": "sessione di implementazione della feature 006, distinta dalla sessione separata che ha prodotto la proposta in T012. Il verificatore non ha visto la proposta prima di riceverla, e chi ha prodotto la proposta ha ricevuto solo il criterio e l'elenco delle categorie, in una cartella isolata fuori dal repository.",
+    "verified_at": "2026-08-20",
+    "independence_residual": "Entrambe le sessioni ereditano le istruzioni di progetto di CLAUDE.md, che il sistema inietta e che non contengono nulla sui profili di mood né sulla feature 006. Non è isolamento assoluto ed è dichiarato invece che taciuto: la condizione 4 della quinta fonte chiede che chi verifica non sia chi ha proposto, non l'assenza di contesto.",
+    "changes_count": 2,
+    "changes": [
+      {
+        "category": "Anime Series",
+        "axis": "mood_danceability",
+        "proposal_value": "0.50",
+        "final_value": "0.55",
+        "criterion_reference": "§5, secondo segnale: «un formato episodico a durata fissa ha una cadenza più alta di un formato a durata libera». `Anime Series` è episodico a durata fissa, `Anime Features` è a durata libera, e la proposta li pone alla stessa cadenza. Nessuna regola di §2 impone il centro a questa etichetta — non è generica, geografica né linguistica — quindi §5 si applica senza conflitto."
+      },
+      {
+        "category": "Classic & Cult TV",
+        "axis": "mood_danceability",
+        "proposal_value": "0.50",
+        "final_value": "0.55",
+        "criterion_reference": "§5, secondo segnale, stesso caso: `Classic & Cult TV` è episodico a durata fissa, `Classic Movies` e `Cult Movies` sono a durata libera, e la proposta pone tutte e tre a 0,50. Etichetta di epoca e di ricezione, non coperta da §2."
+      }
+    ],
+    "criterion_findings": [
+      {
+        "id": "CF-1",
+        "sections": [
+          "§2",
+          "§5"
+        ],
+        "finding": "§2 impone alle etichette generiche, geografiche e linguistiche di restare «centrali su tutti e tre gli assi», mentre §5 attribuisce a ogni formato episodico a durata fissa una cadenza più alta di un formato a durata libera. Le due regole si contraddicono sull'asse del ritmo per cinque etichette che sono insieme geografiche/generiche ed episodiche: `TV Shows`, `International TV Shows`, `British TV Shows`, `Korean TV Shows`, `Spanish-Language TV Shows`.",
+        "resolution": "Le cinque celle NON sono state spostate. La proposta segue §2, che è categorico ed esplicito; sceglierlo o preferirgli §5 è una decisione sul criterio, non una verifica contro il criterio (§7). Il conflitto è registrato qui e va risolto riscrivendo il criterio in una versione successiva della tabella.",
+        "cells_affected": 5
+      },
+      {
+        "id": "CF-2",
+        "sections": [
+          "§2"
+        ],
+        "finding": "Il criterio non ha una regola per le etichette di pubblico. Due di esse — `Children & Family Movies` e `Kids' TV` — ricevono positività molto alta perché la prima è dichiarata archetipo dell'estremo alto in §4; una terza, `Teen TV Shows`, resta centrale su tutti e tre gli assi. La differenza discende dall'esistenza di un archetipo dichiarato, non da una regola.",
+        "resolution": "Nessuna cella spostata: la regola di scelta di §2 — «se per assegnare un valore serve immaginare quali titoli stiano nella categoria, l'assegnazione sta uscendo dal criterio» — sostiene il centro per `Teen TV Shows`. Il vuoto resta e va colmato nel criterio, non nella tabella.",
+        "cells_affected": 0
+      },
+      {
+        "id": "CF-3",
+        "sections": [
+          "§6"
+        ],
+        "finding": "Tutti e 126 i valori della proposta sono multipli di 0,05, cioè una griglia a 19 livelli che il criterio non chiede. §6 fissa due cifre decimali come granularità e §1 vieta una scala qualitativa rinormalizzata, ma una griglia più grossolana di due decimali non viola nessuna delle due.",
+        "resolution": "Nessuna cella spostata: non è contestabile citando un punto del criterio (§7). Registrato perché chi legge la tabella sappia che la granularità effettiva è più grossolana di quella dichiarata.",
+        "cells_affected": 0
+      }
+    ]
+  },
+  "values": {
+    "MOOD.category.action_adventure.mood_energy": {
+      "value": "0.95",
+      "display": "0,95",
+      "category": "Action & Adventure",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.action_adventure.mood_valence": {
+      "value": "0.65",
+      "display": "0,65",
+      "category": "Action & Adventure",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.action_adventure.mood_danceability": {
+      "value": "0.35",
+      "display": "0,35",
+      "category": "Action & Adventure",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.anime_features.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Anime Features",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.anime_features.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Anime Features",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.anime_features.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Anime Features",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.anime_series.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Anime Series",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.anime_series.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Anime Series",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.anime_series.mood_danceability": {
+      "value": "0.55",
+      "display": "0,55",
+      "category": "Anime Series",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.british_tv_shows.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "British TV Shows",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.british_tv_shows.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "British TV Shows",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.british_tv_shows.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "British TV Shows",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.children_family_movies.mood_energy": {
+      "value": "0.55",
+      "display": "0,55",
+      "category": "Children & Family Movies",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.children_family_movies.mood_valence": {
+      "value": "0.95",
+      "display": "0,95",
+      "category": "Children & Family Movies",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.children_family_movies.mood_danceability": {
+      "value": "0.40",
+      "display": "0,40",
+      "category": "Children & Family Movies",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.classic_cult_tv.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Classic & Cult TV",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.classic_cult_tv.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Classic & Cult TV",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.classic_cult_tv.mood_danceability": {
+      "value": "0.55",
+      "display": "0,55",
+      "category": "Classic & Cult TV",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.classic_movies.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Classic Movies",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.classic_movies.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Classic Movies",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.classic_movies.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Classic Movies",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.comedies.mood_energy": {
+      "value": "0.55",
+      "display": "0,55",
+      "category": "Comedies",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.comedies.mood_valence": {
+      "value": "0.75",
+      "display": "0,75",
+      "category": "Comedies",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.comedies.mood_danceability": {
+      "value": "0.35",
+      "display": "0,35",
+      "category": "Comedies",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.crime_tv_shows.mood_energy": {
+      "value": "0.65",
+      "display": "0,65",
+      "category": "Crime TV Shows",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.crime_tv_shows.mood_valence": {
+      "value": "0.35",
+      "display": "0,35",
+      "category": "Crime TV Shows",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.crime_tv_shows.mood_danceability": {
+      "value": "0.45",
+      "display": "0,45",
+      "category": "Crime TV Shows",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.cult_movies.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Cult Movies",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.cult_movies.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Cult Movies",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.cult_movies.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Cult Movies",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.documentaries.mood_energy": {
+      "value": "0.35",
+      "display": "0,35",
+      "category": "Documentaries",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.documentaries.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Documentaries",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.documentaries.mood_danceability": {
+      "value": "0.05",
+      "display": "0,05",
+      "category": "Documentaries",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.docuseries.mood_energy": {
+      "value": "0.35",
+      "display": "0,35",
+      "category": "Docuseries",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.docuseries.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Docuseries",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.docuseries.mood_danceability": {
+      "value": "0.20",
+      "display": "0,20",
+      "category": "Docuseries",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.dramas.mood_energy": {
+      "value": "0.45",
+      "display": "0,45",
+      "category": "Dramas",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.dramas.mood_valence": {
+      "value": "0.35",
+      "display": "0,35",
+      "category": "Dramas",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.dramas.mood_danceability": {
+      "value": "0.30",
+      "display": "0,30",
+      "category": "Dramas",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.faith_spirituality.mood_energy": {
+      "value": "0.05",
+      "display": "0,05",
+      "category": "Faith & Spirituality",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.faith_spirituality.mood_valence": {
+      "value": "0.65",
+      "display": "0,65",
+      "category": "Faith & Spirituality",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.faith_spirituality.mood_danceability": {
+      "value": "0.20",
+      "display": "0,20",
+      "category": "Faith & Spirituality",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.horror_movies.mood_energy": {
+      "value": "0.80",
+      "display": "0,80",
+      "category": "Horror Movies",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.horror_movies.mood_valence": {
+      "value": "0.05",
+      "display": "0,05",
+      "category": "Horror Movies",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.horror_movies.mood_danceability": {
+      "value": "0.20",
+      "display": "0,20",
+      "category": "Horror Movies",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.independent_movies.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Independent Movies",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.independent_movies.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Independent Movies",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.independent_movies.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Independent Movies",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.international_movies.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "International Movies",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.international_movies.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "International Movies",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.international_movies.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "International Movies",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.international_tv_shows.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "International TV Shows",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.international_tv_shows.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "International TV Shows",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.international_tv_shows.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "International TV Shows",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.kids_tv.mood_energy": {
+      "value": "0.55",
+      "display": "0,55",
+      "category": "Kids' TV",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.kids_tv.mood_valence": {
+      "value": "0.85",
+      "display": "0,85",
+      "category": "Kids' TV",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.kids_tv.mood_danceability": {
+      "value": "0.45",
+      "display": "0,45",
+      "category": "Kids' TV",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.korean_tv_shows.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Korean TV Shows",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.korean_tv_shows.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Korean TV Shows",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.korean_tv_shows.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Korean TV Shows",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.lgbtq_movies.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "LGBTQ Movies",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.lgbtq_movies.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "LGBTQ Movies",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.lgbtq_movies.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "LGBTQ Movies",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.movies.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Movies",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.movies.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Movies",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.movies.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Movies",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.music_musicals.mood_energy": {
+      "value": "0.65",
+      "display": "0,65",
+      "category": "Music & Musicals",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.music_musicals.mood_valence": {
+      "value": "0.70",
+      "display": "0,70",
+      "category": "Music & Musicals",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.music_musicals.mood_danceability": {
+      "value": "0.95",
+      "display": "0,95",
+      "category": "Music & Musicals",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.reality_tv.mood_energy": {
+      "value": "0.60",
+      "display": "0,60",
+      "category": "Reality TV",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.reality_tv.mood_valence": {
+      "value": "0.55",
+      "display": "0,55",
+      "category": "Reality TV",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.reality_tv.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Reality TV",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.romantic_movies.mood_energy": {
+      "value": "0.35",
+      "display": "0,35",
+      "category": "Romantic Movies",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.romantic_movies.mood_valence": {
+      "value": "0.75",
+      "display": "0,75",
+      "category": "Romantic Movies",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.romantic_movies.mood_danceability": {
+      "value": "0.25",
+      "display": "0,25",
+      "category": "Romantic Movies",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.romantic_tv_shows.mood_energy": {
+      "value": "0.35",
+      "display": "0,35",
+      "category": "Romantic TV Shows",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.romantic_tv_shows.mood_valence": {
+      "value": "0.75",
+      "display": "0,75",
+      "category": "Romantic TV Shows",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.romantic_tv_shows.mood_danceability": {
+      "value": "0.40",
+      "display": "0,40",
+      "category": "Romantic TV Shows",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.sci_fi_fantasy.mood_energy": {
+      "value": "0.60",
+      "display": "0,60",
+      "category": "Sci-Fi & Fantasy",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.sci_fi_fantasy.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Sci-Fi & Fantasy",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.sci_fi_fantasy.mood_danceability": {
+      "value": "0.30",
+      "display": "0,30",
+      "category": "Sci-Fi & Fantasy",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.science_nature_tv.mood_energy": {
+      "value": "0.30",
+      "display": "0,30",
+      "category": "Science & Nature TV",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.science_nature_tv.mood_valence": {
+      "value": "0.55",
+      "display": "0,55",
+      "category": "Science & Nature TV",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.science_nature_tv.mood_danceability": {
+      "value": "0.20",
+      "display": "0,20",
+      "category": "Science & Nature TV",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.spanish_language_tv_shows.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Spanish-Language TV Shows",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.spanish_language_tv_shows.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Spanish-Language TV Shows",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.spanish_language_tv_shows.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Spanish-Language TV Shows",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.sports_movies.mood_energy": {
+      "value": "0.75",
+      "display": "0,75",
+      "category": "Sports Movies",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.sports_movies.mood_valence": {
+      "value": "0.65",
+      "display": "0,65",
+      "category": "Sports Movies",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.sports_movies.mood_danceability": {
+      "value": "0.30",
+      "display": "0,30",
+      "category": "Sports Movies",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.stand_up_comedy.mood_energy": {
+      "value": "0.55",
+      "display": "0,55",
+      "category": "Stand-Up Comedy",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.stand_up_comedy.mood_valence": {
+      "value": "0.80",
+      "display": "0,80",
+      "category": "Stand-Up Comedy",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.stand_up_comedy.mood_danceability": {
+      "value": "0.40",
+      "display": "0,40",
+      "category": "Stand-Up Comedy",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.stand_up_comedy_talk_shows.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Stand-Up Comedy & Talk Shows",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.stand_up_comedy_talk_shows.mood_valence": {
+      "value": "0.70",
+      "display": "0,70",
+      "category": "Stand-Up Comedy & Talk Shows",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.stand_up_comedy_talk_shows.mood_danceability": {
+      "value": "0.40",
+      "display": "0,40",
+      "category": "Stand-Up Comedy & Talk Shows",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_action_adventure.mood_energy": {
+      "value": "0.90",
+      "display": "0,90",
+      "category": "TV Action & Adventure",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_action_adventure.mood_valence": {
+      "value": "0.65",
+      "display": "0,65",
+      "category": "TV Action & Adventure",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_action_adventure.mood_danceability": {
+      "value": "0.45",
+      "display": "0,45",
+      "category": "TV Action & Adventure",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_comedies.mood_energy": {
+      "value": "0.55",
+      "display": "0,55",
+      "category": "TV Comedies",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_comedies.mood_valence": {
+      "value": "0.75",
+      "display": "0,75",
+      "category": "TV Comedies",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_comedies.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "TV Comedies",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_dramas.mood_energy": {
+      "value": "0.45",
+      "display": "0,45",
+      "category": "TV Dramas",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_dramas.mood_valence": {
+      "value": "0.35",
+      "display": "0,35",
+      "category": "TV Dramas",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_dramas.mood_danceability": {
+      "value": "0.45",
+      "display": "0,45",
+      "category": "TV Dramas",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_horror.mood_energy": {
+      "value": "0.80",
+      "display": "0,80",
+      "category": "TV Horror",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_horror.mood_valence": {
+      "value": "0.05",
+      "display": "0,05",
+      "category": "TV Horror",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_horror.mood_danceability": {
+      "value": "0.35",
+      "display": "0,35",
+      "category": "TV Horror",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_mysteries.mood_energy": {
+      "value": "0.55",
+      "display": "0,55",
+      "category": "TV Mysteries",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_mysteries.mood_valence": {
+      "value": "0.35",
+      "display": "0,35",
+      "category": "TV Mysteries",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_mysteries.mood_danceability": {
+      "value": "0.40",
+      "display": "0,40",
+      "category": "TV Mysteries",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_sci_fi_fantasy.mood_energy": {
+      "value": "0.60",
+      "display": "0,60",
+      "category": "TV Sci-Fi & Fantasy",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_sci_fi_fantasy.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "TV Sci-Fi & Fantasy",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_sci_fi_fantasy.mood_danceability": {
+      "value": "0.45",
+      "display": "0,45",
+      "category": "TV Sci-Fi & Fantasy",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_shows.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "TV Shows",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_shows.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "TV Shows",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_shows.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "TV Shows",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_thrillers.mood_energy": {
+      "value": "0.70",
+      "display": "0,70",
+      "category": "TV Thrillers",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_thrillers.mood_valence": {
+      "value": "0.30",
+      "display": "0,30",
+      "category": "TV Thrillers",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.tv_thrillers.mood_danceability": {
+      "value": "0.40",
+      "display": "0,40",
+      "category": "TV Thrillers",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.teen_tv_shows.mood_energy": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Teen TV Shows",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.teen_tv_shows.mood_valence": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Teen TV Shows",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.teen_tv_shows.mood_danceability": {
+      "value": "0.50",
+      "display": "0,50",
+      "category": "Teen TV Shows",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.category.thrillers.mood_energy": {
+      "value": "0.70",
+      "display": "0,70",
+      "category": "Thrillers",
+      "axis": "mood_energy",
+      "label": "profilo di mood, asse energia",
+      "unit": "0-1"
+    },
+    "MOOD.category.thrillers.mood_valence": {
+      "value": "0.30",
+      "display": "0,30",
+      "category": "Thrillers",
+      "axis": "mood_valence",
+      "label": "profilo di mood, asse positività",
+      "unit": "0-1"
+    },
+    "MOOD.category.thrillers.mood_danceability": {
+      "value": "0.25",
+      "display": "0,25",
+      "category": "Thrillers",
+      "axis": "mood_danceability",
+      "label": "profilo di mood, asse ritmo",
+      "unit": "0-1"
+    },
+    "MOOD.coverage.rows": {
+      "value": 42,
+      "display": "42",
+      "label": "categorie coperte dalla tabella dei profili di mood"
+    },
+    "MOOD.table.version": {
+      "value": 1,
+      "display": "1",
+      "label": "versione della tabella al momento del congelamento"
+    },
+    "MOOD.review.changes_count": {
+      "value": 2,
+      "display": "2",
+      "label": "celle (categoria × asse) modificate dalla verifica indipendente rispetto alla proposta"
+    }
+  },
+  "catalogs": {
+    "mood_categories": [
+      "Action & Adventure",
+      "Anime Features",
+      "Anime Series",
+      "British TV Shows",
+      "Children & Family Movies",
+      "Classic & Cult TV",
+      "Classic Movies",
+      "Comedies",
+      "Crime TV Shows",
+      "Cult Movies",
+      "Documentaries",
+      "Docuseries",
+      "Dramas",
+      "Faith & Spirituality",
+      "Horror Movies",
+      "Independent Movies",
+      "International Movies",
+      "International TV Shows",
+      "Kids' TV",
+      "Korean TV Shows",
+      "LGBTQ Movies",
+      "Movies",
+      "Music & Musicals",
+      "Reality TV",
+      "Romantic Movies",
+      "Romantic TV Shows",
+      "Sci-Fi & Fantasy",
+      "Science & Nature TV",
+      "Spanish-Language TV Shows",
+      "Sports Movies",
+      "Stand-Up Comedy",
+      "Stand-Up Comedy & Talk Shows",
+      "TV Action & Adventure",
+      "TV Comedies",
+      "TV Dramas",
+      "TV Horror",
+      "TV Mysteries",
+      "TV Sci-Fi & Fantasy",
+      "TV Shows",
+      "TV Thrillers",
+      "Teen TV Shows",
+      "Thrillers"
+    ]
+  },
+  "conventions": {
+    "mood_scale_anchor": "gli estremi 0 e 1 di ciascun asse corrispondono, per significato, agli estremi osservati sul lato musicale per lo stesso asse: SP.num.energy.min/.max, SP.num.valence.min/.max, SP.num.danceability.min/.max di reports/data_profile.json. Il dominio è 0-1 su entrambi i lati per §11 di docs/data_model.md; il massimo osservato sul lato musicale è 1,0000 per energy, 0,9950 per valence, 0,9850 per danceability. Il criterio in docs/mood_assignment_criteria.md ne fa uso come base di ancoraggio.",
+    "mood_rounding": "due cifre decimali, ROUND_HALF_UP dichiarato esplicitamente. Un valore assegnato dall'analista non ha la precisione di una misura; due cifre sono la granularità con cui il criterio distingue i casi, non un limite tecnico. La proposta di T012 ha usato di fatto una griglia più grossolana, a multipli di 0,05: vedi CF-3 in verification.criterion_findings."
+  }
+}

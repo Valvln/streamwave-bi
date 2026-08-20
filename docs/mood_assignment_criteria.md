@@ -1,0 +1,161 @@
+# Criterio di assegnazione del profilo di mood alle categorie video
+
+Questo documento dichiara **che cosa significa** ciascun valore dei tre<!--#--> assi di mood quando è assegnato a una categoria del catalogo video, e **su quale base** si assegna. È il metro contro cui ogni riga di `dim_category_mood` può essere contestata, ed è l'unico ammesso.
+
+---
+
+## Nota di provenienza — questo documento precede ogni valore
+
+Scritto il **2026-08-20**, nella feature `006-content-taxonomy-bridge`, come **passo 1 dei quattro** che la decisione D1 della sua [spec](../specs/006-content-taxonomy-bridge/spec.md) impone in quest'ordine: criterio, proposta di un modello, verifica indipendente, congelamento. L'ordine è esso stesso il presidio, e vale solo se è verificabile: il commit che introduce questo file **non contiene alcun valore della tabella, nemmeno di prova**, e precede in history git sia `data/curated/dim_category_mood_proposal.json` sia `data/curated/dim_category_mood.json`.
+
+La ragione per cui l'ordine conta più di quanto sembri: un criterio scritto dopo che i valori esistono è indistinguibile, a lettura, da un criterio scritto prima — salvo che nella history. Chi vuole verificare che questo documento non sia stato adattato ai numeri che giustifica ha un solo modo, e non è leggerlo:
+
+```
+git log --follow --oneline docs/mood_assignment_criteria.md data/curated/dim_category_mood.json
+```
+
+Il piano che colloca questo passo è [`specs/006-content-taxonomy-bridge/plan.md`](../specs/006-content-taxonomy-bridge/plan.md); la decisione di processo che lo rende obbligatorio è `DA-1` di [`docs/roadmap.md`](roadmap.md), risolta il 2026-08-19.
+
+**Sulla marcatura.** Questo documento non è fra quelli che `scripts/check_audit_coherence.py` verifica, e la ragione è nel piano (T7 della ricerca): al momento del suo commit la tabella che dovrebbe ancorare non esiste ancora, per costruzione. Usa comunque la grammatica di [`convenzioni-marcatura.md`](convenzioni-marcatura.md) sui sei identificativi di ancoraggio e sui nomi di categoria, perché sono esattamente i punti che chi verifica deve poter risolvere contro un artefatto invece di doverli accettare sulla parola.
+
+---
+
+## Che cosa questo documento non contiene, e perché
+
+**Nessun valore assegnato a una categoria.** Non perché sia scomodo scriverli qui, ma perché un criterio che contenesse anche una sola riga di esempio — «`Horror Movies` sta intorno a *tale* valore di positività» — smetterebbe di essere il metro e diventerebbe la prima riga della tabella, scritta prima che il processo che deve produrla sia cominciato. La legenda della scala che segue descrive **regioni**, non assegnazioni: dice che cosa significa stare in basso su un asse, non chi ci sta.
+
+**Nessun titolo del catalogo video.** Né nome, né trama, né cast, né alcun altro attributo specifico di una riga di `dim_title` (D7 della spec, che chiude la parte generale della divergenza 5 della revisione `003`). Gli ancoraggi qui sotto si esprimono a livello di **categoria** o di **genere musicale come archetipo**. Non è un vincolo che tolga qualcosa: l'assegnazione avviene a grana categoria, e nessun passo del processo ha bisogno di guardare un titolo per decidere il mood di una categoria. Citarne uno renderebbe però più facile leggere l'assegnazione come «osservata su quegli esempi» invece che come ciò che è — un giudizio dell'analista.
+
+---
+
+## 1. La scala è ereditata, non decisa qui
+
+§11 di [`data_model.md`](data_model.md) fissa che sul lato musicale i tre<!--#--> assi sono `energy`, `valence`, `danceability`, letti dalla fonte **senza alcuna normalizzazione, trasformazione o riscalamento**, sul dominio decimale `0-1`.
+
+I tre campi del lato video vivono sulla **stessa scala e con lo stesso significato di estremo**:
+
+| Asse | Campo lato video | Campo lato musicale | Dominio |
+|---|---|---|---|
+| energia | `mood_energy` | `energy` | `0-1` |
+| positività | `mood_valence` | `valence` | `0-1` |
+| ritmo | `mood_danceability` | `danceability` | `0-1` |
+
+**Questo è l'obbligo che conta di più, e la ragione è che un suo errore non produce alcun sintomo.** Se il lato video fosse assegnato su una scala qualitativa a cinque livelli e poi rinormalizzato a `0-1`, oppure se `0,5` significasse «medio rispetto alle altre categorie video» invece di «ciò che `0,5` significa sul lato musicale», la distanza fra i due profili che `BQ2-K2` calcola non misurerebbe più nulla — e il numero uscirebbe comunque, dell'ordine di grandezza atteso, senza che alcun controllo di questo progetto lo intercetti. È il difetto che solo la verifica indipendente della proposta può trovare, ed è per questo che il paragrafo seguente esiste.
+
+### Gli ancoraggi osservati sul lato musicale
+
+Perché «stessa scala del lato musicale» sia verificabile e non un'affermazione, gli estremi si ancorano a ciò che sul lato musicale è **già misurato e già pubblicato**: la distribuzione dei tre campi sull'intero insieme delle tracce, in `reports/data_profile.json`.
+
+| Asse | Minimo osservato | Massimo osservato |
+|---|---|---|
+| `energy` | 0,0000<!--@SP.num.energy.min--> | 1,0000<!--@SP.num.energy.max--> |
+| `valence` | 0,0000<!--@SP.num.valence.min--> | 0,9950<!--@SP.num.valence.max--> |
+| `danceability` | 0,0000<!--@SP.num.danceability.min--> | 0,9850<!--@SP.num.danceability.max--> |
+
+Chi verifica una riga contro questo criterio risolve questi sei identificativi contro l'artefatto e confronta: è un numero pubblicato, non un giudizio a occhio.
+
+**Due letture di questa tabella vanno tenute distinte**, perché confonderle porta a un errore di scala.
+
+La prima: il **dominio** dei tre assi è `0-1` su entrambi i lati, ed è ciò che §11 fissa e che questo criterio eredita. Su `valence` e `danceability` il massimo *osservato* sta poco sotto il limite superiore del dominio — nessuna traccia dell'insieme tocca `1` su quei due assi — ma questo non restringe il dominio: descrive la distribuzione, non la scala.
+
+La seconda: l'estremo alto di un asse sul lato video significa ciò che significa un valore **prossimo al massimo osservato** sul lato musicale per lo stesso asse. Assegnare `1,00` a una categoria video su `valence` è quindi ammesso dal dominio ma dichiara qualcosa di più forte di quanto qualunque traccia del catalogo musicale esprima, e va fatto solo se è ciò che si intende dire.
+
+*(Il ritrovamento che i due massimi non sono `1,0000` è di questa feature: la fase di ricerca aveva trascritto tutti e sei gli estremi come `0` e `1`, generalizzando da `energy`. La correzione è annotata in loco in [`research.md`](../specs/006-content-taxonomy-bridge/research.md), ritrovamento F3.)*
+
+---
+
+## 2. Su che cosa si assegna: la categoria come etichetta, non i titoli che contiene
+
+Una categoria del catalogo video è un'**etichetta editoriale**: dichiara la promessa che il catalogo fa a chi sceglie cosa guardare. Il profilo di mood di una categoria è il registro affettivo **che quella promessa evoca**, non la media dei titoli che vi ricadono.
+
+La distinzione non è sottile, e determina l'assegnazione in ogni caso ambiguo:
+
+- una categoria **eterogenea** — `Movies`<!--@catalogs.netflix_categories_normalized-->, `TV Shows`<!--@catalogs.netflix_categories_normalized--> — non riceve la media dei suoi contenuti, che sarebbe un valore calcolato su un insieme di titoli che nessuno ha misurato. Riceve il profilo che la sua etichetta comunica, che per un'etichetta generica è **centrale su tutti e tre gli assi, per assenza di segnale, non per equilibrio misurato**;
+- una categoria **geografica o linguistica** — `International Movies`<!--@catalogs.netflix_categories_normalized-->, `Korean TV Shows`<!--@catalogs.netflix_categories_normalized-->, `Spanish-Language TV Shows`<!--@catalogs.netflix_categories_normalized--> — non porta un registro affettivo proprio: l'etichetta dichiara una provenienza, non un tono. Vale la stessa regola dell'etichetta generica, ed è la ragione per cui su queste categorie l'assegnazione deve restare centrale invece di inseguire uno stereotipo culturale;
+- una categoria **di formato** — `Docuseries`<!--@catalogs.netflix_categories_normalized-->, `Stand-Up Comedy`<!--@catalogs.netflix_categories_normalized--> — porta il registro del formato, che è un segnale reale: un formato comico dichiara positività alta come parte della propria promessa.
+
+**Il criterio di scelta, in una riga:** se per assegnare un valore serve immaginare quali titoli stiano nella categoria, l'assegnazione sta uscendo dal criterio.
+
+---
+
+## 3. Asse energia — `mood_energy`
+
+**Che cosa misura sul lato musicale.** `energy` è l'intensità percepita di un brano: densità sonora, aggressività, spinta. Un valore basso è quiete, un valore alto è pressione continua.
+
+**Che cosa significa assegnato a una categoria video.** Il **livello di attivazione** che l'etichetta promette a chi sceglie: quanto ci si aspetta di stare tesi, sollecitati, mossi dall'azione — indipendentemente dal fatto che l'attivazione sia piacevole o sgradevole. Un thriller e una commedia scatenata possono condividere l'energia e stare agli antipodi sulla positività: sono assi diversi e non vanno collassati.
+
+**Su quale base si assegna.** Sul ritmo narrativo e sulla densità di eventi che l'etichetta dichiara — non sulla qualità emotiva, che è l'asse successivo.
+
+**Ancoraggio all'estremo basso** (prossimo a `SP.num.energy.min`, 0,0000<!--@SP.num.energy.min-->): l'archetipo musicale è la musica d'ambiente — drone, ambient, campo sonoro senza percussione né sviluppo dinamico. Sul lato video l'equivalente è una categoria che promette contemplazione e non sollecitazione: `Faith & Spirituality`<!--@catalogs.netflix_categories_normalized--> è l'archetipo dell'estremo basso su questo asse.
+
+**Ancoraggio all'estremo alto** (prossimo a `SP.num.energy.max`, 1,0000<!--@SP.num.energy.max-->): l'archetipo musicale è il metal estremo o l'EDM da picco di serata — massima densità, nessuna pausa dinamica. Sul lato video l'equivalente è una categoria la cui promessa è l'attivazione continua: `Action & Adventure`<!--@catalogs.netflix_categories_normalized--> è l'archetipo dell'estremo alto.
+
+---
+
+## 4. Asse positività — `mood_valence`
+
+**Che cosa misura sul lato musicale.** `valence` è la valenza affettiva percepita: quanto un brano suona lieto o cupo, a prescindere da quanto sia intenso.
+
+**Che cosa significa assegnato a una categoria video.** Il **tono affettivo** che l'etichetta promette: quanto ci si aspetta di uscirne sollevati o turbati. È l'asse su cui l'indipendenza dall'energia va tenuta con più cura, perché è quello su cui l'intuizione tende a confonderli.
+
+**Su quale base si assegna.** Sull'esito emotivo che l'etichetta prefigura, non sull'intensità con cui lo prefigura.
+
+**Ancoraggio all'estremo basso** (prossimo a `SP.num.valence.min`, 0,0000<!--@SP.num.valence.min-->): l'archetipo musicale è il funeral doom o il dark ambient — registro di lutto, nessuna risoluzione. Sul lato video l'equivalente è una categoria la cui promessa è il disagio: `Horror Movies`<!--@catalogs.netflix_categories_normalized--> è l'archetipo dell'estremo basso su questo asse, e vi sta con **energia alta**, che è precisamente il caso che dimostra l'indipendenza dei due assi.
+
+**Ancoraggio all'estremo alto** (prossimo a `SP.num.valence.max`, 0,9950<!--@SP.num.valence.max-->): l'archetipo musicale è il pop solare o il reggae in maggiore — lietezza esplicita e senza ironia. Sul lato video l'equivalente è una categoria che promette leggerezza come proprio contenuto: `Children & Family Movies`<!--@catalogs.netflix_categories_normalized--> è l'archetipo dell'estremo alto.
+
+---
+
+## 5. Asse ritmo — `mood_danceability`
+
+**Che cosa misura sul lato musicale.** `danceability` è la regolarità e la propulsione ritmica: quanto un brano ha un battito stabile e riconoscibile. Non è la velocità — §11 di [`data_model.md`](data_model.md) spiega perché l'asse non è `tempo` — ma la **prevedibilità della pulsazione**.
+
+**Che cosa significa assegnato a una categoria video.** La **regolarità della cadenza** che l'etichetta promette: quanto la fruizione ha un passo riconoscibile e ripetuto, contro quanto procede per durate irregolari e stacchi imprevedibili. È l'asse meno intuitivo dei tre nella trasposizione, ed è quello su cui il criterio deve essere più esplicito.
+
+**Su quale base si assegna.** Su due segnali dell'etichetta, in quest'ordine: la presenza di musica ritmica come parte dichiarata del contenuto, e la regolarità del formato — un formato episodico a durata fissa ha una cadenza più alta di un formato a durata libera.
+
+**Ancoraggio all'estremo basso** (prossimo a `SP.num.danceability.min`, 0,0000<!--@SP.num.danceability.min-->): l'archetipo musicale è il free jazz o la musica classica a tempo libero — nessuna pulsazione stabile a cui agganciarsi. Sul lato video l'equivalente è una categoria che procede per durate e ritmi non prevedibili, senza alcuna componente ritmica dichiarata: `Documentaries`<!--@catalogs.netflix_categories_normalized--> è l'archetipo dell'estremo basso.
+
+**Ancoraggio all'estremo alto** (prossimo a `SP.num.danceability.max`, 0,9850<!--@SP.num.danceability.max-->): l'archetipo musicale è il funk, la disco, la house — battito stabile e propulsivo come tratto costitutivo. Sul lato video l'equivalente è la sola categoria in cui la musica ritmica **è** il contenuto dichiarato: `Music & Musicals`<!--@catalogs.netflix_categories_normalized--> è l'archetipo dell'estremo alto.
+
+---
+
+## 6. Come si legge un valore che non sta a un estremo
+
+Gli ancoraggi fissano i capi della scala. Fra i due, la legenda è questa — e descrive **regioni**, non assegnazioni:
+
+| Regione | Che cosa dichiara chi assegna |
+|---|---|
+| prossima all'estremo basso | l'etichetta promette il polo basso dell'asse come proprio tratto **costitutivo**: toglierlo cambierebbe la categoria |
+| bassa | il polo basso è il registro prevalente, ma non è ciò che definisce l'etichetta |
+| centrale | l'etichetta **non porta segnale** su questo asse — è il caso delle categorie generiche, geografiche e linguistiche di §2. Non significa «equilibrio misurato fra contenuti opposti» |
+| alta | il polo alto è il registro prevalente, ma non è ciò che definisce l'etichetta |
+| prossima all'estremo alto | l'etichetta promette il polo alto come proprio tratto **costitutivo** |
+
+**Due vincoli sulla forma del valore**, entrambi conseguenza di ciò che il valore è.
+
+Il primo: si scrive con **due cifre decimali**, arrotondate `ROUND_HALF_UP`. Non è un limite tecnico — è la granularità con cui questo criterio distingue i casi. Pubblicare più cifre per un valore assegnato, non misurato, dichiarerebbe una precisione che la costruzione non ha.
+
+Il secondo: i tre assi sono **indipendenti**. Nessuna regola lega il valore di un asse a quello di un altro sulla stessa categoria, e una coppia che sembra contraddittoria — energia alta e positività bassa — non è un errore da correggere ma spesso l'assegnazione giusta.
+
+---
+
+## 7. Come si contesta una riga
+
+Una contestazione è **legittima solo se cita un punto specifico di questo documento**: un ancoraggio di §3-§5, una regola di §2, la legenda di §6, o l'obbligo di scala di §1. Una contestazione della forma «a me quella categoria sembra più cupa» non è ammessa come tale, e chi verifica la registra come non ammessa invece di agire su di essa.
+
+Il motivo non è formale. Questo è l'unico strato interpretativo del progetto: se il metro di contestazione fosse l'opinione di chi verifica, la verifica indipendente diventerebbe una seconda assegnazione sovrapposta alla prima, e la tabella finale non avrebbe più alcun criterio dichiarato dietro di sé — avrebbe due giudizi non dichiarati, il secondo dei quali ha vinto perché è arrivato dopo.
+
+**Che cosa il verificatore può leggere è un'altra questione, e la risposta è: tutto.** Il criterio è il **metro** con cui si contesta, non un perimetro di lettura. In particolare, chi verifica deve poter aprire `reports/data_profile.json` per risolvere i sei identificativi di §1: senza di essi l'obbligo di scala — quello che questo documento chiama l'obbligo che conta di più — non è verificabile affatto.
+
+---
+
+## 8. I limiti di questo criterio
+
+**Non rende l'assegnazione riproducibile.** Due persone che applicassero questo documento alle stesse 42<!--@CL.NF.category.distinct--> categorie non otterrebbero le stesse righe. Il criterio riduce la dispersione e rende ogni scostamento **discutibile contro un testo**; non lo elimina, e non pretende di farlo.
+
+**Non copre il caso in cui la tassonomia della fonte cambi.** Se una categoria comparisse o sparisse dal catalogo, questo documento resterebbe valido come metro ma la tabella non coprirebbe più l'insieme. Il presidio contro quel caso non è nel criterio: è il controllo meccanico che confronta le categorie della tabella congelata con quelle del catalogo e **fallisce** se divergono.
+
+**Non autorizza a leggere il profilo di una categoria come una proprietà dei suoi titoli.** È una proprietà dell'**etichetta**, assegnata da una persona secondo questo documento. Un titolo che vi ricade non eredita quel profilo, e nessuna conclusione su un singolo contenuto discende da qui.
+
+**Non fa salire la confidenza di nulla.** I tre KPI che leggono la tabella — `BQ1-K3`, `BQ2-K2` e, attraverso quest'ultimo, `BQ2-K3` — restano a confidenza **media** per obbligo di §15 di [`data_model.md`](data_model.md), qualunque sia la cura con cui questo criterio è stato scritto e applicato.

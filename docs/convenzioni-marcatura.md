@@ -53,7 +53,7 @@ Un solo marcatore copre tutti e quattro i casi. La distinzione fra «non misurab
 
 ## 3. Dove si risolvono gli identificativi
 
-Il controllo unisce in un unico spazio dei nomi le mappe `values` di tutti gli artefatti versionati — oggi `reports/data_profile.json`, `reports/cleaning_report.json` e `reports/bq3_scenarios.json` — e **verifica** che l'unione non abbia collisioni invece di assumerlo. Restano risolvibili anche `catalogs.<chiave>` e `conventions.<chiave>` di ciascun artefatto, con semantica di appartenenza: il testo marcato deve essere membro dell'elenco.
+Il controllo unisce in un unico spazio dei nomi le mappe `values` di tutti gli artefatti versionati — oggi `reports/data_profile.json`, `reports/cleaning_report.json`, `reports/bq3_scenarios.json` e `data/curated/dim_category_mood.json` — e **verifica** che l'unione non abbia collisioni invece di assumerlo. Restano risolvibili anche `catalogs.<chiave>` e `conventions.<chiave>` di ciascun artefatto, con semantica di appartenenza: il testo marcato deve essere membro dell'elenco.
 
 ## 4. Regole
 
@@ -86,10 +86,16 @@ L'ultima riga è l'unica che varia. La severità è dichiarata per documento in 
 | `docs/data_audit.md` (002) | avviso |
 | `docs/data_cleaning.md` (003) | **errore** |
 | `docs/bq3_scenarios.md` (004) | **errore** |
+| `docs/data_model.md` (005) | **errore** |
+| `docs/content_taxonomy_bridge.md` (006) | **errore** |
+
+> **Nota in loco — 2026-08-20, feature `006`.** Le due righe finali sono state aggiunte insieme. Quella della `005` **mancava**: `docs/data_model.md` era entrato in `DOCUMENTS` sotto severità stretta con la feature 005, e questa tabella non lo registrava — un drift scoperto dalla `006` mentre aggiungeva il proprio documento, non un rilievo di revisione. Il testo precedente non viene riscritto altrove: l'omissione era una riga assente, e la correzione è la riga presente. La conseguenza per chi legge è che fra il merge della `005` e questa data la tabella dichiarava tre documenti verificati mentre lo script ne verificava quattro; la fonte autorevole restava e resta `DOCUMENTS`.
 
 È il corollario (c) della regola di §7, ed è tutta la differenza fra un controllo che elenca e uno che ferma. **La severità stretta vale per i documenti nuovi e non è retroattiva**: applicarla al documento della 002 richiederebbe di rimarcare un artefatto già mergiato, ed è un ritrovamento registrato per la regia, non un lavoro che una feature successiva assorbe di nascosto.
 
 Il controllo legge **solo** documenti e artefatti versionati: non richiede `data/raw/` e non riesegue alcuna pipeline.
+
+**Una verifica che non riguarda la marcatura.** Dalla feature 006 lo stesso script porta anche un presidio sui **dati** degli artefatti, eseguito prima di leggere qualunque documento: l'insieme delle categorie coperte da `data/curated/dim_category_mood.json` deve coincidere con il catalogo delle categorie video di `reports/cleaning_report.json`, e una divergenza è un errore. Sta qui, e non fra le righe della tabella, perché non è una condizione sulla grammatica: è un vincolo di coerenza fra due artefatti, che condivide con la marcatura solo il comando che lo esegue. Chi cerca in questa pagina la lista completa di ciò che l'esito verde certifica deve contare anche quello.
 
 ## 6. Le esclusioni strutturali
 
@@ -132,5 +138,6 @@ Ciò che il marcatore elimina è la categoria dell'omissione distratta. Non elim
 | 2026-08-11 | 003 | il marcatore di non-misurato, la severità per documento, l'unione degli spazi dei nomi con verifica delle collisioni |
 | 2026-08-15 | 003 | consolidamento in questo file; le due guardie sui marcatori malformati; la convivenza fra la seconda forma e il corollario (b); un solo marcatore per i quattro casi di non-misurato; lo script come elenco normativo delle esclusioni |
 | 2026-08-16 | 004 | il terzo artefatto nello spazio dei nomi unito e il terzo documento in severità stretta; l'elenco degli artefatti dichiarato una volta sola nello script, dopo che era duplicato fra la lettura e l'intestazione stampata |
+| 2026-08-20 | 006 | il quarto artefatto (`data/curated/dim_category_mood.json`, il primo fuori da `reports/`) e il quinto documento in severità stretta; il presidio sulla tassonomia delle categorie, che è un controllo sui **dati** degli artefatti e non sulla marcatura dei documenti; il recupero della riga di severità della `005`, mai registrata qui |
 
 **Una nota su ciò che la grammatica non esclude, scoperta scrivendo il documento della 004.** Le sigle di requisito con **suffisso letterale** — `FR-011a`, `FR-017a` — non rientrano nell'esclusione strutturale, che si chiude su un confine di parola dopo le cifre e non lo trova quando segue una lettera. In severità stretta la sigla viene quindi segnalata come quantità priva di marcatore. Non è un difetto da correggere allargando il criterio: le sigle si scrivono fra apici inversi, come già si fa per gli identificativi tecnici, e il caso si chiude senza toccare l'espressione. Sta qui perché il prossimo che lo incontra non lo prenda per un errore del controllo.
