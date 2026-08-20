@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "model": "Claude Sonnet 5 (claude-sonnet-5)",
+  "prompt": "Devi assegnare un profilo di mood a ciascuna di 42 categorie di un catalogo\nvideo, applicando un criterio già scritto che riceverai insieme a questo\nincarico.\n\n## I due soli file che puoi leggere\n\n- <cartella-isolata>/criterio.md\n- <cartella-isolata>/categorie.json\n\nNon leggere nient'altro. In particolare:\n\n- non aprire alcun file del repository in /Users/valerioquaranta/Documents/BI/Streamwave_proj,\n  nemmeno se il criterio vi rimanda con un link relativo (i link nella copia\n  che ricevi sono deliberatamente rotti: ignorali, non ricostruirli);\n- non cercare in rete;\n- non cercare altrove nel filesystem i documenti che il criterio nomina —\n  spec, piano, modello dati, roadmap, artefatti JSON.\n\nL'isolamento non è una precauzione formale. Il tuo output verrà verificato riga\nper riga da qualcun altro contro quel criterio e contro nient'altro: se conosci\nil ragionamento che ha prodotto il criterio, la tua proposta lo riflette e la\nverifica non trova più niente. Il valore di questo passo sta interamente nel\nfatto che tu abbia visto solo il testo del criterio.\n\n## Il compito\n\nLeggi `criterio.md` per intero prima di assegnare qualunque valore. Definisce\ntre assi — `mood_energy`, `mood_valence`, `mood_danceability` — su dominio\ndecimale 0-1, dichiara che cosa significa ogni valore, su quale base si\nassegna, e ancora gli estremi di ciascun asse a osservazioni sul lato musicale.\nLe sezioni §2 e §6 contengono le regole che decidono i casi ambigui: applicale\ncome sono scritte, anche dove porterebbero a un valore che ti sembra poco\ninformativo.\n\nPoi assegna, per ciascuna delle 42 categorie di `categorie.json`, i tre valori.\n\nVincoli di forma, tutti dal criterio:\n\n- due cifre decimali esatte, arrotondamento ROUND_HALF_UP — \"0.70\", non \"0.7\";\n- valori nell'intervallo 0-1 inclusi gli estremi;\n- i tre assi sono indipendenti: nessuna regola lega il valore di un asse a\n  quello di un altro sulla stessa categoria, e una coppia che sembra\n  contraddittoria non è un errore da correggere;\n- tutte e 42 le categorie, con il nome letterale esattamente come compare in\n  `categorie.json` — non normalizzarlo, non correggerlo, non riordinarlo.\n\n## Che cosa NON devi fare\n\n- non giustificare le singole righe, né nel JSON né nella risposta. Servono i\n  numeri e basta: una motivazione scritta da te predisporrebbe chi verifica ad\n  accettarli, ed è esattamente l'effetto che questo passo esiste per evitare;\n- non nominare alcun titolo, trama o cast del catalogo video, in nessun punto\n  della tua risposta;\n- non proporre modifiche al criterio, non segnalare che una categoria ti sembra\n  mal definita, non aggiungere categorie mancanti. Se il criterio è difettoso,\n  lo scoprirà la verifica: qui lo applichi come sta.\n\n## L'output\n\nSolo questo, senza testo prima o dopo, in un blocco di codice json:\n\n{\n  \"Action & Adventure\": {\"mood_energy\": \"0.70\", \"mood_valence\": \"0.55\", \"mood_danceability\": \"0.60\"},\n  ...\n}\n\nLe chiavi sono le 42 stringhe di `categorie.json`, tutte presenti, nello stesso\nordine. I valori sono stringhe, non numeri.\n\n(L'esempio qui sopra mostra la forma, non un'assegnazione: non trattarlo come\nun valore già deciso per quella categoria.)",
+  "invoked_at": "2026-08-20",
+  "rows": {
+    "Action & Adventure": {
+      "mood_energy": "0.95",
+      "mood_valence": "0.65",
+      "mood_danceability": "0.35"
+    },
+    "Anime Features": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "Anime Series": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "British TV Shows": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "Children & Family Movies": {
+      "mood_energy": "0.55",
+      "mood_valence": "0.95",
+      "mood_danceability": "0.40"
+    },
+    "Classic & Cult TV": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "Classic Movies": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "Comedies": {
+      "mood_energy": "0.55",
+      "mood_valence": "0.75",
+      "mood_danceability": "0.35"
+    },
+    "Crime TV Shows": {
+      "mood_energy": "0.65",
+      "mood_valence": "0.35",
+      "mood_danceability": "0.45"
+    },
+    "Cult Movies": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "Documentaries": {
+      "mood_energy": "0.35",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.05"
+    },
+    "Docuseries": {
+      "mood_energy": "0.35",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.20"
+    },
+    "Dramas": {
+      "mood_energy": "0.45",
+      "mood_valence": "0.35",
+      "mood_danceability": "0.30"
+    },
+    "Faith & Spirituality": {
+      "mood_energy": "0.05",
+      "mood_valence": "0.65",
+      "mood_danceability": "0.20"
+    },
+    "Horror Movies": {
+      "mood_energy": "0.80",
+      "mood_valence": "0.05",
+      "mood_danceability": "0.20"
+    },
+    "Independent Movies": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "International Movies": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "International TV Shows": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "Kids' TV": {
+      "mood_energy": "0.55",
+      "mood_valence": "0.85",
+      "mood_danceability": "0.45"
+    },
+    "Korean TV Shows": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "LGBTQ Movies": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "Movies": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "Music & Musicals": {
+      "mood_energy": "0.65",
+      "mood_valence": "0.70",
+      "mood_danceability": "0.95"
+    },
+    "Reality TV": {
+      "mood_energy": "0.60",
+      "mood_valence": "0.55",
+      "mood_danceability": "0.50"
+    },
+    "Romantic Movies": {
+      "mood_energy": "0.35",
+      "mood_valence": "0.75",
+      "mood_danceability": "0.25"
+    },
+    "Romantic TV Shows": {
+      "mood_energy": "0.35",
+      "mood_valence": "0.75",
+      "mood_danceability": "0.40"
+    },
+    "Sci-Fi & Fantasy": {
+      "mood_energy": "0.60",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.30"
+    },
+    "Science & Nature TV": {
+      "mood_energy": "0.30",
+      "mood_valence": "0.55",
+      "mood_danceability": "0.20"
+    },
+    "Spanish-Language TV Shows": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "Sports Movies": {
+      "mood_energy": "0.75",
+      "mood_valence": "0.65",
+      "mood_danceability": "0.30"
+    },
+    "Stand-Up Comedy": {
+      "mood_energy": "0.55",
+      "mood_valence": "0.80",
+      "mood_danceability": "0.40"
+    },
+    "Stand-Up Comedy & Talk Shows": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.70",
+      "mood_danceability": "0.40"
+    },
+    "TV Action & Adventure": {
+      "mood_energy": "0.90",
+      "mood_valence": "0.65",
+      "mood_danceability": "0.45"
+    },
+    "TV Comedies": {
+      "mood_energy": "0.55",
+      "mood_valence": "0.75",
+      "mood_danceability": "0.50"
+    },
+    "TV Dramas": {
+      "mood_energy": "0.45",
+      "mood_valence": "0.35",
+      "mood_danceability": "0.45"
+    },
+    "TV Horror": {
+      "mood_energy": "0.80",
+      "mood_valence": "0.05",
+      "mood_danceability": "0.35"
+    },
+    "TV Mysteries": {
+      "mood_energy": "0.55",
+      "mood_valence": "0.35",
+      "mood_danceability": "0.40"
+    },
+    "TV Sci-Fi & Fantasy": {
+      "mood_energy": "0.60",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.45"
+    },
+    "TV Shows": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "TV Thrillers": {
+      "mood_energy": "0.70",
+      "mood_valence": "0.30",
+      "mood_danceability": "0.40"
+    },
+    "Teen TV Shows": {
+      "mood_energy": "0.50",
+      "mood_valence": "0.50",
+      "mood_danceability": "0.50"
+    },
+    "Thrillers": {
+      "mood_energy": "0.70",
+      "mood_valence": "0.30",
+      "mood_danceability": "0.25"
+    }
+  }
+}
