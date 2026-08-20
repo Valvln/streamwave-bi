@@ -147,7 +147,7 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow doc
 - [X] T036 [US5] **Dispatch della revisione in contesto pulito**: il revisore riceve **solo** `docs/content_taxonomy_bridge.md` — non il criterio, non la proposta, non la tabella congelata, non alcun altro file del repository (D9.2, FR-011a). Sul modello di `specs/005-data-model-design/review.md`
 - [X] T037 [US5] **Scrivere e proporre il commit di `specs/006-content-taxonomy-bridge/review.md` non appena la revisione torna, prima di correggere il documento** (primo obbligo di `CLAUDE.md`). Il verbale dichiara in apertura che cosa ha letto e che cosa no, e ancora la versione letta con commit e impronta (FR-011b)
 - [X] T038 [US5] Chiudere i rilievi del verbale nel documento pubblicato (e, se un rilievo lo richiede, negli altri artefatti). Il verbale stesso **non si corregge**: il blocco di chiusura, aggiunto in coda, dichiara come ogni rilievo è stato chiuso — risolvendolo, indebolendo l'affermazione, respingendolo con la prova, o rinviandolo (quarto obbligo di `CLAUDE.md`)
-- [ ] T039 [US5] **Verifica**: confermare che il commit di `review.md` (T037) precede, in history git, ogni commit di correzione al documento prodotto da T038 (SC-003)
+- [X] T039 [US5] **Verifica**: confermare che il commit di `review.md` (T037) precede, in history git, ogni commit di correzione al documento prodotto da T038 (SC-003)
 
 **Checkpoint**: SC-003 verificato. `006b` è chiuso: il documento esiste, è ancorato, è passato dalla revisione che `CLAUDE.md` impone a ogni feature, e la `006` non è la prima delle sei a saltarla.
 
@@ -161,7 +161,7 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow doc
 - [X] T041 **Preparare, non scrivere**, i riferimenti puntuali per l'aggiornamento di `docs/roadmap.md` (FR-026): dove vive la chiusura di `DA-1` come eseguita (distinta dalla risoluzione di principio già registrata il 2026-08-19), della divergenza 10 della `001`, della divergenza 5 della `002`, della parte generale della divergenza 5 della `003`. **Non modificare `docs/roadmap.md` direttamente**: è artefatto di governance e appartiene alla regia (`CLAUDE.md`; stesso confine già osservato dalla `004`, plan.md "Project Structure"). Consegnare i riferimenti a Valerio perché la regia possa scrivere la sezione senza doverli ricostruire
 - [X] T042 [P] Rileggere [contracts/dim-category-mood-contract.md](./contracts/dim-category-mood-contract.md) contro ciò che la feature ha effettivamente prodotto, e correggere il contratto se l'implementazione diverge — lezione della `003`: dove contratto e implementazione divergono, è il contratto a dover essere corretto, non chi legge a doverlo indovinare
 - [X] T043 [P] Verificare che nessun artefatto della feature presenti `BQ1-K3`, `BQ2-K2` o `BQ2-K3` a confidenza `alta`, e che nessuno etichetti la fonte di `dim_category_mood` come `Benchmark (esterno)` (SC-005, FR-017, FR-018)
-- [ ] T044 Eseguire **l'intero** [quickstart.md](./quickstart.md) dalla Prova 1 alla Prova 10 su una copia pulita del repository, in sequenza. Le verifiche di fase hanno coperto le prove una alla volta; questa copre la loro composizione
+- [X] T044 Eseguire **l'intero** [quickstart.md](./quickstart.md) dalla Prova 1 alla Prova 10 su una copia pulita del repository, in sequenza. Le verifiche di fase hanno coperto le prove una alla volta; questa copre la loro composizione
 
 ---
 
