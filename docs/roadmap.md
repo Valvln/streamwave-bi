@@ -141,6 +141,7 @@ Lascia **un solo artefatto**, [`docs/data_model.md`](data_model.md), ed è il pi
 | Debito testuale della 002: divergenza 3, allineare §5 del documento di audit a citare D3 della 001 e A2/A3 del business case | ~0,5 | prima di `007` |
 | Debito testuale della 002: portare `docs/data_audit.md` sotto la severità stretta, rimarcandone le quantità | ~1 | prima di `007`, nella stessa sessione della riga sopra |
 | ~~Emendamento della constitution: ammettere i benchmark pubblici di settore fra le fonti dati~~ | — | ✅ fatto il 2026-08-15, **v1.1.0** |
+| ~~Emendamento della constitution: ammettere le assegnazioni dell'analista congelate in artefatto versionato~~ | — | ✅ fatto il 2026-08-20, **v1.2.0** — trovato dalla revisione della spec della `006`, vedi sotto |
 | Debito testuale per l'ancoraggio: assunzione di trasferimento in §2 di `docs/business_case.md`, richiamo in §6, note datate sulle schede `BQ3-K1` e `BQ3-K2` | ~1 | ✅ chiuso dentro `004` il 2026-08-16, per sole aggiunte |
 | Pubblicazione di prova su workspace Power BI Service e cattura schermate | ~1 | dopo `008`, entro il **26 agosto** (fine abbonamento Microsoft 365) — **finestra stretta**, vedi sotto |
 
@@ -161,6 +162,14 @@ Lascia **un solo artefatto**, [`docs/data_model.md`](data_model.md), ed è il pi
 Ha però una **conseguenza analitica che un chore normalmente non ha**, e per questo porta un obbligo di riporto: se il motore contraddice il documento — una cardinalità che si rivela molti-a-molti, una direzione di filtro che non regge — quello non è un intoppo di configurazione, è un difetto di progettazione trovato dall'unica prova che la `005` non poteva eseguire. In quel caso **si chiude con una nota in loco su `docs/data_model.md`**, che è debito della `005`, e non ridisegnando il modello dentro il chore.
 
 Va prima di `007` perché è la sua precondizione: una misura DAX non si verifica contro un documento. Non produce un deliverable dichiarato — il `.pbix` resta della `008` — e il file che ne esce è materiale di lavoro finché quella feature non lo raccoglie.
+
+**L'emendamento v1.2.0, e come è stato trovato.** La revisione della spec della `006` al primo punto di fermata ha mostrato che l'etichetta `Sintetico` **non copriva** la tabella di corrispondenza generi → mood. L'elenco delle fonti ammesse la definisce come «dati sintetici **generati da script versionati**», e `dim_category_mood` non è generata da alcuno script — né deve esserlo, perché la condizione che rende ammissibile l'intera `DA-1` è che nessuno script chiami mai il modello.
+
+Il progetto aveva già un artefatto curato a mano e mai scritto da uno script, `data/benchmarks/bq3_tier_upgrade.json`, ma quello è ammesso perché la `v1.1.0` gli ha scritto un comma proprio: **la mano curata era ammessa solo quando la fonte è esterna.** Un'assegnazione dell'analista non lo è.
+
+La v1.2.0 aggiunge quindi la quinta fonte con cinque condizioni, più severe di quelle dei benchmark e non più lasche, perché è l'ultimo ripiego e sotto non c'è nulla. **Bump MINOR**, come la `1.1.0`: la formulazione più comoda avrebbe permesso di rivendicare un chiarimento, e scegliere il bump basso per risparmiare è la scorciatoia che questi emendamenti esistono per non prendere.
+
+Due cose vanno dette con precisione, perché la prima indebolisce l'argomento e ometterla sarebbe scorretto. **Il testo precedente non era ostile all'assegnazione dell'analista**: il comma sui benchmark la nominava già come ripiego ammesso — «il parametro torna a essere una scelta dell'analista e va dichiarato come tale, il che è ammesso». Non le poneva però alcuna condizione, e la nominava per il caso in cui alimenta una generazione, cioè dove uno script produce comunque il valore finale. Il caso in cui **il valore assegnato è esso stesso il dato pubblicato** non era regolato. E la seconda: la tabella era già promessa dalla **D1 della `001`** — «una tabella di corrispondenza curata e versionata» — quattordici giorni prima che qualcuno notasse che non era una fonte ammessa. L'emendamento regolarizza una promessa vecchia, non solo una feature che si apre.
 
 Nessuno di questi è una feature e nessuno apre un branch numerato. Il principio VI della constitution richiede che ogni feature sia riconducibile a BQ1, BQ2 o BQ3: predisporre una macchina virtuale non risponde ad alcuna domanda di business. Trattarlo come feature significherebbe o violare il principio VI, o inventargli un aggancio narrativo che non ha. Resta lavoro necessario, tracciato qui e non in una spec.
 
