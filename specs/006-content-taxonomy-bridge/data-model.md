@@ -59,11 +59,18 @@ L'artefatto finale (FR-012) e il quarto membro di `ARTIFACTS` (FR-023, D6). Port
   },
   "verification": {
     "verified_by": "<l'attore dispatchato per la verifica — es. 'subagent, non ha prodotto la proposta' oppure 'Valerio' — non una formula generica: deve nominare chi, non solo affermare l'indipendenza>",
+    "verified_at": "AAAA-MM-GG",
+    "independence_residual": "<che cosa l'indipendenza dichiarata NON copre: quale contesto entrambi gli attori condividono comunque. Dichiarato invece che taciuto>",
     "changes_count": 0,
     "changes": [
       // presente solo se changes_count > 0: una voce per cella modificata
       // { "category": "...", "axis": "mood_energy", "proposal_value": "0.70",
       //   "final_value": "0.55", "criterion_reference": "..." }
+    ],
+    "criterion_findings": [
+      // difetti del criterio trovati dalla verifica, che NON sono celle contestate
+      // { "id": "CF-1", "sections": ["§2", "§5"], "finding": "...",
+      //   "resolution": "...", "cells_affected": 5 }
     ],
     "zero_changes_note": "<obbligatorio solo se changes_count == 0: dichiara il ritrovamento, non lo presenta come conferma — User Story 3, scenario 3>"
   },
@@ -97,6 +104,16 @@ L'artefatto finale (FR-012) e il quarto membro di `ARTIFACTS` (FR-023, D6). Port
   }
 }
 ```
+
+### I tre campi aggiunti in fase di implementazione
+
+`verified_at`, `independence_residual` e `criterion_findings` non erano in questa sezione quando è stata scritta, e sono stati aggiunti dalla verifica di T017 il 2026-08-20. La ragione di ciascuno:
+
+- **`verified_at`** perché `changes_count` senza una data non dice se la verifica preceda o segua il congelamento;
+- **`independence_residual`** perché la condizione 4 della quinta fonte è soddisfatta dal fatto che chi verifica non abbia prodotto la proposta, ma il contesto che i due attori condividono comunque — nel caso concreto le istruzioni di progetto che il sistema inietta in entrambi — non è nullo, e un registro che dichiarasse solo l'indipendenza direbbe meno del vero. È lo stesso motivo per cui il verbale di revisione dichiara in apertura cosa è stato letto e cosa no;
+- **`criterion_findings`** perché la verifica ha prodotto un esito che `changes` non poteva contenere: difetti del **criterio**, non celle contestate. Registrarli come celle spostate sarebbe stato falso; non registrarli li avrebbe persi, e sono l'esito più utile della verifica — vedi §7 del criterio, che vieta di spostare una riga senza citare il criterio, e che quindi produce necessariamente questa categoria residua.
+
+La correzione va in questa direzione — modello allineato all'implementazione — per la stessa ragione dichiarata in T042 per il contratto: dove i due divergono, è il documento a doversi correggere, non chi legge a doverlo indovinare.
 
 ### Perché `values` è la tabella, non una sua copia
 

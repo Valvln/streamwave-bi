@@ -41,10 +41,10 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow doc
 
 **Scopo**: verificare le premesse trovate in Fase 0 **prima** di scrivere una riga. Tutte e tre si annullerebbero in silenzio se sbagliate.
 
-- [ ] T001 Verificare con `git check-ignore -v data/curated/test.json` che il percorso **non** sia intercettato da `.gitignore` (F1). Se lo fosse, fermarsi e cambiare collocazione prima di scrivere qualunque file
-- [ ] T002 [P] Verificare che il prefisso `MOOD.` per `values` sia disgiunto da `NF.`, `SP.`, `CL.`, `X.`, `BQ3.` nei quattro artefatti esistenti (T2 di research.md)
-- [ ] T003 [P] Verificare che le chiavi `mood_scale_anchor` e `mood_rounding` non collidano nello spazio piatto di `conventions` (F2, ripetuto qui perché nulla garantisce che due feature lo trovino nello stesso stato)
-- [ ] T004 [P] Rieseguire la normalizzazione a slug (minuscolo, non alfanumerico → `_`) sulle 42 categorie di `catalogs.netflix_categories_normalized` e confermare **zero collisioni** (F4). Se ne comparisse anche una sola, la forma degli identificativi `MOOD.category.<slug>.<asse>` va rivista prima di Fase 3
+- [X] T001 Verificare con `git check-ignore -v data/curated/test.json` che il percorso **non** sia intercettato da `.gitignore` (F1). Se lo fosse, fermarsi e cambiare collocazione prima di scrivere qualunque file
+- [X] T002 [P] Verificare che il prefisso `MOOD.` per `values` sia disgiunto da `NF.`, `SP.`, `CL.`, `X.`, `BQ3.` nei quattro artefatti esistenti (T2 di research.md)
+- [X] T003 [P] Verificare che le chiavi `mood_scale_anchor` e `mood_rounding` non collidano nello spazio piatto di `conventions` (F2, ripetuto qui perché nulla garantisce che due feature lo trovino nello stesso stato)
+- [X] T004 [P] Rieseguire la normalizzazione a slug (minuscolo, non alfanumerico → `_`) sulle 42 categorie di `catalogs.netflix_categories_normalized` e confermare **zero collisioni** (F4). Se ne comparisse anche una sola, la forma degli identificativi `MOOD.category.<slug>.<asse>` va rivista prima di Fase 3
 
 **Checkpoint**: le collocazioni reggono e i nomi non collidono. Si può scrivere.
 
@@ -54,7 +54,7 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow doc
 
 **Scopo**: verificare che F3 sia vero prima che il criterio ne dipenda. Blocca US1.
 
-- [ ] T005 Risolvere `SP.num.energy.min`, `SP.num.energy.max`, `SP.num.valence.min`, `SP.num.valence.max`, `SP.num.danceability.min`, `SP.num.danceability.max` in `reports/data_profile.json` e registrarne i valori esatti per l'uso nel criterio (F3). Se uno dei sei non risolvesse più — l'artefatto è cambiato dalla data della ricerca — il criterio deve ancorarsi a ciò che risolve davvero, non a ciò che questa fase presupponeva
+- [X] T005 Risolvere `SP.num.energy.min`, `SP.num.energy.max`, `SP.num.valence.min`, `SP.num.valence.max`, `SP.num.danceability.min`, `SP.num.danceability.max` in `reports/data_profile.json` e registrarne i valori esatti per l'uso nel criterio (F3). Se uno dei sei non risolvesse più — l'artefatto è cambiato dalla data della ricerca — il criterio deve ancorarsi a ciò che risolve davvero, non a ciò che questa fase presupponeva
 
 **Checkpoint**: i sei identificativi esistono e sono noti. US1 può cominciare.
 
@@ -66,12 +66,12 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow doc
 
 **Independent Test**: il primo commit che introduce il file non tocca né la proposta né la tabella congelata, e li precede (quickstart, Prova 1).
 
-- [ ] T006 [US1] Scrivere in `docs/mood_assignment_criteria.md`, per ciascuno dei tre assi (`mood_energy`, `mood_valence`, `mood_danceability`), che cosa significa ogni valore per una categoria video e su quale base si assegna (FR-002)
-- [ ] T007 [US1] Scrivere per ciascun asse un esempio di ancoraggio all'estremo basso e uno all'estremo alto, **a livello di categoria o genere musicale come archetipo**, citando i sei identificativi di T005 come base osservabile (FR-004, D2, D7). Nessun titolo, trama o cast (FR-003) — se un esempio nomina un titolo specifico, va riscritto prima di procedere
-- [ ] T008 [US1] Aggiungere la nota di provenienza che dichiara che il criterio precede ogni valore della tabella, con rimando a questo piano e a D1
-- [ ] T009 [US1] Verificare che il file **non contenga** alcun valore numerico riconducibile a una cella della tabella, nemmeno di prova (FR-001) — solo gli identificativi di ancoraggio di T005
-- [ ] T010 [US1] **Punto di fermata obbligatorio (★, terzo stop della `DA-1`).** Proporre a Valerio il commit del solo criterio. È questo commit a costituire la prova di precedenza richiesta da D1 e dalla condizione 1 della quinta fonte della constitution — senza di esso resta un'affermazione. **Non proseguire alla Fase 4 prima che sia stato eseguito e il criterio confermato**
-- [ ] T011 [US1] **Verifica**: eseguire le Prove 1 e 2 di [quickstart.md](./quickstart.md) — precedenza in history, ancoraggio a osservazioni reali e non a titoli
+- [X] T006 [US1] Scrivere in `docs/mood_assignment_criteria.md`, per ciascuno dei tre assi (`mood_energy`, `mood_valence`, `mood_danceability`), che cosa significa ogni valore per una categoria video e su quale base si assegna (FR-002)
+- [X] T007 [US1] Scrivere per ciascun asse un esempio di ancoraggio all'estremo basso e uno all'estremo alto, **a livello di categoria o genere musicale come archetipo**, citando i sei identificativi di T005 come base osservabile (FR-004, D2, D7). Nessun titolo, trama o cast (FR-003) — se un esempio nomina un titolo specifico, va riscritto prima di procedere
+- [X] T008 [US1] Aggiungere la nota di provenienza che dichiara che il criterio precede ogni valore della tabella, con rimando a questo piano e a D1
+- [X] T009 [US1] Verificare che il file **non contenga** alcun valore numerico riconducibile a una cella della tabella, nemmeno di prova (FR-001) — solo gli identificativi di ancoraggio di T005
+- [X] T010 [US1] **Punto di fermata obbligatorio (★, terzo stop della `DA-1`).** Proporre a Valerio il commit del solo criterio. È questo commit a costituire la prova di precedenza richiesta da D1 e dalla condizione 1 della quinta fonte della constitution — senza di esso resta un'affermazione. **Non proseguire alla Fase 4 prima che sia stato eseguito e il criterio confermato**
+- [X] T011 [US1] **Verifica**: eseguire le Prove 1 e 2 di [quickstart.md](./quickstart.md) — precedenza in history, ancoraggio a osservazioni reali e non a titoli
 
 **Checkpoint**: SC-001 verificabile. Il criterio esiste, è committato da solo, ed è il solo metro ammesso per ogni contestazione successiva.
 
@@ -85,11 +85,11 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow doc
 
 **⚠️ Nessuno script invoca il modello**: l'invocazione di questa fase è un passaggio **umano**, fuori da qualunque pipeline (FR-005).
 
-- [ ] T012 [US2] Invocare manualmente un LLM con il criterio di `docs/mood_assignment_criteria.md` come istruzione, ottenendo una prima stesura delle 42 righe (una per categoria di `catalogs.netflix_categories_normalized`, tre valori decimali ciascuna)
-- [ ] T013 [US2] Scrivere `data/curated/dim_category_mood_proposal.json` secondo [data-model.md](./data-model.md) §2: `schema_version`, `model`, `prompt` per intero, `invoked_at`, `rows` con le chiavi letterali delle 42 categorie, valori come **stringhe decimali** (T4 di research.md)
-- [ ] T014 [US2] Verificare con `grep -rniE "openai|anthropic|api[._-]?key|requests\.(get|post)|urllib\.request" scripts/` che nessuna corrispondenza esista (FR-005, FR-007): la proposta non è, e non deve poter sembrare, un passo di pipeline
-- [ ] T015 [US2] Proporre a Valerio il commit della proposta, **separato** dal commit del criterio (T010)
-- [ ] T016 [US2] **Verifica**: eseguire la Prova 3 di [quickstart.md](./quickstart.md)
+- [X] T012 [US2] Invocare manualmente un LLM con il criterio di `docs/mood_assignment_criteria.md` come istruzione, ottenendo una prima stesura delle 42 righe (una per categoria di `catalogs.netflix_categories_normalized`, tre valori decimali ciascuna)
+- [X] T013 [US2] Scrivere `data/curated/dim_category_mood_proposal.json` secondo [data-model.md](./data-model.md) §2: `schema_version`, `model`, `prompt` per intero, `invoked_at`, `rows` con le chiavi letterali delle 42 categorie, valori come **stringhe decimali** (T4 di research.md)
+- [X] T014 [US2] Verificare con `grep -rniE "openai|anthropic|api[._-]?key|requests\.(get|post)|urllib\.request" scripts/` che nessuna corrispondenza esista (FR-005, FR-007): la proposta non è, e non deve poter sembrare, un passo di pipeline
+- [X] T015 [US2] Proporre a Valerio il commit della proposta, **separato** dal commit del criterio (T010)
+- [X] T016 [US2] **Verifica**: eseguire la Prova 3 di [quickstart.md](./quickstart.md)
 
 **Checkpoint**: la proposta esiste, è distinta dal criterio nella history, e non è mai stata trattata come tabella finale (FR-007).
 
@@ -103,13 +103,13 @@ Chi riprende questa lista a metà e non sa a che punto è: `git log --follow doc
 
 **⚠️ Non è la revisione in contesto pulito di D9.2** (FR-008): è un passo di lavorazione, che avviene prima del congelamento e con pieno accesso al resto del repository — l'indipendenza richiesta è quella di chi verifica, non l'assenza di contesto.
 
-- [ ] T017 [US3] **Dispatch esplicito della verifica a un attore distinto da chi ha condotto T012** — un subagent che non ha prodotto la proposta, oppure Valerio. Non serve l'isolamento stretto da subagent di T036: quell'attore legge il resto del repository, in particolare `reports/data_profile.json` per i sei ancoraggi di FR-004 (correzione B2 della revisione: la sola dichiarazione «chi verifica non è chi ha proposto», senza un meccanismo di dispatch, non la realizza — due task consecutivi nella stessa sessione sarebbero eseguiti dalla stessa sessione). L'attore verifica ciascuna delle 126 celle della proposta contro il criterio (T006-T008) come **unico metro di contestazione** — non un vincolo su che cosa possa leggere (FR-008)
-- [ ] T018 [US3] Per ogni cella contestata, registrare il punto specifico del criterio violato (FR-009). Una contestazione priva di questo riferimento non è ammessa come tale
-- [ ] T019 [US3] Contare le celle (categoria × asse) modificate rispetto alla proposta. **Se il conteggio è zero, scrivere la dichiarazione esplicita che è un ritrovamento** — la proposta seguiva già il criterio — **e non una conferma del processo** (FR-010, User Story 3 scenario 3)
-- [ ] T020 [US3] Scrivere `data/curated/dim_category_mood.json` secondo [data-model.md](./data-model.md) §3: `schema_version`, `version: 1`, `source` (percorso e impronta sha256 della proposta), `verification` (`verified_by` MUST nominare esplicitamente l'attore dispatchato in T017 — «subagent, non ha prodotto la proposta di T012» oppure «Valerio» — non una formula generica; `changes_count`; l'elenco delle celle modificate con il punto del criterio citato; la nota di ritrovamento se zero), `values` con le 126 celle `MOOD.category.<slug>.<asse>` più i tre identificativi aggregati, `catalogs.mood_categories`, `conventions` (`mood_scale_anchor` che cita i sei identificativi di T005, `mood_rounding`)
-- [ ] T021 [US3] Verificare che ogni valore in `values` sia una stringa decimale nell'intervallo `0-1` (FR-013, T4/T5 di research.md) — nessun `float`, nessun valore fuori scala
+- [X] T017 [US3] **Dispatch esplicito della verifica a un attore distinto da chi ha condotto T012** — un subagent che non ha prodotto la proposta, oppure Valerio. Non serve l'isolamento stretto da subagent di T036: quell'attore legge il resto del repository, in particolare `reports/data_profile.json` per i sei ancoraggi di FR-004 (correzione B2 della revisione: la sola dichiarazione «chi verifica non è chi ha proposto», senza un meccanismo di dispatch, non la realizza — due task consecutivi nella stessa sessione sarebbero eseguiti dalla stessa sessione). L'attore verifica ciascuna delle 126 celle della proposta contro il criterio (T006-T008) come **unico metro di contestazione** — non un vincolo su che cosa possa leggere (FR-008)
+- [X] T018 [US3] Per ogni cella contestata, registrare il punto specifico del criterio violato (FR-009). Una contestazione priva di questo riferimento non è ammessa come tale
+- [X] T019 [US3] Contare le celle (categoria × asse) modificate rispetto alla proposta. **Se il conteggio è zero, scrivere la dichiarazione esplicita che è un ritrovamento** — la proposta seguiva già il criterio — **e non una conferma del processo** (FR-010, User Story 3 scenario 3)
+- [X] T020 [US3] Scrivere `data/curated/dim_category_mood.json` secondo [data-model.md](./data-model.md) §3: `schema_version`, `version: 1`, `source` (percorso e impronta sha256 della proposta), `verification` (`verified_by` MUST nominare esplicitamente l'attore dispatchato in T017 — «subagent, non ha prodotto la proposta di T012» oppure «Valerio» — non una formula generica; `changes_count`; l'elenco delle celle modificate con il punto del criterio citato; la nota di ritrovamento se zero), `values` con le 126 celle `MOOD.category.<slug>.<asse>` più i tre identificativi aggregati, `catalogs.mood_categories`, `conventions` (`mood_scale_anchor` che cita i sei identificativi di T005, `mood_rounding`)
+- [X] T021 [US3] Verificare che ogni valore in `values` sia una stringa decimale nell'intervallo `0-1` (FR-013, T4/T5 di research.md) — nessun `float`, nessun valore fuori scala
 - [ ] T022 [US3] Proporre a Valerio il commit della tabella congelata, separato dai due precedenti
-- [ ] T023 [US3] **Verifica**: eseguire la Prova 4 di [quickstart.md](./quickstart.md)
+- [X] T023 [US3] **Verifica**: eseguire la Prova 4 di [quickstart.md](./quickstart.md)
 
 **Checkpoint**: SC-002 verificabile. `006a` è sostanzialmente chiuso — la tabella esiste, è congelata, e la verifica indipendente è dichiarata e quantificata.
 
