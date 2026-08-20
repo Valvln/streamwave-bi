@@ -481,6 +481,16 @@ Dalla forma discendono due<!--#--> obblighi non negoziabili e due<!--#--> condiz
 3. **la copertura attesa è totale**: una riga per ciascuna delle 42<!--@CL.NF.category.distinct--> categorie. Una copertura parziale è ammessa — l'obbligo effettivo non è coprire tutto, è **dichiarare** che cosa si è coperto — e le misure che leggono la tabella devono dire che cosa fanno sulle categorie mancanti, perché una categoria senza profilo sparisce silenziosamente da una media;
 4. **questo documento non dice né chi né come costruisca le righe.** È una decisione aperta della roadmap, e resta aperta. Non è un vincolo: è la dichiarazione che un vincolo qui non viene posto, scritta perché nessuno la scambi per una dimenticanza.
 
+> **Nota in loco — 2026-08-20, feature `006-content-taxonomy-bridge`.** La condizione qui sopra non è più vera come scritta. Il testo originale resta: era la dichiarazione corretta al momento in cui è stata scritta, ed è la traccia di ciò che questo modello aveva deliberatamente lasciato aperto.
+>
+> **Precedente**: «è una decisione aperta della roadmap, e resta aperta».
+>
+> **Corretto**: la decisione è stata presa il 2026-08-19 ed è `DA-1`. Un LLM propone le righe in un'unica invocazione **manuale**; una persona le verifica contro un criterio scritto e committato **prima** che qualunque valore esista; **nessuno script chiama il modello**, né a runtime né in fase di costruzione, e la tabella si congela in un artefatto versionato che nessuno rigenera.
+>
+> **Dove vive la motivazione per esteso**: [`roadmap.md`](roadmap.md), sezione «Decisioni aperte», voce `DA-1`. Il processo come è stato effettivamente eseguito, con i suoi limiti, sta in [`content_taxonomy_bridge.md`](content_taxonomy_bridge.md); il metro di assegnazione in [`mood_assignment_criteria.md`](mood_assignment_criteria.md).
+>
+> **Che cosa non cambia in questa sezione.** Il modello dati continua a non porre il vincolo: il «chi» e il «come» ora esistono, sono verificabili, e vivono altrove. Questa nota toglie a questa pagina il ruolo di unico posto in cui cercarli — non le assegna quello di posto in cui sono decisi.
+
 ## 16. Le assenze che sono decisioni
 
 Un'assenza non si vede guardando uno schema. Queste due<!--#--> sono decisioni prese, e senza questa sezione chiunque materializzasse il modello le annullerebbe per abitudine: sono assenze di **tabelle**, cioè le sole che si notano aprendo un elenco di tabelle e non trovandovi ciò che ci si aspetta.
