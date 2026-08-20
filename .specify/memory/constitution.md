@@ -1,6 +1,46 @@
 <!--
 SYNC IMPACT REPORT
 ==================
+Emendamento 1.1.0 → 1.2.0 (2026-08-20)
+--------------------------------------
+Bump rationale: MINOR. Nessun principio rimosso ne' ridefinito in modo incompatibile: si amplia
+l'elenco delle fonti dati ammesse con una classe che prima non c'era. E' lo stesso tipo di
+modifica della 1.1.0 e prende lo stesso bump, invece del PATCH che la formulazione piu' comoda
+avrebbe permesso di rivendicare come "chiarimento".
+Modifica: ammesse le **assegnazioni dell'analista congelate in un artefatto versionato** come
+quinta fonte dati, a cinque condizioni (criterio scritto e committato prima di qualunque valore,
+valore congelato e mai rigenerato da uno script, numero di versione con obbligo di dichiarazione
+a valle, revisione indipendente contro il criterio con esito quantificato, nessuna promozione di
+confidenza). Corretta di conseguenza la frase del principio I che vincolava le assunzioni sui
+dati sintetici a essere versionate "insieme allo script che le implementa": dove lo script non
+esiste, e non deve esistere, il vincolo era inapplicabile alla lettera.
+Nessuna nuova etichetta di fonte: la classe vive sotto `Sintetico`, che il principio I gia'
+enumera. L'elenco delle etichette resta invariato.
+Motivazione: la feature 006 costruisce `dim_category_mood`, la tabella che assegna un profilo di
+mood a ciascuna categoria video. E' l'unico strato interpretativo del progetto e regge tre KPI su
+otto. I suoi valori non sono osservati su alcuna fonte e non sono calcolati da alcuna formula:
+li assegna una persona, su proposta di un LLM invocato manualmente una sola volta. La decisione
+DA-1 della roadmap, risolta il 2026-08-19, ne ammette il metodo a condizione che nessuno script
+chiami mai il modello — il che rende la tabella un artefatto curato a mano, esattamente come
+data/benchmarks/bq3_tier_upgrade.json della 004.
+La differenza e' che quel file e' ammesso perche' la 1.1.0 gli ha scritto un proprio comma. La
+mano curata era ammessa **solo quando la fonte e' esterna**. Un'assegnazione dell'analista non lo
+e', e l'etichetta `Sintetico` la escludeva alla lettera, perche' l'elenco delle fonti ammesse la
+definiva come "dati sintetici generati da script versionati". Usare quell'etichetta senza
+emendare sarebbe stato un aggiramento silenzioso, che e' la formula con cui la 1.1.0 ha motivato
+se stessa.
+Ritrovamento collaterale, che vale la pena registrare: la tabella era gia' promessa dalla D1
+della feature 001 — "una tabella di corrispondenza curata e versionata" — senza che nessuno si
+accorgesse che non era una fonte ammessa. L'emendamento regolarizza una promessa vecchia di
+quattordici giorni, non solo una feature che sta per aprirsi.
+Template dipendenti:
+  ✅ .specify/templates/spec-template.md — aggiunta la condizione per l'assegnazione dell'analista
+     accanto a quella dei benchmark, nello stesso commit
+  ✅ .specify/templates/plan-template.md e tasks-template.md — nessuna modifica: non enumerano fonti
+Artefatti gia' prodotti: nessuno viola il nuovo testo, che amplia e non restringe. I valori
+sintetici della 004 sono generati da uno script e restavano conformi anche prima. La tabella che
+il nuovo comma ammette non esiste ancora: e' il deliverable della 006.
+
 Emendamento 1.0.2 → 1.1.0 (2026-08-15)
 --------------------------------------
 Bump rationale: MINOR. Nessun principio rimosso né ridefinito in modo incompatibile: si amplia
@@ -115,7 +155,7 @@ Un valore sintetico NON DEVE essere presentato con precisione superiore a quanto
 
 Dove la confidenza è `bassa`, il valore DEVE essere espresso come **range best/base/worst case**, mai come numero singolo. Un numero singolo comunica una certezza che il dato non ha.
 
-Le assunzioni dietro ogni dato sintetico DEVONO essere dichiarate per iscritto e versionate insieme allo script che le implementa, non solo nel commento del codice.
+Le assunzioni dietro ogni dato sintetico DEVONO essere dichiarate per iscritto e versionate insieme allo script che le implementa, non solo nel commento del codice. Dove il valore sintetico è **assegnato e non generato** — e quindi nessuno script lo implementa — le assunzioni DEVONO essere versionate insieme al **criterio** che governa l'assegnazione, che ne prende il posto e ne assume gli obblighi.
 
 *Rationale*: il progetto mescola dati reali di due domini diversi con dati simulati per un mercato in cui StreamWave non è ancora entrata. Senza etichettatura esplicita, la dashboard diventa indistinguibile da una previsione inventata — ed è esattamente l'obiezione che un board solleverebbe per primo.
 
@@ -183,6 +223,7 @@ Una feature che non è riconducibile a nessuna delle tre NON DEVE essere impleme
 - `data/raw/spotify_tracks_dataset.csv` — tracce Spotify con audio feature, proxy del mercato musicale.
 - Dati sintetici generati da script versionati, esclusivamente dove i dati reali non esistono (tipicamente BQ3: engagement e revenue di un verticale non ancora lanciato).
 - **Benchmark pubblici di settore** — valori osservati e pubblicati da terzi, usati per ancorare i parametri che alimentano la generazione sintetica invece di stabilirli per scelta dell'analista.
+- **Assegnazioni dell'analista congelate in un artefatto versionato** — valori che nessuna fonte osserva e nessuna formula calcola, e che una persona attribuisce, esclusivamente dove il confronto che li richiede non esiste altrimenti nei dati.
 
 Un benchmark è una fonte ammessa solo se soddisfa **tutte** le condizioni seguenti:
 
@@ -193,6 +234,18 @@ Un benchmark è una fonte ammessa solo se soddisfa **tutte** le condizioni segue
 5. **Nessuna promozione di confidenza**: vedi principio I.
 
 Un benchmark che non soddisfa una qualsiasi di queste condizioni NON DEVE essere usato: il parametro torna a essere una scelta dell'analista e va dichiarato come tale, il che è ammesso e sempre preferibile a una citazione che non regge il controllo.
+
+Quella scelta dell'analista **è la quinta fonte**, e il comma che segue la regola. Il testo qui sopra la nominava già come ripiego ammesso senza mai porle una condizione, e la nominava per il caso in cui alimenta una generazione: uno script legge il parametro e produce il valore. Dove invece **il valore assegnato è esso stesso il dato pubblicato**, e nessuno script interviene, l'etichetta `Sintetico` non lo copriva — l'elenco delle fonti la definisce come dato generato da script versionati. È il caso della tabella che porta il lato video sugli assi di mood, e il comma esiste per esso.
+
+Un'assegnazione dell'analista è una fonte ammessa solo se soddisfa **tutte** le condizioni seguenti:
+
+1. **Criterio scritto prima del valore**: il criterio che governa l'assegnazione vive in un artefatto versionato ed è congelato in un commit **che non contiene alcun valore**, nemmeno di prova. Un criterio scritto dopo aver visto i valori si piega a giustificarli invece di vincolarli, anche in perfetta buona fede, e la differenza non è verificabile in prosa: lo è solo nell'ordine dei commit.
+2. **Valore congelato e mai rigenerato**: i valori vivono in un artefatto versionato che **nessuno script scrive**. Se l'assegnazione è assistita da un modello, il modello NON DEVE essere invocato da alcuno script, né a runtime né in fase di build; la proposta che produce è versionata come artefatto distinto dall'esito, insieme al prompt, al nome del modello e alla data.
+3. **Numero di versione dichiarato a valle**: l'artefatto porta una versione, e ogni valore pubblicato che ne dipende DEVE dichiarare su quale versione è stato calcolato. Senza questo legame una correzione lascia a valle numeri corretti quando sono stati scritti e mai più riverificati, indistinguibili da quelli ancora validi.
+4. **Revisione indipendente contro il criterio**: l'assegnazione è verificata da chi non l'ha prodotta, contro il criterio della condizione 1 e nessun altro metro, e l'esito è versionato con la **misura di quanto la revisione ha corretto**. Una revisione che non dichiara quanto ha spostato non è distinguibile da una ratifica.
+5. **Nessuna promozione di confidenza**: vedi principio I. Nessuna cura nella costruzione trasforma un giudizio in un'osservazione, e la confidenza dei valori che ne discendono non sale per il fatto che il processo sia stato accurato.
+
+Un'assegnazione che non soddisfa una qualsiasi di queste condizioni NON DEVE essere pubblicata come dato. Non esiste per essa un ripiego ulteriore: è già l'ultimo, ed è la ragione per cui le sue condizioni sono più severe di quelle di un benchmark invece che più lasche.
 
 L'uso di Netflix come proxy di StreamWave e di Spotify come proxy del mercato musicale è una **assunzione strutturale del case study** e DEVE essere dichiarata in ogni artefatto rivolto all'utente finale, non solo nella documentazione tecnica.
 
@@ -241,4 +294,4 @@ Questa constitution **prevale su ogni altra pratica di progetto**. In caso di co
 
 **Verifica di conformità**: la conformità va verificata a ogni gate di feature (vedi sezione precedente) e durante `/speckit.analyze`. Ogni violazione consapevole DEVE essere registrata nella tabella "Complexity Tracking" del piano della feature, con la giustificazione e l'alternativa più semplice che è stata scartata.
 
-**Version**: 1.1.0 | **Ratified**: 2026-08-06 | **Last Amended**: 2026-08-15
+**Version**: 1.2.0 | **Ratified**: 2026-08-06 | **Last Amended**: 2026-08-20

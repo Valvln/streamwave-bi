@@ -150,6 +150,10 @@
   Confidenza bassa => il valore va espresso come range best/base/worst, mai come numero singolo.
   Benchmark (esterno) => citazione puntuale e valore congelato in un file versionato; l'ancoraggio
   non innalza la confidenza (Constitution, Vincoli di Dominio e di Dato).
+  Sintetico assegnato e non generato (nessuno script lo produce) => criterio scritto e committato
+  prima di qualunque valore, artefatto congelato con numero di versione dichiarato a valle,
+  revisione indipendente contro il criterio con la misura di quanto ha corretto, nessuna
+  promozione di confidenza (Constitution, Vincoli di Dominio e di Dato, cinque condizioni).
 -->
 
 | Metrica | Fonte | Confidenza | Criterio di attribuzione | Formato di presentazione |
