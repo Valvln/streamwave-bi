@@ -43,7 +43,7 @@ La regola di `data/` non viene quindi violata: viene applicata al proprio criter
 | File | Che cosa congela | Chi lo scrive |
 |---|---|---|
 | `benchmarks/bq3_tier_upgrade.json` | il tasso di adozione di un tier premium osservato su un operatore terzo, con citazione, scarto di misura e registro delle fonti respinte | una persona, a mano — **mai uno script** |
-| `curated/dim_category_mood.json` *(feature `006`, in corso)* | il profilo di mood a tre assi per ciascuna delle 42 categorie del catalogo video, con numero di versione e registro di verifica indipendente rispetto alla proposta di un LLM | una persona, a mano — **mai uno script**; il modello propone, non scrive il file |
-| `curated/dim_category_mood_proposal.json` *(feature `006`, in corso)* | la prima stesura del profilo, con prompt, nome del modello e data dell'unica invocazione manuale — input alla verifica, mai pubblicata come tabella finale | l'LLM, invocato a mano una sola volta |
+| `curated/dim_category_mood.json` | il profilo di mood a tre assi per ciascuna delle 42 categorie del catalogo video, con numero di versione e registro di verifica indipendente rispetto alla proposta di un LLM | una persona, a mano — **mai uno script**; il modello propone, non scrive il file |
+| `curated/dim_category_mood_proposal.json` | la prima stesura del profilo, con prompt, nome del modello e data dell'unica invocazione manuale — input alla verifica, mai pubblicata come tabella finale | l'LLM, invocato a mano una sola volta |
 
 Il metodo con cui il benchmark diventa tre scenari, e i suoi limiti, stanno in [`docs/bq3_scenarios.md`](../docs/bq3_scenarios.md). Il metodo con cui il profilo di mood viene assegnato e verificato, e i suoi limiti, staranno in `docs/content_taxonomy_bridge.md`.

@@ -28,8 +28,10 @@ for vid, payload in data["values"].items():
         continue
     rows.setdefault(payload["category"], {})[payload["axis"]] = payload["value"]
 
-# rows["Action & Adventure"] == {"mood_energy": "0.70", "mood_valence": "0.55", "mood_danceability": "0.60"}
+# rows["Action & Adventure"] == {"mood_energy": "0.95", "mood_valence": "0.65", "mood_danceability": "0.35"}
 ```
+
+> **Corretto il 2026-08-20, in fase di implementazione (T042).** Il commento qui sopra riportava `0.70` / `0.55` / `0.60`: erano i valori dell'esempio di forma scritto in fase di piano, quando nessun valore esisteva ancora, e dopo il congelamento erano diventati **falsi**. Chi avesse eseguito il frammento per verificare il contratto avrebbe visto l'asserzione fallire e non avrebbe saputo se a sbagliare fosse il file o il contratto. Sono ora i valori realmente congelati, verificabili eseguendo il codice sopra. Vale la regola della `003`: dove contratto e implementazione divergono, è il contratto a doversi correggere.
 
 `catalogs.mood_categories` elenca le chiavi attese; se `rows` ne contiene di meno, la copertura è parziale ed è dichiarata altrove nel file (§5).
 
@@ -56,3 +58,7 @@ Il file non contiene, e non deve mai contenere, titoli, trame, cast o altri attr
 ## 9. Il registro di verifica non è un secondo artefatto da consumare
 
 Il campo `verification` (D9.1) documenta come la tabella è stata costruita. Non è pensato per essere letto da una pipeline: è pensato per essere letto da una persona che vuole sapere quanto la revisione ha corretto. La `007` non ha bisogno di leggerlo per calcolare un KPI.
+
+**Aggiunta del 2026-08-20 (T042): il registro contiene un campo che il piano non aveva previsto, `criterion_findings`.** Sono difetti del **criterio** trovati dalla verifica e non contestazioni a singole celle — la categoria che `changes` non poteva contenere. Uno di essi, `CF-1`, è una contraddizione fra due regole del criterio che tocca più celle di quante la verifica ne abbia spostate: quelle celle sono rimaste ferme perché sceglierne una delle due regole sarebbe stato decidere sul criterio, non verificare contro il criterio.
+
+Che cosa questo significa per la `007`: **la versione `1` di questa tabella porta un difetto noto e dichiarato**, e la sua risoluzione comporterà un incremento di `version` con celle spostate. È il caso concreto per cui §2 esiste. La `007` non deve leggere `criterion_findings` per calcolare, ma chi pubblica un valore a valle senza dichiararne la versione lo renderà indistinguibile dai valori ancora validi nel momento in cui quella correzione arriverà.
