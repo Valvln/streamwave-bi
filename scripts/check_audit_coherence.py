@@ -76,6 +76,7 @@ DOCUMENTS = (
     (REPO / "docs" / "data_cleaning.md", True, "feature 003"),
     (REPO / "docs" / "bq3_scenarios.md", True, "feature 004"),
     (REPO / "docs" / "data_model.md", True, "feature 005"),
+    (REPO / "docs" / "content_taxonomy_bridge.md", True, "feature 006"),
 )
 
 # Grammatica della marcatura (docs/convenzioni-marcatura.md): il marcatore
@@ -138,7 +139,7 @@ WORDS = re.compile(
 
 
 def load_artifacts() -> tuple[dict, list[str]]:
-    """Unisce i tre artefatti in un solo spazio dei nomi, verificando le collisioni.
+    """Unisce gli artefatti di `ARTIFACTS` in un solo spazio dei nomi, verificando le collisioni.
 
     La disgiunzione dei prefissi (decisione T8 della 003) e' cio' che rende
     l'unione sicura, ma non viene **assunta**: una collisione farebbe risolvere
