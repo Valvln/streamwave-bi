@@ -36,6 +36,7 @@ Governance: [`constitution`](.specify/memory/constitution.md) v1.2.0 · [metodo 
 | `004` Synthetic Business Metrics | [`docs/bq3_scenarios.md`](docs/bq3_scenarios.md) · [`data/benchmarks/`](data/benchmarks/) · [`reports/bq3_scenarios.json`](reports/bq3_scenarios.json) | ✅ conclusa, [revisionata](specs/004-synthetic-business-metrics/review.md) |
 | `005` Data Model Design | [`docs/data_model.md`](docs/data_model.md) | ✅ conclusa, [revisionata](specs/005-data-model-design/review.md) |
 | `006` Content Taxonomy Bridge | [`docs/content_taxonomy_bridge.md`](docs/content_taxonomy_bridge.md) · [`docs/mood_assignment_criteria.md`](docs/mood_assignment_criteria.md) · [`data/curated/`](data/curated/) | ✅ conclusa, [revisionata](specs/006-content-taxonomy-bridge/review.md) |
+| `007a` Operatori delle misure | [`docs/kpi_operators.md`](docs/kpi_operators.md) | ✅ conclusa, [revisionata](specs/007a-kpi-operators/review.md) |
 
 Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](docs/roadmap.md).
 
@@ -53,7 +54,9 @@ Il quinto è **[`docs/data_model.md`](docs/data_model.md)**: il modello dati su 
 
 Il sesto è **[`docs/content_taxonomy_bridge.md`](docs/content_taxonomy_bridge.md)**: la tabella che assegna a ciascuna categoria del catalogo video un profilo di mood su tre assi, e il documento che dichiara come è stata costruita. Sono gli **unici valori del progetto che nessuna fonte osserva e nessuna formula calcola**: sono assegnati. Il metodo è in quattro passi, e l'ordine è il presidio: il criterio di assegnazione ([`docs/mood_assignment_criteria.md`](docs/mood_assignment_criteria.md)) è scritto e committato **prima** che qualunque valore esista, un modello linguistico propone in una sola invocazione manuale, una seconda sessione di modello — non una persona, e il documento lo dichiara — verifica riga per riga contro quel criterio e nessun altro metro, e l'esito si congela in [`data/curated/`](data/curated/) con un numero di versione. Nessuno script chiama il modello, e il documento dichiara che cosa il processo **non** garantisce — a partire dal fatto che il criterio l'ha scritto la stessa persona che pubblica la tabella.
 
-I cinque documenti che pubblicano misure — l'audit, il cleaning, gli scenari, il modello e il ponte fra tassonomia e mood — legano ogni numero all'artefatto che lo produce con la stessa grammatica, definita in **[`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md)** e verificata da `scripts/check_audit_coherence.py`. Lo stesso controllo presidia la tassonomia: se le categorie del catalogo video e quelle della tabella dei mood divergessero, **fallisce** invece di avvisare.
+Il settimo è **[`docs/kpi_operators.md`](docs/kpi_operators.md)**: per ciascuno degli 8 KPI, l'operatore analitico con cui la misura verrà calcolata — formula, grana, tabelle da cui legge, confidenza ereditata, limiti dichiarati — e le nove decisioni analitiche che quelle regole hanno richiesto di prendere, ciascuna con l'opzione scartata e la ragione dello scarto. **Non contiene alcun valore dei KPI**: pubblica la regola, non il numero, e ogni cifra che vi compare è un input già ancorato da una feature precedente. Esiste come feature a sé perché un operatore sbagliato non produce un valore sbagliato — li produce tutti quelli che ne dipendono — e perché una formula scritta dentro una misura è contestabile solo da chi apre lo strumento di reporting, mentre una scritta qui lo è da chiunque legga il repository.
+
+I sei documenti che pubblicano misure — l'audit, il cleaning, gli scenari, il modello, il ponte fra tassonomia e mood e gli operatori — legano ogni numero all'artefatto che lo produce con la stessa grammatica, definita in **[`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md)** e verificata da `scripts/check_audit_coherence.py`. Lo stesso controllo presidia la tassonomia: se le categorie del catalogo video e quelle della tabella dei mood divergessero, **fallisce** invece di avvisare.
 
 ## Setup
 
@@ -71,7 +74,7 @@ python3 scripts/build_datasets.py
 # 4. Scenari BQ3 dal benchmark congelato (NON richiede i dati raw né rete)
 python3 scripts/build_bq3_scenarios.py
 
-# 5. Coerenza fra i cinque documenti pubblicati e i quattro artefatti versionati,
+# 5. Coerenza fra i sei documenti pubblicati e i quattro artefatti versionati,
 #    più il presidio sulla tassonomia delle categorie (NON richiede i dati raw)
 python3 scripts/check_audit_coherence.py
 ```
@@ -88,7 +91,8 @@ Nessuna dipendenza da installare: gli script usano la sola libreria standard di 
 .github/        # prompt /speckit.* per GitHub Copilot
 data/           # raw / interim / processed (gitignored) + benchmarks/ e curated/ (versionate: non riproducibili)
 docs/           # i documenti pubblicati: business case, audit, cleaning, scenari, modello dati,
-                #   criterio di mood, ponte tassonomia-mood, convenzioni, roadmap
+                #   criterio di mood, ponte tassonomia-mood, operatori delle misure,
+                #   convenzioni, roadmap
 reports/        # artefatti generati e versionati: profilo, rendiconto delle trasformazioni, scenari BQ3
 scripts/        # utility riproducibili
 specs/          # una cartella per feature: spec.md, plan.md, tasks.md, review.md

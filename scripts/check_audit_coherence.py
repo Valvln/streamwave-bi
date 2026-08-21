@@ -77,6 +77,7 @@ DOCUMENTS = (
     (REPO / "docs" / "bq3_scenarios.md", True, "feature 004"),
     (REPO / "docs" / "data_model.md", True, "feature 005"),
     (REPO / "docs" / "content_taxonomy_bridge.md", True, "feature 006"),
+    (REPO / "docs" / "kpi_operators.md", True, "feature 007a"),
 )
 
 # Grammatica della marcatura (docs/convenzioni-marcatura.md): il marcatore
