@@ -1,6 +1,6 @@
 # Roadmap — StreamWave BI
 
-**Aggiornata**: 2026-08-21 | **Stato**: feature 006 conclusa e mergiata (PR #6); `DA-1` eseguita e chiusa; materializzazione del modello e riscrittura del criterio (`CF-1`) prima della 007, che va scomposta prima di essere aperta
+**Aggiornata**: 2026-08-21 | **Stato**: `006` e `007a` concluse; `007` e `008` scomposte in quattro feature apribili; materializzazione del modello e riscrittura del criterio (`CF-1`) prima della `007b`
 
 Questo documento è il piano di lavoro del progetto: cosa resta da fare, in quale ordine, con quale stima e con quali dipendenze. È versionato perché la pianificazione — e soprattutto il suo scostamento dalla realtà — fa parte dell'artefatto da portfolio quanto i risultati.
 
@@ -26,14 +26,14 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `004` | Synthetic Business Metrics | ~3 di sessione (stimate 6) | 001 | ✅ conclusa, PR #4 mergiata, con debito residuo |
 | `005` | Data Model Design | ~2,8 di sessione (stimate 5) | 003, *chore ambiente* | ✅ conclusa, con debito residuo |
 | `006` | Content Taxonomy Bridge | ~4 di sessione (stimate 6) | 002, 005 | ✅ conclusa, PR #6 mergiata, con debito residuo |
-| `007a` | Operatori delle misure | 4 | 005, 006 | ⬜ **apribile subito**, non dipende dai chore |
+| `007a` | Operatori delle misure | ~2 di sessione (stimate 4) | 005, 006 | ✅ conclusa, con debito residuo |
 | `007b` | Misure DAX e documento dei KPI | 5 | 007a, *materializzazione*, *`CF-1`* | ⬜ |
 | `008a` | Dashboard: modello, pagine, misure a schermo | 5 | 007b | ⬜ |
 | `008b` | Dashboard: narrazione, limiti esposti, rifiniture | 4 | 008a | ⬜ |
 | `009` | Porting Tableau Public | 5 | 007b | ⬜ *stretch, primo a cadere* |
 | `010` | Case Study & Portfolio Integration | 6 | 008b | ⬜ |
 
-**Totale residuo escluso `009`**: ~24 ore di feature, più ~2,5 ore di debito testuale, ~1,5 ore di debito della `006` e ~2 ore di altri chore — **~30 ore**. Erano ~30, ~2,5 e ~3 prima della chiusura della `006`. Tre movimenti, non uno: la feature esce, la riscrittura del criterio richiesta da `CF-1` entra come voce nuova e va prima di `007b`, e la pubblicazione di prova esce dai chore perché è stata dichiarata caduta. Nessuna stima di feature sale.
+**Totale residuo escluso `009`**: ~20 ore di feature, più ~2,5 ore di debito testuale, ~1,5 ore di debito della `006` e ~2 ore di altri chore — **~26 ore**. Erano ~30 prima della chiusura della `007a`, che esce per intero senza lasciare voci nuove di lavoro: i suoi due rilievi rinviati sono issue su GitHub, non ore di piano.
 
 Le stime di `004`, `006`, `007` e `010` includono la **revisione in contesto pulito e la chiusura dei rilievi** — circa un'ora ciascuna. Era il rischio aperto lasciato dalla 002, dove quel costo era stato l'intero scostamento; è chiuso incorporandolo invece che continuando a scoprirlo a consuntivo. La conseguenza è che `007` sale a 8 ore e raggiunge `008` fra le feature che vanno scomposte prima di essere aperte, non dopo.
 
@@ -161,6 +161,22 @@ Lascia **quattro artefatti**: [`docs/mood_assignment_criteria.md`](mood_assignme
 
 **La misura del tempo, qui, non ha funzionato.** Fra il commit del verbale e quello che chiude i sedici rilievi passano nove ore di orologio, e l'ultimo blocco appare nei timestamp come tredici minuti. Non è né l'una né l'altra cosa. Le ~4 ore dichiarate sopra sono la somma dei tre addensamenti di commit e vanno lette come il limite inferiore di ciò che la feature è costata, non come una stima. È il caso che mostra il confine della [nota sulla misura del tempo speso](#nota-sulla-misura-del-tempo-speso): i timestamp misurano una sessione di agent, e quando la sessione si interrompe smettono di misurare qualunque cosa.
 
+### Esito della `007a` — chiusa il 2026-08-21
+
+**19 task su 19**, in un blocco unico di ~2 ore contro le 4 stimate. È la feature più veloce del progetto, e la ragione è dichiarabile: **il lavoro analitico era già stato fatto nella spec.** Le nove decisioni erano argomentate per intero prima del piano, e l'implementazione le ha trasposte in un documento invece di prenderle. Chi legge lo scostamento come efficienza di esecuzione legge male: è lavoro spostato a monte, dove il primo punto di fermata lo ha potuto revisionare.
+
+Lascia **un solo artefatto**, [`docs/kpi_operators.md`](kpi_operators.md), sesto documento sotto controllo di coerenza in severità stretta, 90 marcatori, nessun valore dei KPI.
+
+**Chiude sei voci di debito ereditate da tre revisioni diverse**: `R5`, `R6` e le divergenze 2, 3, 4 della `001` (gli operatori indefiniti, che erano il contenuto principale della feature), la divergenza 8 per la parte sul segno, `R13` per le due parti residue, la divergenza 4 della `002` e la divergenza 1 della `003`. Il debito più vecchio del progetto — aperto dalla prima revisione, il 2026-08-06 — è chiuso.
+
+**Tre esiti che valgono oltre la feature.**
+
+*La revisione al primo punto di fermata ha trovato un buco che nessuno cercava.* La condizione `C1` della regola di decisione della North Star è assegnata da `business_case.md` §3 a `BQ1-K1`, ma **non è calcolabile** da `music_adjacent_catalog_share`: quella è una quota, `C1` chiede una graduatoria di categorie per numero di titoli. La spec dichiarava che le condizioni prive di operatore fossero due, `C2` e `C3`. Erano tre. Trovato leggendo la spec contro il business case, prima del piano — e se fosse arrivato in `007b`, sarebbe arrivato come blocco su un operatore mancante della metrica di riferimento.
+
+*Un'ancora valida può sostenere un ragionamento sbagliato.* Il numeratore della North Star, 375 titoli musicali, è ancorato al profilo del **dato di origine**; nessun identificativo `CL.NF.*` lo conta dopo la trasformazione. Il controllo di coerenza risolveva l'ancora e passava: verifica che il numero venga da qualche parte, non che venga dal posto giusto per l'uso che se ne fa. È la stessa classe della divergenza già aperta dalla `005` sui 114 segmenti, e la `007a` la chiude nell'unico modo che il progetto ammette — scrivendo l'invariante invece di ricontare — ma dichiarandolo **assunzione** e non dimostrazione, dopo che la revisione in contesto pulito ha mostrato che i fatti citati non la dimostravano.
+
+*I rilievi minori diventano issue, non ore di piano.* Due rilievi su sei sono stati **rinviati** e registrati come issue su GitHub (`#7` e `#8`) invece di essere chiusi dentro la feature. È la prima volta che il progetto usa il tracker, ed è una scelta di metodo: un rilievo che non invalida alcun operatore non giustifica di allungare la feature, ma sparisce se resta solo nel verbale. L'issue è il posto in cui una decisione di rinvio resta visibile a chi non legge i verbali.
+
 ### La scomposizione di `007` e `008` — decisione della regia, 2026-08-21
 
 Erano 9 ore ciascuna, cioè sopra il limite che ne vieta l'apertura. La scomposizione era una condizione di apertura da tre aggiornamenti e non era mai stata fatta.
@@ -214,6 +230,8 @@ Ciò che `007` contiene davvero non sono otto formule: sono **sette decisioni an
 >
 > **La finestra si è chiusa — aggiornamento del 2026-08-21, regia.** L'atterraggio stimato è ora il **26-27 agosto**, cioè il giorno della scadenza o quello dopo. La `008` è penultima nella catena e non produrrà un `.pbix` leggibile prima del 25 nella migliore delle ipotesi: la voce non ha più una finestra, ne ha un'eventualità.
 >
+> *Precisazione della sera del 2026-08-21*: la `007a` ha chiuso in metà stima e l'atterraggio è tornato al **25-26 agosto**, quindi la premessa di questa nota — l'atterraggio oltre la scadenza — non vale più. **La conclusione sì**: la voce dipende da `008a`, che resta due feature più avanti, e un `.pbix` leggibile prima del 25 continua a essere l'ipotesi migliore e non quella attesa. La voce resta caduta, ora per la catena delle dipendenze e non più per la data.
+>
 > **Va quindi dichiarata caduta ora, non il 26.** È la stessa raccomandazione dell'8 e del 18 agosto, e questa volta senza il difetto che l'aveva resa sbagliata la prima volta: allora poggiava su una data errata, oggi poggia sul residuo di ore confrontato con la capacità dichiarata. Cade **senza costo**, per la ragione già stabilita e mai contestata — il deliverable è un `.pbix`, Power BI Desktop è gratuito e senza scadenza, e il Service non serve a ciò che il progetto consegna.
 >
 > **Che cosa il progetto perde, detto per intero**: le schermate di un report pubblicato su un workspace, che sarebbero state materiale per la `010`. Non un deliverable, non una verifica, non un numero. **Resta aperta l'eccezione**: se la `008` produce un `.pbix` leggibile il 25 e restano ore quel giorno, l'ora si spende — ma come opportunità colta, non come voce di piano su cui qualcosa poggia.
@@ -262,13 +280,13 @@ La [revisione in contesto pulito](../specs/001-business-case-kpi/review.md) ha p
 | R7 / div. 7 | granularità di `BQ2-K2` e riformulazione di §5.2 | ✅ chiusa dalla `005`: le nozioni di grana necessarie sono **tre** e non due — quella dell'ingresso, quella su cui si aggrega, quella del risultato — e §5.2 ne dichiarava una sola. Nota di correzione in loco sul business case |
 | R8 | provenienza dei numeri sui dati citati nel business case | ✅ chiusa dalla `002`: `reports/data_profile.json` rigenera i valori citati |
 | R11 | quali categorie video compongono `BQ1-K1` e se la selezione è una mappatura | ✅ chiusa dalla `002` sul piano osservativo: una sola categoria, nessuna mappatura. Resta la parte testuale, sotto |
-| R5, R6 / div. 2, 3, 4 | operatori indefiniti: intervallo occupato, metrica di distanza, pesi e commensurabilità; quadranti contro combinazione pesata | `007a` — è il contenuto principale della feature |
-| div. 6 | trattamento delle tracce a popolarità zero | ✅ chiusa dalla `003`, D1: incluse e marcate, mai eliminate. **Ne discende un obbligo per `007a`**, che lo scrive come operatore, e per `007b`, che lo esegue: ogni misura calcolata sulla popolarità pubblica accanto al proprio valore la quota di zeri del segmento, in particolare `BQ2-K1` |
-| div. 8 | segno della differenza e titoli privi di durata | ✅ **parte dati** chiusa dalla `003`, D2: i 3 titoli privi di durata sono gli stessi 3 con classificazione fuori dominio, riparati per spostamento di campo e non imputati. Il **segno della differenza** di `BQ1-K2` resta a `007a` |
+| R5, R6 / div. 2, 3, 4 | operatori indefiniti: intervallo occupato, metrica di distanza, pesi e commensurabilità; quadranti contro combinazione pesata | ✅ chiusi dalla `007a`, decisioni `D1`-`D4` di [`docs/kpi_operators.md`](kpi_operators.md): prodotto cartesiano dei tre intervalli scalari; media delle distanze assolute per asse; normalizzazione per divisione e pesi 0,5/0,5 dichiarati; quadrante e punteggio pesato **entrambi**, con ruoli distinti |
+| div. 6 | trattamento delle tracce a popolarità zero | ✅ chiusa dalla `003`, D1: incluse e marcate, mai eliminate. **L'obbligo che ne discendeva è ✅ scritto come operatore dalla `007a`, `D7`**, e resta da eseguire alla `007b`: ogni misura sulla popolarità pubblica accanto al proprio valore la quota di zeri del segmento, con un avvertimento testuale dove il segmento porta `is_high_zero_genre` |
+| div. 8 | segno della differenza e titoli privi di durata | ✅ **parte dati** chiusa dalla `003`, D2: i 3 titoli privi di durata sono gli stessi 3 con classificazione fuori dominio, riparati per spostamento di campo e non imputati. Il **segno della differenza** di `BQ1-K2` è ✅ chiuso dalla `007a`, `D5`: `format_duration_gap` è musica meno video, e la misura pubblica i minuti **col proprio segno** — non il valore assoluto, non il solo verso |
 | div. 9 | dimensione della base utenti | ✅ chiusa per decisione del 2026-08-10: `BQ3-K2` resta **euro per utente al mese e non è scalabile**. Nessuna base utenti viene quantificata. La 004 deve dichiararlo esplicitamente, come la divergenza richiedeva in alternativa |
 | div. 10 | governance della tabella generi → mood | ✅ decisa dalla regia il 2026-08-19 insieme a `DA-1` ed **eseguita dalla `006`**: costruisce la sessione sul criterio scritto per primo, approva Valerio sulla revisione in contesto pulito, si contesta citando il criterio, e la tabella porta un **numero di versione** che ogni valore dipendente dichiara. Il contratto di versione vive in §5 di [`docs/content_taxonomy_bridge.md`](content_taxonomy_bridge.md) |
 | div. 11 | posizione dell'alternativa "non entrare" | `010` |
-| R13 | ambiguità minori sparse | parte BQ3 ✅ chiusa dalla `004` — le disdette sono escluse, tasso lordo su base costante; il resto resta a `007a` |
+| R13 | ambiguità minori sparse | ✅ **chiusa**: parte BQ3 dalla `004` — le disdette sono escluse, tasso lordo su base costante; parte `BQ1-K2` dalla `007a`, `D5`; parte `BQ2-K3` dalla `007a`, `D8` — la posizione 1 della graduatoria è il punteggio più alto, ordinamento decrescente |
 | R9, R10, R12 | correzioni terminologiche sul testo del business case | debito testuale, ~1 ora, da chiudere prima di `007b` |
 | div. 5 | soglie decisionali | ✅ chiusa dal commit `862bdca` (§3, condizioni C1-C3) |
 
@@ -293,7 +311,7 @@ La [revisione in contesto pulito](../specs/002-data-audit-profiling/review.md) d
 | div. 6 | quale delle due letture di «sovrastima di circa un quinto» adottare, prima che si calcoli un totale di catalogo | ✅ chiusa dalla `003`, D3: si adotta `SP.id.inflation`, l'eccesso del totale non deduplicato su quello corretto, perché una sovrastima si misura rispetto al valore giusto. **Sul dato trasformato vale 26,53%**, non più 27,03%: è il valore da citare. Ogni totale di catalogo musicale si calcola sulla grana traccia |
 | div. 8 | criterio con cui si seleziona l'insieme dei generi a forte concentrazione di zeri: `country` al 58,70% cade dentro o fuori a seconda di una soglia che nessuno ha ancora fissato | ✅ chiusa dalla `003`, D4: soglia al 50%, `country` cade **dentro**. 7 generi marcati su 114 |
 | div. 5 | riverifica del criterio delle categorie musicali se la fonte cambia, e chi se ne accorge | ✅ chiusa dalla `006`, §4: **se ne accorge un controllo che ferma**. `scripts/check_audit_coherence.py` confronta come insiemi le categorie della tabella dei mood e quelle del catalogo video, e su una differenza simmetrica non vuota **fallisce** invece di avvisare. Provato dalla Prova 7 del quickstart. Resta dichiarato ciò che il presidio non fa: non esiste alcun hook di pre-commit né integrazione continua, quindi dipende da chi lancia il controllo |
-| div. 4 | se pubblicare numeratore e denominatore accanto alla frase sulla North Star equivalga a pubblicare la misura | `007a` |
+| div. 4 | se pubblicare numeratore e denominatore accanto alla frase sulla North Star equivalga a pubblicare la misura | ✅ chiusa dalla `007a`, `D9.3`: **no**. La giustapposizione di due valori già ancorati non è la misura; il rapporto è a sua volta un'affermazione derivata e nasce quando `007b` lo calcola e gli dà un'ancora propria |
 | div. 3 | `docs/data_audit.md` §5 contiene due decisioni di modellazione — esclusione delle serie da `BQ1-K2`, ricorso a dati simulati per BQ3 — che sono prese altrove (D3 della 001, A2/A3 del business case) e vanno citate, non riformulate | debito testuale, ~0,5 ore |
 | div. 7 | prassi di correzione degli artefatti già mergiati: nota in loco o errata separata | ✅ chiusa il 2026-08-10: regola scritta in [`CLAUDE.md`](../CLAUDE.md#correzione-degli-artefatti-già-mergiati) — nota in loco, valore originale mai cancellato, e la scelta dichiarata come tale invece che come constatazione |
 
@@ -309,7 +327,7 @@ La [revisione in contesto pulito](../specs/003-data-cleaning-etl/review.md) del 
 
 | Voce | Contenuto | Chiusa da |
 |---|---|---|
-| div. 1 | **a quale precisione si confrontano profilo e rendiconto.** Il profilo memorizza a una cifra decimale ciò che il rendiconto memorizza a quattro; il criterio stretto conta perciò 78 generi «cambiati» dove quelli mossi di oltre mezzo punto sono 3 | `007a` |
+| div. 1 | **a quale precisione si confrontano profilo e rendiconto.** Il profilo memorizza a una cifra decimale ciò che il rendiconto memorizza a quattro; il criterio stretto conta perciò 78 generi «cambiati» dove quelli mossi di oltre mezzo punto sono 3 | ✅ chiusa dalla `007a`, `D6`: soglia a **0,5 punti percentuali** in senso stretto, limitata al confronto delle quote di zeri per genere e non estesa ad altre coppie di valori |
 | div. 5 | **se gli artefatti versionati possano contenere attributi di record individuali**, o solo aggregati e identificativi. Il caso concreto è chiuso — i nomi dei tre titoli riparati sono registrati — ma la regola generale no | ⬜ **decisa per la `006` e non in generale**, vedi sotto |
 | severità stretta | il corollario (c) di D5 vale per `docs/data_cleaning.md` e **non è retroattivo** su `docs/data_audit.md`, che resta sotto il regime ad avvisi | debito testuale, ~1 ora, prima di `007b` |
 | regola D5 in `CLAUDE.md` | portare le affermazioni derivate dal perimetro della feature al metodo del progetto, con le due precisazioni del rilievo R7 | ✅ chiusa dalla regia il 2026-08-15 |
@@ -369,6 +387,18 @@ La [revisione in contesto pulito](../specs/006-content-taxonomy-bridge/review.md
 **Che cosa la riscrittura non deve fare.** Il criterio è l'artefatto la cui prova sta nell'essere stato committato prima di qualunque valore. Una versione 2 non lo cancella e non lo sovrascrive: la correzione è **in loco**, dichiara la contraddizione trovata, quale delle due regole prevale e perché, e la data. La cronologia `git` deve continuare a mostrare che la versione 1 del criterio precede la versione 1 della tabella — altrimenti si perde il solo presidio che `DA-1` aveva.
 
 **Un ritrovamento di igiene del repository, registrato perché non venga «riparato» dopo.** [`data/curated/dim_category_mood_proposal.json`](../data/curated/dim_category_mood_proposal.json) contiene, dentro il testo del prompt, il percorso assoluto locale della macchina di sviluppo — compare nell'istruzione che vietava al modello di aprire il repository. **Resta come è**, per tre ragioni cumulative: il campo `prompt` è il registro di ciò che è stato realmente inviato, e riscriverlo lo renderebbe una trascrizione ritoccata di un passaggio non riproducibile; il file è sigillato da `source.proposal_sha256` dentro la tabella congelata, quindi qualunque modifica — anche l'aggiunta di una nota — romperebbe l'impronta o costringerebbe a dichiararne una che non è quella del file verificato; e la sostituzione non otterrebbe comunque il proprio scopo, perché la stessa stringa compare in [`specs/005-data-model-design/review.md`](../specs/005-data-model-design/review.md) §1, dove il revisore àncora il file che ha letto, ed **è testo di un verbale, che per prassi non si corregge**. Rimuoverla da un file sigillato per lasciarla in uno intoccabile è costo senza guadagno.
+
+## Debito della feature 007a
+
+La [revisione in contesto pulito](../specs/007a-kpi-operators/review.md) di `docs/kpi_operators.md` ha prodotto **6 rilievi e 1 divergenza**. Quattro rilievi e la divergenza sono chiusi dentro la feature; due sono rinviati come issue.
+
+| Voce | Contenuto | Chiusa da |
+|---|---|---|
+| **invarianza del numeratore della North Star** | i 375 titoli di `Music & Musicals` sono contati sul dato di **origine**; il documento dichiara l'invarianza sul trasformato come **assunzione**, non come dimostrazione — due totali che coincidono non sono la stessa corrispondenza riga per riga | ⬜ `007b`, dove il confronto esce quasi gratis eseguendo l'operatore di `C1` |
+| [`#7`](https://github.com/Valvln/Streamwave_proj/issues/7) — convenzione di calcolo della mediana | quale definizione di mediana usano le misure su valori pari; `docs/kpi_operators.md` §12 elenca già l'arrotondamento fra i vincoli aperti, ed è la stessa famiglia | ⬜ issue aperta, vincolo di presentazione |
+| [`#8`](https://github.com/Valvln/Streamwave_proj/issues/8) — `D6` attribuita a `BQ2-K1` in §11 | imprecisione di una colonna di tabella, contraddetta dal corpo del testo due sezioni più avanti | ⬜ issue aperta, correzione testuale |
+
+**Perché due rilievi sono usciti dalla feature.** Nessuno dei due invalida un operatore, ed è il criterio: un rilievo che non cambia una regola di calcolo non giustifica di allungare la feature oltre la propria stima. Rinviarli **è una decisione**, e la sede in cui una decisione di rinvio resta contestabile non è il verbale — che nessuno rilegge — ma il tracker. Da qui in avanti vale come prassi: i rilievi che non invalidano il deliverable si registrano come issue e si dichiarano nel blocco di chiusura, invece di essere chiusi in fretta o dimenticati.
 
 ## Decisioni aperte
 
@@ -438,11 +468,14 @@ La seconda: «se ne sposta zero non è un successo, è un ritrovamento». Il val
 | 17 agosto | ~0,5 h di sessione | `004` ✅ conclusa e mergiata (PR #4), revisione e verbale inclusi |
 | 18 agosto | ~2,8 h di sessione | chore ambiente ✅ eseguito; `005` ✅ conclusa, revisione e verbale inclusi |
 | 19 → 20 agosto | ~4 h di sessione | `006` ✅ conclusa, revisione e verbale inclusi |
-| **dal 21 agosto** | giornate piene, ~6 h/giorno | `007a` subito, poi materializzazione e riscrittura del criterio, `007b`, `008a`, `008b`, `010`, più ~6 h di chore e debito |
+| 21 agosto | ~2 h di sessione | `007a` ✅ conclusa, revisione e verbale inclusi |
+| **dal 21 agosto** | giornate piene, ~6 h/giorno | materializzazione e riscrittura del criterio, `007b`, `008a`, `008b`, `010`, più ~6 h di chore e debito |
 
-Atterraggio stimato: **26-27 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004`, poi 24-25 con la finestra non pianificata del 12-14 agosto, poi 23-24 dopo le chiusure sotto stima di `003` e `004`, poi di nuovo 24-25 con la materializzazione del modello. Restano **~30 ore** su giornate da ~6, cioè cinque giorni pieni a partire dal 21 agosto.
+Atterraggio stimato: **25-26 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004`, poi 24-25 con la finestra non pianificata del 12-14 agosto, poi 23-24 dopo le chiusure sotto stima di `003` e `004`, poi di nuovo 24-25 con la materializzazione del modello, poi 26-27 il mattino del 21 agosto. Restano **~26 ore**, cioè poco più di quattro giorni pieni.
 
-**Il movimento non viene da uno sforamento: viene dal calendario.** La `006` ha chiuso sotto stima come le tre precedenti — ~4 ore contro 6 — e l'unica voce nuova che entra, la riscrittura del criterio per `CF-1`, vale ~1,5 ore. Il residuo è quindi sceso di ~5,5 ore — la feature che esce, la riscrittura che entra, la pubblicazione che cade — ma la finestra a giornate piene si è aperta il 19 agosto e ha prodotto ~4 ore di lavoro registrato in due giorni. La roadmap non può dire se la differenza sia capacità non spesa o lavoro che i timestamp non vedono — la [nota sulla misura del tempo speso](#nota-sulla-misura-del-tempo-speso) lo vieta, e l'esito della `006` mostra il caso in cui quel metro cede del tutto. Può dire l'unica cosa che serve a decidere: **oggi è il 21 e restano ~30 ore.**
+**Il movimento del 21 agosto, in due tempi.** Al mattino la data era scivolata a 26-27 per la ragione scritta qui sotto; in giornata la `007a` ha chiuso in ~2 ore contro 4 e ha riportato l'atterraggio a **25-26**, dentro la scadenza dell'abbonamento. Non basta a riaprire la pubblicazione di prova, che resta caduta: quella dipende da `008a`, che è ancora due feature più avanti.
+
+**Il movimento del mattino non veniva da uno sforamento: veniva dal calendario.** La `006` ha chiuso sotto stima come le tre precedenti — ~4 ore contro 6 — e l'unica voce nuova che entra, la riscrittura del criterio per `CF-1`, vale ~1,5 ore. Il residuo è quindi sceso di ~5,5 ore — la feature che esce, la riscrittura che entra, la pubblicazione che cade — ma la finestra a giornate piene si è aperta il 19 agosto e ha prodotto ~4 ore di lavoro registrato in due giorni. La roadmap non può dire se la differenza sia capacità non spesa o lavoro che i timestamp non vedono — la [nota sulla misura del tempo speso](#nota-sulla-misura-del-tempo-speso) lo vieta, e l'esito della `006` mostra il caso in cui quel metro cede del tutto. Può dire l'unica cosa che serviva a decidere: **al mattino del 21 restavano ~30 ore.**
 
 **La conseguenza operativa è una sola, e cade sulla voce più fragile.** L'atterraggio incrocia ora la scadenza dell'abbonamento — vedi sotto.
 
@@ -493,7 +526,7 @@ La stima iniziale di 7-10 giornate lavorative **non regge più**: ~65 ore comple
 
 **Concentrazione del rischio dopo il 18 agosto.** Quattro feature su quattro, incluse le due più dense, più ~5,5 ore di chore e debito, cadono tutte nella finestra a giornate piene. La finestra a bassa capacità si è chiusa senza lasciare arretrato — è la buona notizia — ma anche senza lasciare margine: da qui in avanti ogni sforamento si trasferisce intero sul giorno successivo, perché non esiste più una seconda finestra che lo assorba. Il primo scostamento va quindi letto subito, non a fine feature.
 
-> **Aggiornamento — 2026-08-21.** La `006` è uscita e ha chiuso sotto stima, quindi restano **tre feature** — `007`, `008`, `010`, oggi scomposte in cinque — più ~6 ore di chore e debito. Il rischio non si è però ridotto in proporzione, perché **le due feature più dense sono entrambe ancora dentro**, e sono le uniche mai state stimate sopra il limite del principio III. Il margine di cui il capoverso lamentava l'assenza non è ricomparso: la prima cosa che il 21 agosto ha consumato è la voce che l'avrebbe usato, la pubblicazione di prova.
+> **Aggiornamento — 2026-08-21.** La `006` e la `007a` sono uscite, entrambe sotto stima, quindi restano **quattro feature** — `007b`, `008a`, `008b`, `010` — più ~6 ore di chore e debito. Il rischio non si è però ridotto in proporzione, perché **le due feature più dense sono entrambe ancora dentro**, e sono le uniche mai state stimate sopra il limite del principio III. Il margine di cui il capoverso lamentava l'assenza non è ricomparso: la prima cosa che il 21 agosto ha consumato è la voce che l'avrebbe usato, la pubblicazione di prova.
 
 **La scomposizione di `007` e `008` è stata fatta il 2026-08-21**, prima di qualunque prompt, ed è descritta in [La scomposizione di `007` e `008`](#la-scomposizione-di-007-e-008--decisione-della-regia-2026-08-21). Nessuna delle quattro feature che ne escono supera il limite del principio III, e il totale non cambia: 4 + 5 e 5 + 4 contro 9 e 9. Una scomposizione che aggiungesse ore sarebbe un ripensamento del perimetro travestito da conformità.
 
@@ -507,7 +540,7 @@ La stima iniziale di 7-10 giornate lavorative **non regge più**: ~65 ore comple
 >
 > **La voce non esce però dai rischi aperti**, e il rischio va riformulato invece che ritirato: non «abbiamo sforato», ma **«non abbiamo più margine»**. Il residuo occupa quasi per intero ciò che resta dell'intervallo iniziale, la `009` è già stata spesa come cuscinetto, e non esiste un secondo taglio disponibile che non amputi il framework. La conseguenza operativa è identica a quella dichiarata sopra e resta valida: ogni estensione di perimetro va compensata da un taglio dichiarato, non assorbita.
 >
-> *Precisazione del 2026-08-21*: il totale aggiornato è **~57,8 ore** — ~27,8 spese dalla tabella di Stato più ~30 di residuo — e resta dentro l'intervallo di 49-70 come il valore che questa nota correggeva. La riformulazione regge intatta, e il 21 agosto ne ha dato il primo caso concreto: l'estensione di perimetro prodotta da `CF-1`, ~1,5 ore, è stata compensata da un taglio dichiarato, la pubblicazione di prova. Non è stata assorbita.
+> *Precisazione del 2026-08-21*: il totale aggiornato è **~55,8 ore** — ~29,8 spese dalla tabella di Stato più ~26 di residuo — e resta dentro l'intervallo di 49-70 come il valore che questa nota correggeva. La riformulazione regge intatta, e il 21 agosto ne ha dato il primo caso concreto: l'estensione di perimetro prodotta da `CF-1`, ~1,5 ore, è stata compensata da un taglio dichiarato, la pubblicazione di prova. Non è stata assorbita.
 
 ## Rischi chiusi
 
