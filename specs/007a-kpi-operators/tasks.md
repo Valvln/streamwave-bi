@@ -23,7 +23,7 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 
 **Purpose**: predisporre lo scheletro del documento su cui le fasi successive scrivono.
 
-- [ ] T001 Crea `docs/kpi_operators.md` con intestazione (titolo, data, stato), il paragrafo introduttivo che dichiara il perimetro (nessun valore dei KPI, solo operatori) e le otto intestazioni di sezione vuote, una per KPI, nell'ordine `BQ1-K1`, `BQ1-K2`, `BQ1-K3`, `BQ2-K1`, `BQ2-K2`, `BQ2-K3`, `BQ3-K1`, `BQ3-K2`
+- [X] T001 Crea `docs/kpi_operators.md` con intestazione (titolo, data, stato), il paragrafo introduttivo che dichiara il perimetro (nessun valore dei KPI, solo operatori) e le otto intestazioni di sezione vuote, una per KPI, nell'ordine `BQ1-K1`, `BQ1-K2`, `BQ1-K3`, `BQ2-K1`, `BQ2-K2`, `BQ2-K3`, `BQ3-K1`, `BQ3-K2`
 
 ---
 
@@ -33,7 +33,7 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 
 **⚠️ CRITICAL**: nessuna sezione del documento si scrive prima che questo task sia riportato.
 
-- [ ] T002 Riporta in forma compatta le quattro decisioni più esposte (D1 intervallo occupato, D2 metrica di distanza, D3 pesi e commensurabilità, D4 quadranti contro combinazione pesata) con la propria ragione, verificando che nulla sia cambiato rispetto alla spec approvata dalla regia; il riporto è testuale, non un file — punto di stop ★ di [plan.md](./plan.md)
+- [X] T002 Riporta in forma compatta le quattro decisioni più esposte (D1 intervallo occupato, D2 metrica di distanza, D3 pesi e commensurabilità, D4 quadranti contro combinazione pesata) con la propria ragione, verificando che nulla sia cambiato rispetto alla spec approvata dalla regia; il riporto è testuale, non un file — punto di stop ★ di [plan.md](./plan.md)
 
 **Checkpoint**: dopo T002, la scrittura del documento può iniziare.
 
