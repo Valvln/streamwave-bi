@@ -78,6 +78,20 @@ La distinzione non è sottile, e determina l'assegnazione in ogni caso ambiguo:
 
 ---
 
+### Nota in loco — 2026-08-21, chore `criterio-mood-cf1`
+
+La verifica indipendente della proposta (`006-content-taxonomy-bridge`) ha trovato che i tre tipi sopra non sono né esaustivi né esclusivi, e che la loro combinazione con il secondo segnale di §5 li fa contraddire. Il ritrovamento è registrato come `CF-1` e `CF-2` in [`docs/roadmap.md`](roadmap.md) § Debito della feature 006, con la ricognizione della regia del 2026-08-21 che ne ha corretto la forma.
+
+**La contraddizione (`CF-1`).** Un'etichetta generica, geografica o linguistica riceve qui il profilo centrale «per assenza di segnale»; un'etichetta di formato episodico a durata fissa riceve da §5 una cadenza più alta. `TV Shows`, `International TV Shows`, `British TV Shows`, `Korean TV Shows` e `Spanish-Language TV Shows` sono insieme geografiche o generiche **e** episodiche a durata fissa: le due regole prescrivono valori diversi sullo stesso asse per la stessa etichetta, e nessun testo di questo documento diceva quale prevale.
+
+**La regola che prevale, e perché.** Fra un tipo che non porta segnale (generica, geografica o linguistica, e — vedi sotto — di pubblico, di epoca o ricezione, di modo di produzione o tema quando non nominata come archetipo altrove) e un tipo che lo porta (di formato, o l'assegnazione diretta di §3-§5), **prevale il tipo che porta segnale**: l'assenza di segnale non ha nulla da opporre a un segnale reale. È la stessa lettura con cui la verifica indipendente aveva già mosso `Anime Series` e `Classic & Cult TV`, motivando che §2 non le copre e che §5 si applica quindi senza conflitto. Sulle cinque etichette sopra, la cadenza episodica di §5 prevale sulla centralità di §2.
+
+**Il vuoto più largo (`CF-2`).** I tre tipi elencati non coprono almeno tre casi reali del catalogo: le etichette **di pubblico** (`Kids' TV`, `Children & Family Movies`, `Teen TV Shows`), **di epoca o ricezione** (`Classic Movies`, `Cult Movies`, `Classic & Cult TV`), **di modo di produzione o tema** (`Independent Movies`, `LGBTQ Movies`). Non sono un quarto, quinto e sesto tipo con una regola propria: seguono di default la stessa regola delle etichette generiche — centrali per assenza di segnale — a meno che un'etichetta della stessa famiglia non sia già nominata come archetipo diretto in §3-§5 (`Children & Family Movies` lo è, in §4) o non porti anche il segnale di formato di cui sopra, nel qual caso vale la regola di prevalenza appena dichiarata.
+
+**Che cosa non cambia.** §3-§5 restano gli unici punti in cui un'etichetta riceve un segnale diretto per nome; questa nota non ne aggiunge. `CF-3` — che i 126 valori della proposta siano tutti multipli di 0,05, una griglia più grossolana delle due cifre decimali che §6 fissa — resta dichiarata e non corretta: questa riscrittura non introduce alcun vincolo di granularità, quindi non la rende una conseguenza.
+
+---
+
 ## 3. Asse energia — `mood_energy`
 
 **Che cosa misura sul lato musicale.** `energy` è l'intensità percepita di un brano: densità sonora, aggressività, spinta. Un valore basso è quiete, un valore alto è pressione continua.
@@ -117,6 +131,10 @@ La distinzione non è sottile, e determina l'assegnazione in ogni caso ambiguo:
 **Ancoraggio all'estremo basso** (prossimo a `SP.num.danceability.min`, 0,0000<!--@SP.num.danceability.min-->): l'archetipo musicale è il free jazz o la musica classica a tempo libero — nessuna pulsazione stabile a cui agganciarsi. Sul lato video l'equivalente è una categoria che procede per durate e ritmi non prevedibili, senza alcuna componente ritmica dichiarata: `Documentaries`<!--@catalogs.netflix_categories_normalized--> è l'archetipo dell'estremo basso.
 
 **Ancoraggio all'estremo alto** (prossimo a `SP.num.danceability.max`, 0,9850<!--@SP.num.danceability.max-->): l'archetipo musicale è il funk, la disco, la house — battito stabile e propulsivo come tratto costitutivo. Sul lato video l'equivalente è la sola categoria in cui la musica ritmica **è** il contenuto dichiarato: `Music & Musicals`<!--@catalogs.netflix_categories_normalized--> è l'archetipo dell'estremo alto.
+
+### Nota in loco — 2026-08-21, chore `criterio-mood-cf1`
+
+Il secondo segnale qui sopra — formato episodico a durata fissa → cadenza più alta — è il segnale che prevale nella regola di precedenza aggiunta in nota a §2, sulle etichette che sono insieme generiche, geografiche o linguistiche **ed** episodiche. Vedi quella nota per l'elenco delle etichette interessate e la motivazione.
 
 ---
 
