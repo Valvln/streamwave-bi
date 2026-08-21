@@ -58,4 +58,6 @@ Verificare nella tabella di stato del README la riga della `007a` con link a `sp
 
 ## Esito atteso
 
-Tutte e dieci le prove passano prima che la feature si consideri conclusa. Le prove 1-7 e 9-10 sono ispezione umana (parte della revisione in contesto pulito); la prova 8 è l'unica automatizzabile da riga di comando.
+Tutte e dieci le prove passano prima che la feature si consideri conclusa. Le prove 1-7 e 9-10 sono ispezione umana; la prova 8 è l'unica automatizzabile da riga di comando.
+
+**Questa non è la revisione in contesto pulito.** Le dieci prove sono verifica di lavorazione — le esegue chi ha scritto il documento (o chiunque altro), leggendo l'intero repository (`business_case.md`, `data_model.md`, `content_taxonomy_bridge.md`, lo script), che è esattamente ciò che il contesto pulito esclude. La revisione in contesto pulito è un atto distinto e successivo: un revisore isolato che riceve **solo** `docs/kpi_operators.md`, senza aver visto queste prove né il resto del repository, sul modello di `specs/005-data-model-design/review.md`.

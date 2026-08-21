@@ -11,7 +11,7 @@ description: "Task list template for feature implementation"
 
 **Test**: nessun task di test in senso software. Il deliverable è un documento; la sua correttezza si verifica con le dieci prove di [quickstart.md](./quickstart.md), incorporate come task T017.
 
-**Perché un solo file domina questa lista**: a differenza di una feature software, otto delle diciannove attività scrivono nello stesso file, `docs/kpi_operators.md`. La marcatura `[P]` segue comunque la regola del template — file diversi, nessuna dipendenza — e per questo motivo compare solo dove due task toccano file davvero distinti (script, `convenzioni-marcatura.md`, `README.md`); i task che condividono `docs/kpi_operators.md` sono sequenziali per costruzione, non per scelta.
+**Perché un solo file domina questa lista**: a differenza di una feature software, la maggior parte delle diciannove attività (T001, T003-T011, T015) scrive o corregge lo stesso file, `docs/kpi_operators.md`. La marcatura `[P]` segue comunque la regola del template — file diversi, nessuna dipendenza — e per questo motivo compare solo dove due task toccano file davvero distinti (script, `convenzioni-marcatura.md`, `README.md`); i task che condividono `docs/kpi_operators.md` sono sequenziali per costruzione, non per scelta.
 
 ## Path Conventions
 
@@ -71,7 +71,7 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 
 ## Phase 5: User Story 3 - Ogni operatore dichiara provenienza e non altera la confidenza già fissata (Priority: P1)
 
-**Goal**: le restanti sezioni sono scritte e l'intero documento è verificato contro la confidenza di `business_case.md` §5.4.
+**Goal**: le restanti sezioni sono scritte — inclusa `BQ2-K1`, la sesta con operatore nuovo, anticipata qui da User Story 4 perché senza di essa il documento avrebbe solo sette KPI su otto e la verifica di confidenza non potrebbe coprirli tutti (correzione B2 della revisione della regia) — e l'intero documento è verificato contro la confidenza di `business_case.md` §5.4.
 
 **Independent Test**: prova 6 di [quickstart.md](./quickstart.md).
 
@@ -79,7 +79,8 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 
 - [ ] T007 [US3] Scrivi la sezione `BQ1-K2` in `docs/kpi_operators.md`: operatore D5 (`format_duration_gap` = musica meno video, segno pubblicato, FR-008), dichiarazione che il KPI non ha direzione normativa e il segno è solo aritmetico (FR-009), provenienza
 - [ ] T008 [US3] Scrivi le sezioni `BQ3-K1` e `BQ3-K2` in `docs/kpi_operators.md` dichiarando esplicitamente che sono già derivate per intero dalla feature `004`, nessun operatore nuovo qui, solo richiamo della confidenza bassa già fissata
-- [ ] T009 [US3] Confronta la confidenza dichiarata per gli otto KPI in `docs/kpi_operators.md` con `docs/business_case.md` §5.4, riga per riga (FR-015); correggi ogni scostamento prima di procedere
+- [ ] T009 [US4] Scrivi la sezione `BQ2-K1` in `docs/kpi_operators.md`: operatore (mediana di popolarità), D6 citato come esempio di soglia limitata al confronto delle quote di zeri (FR-010), D7 (obbligo di pubblicare la quota di popolarità zero e l'avvertimento dove `is_high_zero_genre = vero`, FR-011), dichiarazione del campione sbilanciato (17 conteggi distinti, minimo 904, `docs/data_model.md` §18) come fatto ereditato senza valutazione (FR-017) — anticipata qui, prima di T010, perché è l'ottava sezione mancante
+- [ ] T010 [US3] Confronta la confidenza dichiarata per gli otto KPI in `docs/kpi_operators.md` con `docs/business_case.md` §5.4, riga per riga (FR-015); correggi ogni scostamento prima di procedere
 
 **Checkpoint**: tutte e otto le sezioni esistono; nessuna confidenza diverge dal business case.
 
@@ -87,13 +88,12 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 
 ## Phase 6: User Story 4 - I vincoli ereditati condizionano l'operatore senza diventare un giudizio (Priority: P2)
 
-**Goal**: le sezioni che toccano popolarità o `dim_category_mood` dichiarano i vincoli ereditati come fatto, non come valutazione.
+**Goal**: le sezioni di mood dichiarano i vincoli ereditati come fatto, non come valutazione. La prima metà di questa user story — il campione sbilanciato su `BQ2-K1` — è già chiusa da T009 in Phase 5; questa fase completa la seconda metà.
 
 **Independent Test**: acceptance scenario di User Story 4 in spec.md — nessun aggettivo di entità non ancorato accanto al campione sbilanciato o all'ancoraggio solo agli estremi.
 
 ### Implementation for User Story 4
 
-- [ ] T010 [US4] Scrivi la sezione `BQ2-K1` in `docs/kpi_operators.md`: operatore (mediana di popolarità), D6 citato come esempio di soglia limitata al confronto delle quote di zeri (FR-010), D7 (obbligo di pubblicare la quota di popolarità zero e l'avvertimento dove `is_high_zero_genre = vero`, FR-011), dichiarazione del campione sbilanciato (17 conteggi distinti, minimo 904, `docs/data_model.md` §18) come fatto ereditato senza valutazione (FR-017)
 - [ ] T011 [US4] Rileggi le sezioni `BQ1-K3`, `BQ2-K2`, `BQ2-K3` scritte in T003-T005 e verifica che ciascuna dichiari che presuppone solo la stabilità degli assi e degli estremi ancorati di `dim_category_mood`, non dei valori delle celle, citando `CF-1` come motivo (FR-016); aggiungi la dichiarazione dove manca
 
 **Checkpoint**: nessun operatore per segmento o per mood introduce un giudizio non ancorato.
@@ -136,7 +136,7 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 
 - [ ] T016 [P] Aggiorna `README.md`: riga nella tabella di stato con link a `specs/007a-kpi-operators/review.md`, deliverable elencato, la frase «i cinque documenti che pubblicano misure» estesa al sesto documento, commento del passo 5 di `Setup` allineato, sezione `Struttura` allineata (FR-023)
 - [ ] T017 Esegui le dieci prove di [quickstart.md](./quickstart.md) per intero, in ordine, e correggi ogni scostamento trovato prima di procedere alla revisione
-- [ ] T018 Produci `specs/007a-kpi-operators/review.md` secondo i quattro obblighi di `CLAUDE.md`: committato prima di correggere l'artefatto, dichiara in apertura cosa è stato letto e cosa no, àncora commit e impronta del contenuto letto, non si corregge (FR-024)
+- [ ] T018 **Dispatch della revisione in contesto pulito**: il revisore riceve **solo** `docs/kpi_operators.md` — una copia in una cartella isolata fuori dal repository, non il resto di `docs/`, non `specs/`, non `git`, sul modello di `specs/005-data-model-design/review.md` — non chi ha scritto il documento nella stessa sessione. Il verbale che ne risulta produce `specs/007a-kpi-operators/review.md` secondo i quattro obblighi di `CLAUDE.md`: committato prima di correggere l'artefatto, dichiara in apertura cosa è stato letto e cosa no, àncora commit e impronta del contenuto letto, non si corregge (FR-024)
 - [ ] T019 Chiudi i rilievi del verbale con un blocco in coda che dichiara per ciascuno l'esito — risolto, indebolito, respinto con prova, o rinviato — senza toccare il testo del revisore
 
 **Checkpoint**: feature conclusa, repository coerente.
@@ -149,15 +149,15 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 
 - **Setup (Phase 1)**: nessuna dipendenza — T001 crea lo scheletro del documento.
 - **Foundational (Phase 2)**: dipende da T001. T002 blocca ogni scrittura di contenuto (Phase 3 in poi) — è il punto di stop ★.
-- **User Story 1-3 (Phase 3-5, tutte P1)**: dipendono da T002. Scrivono sezioni distinte dello stesso file, quindi procedono in sequenza (T003→T004→T005→T006→T007→T008→T009), non in parallelo, per evitare conflitti sullo stesso documento.
-- **User Story 4 (Phase 6, P2)**: dipende dal completamento delle sezioni che rilegge (T010 dipende da T001-T002; T011 dipende da T003-T005).
+- **User Story 1-3 (Phase 3-5, tutte P1, con T009 di User Story 4 anticipato in Phase 5)**: dipendono da T002. Scrivono sezioni distinte dello stesso file, quindi procedono in sequenza (T003→T004→T005→T006→T007→T008→T009→T010), non in parallelo, per evitare conflitti sullo stesso documento.
+- **User Story 4 (T009 in Phase 5, T011 in Phase 6, P2)**: T009 (scrittura di `BQ2-K1`) è anticipata in Phase 5, prima di T010, perché senza quella sezione il documento avrebbe solo sette KPI su otto e T010 non potrebbe verificarne la confidenza — è la correzione B2 della revisione della regia sulla versione precedente di questo file, che lasciava `BQ2-K1` in Phase 6, dopo la verifica di confidenza. T011 dipende da T003-T005.
 - **User Story 5 (Phase 7, P2)**: dipende dal documento completo (dopo Phase 6), perché il controllo di coerenza scandisce l'intero file.
 - **User Story 6 (Phase 8, P3)**: dipende da T005.
 - **Polish (Phase 9)**: dipende dal completamento di tutte le fasi precedenti; T017-T019 sono strettamente sequenziali.
 
 ### Perché questa feature non ha una vera indipendenza fra user story
 
-Il template presuppone che le user story tocchino componenti diverse e possano procedere in parallelo. Qui tutte tranne la 5 e parte della 9 scrivono nello stesso file: l'indipendenza è **logica** (ciascuna sezione è verificabile da sola, come dichiarano gli Independent Test) ma non **di esecuzione** — scriverle in parallelo produrrebbe conflitti di merge su un unico documento. L'ordine P1→P1→P1→P2→P2→P3 dato sopra è quindi anche l'ordine di scrittura effettivo, non solo di priorità.
+Il template presuppone che le user story tocchino componenti diverse e possano procedere in parallelo. Qui tutte tranne la 5 e parte della 9 scrivono nello stesso file: l'indipendenza è **logica** (ciascuna sezione è verificabile da sola, come dichiarano gli Independent Test) ma non **di esecuzione** — scriverle in parallelo produrrebbe conflitti di merge su un unico documento. L'ordine P1→P1→P1→P2→P2→P3 dato sopra è quasi sempre anche l'ordine di scrittura effettivo, con un'unica eccezione dichiarata: T009 (User Story 4, P2) anticipa in Phase 5 la scrittura di `BQ2-K1`, perché T010 (User Story 3, P1) non potrebbe verificare la confidenza degli otto KPI su un documento che ne contiene sette. La priorità ordina il rischio di ciò che si argomenta per primo, non necessariamente l'ordine fisico di scrittura quando la completezza del documento lo richiede prima.
 
 ### Parallel Opportunities
 
@@ -190,13 +190,16 @@ Il template propone tipicamente "User Story 1 come MVP". Qui non si applica: FR-
 ### Ordine di lavoro effettivo
 
 1. T001-T002: scheletro del documento, punto di stop ★.
-2. T003-T009 (US1-US3, tutte P1): le sei sezioni dei KPI di `BQ1`/`BQ2` con operatore nuovo, nell'ordine di esposizione al rischio.
-3. T010-T011 (US4, P2): vincoli ereditati verificati e completati sulle sezioni già scritte.
-4. T012-T014 (US5, P2): il documento entra nel controllo di coerenza automatico.
-5. T015 (US6, P3): chiusura della voce minore residua.
-6. T016-T019 (Polish): README, quickstart per intero, verbale di revisione, chiusura dei suoi rilievi.
+2. T003-T007: le cinque sezioni dei KPI di `BQ1`/`BQ2` con operatore nuovo argomentate per prime — `BQ1-K3`, `BQ2-K2`, `BQ2-K3` (US1), `BQ1-K1` (US2), `BQ1-K2` (US3) — nell'ordine di esposizione al rischio.
+3. T008: le due sezioni già chiuse dalla `004` (`BQ3-K1`, `BQ3-K2`), senza operatore nuovo.
+4. T009: la sesta sezione con operatore nuovo, `BQ2-K1` — anticipata da User Story 4 perché completa le otto sezioni prima della verifica di confidenza.
+5. T010: verifica di confidenza sulle otto sezioni, ora complete (US3).
+6. T011: vincoli ereditati sulle sezioni di mood, seconda metà di User Story 4.
+7. T012-T014 (US5, P2): il documento entra nel controllo di coerenza automatico.
+8. T015 (US6, P3): chiusura della voce minore residua.
+9. T016-T019 (Polish): README, quickstart per intero, dispatch della revisione in contesto pulito, chiusura dei suoi rilievi.
 
-Il confine di sosta più sicuro, se la sessione si interrompe, è la fine della Phase 5 (T009): a quel punto tutte e otto le sezioni esistono e ogni operatore è completo — Phase 6-8 sono verifica e chiusura di voci minori, non ulteriore analisi.
+Il confine di sosta più sicuro, se la sessione si interrompe, è la fine della Phase 5 (T010): a quel punto tutte e otto le sezioni esistono e la confidenza è verificata contro il business case — resta aperta solo la dichiarazione dei vincoli di mood su sezioni già scritte (T011, Phase 6), che è un completamento dichiarativo, non ulteriore analisi.
 
 ---
 
