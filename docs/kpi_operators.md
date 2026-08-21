@@ -107,7 +107,7 @@ Geometricamente è un **parallelepipedo allineato agli assi**: il prodotto carte
 
 **Sul confine dell'intervallo.** Gli intervalli sono **chiusi**: un valore uguale al minimo o al massimo osservato conta come dentro. È coerente con il fatto che minimo e massimo sono essi stessi valori assegnati a una categoria reale, non limiti teorici.
 
-**Vincolo ereditato dalla tabella dei mood.** Questo operatore presuppone la stabilità degli **assi** e dei loro **estremi ancorati**, non dei valori delle celle: il ritrovamento `CF-1` di [`content_taxonomy_bridge.md`](content_taxonomy_bridge.md) §3 è aperto — criterio §2 e criterio §5 si contraddicono su alcune etichette — e una revisione del criterio produrrà una versione successiva della tabella. La formula qui definita non ne è invalidata. Il valore che ne uscirà sì: per il contratto di versione di `content_taxonomy_bridge.md` §5, ogni valore pubblicato che dipende da `dim_category_mood` deve dichiarare su quale versione della tabella è stato calcolato — oggi la 1<!--@MOOD.table.version-->.
+**Vincolo ereditato dalla tabella dei mood.** Questo operatore presuppone la stabilità degli **assi** e dei loro **estremi ancorati**, non dei valori delle celle: il ritrovamento `CF-1` di [`content_taxonomy_bridge.md`](content_taxonomy_bridge.md) §3 è aperto — criterio §2 e criterio §5 si contraddicono su alcune etichette — e una revisione del criterio produrrà una versione successiva della tabella. *(Nota in loco — 2026-08-21, chore `criterio-mood-cf1`: `CF-1` è stato chiuso riscrivendo il criterio in nota a §2 e §5 di [`mood_assignment_criteria.md`](mood_assignment_criteria.md); vedi `docs/roadmap.md` § Debito della feature 006.)* La formula qui definita non ne è invalidata. Il valore che ne uscirà sì: per il contratto di versione di `content_taxonomy_bridge.md` §5, ogni valore pubblicato che dipende da `dim_category_mood` deve dichiarare su quale versione della tabella è stato calcolato — oggi la 2<!--@MOOD.table.version-->.
 
 ---
 
@@ -181,7 +181,7 @@ d = ( |energia_segmento − energia_video|
 
 **Che cosa la scelta non risolve, e non deve fingere di risolvere.** Resta vero, come `content_taxonomy_bridge.md` §7 dichiara, che la **grandezza assoluta** di `d` non ha un'interpretazione indipendente dal criterio di mood: sottrarre un profilo assegnato da uno osservato presuppone che uno stesso numero indichi la stessa posizione sull'asse su entrambe le scale, e questo è sostenuto solo agli estremi. Ciò che questo operatore garantisce è che `d` sia calcolabile e **confrontabile con sé stessa fra segmenti diversi**, che è l'unica proprietà su cui §7 di questo documento può contare.
 
-**Vincolo ereditato dalla tabella dei mood.** Come in §4: l'operatore presuppone la stabilità degli assi e dei loro estremi ancorati, non dei valori delle celle, aperti per `CF-1`. Il valore che ne uscirà dichiara su quale versione della tabella è stato calcolato — oggi la 1<!--@MOOD.table.version-->.
+**Vincolo ereditato dalla tabella dei mood.** Come in §4: l'operatore presuppone la stabilità degli assi e dei loro estremi ancorati, non dei valori delle celle, aperti per `CF-1`. *(Nota in loco — 2026-08-21, chore `criterio-mood-cf1`: `CF-1` chiuso, vedi la nota a §4.)* Il valore che ne uscirà dichiara su quale versione della tabella è stato calcolato — oggi la 2<!--@MOOD.table.version-->.
 
 ---
 
@@ -189,7 +189,7 @@ d = ( |energia_segmento − energia_video|
 
 **Domanda di business**: BQ2 — Segmento di ingresso · **Confidenza**: **media**, invariata rispetto a `business_case.md` §5.4 — eredita il livello dei due<!--#--> KPI che compone, entrambi a media · **Decisioni di riferimento**: D3, D4, D8
 
-Questo KPI **non legge alcuna tabella**: compone i due<!--#--> precedenti (`data_model.md` §8). Eredita perciò per intero la loro provenienza e i loro limiti. In particolare, attraverso `segment_catalog_affinity`, **presuppone la stabilità degli assi e dei loro estremi ancorati, non dei valori delle celle** di `dim_category_mood`, aperti per il ritrovamento `CF-1`; e la graduatoria che pubblicherà dichiara su quale versione della tabella è stata calcolata — oggi la 1<!--@MOOD.table.version-->.
+Questo KPI **non legge alcuna tabella**: compone i due<!--#--> precedenti (`data_model.md` §8). Eredita perciò per intero la loro provenienza e i loro limiti. In particolare, attraverso `segment_catalog_affinity`, **presuppone la stabilità degli assi e dei loro estremi ancorati, non dei valori delle celle** di `dim_category_mood`, aperti per il ritrovamento `CF-1`. *(Nota in loco — 2026-08-21, chore `criterio-mood-cf1`: `CF-1` chiuso, vedi la nota a §4.)* La graduatoria che pubblicherà dichiara su quale versione della tabella è stata calcolata — oggi la 2<!--@MOOD.table.version-->.
 
 Pubblica **due<!--#--> valori distinti per segmento**, con ruoli diversi e non intercambiabili.
 

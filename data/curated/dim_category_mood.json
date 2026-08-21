@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": 1,
+  "version": 2,
   "source": {
     "proposal_file": "data/curated/dim_category_mood_proposal.json",
     "proposal_sha256": "aab390467afa025102cdf179cef18b88b7f6a943f6a32f662d2a2f087bf63a47"
@@ -9,7 +9,7 @@
     "verified_by": "sessione di implementazione della feature 006, distinta dalla sessione separata che ha prodotto la proposta in T012. Il verificatore non ha visto la proposta prima di riceverla, e chi ha prodotto la proposta ha ricevuto solo il criterio e l'elenco delle categorie, in una cartella isolata fuori dal repository.",
     "verified_at": "2026-08-20",
     "independence_residual": "Entrambe le sessioni ereditano le istruzioni di progetto di CLAUDE.md, che il sistema inietta e che non contengono nulla sui profili di mood né sulla feature 006. Non è isolamento assoluto ed è dichiarato invece che taciuto: la condizione 4 della quinta fonte chiede che chi verifica non sia chi ha proposto, non l'assenza di contesto.",
-    "changes_count": 2,
+    "changes_count": 3,
     "changes": [
       {
         "category": "Anime Series",
@@ -24,6 +24,13 @@
         "proposal_value": "0.50",
         "final_value": "0.55",
         "criterion_reference": "§5, secondo segnale, stesso caso: `Classic & Cult TV` è episodico a durata fissa, `Classic Movies` e `Cult Movies` sono a durata libera, e la proposta pone tutte e tre a 0,50. Etichetta di epoca e di ricezione, non coperta da §2."
+      },
+      {
+        "category": "Teen TV Shows",
+        "axis": "mood_danceability",
+        "proposal_value": "0.50",
+        "final_value": "0.55",
+        "criterion_reference": "Correzione del 2026-08-21, chore `criterio-mood-cf1`, a partire dalla ricognizione della regia in docs/roadmap.md § Debito della feature 006. `Teen TV Shows` è episodico a durata fissa e non è generico, geografico né linguistico: è esattamente il caso di `Anime Series` e `Classic & Cult TV` sopra, con la stessa motivazione (§5 si applica senza conflitto perché §2 non copre l'etichetta). È un errore di copertura della verifica originale del 2026-08-20, non una decisione presa sul criterio v2: la cella andava mossa allora e non lo fu."
       }
     ],
     "criterion_findings": [
@@ -34,7 +41,7 @@
           "§5"
         ],
         "finding": "§2 impone alle etichette generiche, geografiche e linguistiche di restare «centrali su tutti e tre gli assi», mentre §5 attribuisce a ogni formato episodico a durata fissa una cadenza più alta di un formato a durata libera. Le due regole si contraddicono sull'asse del ritmo per cinque etichette che sono insieme geografiche/generiche ed episodiche: `TV Shows`, `International TV Shows`, `British TV Shows`, `Korean TV Shows`, `Spanish-Language TV Shows`.",
-        "resolution": "Le cinque celle NON sono state spostate. La proposta segue §2, che è categorico ed esplicito; sceglierlo o preferirgli §5 è una decisione sul criterio, non una verifica contro il criterio (§7). Il conflitto è registrato qui e va risolto riscrivendo il criterio in una versione successiva della tabella.",
+        "resolution": "Chiuso il 2026-08-21 dal chore `criterio-mood-cf1`: il criterio v2 di docs/mood_assignment_criteria.md aggiunge, in nota a §2 e §5, la regola per cui il tipo che porta segnale (formato) prevale su quello che non lo porta (generico/geografico/linguistico). Le cinque celle si spostano di conseguenza — vedi `changelog` a livello di tabella, versione 2. Non erano state spostate nella verifica originale perché sceglierle avrebbe significato decidere sul criterio invece di verificarlo contro di esso (§7); la decisione è ora nel criterio stesso, non nella verifica.",
         "cells_affected": 5
       },
       {
@@ -43,8 +50,8 @@
           "§2"
         ],
         "finding": "Il criterio non ha una regola per le etichette di pubblico. Due di esse — `Children & Family Movies` e `Kids' TV` — ricevono positività molto alta perché la prima è dichiarata archetipo dell'estremo alto in §4; una terza, `Teen TV Shows`, resta centrale su tutti e tre gli assi. La differenza discende dall'esistenza di un archetipo dichiarato, non da una regola.",
-        "resolution": "Nessuna cella spostata: la regola di scelta di §2 — «se per assegnare un valore serve immaginare quali titoli stiano nella categoria, l'assegnazione sta uscendo dal criterio» — sostiene il centro per `Teen TV Shows`. Il vuoto resta e va colmato nel criterio, non nella tabella.",
-        "cells_affected": 0
+        "resolution": "Chiuso in due parti dal chore `criterio-mood-cf1` (2026-08-21). Sul vuoto di regola: il criterio v2 dichiara, in nota a §2, che le etichette di pubblico (con quelle di epoca/ricezione e di modo di produzione/tema) seguono di default la stessa regola delle etichette generiche, salvo archetipo dichiarato in §3-§5 o segnale di formato — la stessa regola di prevalenza di `CF-1`. Su `Teen TV Shows` specificamente: la ricognizione della regia in docs/roadmap.md § Debito della feature 006 ha trovato che la cella `mood_danceability` andava mossa già dalla verifica originale, con la stessa motivazione usata per `Anime Series` e `Classic & Cult TV` (§2 non la copre, §5 si applica senza conflitto) — è un errore di copertura della verifica del 2026-08-20, non una decisione sul criterio v2. La correzione è registrata in `changes`, non nel `changelog` di versione.",
+        "cells_affected": 1
       },
       {
         "id": "CF-3",
@@ -55,7 +62,15 @@
         "resolution": "Nessuna cella spostata: non è contestabile citando un punto del criterio (§7). Registrato perché chi legge la tabella sappia che la granularità effettiva è più grossolana di quella dichiarata.",
         "cells_affected": 0
       }
-    ]
+    ],
+    "v2_review": {
+      "reviewed_by": "subagent isolato, cartella fuori dal repository, riceve solo il testo del criterio v2 (con le due note in loco a §2 e §5) e l'elenco delle celle proposte con i soli fatti di tipo dell'etichetta. Non ha accesso al resto del repository né al processo che ha prodotto i file.",
+      "reviewed_at": "2026-08-21",
+      "cells_checked": 6,
+      "cells_confirmed_direction": 6,
+      "cells_rejected": 0,
+      "note": "Il criterio v2 giustifica solo la direzione dello spostamento (da centrale verso l'alto) per tutte e sei le celle, tramite la regola di prevalenza in nota a §2/§5; nessun passaggio fissa una cifra puntuale, quindi il valore 0,55 resta un'assegnazione dell'analista dentro la direzione autorizzata dal criterio — stesso passo già usato per `Anime Series` e `Classic & Cult TV` nella verifica originale."
+    }
   },
   "values": {
     "MOOD.category.action_adventure.mood_energy": {
@@ -147,8 +162,8 @@
       "unit": "0-1"
     },
     "MOOD.category.british_tv_shows.mood_danceability": {
-      "value": "0.50",
-      "display": "0,50",
+      "value": "0.55",
+      "display": "0,55",
       "category": "British TV Shows",
       "axis": "mood_danceability",
       "label": "profilo di mood, asse ritmo",
@@ -483,8 +498,8 @@
       "unit": "0-1"
     },
     "MOOD.category.international_tv_shows.mood_danceability": {
-      "value": "0.50",
-      "display": "0,50",
+      "value": "0.55",
+      "display": "0,55",
       "category": "International TV Shows",
       "axis": "mood_danceability",
       "label": "profilo di mood, asse ritmo",
@@ -531,8 +546,8 @@
       "unit": "0-1"
     },
     "MOOD.category.korean_tv_shows.mood_danceability": {
-      "value": "0.50",
-      "display": "0,50",
+      "value": "0.55",
+      "display": "0,55",
       "category": "Korean TV Shows",
       "axis": "mood_danceability",
       "label": "profilo di mood, asse ritmo",
@@ -747,8 +762,8 @@
       "unit": "0-1"
     },
     "MOOD.category.spanish_language_tv_shows.mood_danceability": {
-      "value": "0.50",
-      "display": "0,50",
+      "value": "0.55",
+      "display": "0,55",
       "category": "Spanish-Language TV Shows",
       "axis": "mood_danceability",
       "label": "profilo di mood, asse ritmo",
@@ -987,8 +1002,8 @@
       "unit": "0-1"
     },
     "MOOD.category.tv_shows.mood_danceability": {
-      "value": "0.50",
-      "display": "0,50",
+      "value": "0.55",
+      "display": "0,55",
       "category": "TV Shows",
       "axis": "mood_danceability",
       "label": "profilo di mood, asse ritmo",
@@ -1035,8 +1050,8 @@
       "unit": "0-1"
     },
     "MOOD.category.teen_tv_shows.mood_danceability": {
-      "value": "0.50",
-      "display": "0,50",
+      "value": "0.55",
+      "display": "0,55",
       "category": "Teen TV Shows",
       "axis": "mood_danceability",
       "label": "profilo di mood, asse ritmo",
@@ -1072,16 +1087,61 @@
       "label": "categorie coperte dalla tabella dei profili di mood"
     },
     "MOOD.table.version": {
-      "value": 1,
-      "display": "1",
-      "label": "versione della tabella al momento del congelamento"
-    },
-    "MOOD.review.changes_count": {
       "value": 2,
       "display": "2",
+      "label": "versione della tabella, incrementata quando una riga è corretta dopo il congelamento"
+    },
+    "MOOD.review.changes_count": {
+      "value": 3,
+      "display": "3",
       "label": "celle (categoria × asse) modificate dalla verifica indipendente rispetto alla proposta"
     }
   },
+  "changelog": [
+    {
+      "version": 2,
+      "date": "2026-08-21",
+      "reason": "chore `criterio-mood-cf1`: riscrittura del criterio in nota a §2 e §5 di docs/mood_assignment_criteria.md, che chiude i ritrovamenti CF-1 e CF-2 della verifica indipendente della `006-content-taxonomy-bridge`, registrati in docs/roadmap.md § Debito della feature 006.",
+      "changes": [
+        {
+          "category": "TV Shows",
+          "axis": "mood_danceability",
+          "previous_value": "0.50",
+          "new_value": "0.55",
+          "cause": "CF-1 — criterio v2, regola di prevalenza: il segnale di formato (§5, episodico a durata fissa) prevale sull'assenza di segnale dell'etichetta generica (§2)."
+        },
+        {
+          "category": "International TV Shows",
+          "axis": "mood_danceability",
+          "previous_value": "0.50",
+          "new_value": "0.55",
+          "cause": "CF-1 — stessa regola, etichetta geografica."
+        },
+        {
+          "category": "British TV Shows",
+          "axis": "mood_danceability",
+          "previous_value": "0.50",
+          "new_value": "0.55",
+          "cause": "CF-1 — stessa regola, etichetta geografica."
+        },
+        {
+          "category": "Korean TV Shows",
+          "axis": "mood_danceability",
+          "previous_value": "0.50",
+          "new_value": "0.55",
+          "cause": "CF-1 — stessa regola, etichetta geografica."
+        },
+        {
+          "category": "Spanish-Language TV Shows",
+          "axis": "mood_danceability",
+          "previous_value": "0.50",
+          "new_value": "0.55",
+          "cause": "CF-1 — stessa regola, etichetta linguistica."
+        }
+      ],
+      "note": "`Teen TV Shows` (mood_danceability, 0,50 → 0,55) NON è in questo elenco: è una correzione di un errore di copertura della verifica originale del 2026-08-20 (CF-2), non una conseguenza della riscrittura del criterio — vedi `verification.changes` e `verification.criterion_findings` (CF-2). La causa è dichiaratamente diversa, come richiesto dal prompt di consegna del chore."
+    }
+  ],
   "catalogs": {
     "mood_categories": [
       "Action & Adventure",
