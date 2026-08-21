@@ -133,15 +133,47 @@ Resta aperta l'altra metà: come un punto a tre coordinate — il profilo di una
 
 ---
 
-### D9 — Chiusura della divergenza 4 della revisione `002`: la North Star non nasce dalla giustapposizione
+### D9 — `BQ1-K1`: l'operatore di C1, il rapporto della North Star, e perché il numeratore regge sul dato trasformato
 
-**Il contesto**: la revisione di `docs/data_audit.md` (feature `002`) ha trovato che il documento pubblica **375** (titoli musicali) e **8.807** (titoli totali) a poche righe dalla frase sulla North Star, senza calcolare il rapporto — formalmente `data_audit.md` non contiene KPI, come dichiara, ma un lettore arriva alla divisione senza sforzo. La divergenza chiede se questo equivalga, in sostanza, a pubblicare la misura, e offre due strade: rimuovere l'accostamento, oppure accettare che la North Star nasca lì e dichiararlo.
+**Il contesto, in due parti che si chiudono insieme perché sono lo stesso passaggio su `BQ1-K1`.**
 
-**La decisione**: **nessuna delle due**, perché nessuna delle due è nel perimetro di `007a`: la prima toccherebbe `docs/data_audit.md`, un artefatto di un'altra feature già mergiata; la seconda accetterebbe una nascita implicita che la regola D5 vieta. Ciò che `007a` decide è l'**operatore** di `BQ1-K1` (`music_adjacent_catalog_share`): il rapporto **375 / 8.807** non è pubblicato come misura finché non è calcolato esplicitamente e ancorato con un proprio identificativo in un artefatto — la giustapposizione di due numeri già ancorati separatamente in `data_audit.md`, per quanto vicini in prosa, **non costituisce** aver pubblicato la misura, perché il rapporto stesso è un'affermazione derivata (D5 di `CLAUDE.md`: «un confronto, una graduatoria, un rapporto costruiti su valori misurati sono essi stessi valori misurati») e finché non porta un'ancora propria resta implicito.
+**Parte 1 — la condizione C1 non aveva operatore.** `business_case.md` §3 assegna a `BQ1-K1` la condizione **C1** della regola di decisione della North Star: «il contenuto musicale non è residuale nel catalogo attuale: la sua categoria si colloca nella **metà superiore** delle categorie per numero di titoli». Non è la stessa domanda della quota `music_adjacent_catalog_share` (375 su 8.807): C1 chiede una **graduatoria delle 42 categorie** per numero di titoli e la posizione di `Music & Musicals` rispetto alla mediana — grana diversa, operatore mai definito da nessuna feature precedente.
+
+**Parte 2 — divergenza 4 della revisione `002`.** `docs/data_audit.md` pubblica **375** (titoli musicali) e **8.807** (titoli totali) a poche righe dalla frase sulla North Star, senza calcolare il rapporto — formalmente non contiene KPI, come dichiara, ma un lettore arriva alla divisione senza sforzo. La divergenza chiede se questo equivalga, in sostanza, a pubblicare la misura.
+
+**Perché si chiudono nello stesso blocco**: entrambe riguardano su quale dato e con quale operatore `BQ1-K1` si calcola — la quota **e** la condizione C1 che ne dipende — e toccano lo stesso numero, 375, letto una volta come numeratore di un rapporto e una volta come conteggio di base per una graduatoria.
+
+---
+
+**D9.1 — Il numeratore 375 vive solo sul dato di origine: l'invariante che lo rende valido sul trasformato.**
+
+`375` esiste come identificativo unicamente in `reports/data_profile.json` (`NF.cat.music_musicals.titles`), calcolato sul catalogo **di origine**. Nessun identificativo di `reports/cleaning_report.json` lo ripete: il rendiconto della trasformazione non pubblica un conteggio di titoli per categoria. `FR-014` di questo documento obbliga però ogni operatore a dichiarare da quali tabelle del **modello dati** legge, e il modello opera sul dato **trasformato** — dove il numeratore, così com'è, non ha ancora un'ancora propria.
+
+La risposta non è ricontare: è scrivere l'**invariante**, sullo stesso schema già adottato dalla `005` per i 114 segmenti (roadmap, debito della `005` — «conteggio dei segmenti letto dal profilo di origine»: non si riconta, si dichiara perché il conteggio di origine regge sul trasformato). Qui l'invariante regge, verificabile con due soli fatti già ancorati: il numero di titoli distinti del catalogo non cambia dalla trasformazione — `NF.shape.rows` (origine, 8.807) e `CL.NF.titles.rows.after` (trasformato, 8.807) coincidono — e le uniche righe toccate dalla riparazione, `CL.NF.duration.repaired.rows` (3), sono state riparate per **spostamento di campo**, non per imputazione né eliminazione (`data_model.md` §14, `is_repaired_duration`): nessun titolo è stato aggiunto, rimosso, o ha cambiato la propria assegnazione di categoria. Poiché la trasformazione non tocca né il numero di titoli né le loro categorie, il conteggio dei titoli in `Music & Musicals` è anch'esso invariante, e `375` resta il numeratore corretto sul dato trasformato — pur non avendo, oggi, un'ancora propria in `reports/cleaning_report.json`.
+
+**Conseguenza per l'operatore**: dichiara la catena per intero — numeratore letto dall'origine (`NF.cat.music_musicals.titles`), invariante argomentato sui due fatti sopra, denominatore letto indifferentemente dall'origine o dal trasformato perché coincidono (`NF.shape.rows` = `CL.NF.titles.rows.after` = 8.807) — invece di citare 375 come se fosse già un valore del modello dati.
+
+---
+
+**D9.2 — L'operatore di C1: graduatoria delle 42 categorie per numero di titoli, non la quota.**
+
+C1 non è calcolabile da `music_adjacent_catalog_share`, che è una quota sull'intero catalogo. Il suo operatore è distinto: per ciascuna delle 42 categorie di `catalogs.netflix_categories_normalized`, il numero di titoli si conta raggruppando le righe di `bridge_title_category` per categoria — non gli 8.807 titoli distinti del catalogo (un conteggio globale, non per categoria) e non le 19.323 assegnazioni totali lette come un numero unico, ma la loro **suddivisione per categoria**: ciascuna riga del ponte è già, per costruzione, un titolo distinto in quella categoria (`data_model.md` §10.2 — nessun'altra colonna sul ponte, nessuna assegnazione titolo-categoria duplicata). La somma dei 42 conteggi per categoria restituisce 19.323, non 8.807: è la stessa distinzione fra grana di appartenenza e grana del risultato che `data_model.md` §18 dichiara per i segmenti musicali, applicata qui al lato video.
+
+C1 è soddisfatta se il conteggio di titoli di `Music & Musicals` supera la **mediana** dei 42 conteggi per categoria — condizione stretta (`>`), per coerenza con la stessa convenzione già adottata in D4 per i quadranti di `BQ2-K3`, non per una ragione nuova a sé.
+
+**La ragione della scelta sul conteggio**: la formulazione di C1 — «la sua categoria si colloca nella metà superiore delle categorie **per numero di titoli**» — chiede quanti titoli popolano ciascuna categoria, non quanti titoli distinti esistono nell'intero catalogo. Il conteggio per categoria sul ponte è l'unica lettura che risponde a questa domanda: usare 8.807 (o una sua quota) confonderebbe una proprietà dell'intero catalogo con una proprietà di una singola categoria.
+
+**Che cosa questa decisione non fa**: non calcola la posizione di `Music & Musicals` nella graduatoria — nessun conteggio di titoli per categoria è oggi pubblicato in alcun artefatto, e produrlo è compito della `007b`. Questa feature dichiara solo l'operatore: su quale tabella si conta, a quale grana, con quale soglia.
+
+---
+
+**D9.3 — La North Star resta un rapporto da calcolare, non una giustapposizione.**
+
+Sulla divergenza 4 della `002`: **nessuna delle due strade che offriva**, perché nessuna è nel perimetro di `007a` — rimuovere l'accostamento toccherebbe `docs/data_audit.md`, un artefatto di un'altra feature già mergiata; accettare che la North Star nasca lì accetterebbe una nascita implicita che la regola D5 vieta. Ciò che `007a` decide è l'**operatore** di `music_adjacent_catalog_share`: il rapporto **375 / 8.807** non è pubblicato come misura finché non è calcolato esplicitamente e ancorato con un proprio identificativo — la giustapposizione di due numeri già ancorati separatamente in `data_audit.md`, per quanto vicini in prosa, **non costituisce** aver pubblicato la misura, perché il rapporto stesso è un'affermazione derivata (D5 di `CLAUDE.md`: «un confronto, una graduatoria, un rapporto costruiti su valori misurati sono essi stessi valori misurati») e finché non porta un'ancora propria resta implicito.
 
 **La ragione**: è l'applicazione diretta della regola D5 già in vigore nel progetto, non una regola nuova. `data_audit.md` non viola nulla — dichiara correttamente di non contenere KPI, e i due numeri che pubblica sono entrambi ancorati ai propri identificativi. Ciò che resta indefinito è solo il rapporto, e questa feature lo definisce come operatore: quando `007b` calcolerà `music_adjacent_catalog_share`, il valore risultante — non i suoi due input separati — è ciò che porta l'ancora della misura.
 
-**Conseguenza per `007b`**: il documento `docs/kpi_operators.md` dichiara esplicitamente che 375 e 8.807 sono **input** già disponibili e ancorati (in `reports/data_profile.json` e `docs/data_cleaning.md`), non la misura; la misura nasce quando il loro rapporto viene calcolato e ancorato per la prima volta, compito della `007b`.
+**Conseguenza per `007b`**: il documento `docs/kpi_operators.md` dichiara esplicitamente che 375 e 8.807 sono **input** già disponibili — il primo sul dato di origine con l'invariante di D9.1, il secondo su entrambi i lati per coincidenza — non la misura; la misura nasce quando il loro rapporto viene calcolato e ancorato per la prima volta, compito della `007b`. La stessa lettura per categoria di D9.2 fornisce l'operatore di C1, distinto e non sostitutivo della quota.
 
 ---
 
@@ -193,7 +225,23 @@ Chi scrive fissa intervallo occupato, metrica di distanza, pesi e commensurabili
 
 ---
 
-### User Story 2 — Ogni operatore dichiara provenienza e non altera la confidenza già fissata (Priority: P1)
+### User Story 2 — L'operatore di `BQ1-K1` copre anche C1, non solo la quota (Priority: P1)
+
+Chi eredita il documento trova, per `BQ1-K1`, non solo la definizione di `music_adjacent_catalog_share` ma anche l'operatore distinto della condizione C1 della North Star — la posizione di `Music & Musicals` nella graduatoria delle 42 categorie per numero di titoli — e la ragione per cui il numeratore 375, letto sul dato di origine, regge anche sul modello dati costruito sul trasformato.
+
+**Why this priority**: C1 è una delle tre condizioni che sostengono l'argomento di coerenza strategica dell'intero progetto (`business_case.md` §3), ed è rimasta priva di operatore attraverso tutte le revisioni precedenti. Senza questa storia, `007b` arriverebbe a `BQ1-K1` e dovrebbe decidere da sola su quale conteggio ordinare le categorie e come trattare i pari merito — esattamente il tipo di decisione analitica che questa feature esiste per non lasciare a valle.
+
+**Independent Test**: si legge D9 di questa spec; distingue esplicitamente l'operatore di C1 (D9.2) da quello della quota (D9.3), e argomenta separatamente perché il numeratore di origine regge sul dato trasformato (D9.1).
+
+**Acceptance Scenarios**:
+
+1. **Given** D9.1, **When** la si legge, **Then** dichiara che `375` è letto da `reports/data_profile.json` e argomenta l'invariante che lo rende valido sul dato trasformato citando `NF.shape.rows`, `CL.NF.titles.rows.after` e `CL.NF.duration.repaired.rows`.
+2. **Given** D9.2, **When** la si legge, **Then** definisce l'operatore di C1 come il conteggio dei titoli per categoria su `bridge_title_category` raggruppato per categoria, con la mediana dei 42 conteggi come soglia stretta, e dichiara esplicitamente che questo conteggio non è oggi pubblicato in alcun artefatto.
+3. **Given** D9.2, **When** la si confronta con D9.3, **Then** è chiaro che sono due operatori distinti sullo stesso KPI — uno per la condizione C1, uno per la quota — e non due letture alternative dello stesso numero.
+
+---
+
+### User Story 3 — Ogni operatore dichiara provenienza e non altera la confidenza già fissata (Priority: P1)
 
 Chi eredita il documento trova, per ciascun operatore, da quali tabelle e colonne del modello dati legge, e nessuna dichiarazione che sposti la confidenza di un KPI oltre quella già fissata da `business_case.md` §5.4.
 
@@ -208,7 +256,7 @@ Chi eredita il documento trova, per ciascun operatore, da quali tabelle e colonn
 
 ---
 
-### User Story 3 — I vincoli ereditati condizionano l'operatore senza diventare un giudizio (Priority: P2)
+### User Story 4 — I vincoli ereditati condizionano l'operatore senza diventare un giudizio (Priority: P2)
 
 Chi scrive un operatore per segmento dichiara i vincoli ereditati dalle feature precedenti — campione sbilanciato, tabella dei mood non definitiva per `CF-1`, ancoraggio solo agli estremi — accanto all'operatore che li eredita, senza introdurre una valutazione della loro entità che nessun artefatto sostiene.
 
@@ -223,7 +271,7 @@ Chi scrive un operatore per segmento dichiara i vincoli ereditati dalle feature 
 
 ---
 
-### User Story 4 — Il documento è verificabile meccanicamente, non solo a lettura (Priority: P2)
+### User Story 5 — Il documento è verificabile meccanicamente, non solo a lettura (Priority: P2)
 
 Chi esegue `scripts/check_audit_coherence.py` su `docs/kpi_operators.md` trova ogni numerale in posizione di fatto misurato ancorato a un artefatto o marcato esplicitamente come non misurato, sotto severità stretta.
 
@@ -238,18 +286,17 @@ Chi esegue `scripts/check_audit_coherence.py` su `docs/kpi_operators.md` trova o
 
 ---
 
-### User Story 5 — Le due voci minori sono chiuse nello stesso documento (Priority: P3)
+### User Story 6 — La voce minore residua di `R13` è chiusa (Priority: P3)
 
-Chi legge il documento trova la direzione della graduatoria di `BQ2-K3` dichiarata (D8) e la posizione di questa feature sulla divergenza 4 della `002` dichiarata (D9), senza doverle cercare in un rilievo separato.
+Chi legge il documento trova la direzione della graduatoria di `BQ2-K3` dichiarata (D8), senza doverla cercare in un rilievo separato.
 
-**Why this priority**: sono voci minori per costo di argomentazione, non per importanza di chiusura — lasciarle aperte lascerebbe `007b` a dover decidere due cose analitiche senza il contesto che questa feature ha.
+**Why this priority**: è una voce minore per costo di argomentazione, non per importanza di chiusura — lasciarla aperta lascerebbe `007b` a dover decidere un'ambiguità analitica senza il contesto che questa feature ha.
 
-**Independent Test**: si cercano nel documento i riferimenti a `R13` e alla divergenza 4 della `002`; entrambi compaiono con una decisione dichiarata, non solo con la citazione del rilievo.
+**Independent Test**: si cerca nel documento il riferimento a `R13`; compare con una decisione dichiarata, non solo con la citazione del rilievo.
 
 **Acceptance Scenarios**:
 
 1. **Given** l'operatore di `BQ2-K3`, **When** lo si legge, **Then** dichiara che la posizione 1 è il segmento con il punteggio più alto (D8).
-2. **Given** l'operatore di `BQ1-K1`, **When** lo si legge, **Then** dichiara che 375 e 8.807 sono input ancorati e non la misura, e che la misura nasce quando `007b` calcola e ancora il loro rapporto (D9).
 
 ---
 
@@ -258,7 +305,7 @@ Chi legge il documento trova la direzione della graduatoria di `BQ2-K3` dichiara
 - **Un profilo di traccia cade esattamente sul confine di un intervallo scalare** (D1). Gli intervalli sono chiusi (`[min, max]`, non aperti): un valore uguale al minimo o al massimo osservato conta come "dentro". È coerente con il fatto che minimo e massimo sono essi stessi valori osservati su una categoria reale, non limiti teorici.
 - **Un segmento ha `segment_demand_index` o `segment_catalog_affinity` esattamente sulla mediana** (D4). La soglia del quadrante è "sopra la mediana" in senso stretto (`>`), non "sopra o uguale" — un segmento sulla mediana non entra nel quadrante alto. La scelta è dichiarata qui perché altrimenti resterebbe implicita in `007b`; non ha un impatto atteso rilevante dato che gli indici sono continui e una coincidenza esatta sulla mediana è un caso limite raro, ma va comunque decisa.
 - **Un segmento porta `is_high_zero_genre = vero` e la sua mediana di popolarità è comunque alta.** L'avvertimento testuale di D7 si pubblica comunque, accanto al valore: il fatto che la mediana sia alta nonostante la concentrazione di zeri non riduce l'obbligo di dichiarare la concentrazione — anzi la rende più interessante da segnalare, perché il valore alto è stato raggiunto nonostante il difetto della fonte.
-- **La versione 2 della tabella dei mood, dopo la chiusura di `CF-1`, sposta i valori delle 5 etichette in conflitto.** Nessun operatore di questa feature ne è invalidato: D1 e D2 presuppongono solo la stabilità degli assi e degli estremi ancorati, non dei valori delle celle (User Story 3, scenario 2). `007b` applicherà gli stessi operatori alla tabella versione 2 senza dover tornare qui.
+- **La versione 2 della tabella dei mood, dopo la chiusura di `CF-1`, sposta i valori delle 5 etichette in conflitto.** Nessun operatore di questa feature ne è invalidato: D1 e D2 presuppongono solo la stabilità degli assi e degli estremi ancorati, non dei valori delle celle (User Story 4, scenario 2). `007b` applicherà gli stessi operatori alla tabella versione 2 senza dover tornare qui.
 - **Un genere nel confronto di D6 si sposta di esattamente 0,5 punti percentuali.** La soglia è un limite superiore incluso nel gruppo "non cambiato": la decisione usa "supera 0,5 punti" (`>`, stretto), quindi 0,5 esatto non conta come cambiato. Va dichiarato nel documento con la stessa esplicitezza della soglia stessa.
 
 ---
@@ -279,13 +326,18 @@ Chi legge il documento trova la direzione della graduatoria di `BQ2-K3` dichiara
 
 - **FR-008**: L'operatore di `BQ1-K2` MUST calcolare `format_duration_gap` come `mediana_durata_traccia_musicale_min − mediana_durata_film_video_min` (musica meno video), e MUST pubblicare il segno del risultato, non il valore assoluto.
 - **FR-009**: L'operatore di `BQ1-K2` MUST dichiarare che il KPI non ha direzione normativa (eredità di `business_case.md` §5.5) e che il segno pubblicato porta solo informazione aritmetica su quale formato sia più lungo, non un giudizio di valore.
-- **FR-010**: Il documento MUST fissare la soglia di "valore cambiato" fra due artefatti a **0,5 punti percentuali** di differenza assoluta (condizione stretta, `>`), applicabile a qualunque confronto fra `reports/data_profile.json` e `reports/cleaning_report.json` che una misura a valle debba compiere, e MUST dichiarare la ragione della soglia (separazione fra pavimento di arrotondamento e spostamenti reali osservati).
+- **FR-010**: Il documento MUST fissare la soglia di "valore cambiato" a **0,5 punti percentuali** di differenza assoluta (condizione stretta, `>`), **limitata al confronto delle quote di zeri per genere** fra `reports/data_profile.json` e `reports/cleaning_report.json` — non a qualunque confronto fra i due artefatti — e MUST dichiarare la ragione della soglia (separazione fra pavimento di arrotondamento e spostamenti reali osservati). Un'estensione della soglia ad altre coppie di valori richiede una decisione esplicita, non l'applicazione automatica di questo requisito: la soglia è espressa in punti percentuali e non ha senso su un confronto fra conteggi o medie di altra natura.
 - **FR-011**: Ogni operatore che coinvolge la popolarità (in particolare `BQ2-K1`) MUST richiedere la pubblicazione, accanto al proprio valore, della quota di righe a popolarità zero del segmento (`is_popularity_zero`, grana coppia traccia-segmento), e MUST richiedere un avvertimento testuale esplicito dove il segmento porta `is_high_zero_genre = vero`.
 
-### Le due voci minori (D8-D9)
+### La direzione della graduatoria (D8)
 
 - **FR-012**: L'operatore di `BQ2-K3` MUST dichiarare che la posizione 1 della graduatoria è il segmento con il punteggio pesato più alto (ordinamento decrescente), chiudendo la parte residua di `R13` della revisione `001` su questo KPI.
-- **FR-013**: L'operatore di `BQ1-K1` MUST dichiarare che i valori 375 e 8.807 pubblicati in `docs/data_audit.md` sono input già ancorati, non la misura, e che la misura (`music_adjacent_catalog_share`) nasce solo quando il loro rapporto viene calcolato e ancorato per la prima volta — compito della `007b`.
+
+### `BQ1-K1`: la quota, C1, e l'invariante sul dato trasformato (D9)
+
+- **FR-013**: L'operatore di `BQ1-K1` MUST dichiarare che i valori 375 e 8.807 pubblicati in `docs/data_audit.md` sono input, non la misura, e che la misura (`music_adjacent_catalog_share`) nasce solo quando il loro rapporto viene calcolato e ancorato per la prima volta — compito della `007b`.
+- **FR-013a**: L'operatore di `BQ1-K1` MUST dichiarare che il numeratore 375 è letto da `reports/data_profile.json` (dato di origine) e non ha un'ancora propria in `reports/cleaning_report.json`, e MUST argomentare esplicitamente l'invariante che lo rende valido sul dato trasformato: la coincidenza fra `NF.shape.rows` e `CL.NF.titles.rows.after`, e la natura non eliminativa delle 3 righe riparate in `CL.NF.duration.repaired.rows` (spostamento di campo, non imputazione né eliminazione).
+- **FR-013b**: Il documento MUST definire l'operatore della condizione **C1** della regola di decisione della North Star (`docs/business_case.md` §3), distinto dall'operatore della quota di `BQ1-K1`: il conteggio dei titoli per categoria si calcola raggruppando le righe di `bridge_title_category` per categoria (non sugli 8.807 titoli distinti del catalogo, non sulle 19.323 assegnazioni lette come numero unico), e C1 è soddisfatta se il conteggio di `Music & Musicals` supera la mediana dei 42 conteggi per categoria, condizione stretta (`>`).
 
 ### Provenienza, confidenza e limiti (obbligo trasversale su ogni operatore)
 
@@ -353,7 +405,7 @@ Questa spec non propone una scomposizione in due feature separate, a differenza 
 ## Domanda di Business *(obbligatoria — Constitution, principio VI)*
 
 - **Domanda servita**: **BQ1 — Posizionamento**, **BQ2 — Segmento di ingresso**, **BQ3 — Impatto stimato**. Le tre insieme, non una sola — ed è un fatto insolito rispetto alle feature precedenti, dichiarato qui invece di forzare questa feature dentro una domanda sola. `BQ3` non riceve operatori nuovi: i suoi due KPI (`premium_tier_adoption_rate`, `arpu_uplift`) sono già derivati per intero dalla `004`, con formula, ancoraggio e note d'unità pubblicate. Questa feature copre invece gli operatori mancanti di tutti e sei i KPI di `BQ1` e `BQ2`.
-- **Contributo**: senza queste nove decisioni, tre dei sei KPI di `BQ1`/`BQ2` non hanno una formula univoca — `BQ1-K3`, `BQ2-K2` e `BQ2-K3` ammetterebbero più letture incompatibili — e due condizioni della regola di decisione della North Star (`business_case.md` §3, C2 e C3) non sarebbero verificabili senza un operatore dichiarato. Questa feature non calcola la risposta a nessuna delle tre domande: fissa le regole che la renderanno una risposta difendibile invece che un numero fra tanti ugualmente possibili.
+- **Contributo**: senza queste nove decisioni, tre dei sei KPI di `BQ1`/`BQ2` non hanno una formula univoca — `BQ1-K3`, `BQ2-K2` e `BQ2-K3` ammetterebbero più letture incompatibili — e tutte e tre le condizioni della regola di decisione della North Star (`business_case.md` §3, C1, C2 e C3) non sarebbero verificabili senza un operatore dichiarato: C1 tramite D9, C2 tramite D1, C3 tramite D4. Questa feature non calcola la risposta a nessuna delle tre domande: fissa le regole che la renderanno una risposta difendibile invece che un numero fra tanti ugualmente possibili.
 
 ---
 
