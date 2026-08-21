@@ -47,9 +47,9 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 
 ### Implementation for User Story 1
 
-- [ ] T003 [US1] Scrivi la sezione `BQ1-K3` in `docs/kpi_operators.md`: operatore D1 (prodotto cartesiano dei tre intervalli scalari indipendenti, FR-001), il limite dichiarato della stima per eccesso (FR-002), provenienza da `docs/data_model.md` §11 (FR-014)
-- [ ] T004 [US1] Scrivi la sezione `BQ2-K2` in `docs/kpi_operators.md`: operatore D2 (distanza media assoluta per asse, complemento a 1, FR-003), citazione del vincolo di `docs/content_taxonomy_bridge.md` §7 senza ripeterlo per esteso (FR-004), provenienza da `docs/data_model.md` §11
-- [ ] T005 [US1] Scrivi la sezione `BQ2-K3` in `docs/kpi_operators.md`: operatore D3 (normalizzazione per divisione, pesi 0,5/0,5, FR-005) e operatore D4 (appartenenza al quadrante booleana più punteggio pesato continuo, con ruolo distinto, FR-006), dichiarazione che il quadrante verifica direttamente C3 della North Star (FR-007)
+- [X] T003 [US1] Scrivi la sezione `BQ1-K3` in `docs/kpi_operators.md`: operatore D1 (prodotto cartesiano dei tre intervalli scalari indipendenti, FR-001), il limite dichiarato della stima per eccesso (FR-002), provenienza da `docs/data_model.md` §11 (FR-014)
+- [X] T004 [US1] Scrivi la sezione `BQ2-K2` in `docs/kpi_operators.md`: operatore D2 (distanza media assoluta per asse, complemento a 1, FR-003), citazione del vincolo di `docs/content_taxonomy_bridge.md` §7 senza ripeterlo per esteso (FR-004), provenienza da `docs/data_model.md` §11
+- [X] T005 [US1] Scrivi la sezione `BQ2-K3` in `docs/kpi_operators.md`: operatore D3 (normalizzazione per divisione, pesi 0,5/0,5, FR-005) e operatore D4 (appartenenza al quadrante booleana più punteggio pesato continuo, con ruolo distinto, FR-006), dichiarazione che il quadrante verifica direttamente C3 della North Star (FR-007)
 
 **Checkpoint**: le tre sezioni più esposte esistono e sono verificabili con la prova 3.
 
@@ -63,7 +63,7 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 
 ### Implementation for User Story 2
 
-- [ ] T006 [US2] Scrivi la sezione `BQ1-K1` in `docs/kpi_operators.md`: D9.1 (invariante sul numeratore 375, argomentato citando `NF.shape.rows`, `CL.NF.titles.rows.after`, `CL.NF.duration.repaired.rows`, FR-013a), D9.2 (operatore di C1 — conteggio per categoria su `bridge_title_category` raggruppato, soglia mediana stretta, FR-013b), D9.3 (il rapporto 375/8.807 resta non pubblicato finché non è calcolato e ancorato, FR-013)
+- [X] T006 [US2] Scrivi la sezione `BQ1-K1` in `docs/kpi_operators.md`: D9.1 (invariante sul numeratore 375, argomentato citando `NF.shape.rows`, `CL.NF.titles.rows.after`, `CL.NF.duration.repaired.rows`, FR-013a), D9.2 (operatore di C1 — conteggio per categoria su `bridge_title_category` raggruppato, soglia mediana stretta, FR-013b), D9.3 (il rapporto 375/8.807 resta non pubblicato finché non è calcolato e ancorato, FR-013)
 
 **Checkpoint**: `BQ1-K1` è completa e i tre identificativi dell'invariante sono citati esattamente.
 
@@ -77,10 +77,10 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 
 ### Implementation for User Story 3
 
-- [ ] T007 [US3] Scrivi la sezione `BQ1-K2` in `docs/kpi_operators.md`: operatore D5 (`format_duration_gap` = musica meno video, segno pubblicato, FR-008), dichiarazione che il KPI non ha direzione normativa e il segno è solo aritmetico (FR-009), provenienza
-- [ ] T008 [US3] Scrivi le sezioni `BQ3-K1` e `BQ3-K2` in `docs/kpi_operators.md` dichiarando esplicitamente che sono già derivate per intero dalla feature `004`, nessun operatore nuovo qui, solo richiamo della confidenza bassa già fissata
-- [ ] T009 [US4] Scrivi la sezione `BQ2-K1` in `docs/kpi_operators.md`: operatore (mediana di popolarità), D6 citato come esempio di soglia limitata al confronto delle quote di zeri (FR-010), D7 (obbligo di pubblicare la quota di popolarità zero e l'avvertimento dove `is_high_zero_genre = vero`, FR-011), dichiarazione del campione sbilanciato (17 conteggi distinti, minimo 904, `docs/data_model.md` §18) come fatto ereditato senza valutazione (FR-017) — anticipata qui, prima di T010, perché è l'ottava sezione mancante
-- [ ] T010 [US3] Confronta la confidenza dichiarata per gli otto KPI in `docs/kpi_operators.md` con `docs/business_case.md` §5.4, riga per riga (FR-015); correggi ogni scostamento prima di procedere
+- [X] T007 [US3] Scrivi la sezione `BQ1-K2` in `docs/kpi_operators.md`: operatore D5 (`format_duration_gap` = musica meno video, segno pubblicato, FR-008), dichiarazione che il KPI non ha direzione normativa e il segno è solo aritmetico (FR-009), provenienza
+- [X] T008 [US3] Scrivi le sezioni `BQ3-K1` e `BQ3-K2` in `docs/kpi_operators.md` dichiarando esplicitamente che sono già derivate per intero dalla feature `004`, nessun operatore nuovo qui, solo richiamo della confidenza bassa già fissata
+- [X] T009 [US4] Scrivi la sezione `BQ2-K1` in `docs/kpi_operators.md`: operatore (mediana di popolarità), D6 citato come esempio di soglia limitata al confronto delle quote di zeri (FR-010), D7 (obbligo di pubblicare la quota di popolarità zero e l'avvertimento dove `is_high_zero_genre = vero`, FR-011), dichiarazione del campione sbilanciato (17 conteggi distinti, minimo 904, `docs/data_model.md` §18) come fatto ereditato senza valutazione (FR-017) — anticipata qui, prima di T010, perché è l'ottava sezione mancante
+- [X] T010 [US3] Confronta la confidenza dichiarata per gli otto KPI in `docs/kpi_operators.md` con `docs/business_case.md` §5.4, riga per riga (FR-015); correggi ogni scostamento prima di procedere
 
 **Checkpoint**: tutte e otto le sezioni esistono; nessuna confidenza diverge dal business case.
 
@@ -94,7 +94,7 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 
 ### Implementation for User Story 4
 
-- [ ] T011 [US4] Rileggi le sezioni `BQ1-K3`, `BQ2-K2`, `BQ2-K3` scritte in T003-T005 e verifica che ciascuna dichiari che presuppone solo la stabilità degli assi e degli estremi ancorati di `dim_category_mood`, non dei valori delle celle, citando `CF-1` come motivo (FR-016); aggiungi la dichiarazione dove manca
+- [X] T011 [US4] Rileggi le sezioni `BQ1-K3`, `BQ2-K2`, `BQ2-K3` scritte in T003-T005 e verifica che ciascuna dichiari che presuppone solo la stabilità degli assi e degli estremi ancorati di `dim_category_mood`, non dei valori delle celle, citando `CF-1` come motivo (FR-016); aggiungi la dichiarazione dove manca
 
 **Checkpoint**: nessun operatore per segmento o per mood introduce un giudizio non ancorato.
 
@@ -108,9 +108,9 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 
 ### Implementation for User Story 5
 
-- [ ] T012 [P] [US5] Aggiungi `docs/kpi_operators.md` alla tupla `DOCUMENTS` di `scripts/check_audit_coherence.py`, sesta riga, severità stretta (`True`), sul modello della riga di `docs/data_model.md` (FR-020)
-- [ ] T013 [P] [US5] Registra `docs/kpi_operators.md` nella tabella di Provenienza di `docs/convenzioni-marcatura.md`, con data e feature `007a` (FR-022)
-- [ ] T014 [US5] Esegui `python3 scripts/check_audit_coherence.py` e correggi ogni numerale privo di ancora o di marcatore di non-misurato in `docs/kpi_operators.md`, finché l'esito è verde su tutti e sei i documenti (FR-021; dipende da T012)
+- [X] T012 [P] [US5] Aggiungi `docs/kpi_operators.md` alla tupla `DOCUMENTS` di `scripts/check_audit_coherence.py`, sesta riga, severità stretta (`True`), sul modello della riga di `docs/data_model.md` (FR-020)
+- [X] T013 [P] [US5] Registra `docs/kpi_operators.md` nella tabella di Provenienza di `docs/convenzioni-marcatura.md`, con data e feature `007a` (FR-022)
+- [X] T014 [US5] Esegui `python3 scripts/check_audit_coherence.py` e correggi ogni numerale privo di ancora o di marcatore di non-misurato in `docs/kpi_operators.md`, finché l'esito è verde su tutti e sei i documenti (FR-021; dipende da T012)
 
 **Checkpoint**: il controllo di coerenza passa in severità stretta.
 
@@ -124,7 +124,7 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 
 ### Implementation for User Story 6
 
-- [ ] T015 [US6] Verifica che la sezione `BQ2-K3` (T005) dichiari D8 — la posizione 1 è il segmento con il punteggio pesato più alto, ordinamento decrescente (FR-012); aggiungila se manca
+- [X] T015 [US6] Verifica che la sezione `BQ2-K3` (T005) dichiari D8 — la posizione 1 è il segmento con il punteggio pesato più alto, ordinamento decrescente (FR-012); aggiungila se manca
 
 **Checkpoint**: `R13` non ha più parti residue aperte su questo documento.
 
@@ -134,8 +134,8 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 
 **Purpose**: gli obblighi trasversali del progetto che nessun automatismo esegue, e la chiusura della feature.
 
-- [ ] T016 [P] Aggiorna `README.md`: riga nella tabella di stato con link a `specs/007a-kpi-operators/review.md`, deliverable elencato, la frase «i cinque documenti che pubblicano misure» estesa al sesto documento, commento del passo 5 di `Setup` allineato, sezione `Struttura` allineata (FR-023)
-- [ ] T017 Esegui le dieci prove di [quickstart.md](./quickstart.md) per intero, in ordine, e correggi ogni scostamento trovato prima di procedere alla revisione
+- [X] T016 [P] Aggiorna `README.md`: riga nella tabella di stato con link a `specs/007a-kpi-operators/review.md`, deliverable elencato, la frase «i cinque documenti che pubblicano misure» estesa al sesto documento, commento del passo 5 di `Setup` allineato, sezione `Struttura` allineata (FR-023)
+- [X] T017 Esegui le dieci prove di [quickstart.md](./quickstart.md) per intero, in ordine, e correggi ogni scostamento trovato prima di procedere alla revisione
 - [ ] T018 **Dispatch della revisione in contesto pulito**: il revisore riceve **solo** `docs/kpi_operators.md` — una copia in una cartella isolata fuori dal repository, non il resto di `docs/`, non `specs/`, non `git`, sul modello di `specs/005-data-model-design/review.md` — non chi ha scritto il documento nella stessa sessione. Il verbale che ne risulta produce `specs/007a-kpi-operators/review.md` secondo i quattro obblighi di `CLAUDE.md`: committato prima di correggere l'artefatto, dichiara in apertura cosa è stato letto e cosa no, àncora commit e impronta del contenuto letto, non si corregge (FR-024)
 - [ ] T019 Chiudi i rilievi del verbale con un blocco in coda che dichiara per ciascuno l'esito — risolto, indebolito, respinto con prova, o rinviato — senza toccare il testo del revisore
 
