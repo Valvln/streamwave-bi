@@ -2,7 +2,7 @@
 
 Con quale regola ciascuno degli otto<!--#--> KPI del [business case](business_case.md) verrà calcolato — formula, grana, tabelle da cui legge, confidenza ereditata, limiti dichiarati — e le nove<!--#--> decisioni analitiche che quelle regole hanno richiesto di prendere.
 
-**Data**: 2026-08-21 · **Feature**: `007a` · **Stato**: in lavorazione
+**Data**: 2026-08-21 · **Feature**: `007a` · **Stato**: concluso, [revisionato in contesto pulito](../specs/007a-kpi-operators/review.md)
 
 ---
 
@@ -41,11 +41,14 @@ Questo KPI porta **due<!--#--> operatori distinti**, non due<!--#--> letture del
 La risposta non è ricontare, ma **dichiarare l'invariante**, sullo stesso schema già adottato per il conteggio dei segmenti in `data_model.md` §3.4. Regge su due<!--#--> fatti già ancorati:
 
 - il numero di titoli distinti non cambia con la trasformazione: 8.807<!--@NF.shape.rows--> sull'origine e 8.807<!--@CL.NF.titles.rows.after--> sul trasformato coincidono;
-- le uniche righe toccate dalla riparazione sono 3<!--@CL.NF.duration.repaired.rows-->, e sono state riparate per **spostamento di campo** — un valore di durata finito nel campo sbagliato, riportato al proprio — non per imputazione né per eliminazione (`data_model.md` §14, colonna `is_repaired_duration`).
+- le uniche righe toccate dalla riparazione sono 3<!--@CL.NF.duration.repaired.rows-->, e sono state riparate per **spostamento di campo** — un valore di durata finito nel campo sbagliato, riportato al proprio — non per imputazione né per eliminazione (`data_model.md` §14, colonna `is_repaired_duration`). La riparazione tocca la durata, non l'assegnazione di categoria;
+- il ponte titolo-categoria non cambia né per numero di righe né per numero di categorie: le assegnazioni sono 19.323<!--@NF.cat.assignments--> sull'origine e 19.323<!--@CL.NF.category.assignments--> sul trasformato, le categorie distinte 42<!--@NF.cat.count--> e 42<!--@CL.NF.category.distinct-->.
 
-Poiché la trasformazione non aggiunge titoli, non ne rimuove e non ne cambia l'assegnazione di categoria, il conteggio dei titoli in `Music & Musicals`<!--@catalogs.netflix_categories_musical--> è anch'esso invariante. **L'operatore dichiara la catena per intero** — numeratore letto dall'origine, invariante argomentato sui due<!--#--> fatti qui sopra, denominatore letto indifferentemente da un lato o dall'altro perché coincidono — invece di citare il numeratore come se fosse già un valore del modello dati.
+**Che cosa questi fatti dimostrano, e che cosa no.** Dimostrano che la trasformazione non altera la cardinalità del ponte su nessuna delle sue due<!--#--> dimensioni. **Non** dimostrano che la corrispondenza fra titoli e categorie sia rimasta identica riga per riga: due<!--#--> totali che coincidono sono compatibili, in linea di principio, con riassegnazioni che si compensano. Nessun artefatto pubblica oggi il conteggio dei titoli per categoria sul dato trasformato, quindi quel confronto non è eseguibile da qui.
 
-### 2.2 L'operatore di `C1`, che non è la quota
+**Ne discende che l'invarianza del numeratore è un'assunzione dichiarata, non una conseguenza dedotta** — un'assunzione che i fatti sopra rendono difficile da violare senza che uno di essi si muova, ma pur sempre un'assunzione. Chi la volesse chiudere davvero deve pubblicare il conteggio per categoria sul trasformato, che è l'operatore di §2.2 e appartiene alla `007b`: eseguendolo, la verifica esce quasi gratis, ed è il momento in cui va fatta. **L'operatore dichiara quindi la catena per intero** — numeratore letto dall'origine, assunzione di invarianza esplicita e sostenuta dai tre<!--#--> fatti qui sopra, denominatore letto indifferentemente da un lato o dall'altro perché coincidono — invece di citare il numeratore come se fosse già un valore del modello dati.
+
+### 2.2 `D9.2` — l'operatore di `C1`, che non è la quota
 
 `C1` chiede che «il contenuto musicale non sia residuale nel catalogo attuale: la sua categoria si colloca nella metà superiore delle categorie per numero di titoli» (`business_case.md` §3). **Non è calcolabile dalla quota**, che è una proporzione sull'intero catalogo: `C1` chiede una graduatoria delle categorie e la posizione di una di esse rispetto alla mediana.
 
@@ -63,9 +66,11 @@ Poiché la trasformazione non aggiunge titoli, non ne rimuove e non ne cambia l'
 
 ## 3. `BQ1-K2` — `format_duration_gap`
 
-**Domanda di business**: BQ1 — Posizionamento · **Confidenza**: **alta**, invariata rispetto a `business_case.md` §5.4 · **Decisione di riferimento**: D5, e la parte residua di `R13` su questo KPI
+**Domanda di business**: BQ1 — Posizionamento · **Confidenza**: **alta**, invariata rispetto a `business_case.md` §5.4 · **Decisione di riferimento**: D5, che chiude anche la parte residua di `R13` su questo KPI
 
-**Formula**: `format_duration_gap` = durata mediana di una traccia musicale, in minuti, **meno** durata mediana di un film del catalogo video, in minuti. Il documento pubblica il **segno** del risultato, non il valore assoluto.
+**Formula**: `format_duration_gap` = durata mediana di una traccia musicale, in minuti, **meno** durata mediana di un film del catalogo video, in minuti.
+
+**Che cosa la misura pubblica**: il risultato della sottrazione **con il proprio segno** — un numero di minuti, positivo o negativo. Non il suo valore assoluto, e **non** il solo segno: la grandezza fa parte della misura, il nome stesso del KPI la implica. Ciò che questa decisione fissa è il verso della sottrazione e il fatto che il segno che ne esce non venga soppresso.
 
 **Grana**: traccia deduplicata sul lato musicale, film sul lato video. Le serie sono escluse per dichiarazione della scheda — il catalogo video le misura in stagioni e convertirle richiederebbe un'assunzione che i dati non contengono.
 
@@ -73,7 +78,7 @@ Poiché la trasformazione non aggiunge titoli, non ne rimuove e non ne cambia l'
 
 **La ragione del verso.** BQ1 formula la domanda come il posizionamento del contenuto musicale **rispetto a** quello video: la musica è il soggetto del confronto, il video il termine di paragone. Sottrarre nella direzione musica meno video mantiene questa struttura — un valore negativo dice «una traccia dura, in mediana, questo tanto in meno di un film». Il verso opposto sarebbe stato ugualmente calcolabile: la scelta è dichiaratamente convenzionale, ma un verso va fissato e questo è coerente con come la domanda è scritta.
 
-**La ragione per pubblicare il segno invece del valore assoluto.** La scheda dichiara che questo KPI **non ha direzione** — non è un obiettivo da massimizzare, è un profilo descrittivo. Il segno, qui, non porta alcun giudizio di valore: porta l'informazione su quale dei due<!--#--> formati sia più lungo, che andrebbe perduta pubblicando il solo valore assoluto. La direzione di cui la scheda parla è **normativa** (quale verso sia desiderabile), non **aritmetica** (quale sia il segno del numero), e le due<!--#--> cose non si escludono.
+**La ragione per pubblicare il segno invece del valore assoluto.** La scheda dichiara che questo KPI **non ha direzione** — non è un obiettivo da massimizzare, è un profilo descrittivo. Il segno, qui, non porta alcun giudizio di valore: porta l'informazione su quale dei due<!--#--> formati sia più lungo, che andrebbe perduta pubblicando il solo valore assoluto della differenza. La direzione di cui la scheda parla è **normativa** (quale verso sia desiderabile), non **aritmetica** (quale sia il segno del numero), e le due<!--#--> cose non si escludono.
 
 **Un limite atteso, dichiarato prima che il numero esista.** Un film dura tipicamente decine di minuti e una traccia pochi: il valore sarà quasi certamente fortemente negativo. Non è un'anomalia né un segnale di allarme — è la conseguenza aritmetica della differenza di formato che il KPI esiste per misurare, ed è scritto qui perché nessuno lo scambi per un errore quando il numero comparirà.
 
@@ -166,7 +171,13 @@ d = ( |energia_segmento − energia_video|
 
 **Provenienza nel modello dati**: `fact_track_segment`, `dim_track`, `dim_segment` sul lato musicale; `bridge_title_category`, `dim_category`, `dim_category_mood` sul lato video — `data_model.md` §8 e §11.
 
-**Perché la distanza media assoluta e non l'euclidea.** Ciascun asse vive già sul dominio `0-1`, quindi ciascun termine assoluto è già in `0-1` e la loro media vi resta automaticamente: **nessuna costante di normalizzazione è necessaria**, a differenza della distanza euclidea, che per restare nella scala dichiarata richiede di dividere per la radice del numero di assi. Quella divisione non è un dettaglio tecnico neutro. La distanza euclidea, per costruzione, permette a uno scostamento piccolo su un asse di **compensare** uno scostamento grande su un altro: è un'assunzione geometrica su come i tre<!--#--> assi si bilancino a vicenda. Poiché `content_taxonomy_bridge.md` §7 dichiara che gli assi sono ancorati **solo agli estremi** e che nessun valore osservato calibra il centro della scala, assumere una specifica regola di compensazione rivendica più struttura di quanta l'ancoraggio ne sostenga. La media delle distanze assolute tratta i tre<!--#--> assi in modo indipendente e additivo — l'assunzione minima coerente con quel vincolo — ed è l'unica delle alternative considerate che non richiede alcuna scelta ulteriore di normalizzazione, perché la scala risultante discende direttamente da quella degli assi di partenza.
+**Perché la distanza media assoluta e non l'euclidea.** Ciascun asse vive già sul dominio `0-1`, quindi ciascun termine assoluto è già in `0-1` e la loro media vi resta automaticamente: **nessuna costante di normalizzazione è necessaria**. La distanza euclidea, per restare nella scala dichiarata, richiede invece di dividere per la radice del numero di assi — una costante che non discende dai dati ma dalla geometria dello spazio scelto, e che va decisa a parte. La media delle distanze assolute è l'unica delle alternative considerate la cui scala discende **direttamente** da quella degli assi di partenza, senza alcuna scelta ulteriore. È l'argomento che decide, e regge da solo.
+
+**Un argomento che non regge, e che non viene usato.** Sarebbe comodo dire che l'euclidea assume una regola di **compensazione** fra gli assi — uno scostamento piccolo su un asse che bilancia uno grande su un altro — mentre la media delle distanze assolute non la assume. È falso, e va detto invece di essere lasciato implicito: qualunque aggregazione additiva è pienamente compensativa, e la media delle distanze assolute lo è quanto l'euclidea. Le due<!--#--> differiscono nel **profilo** della compensazione — l'euclidea pesa di più gli scostamenti grandi — non nella sua presenza.
+
+**L'unica alternativa davvero non compensativa** sarebbe il massimo degli scostamenti per asse: due<!--#--> profili sono vicini solo se lo sono su **ogni** asse, e nessuno scostamento può essere bilanciato da un altro. Non è stata scelta perché produrrebbe un'affinità governata dal solo asse peggiore, scartando l'informazione degli altri due<!--#--> — un comportamento difendibile per un vincolo di ammissibilità, non per un indice che deve ordinare i segmenti in modo graduale. La scelta di un operatore compensativo è quindi **deliberata e dichiarata**, non un effetto collaterale non visto.
+
+**Che cosa il vincolo dell'ancoraggio impone comunque.** `content_taxonomy_bridge.md` §7 dichiara che gli assi sono ancorati **solo agli estremi** e che nessun valore osservato calibra il centro della scala. Non è questo a scegliere fra le due<!--#--> metriche — nessuna delle due<!--#--> è sostenuta dall'ancoraggio più dell'altra — ma è ciò che vieta di leggere la grandezza assoluta del risultato come se avesse un significato proprio, come il paragrafo seguente dichiara.
 
 **Che cosa la scelta non risolve, e non deve fingere di risolvere.** Resta vero, come `content_taxonomy_bridge.md` §7 dichiara, che la **grandezza assoluta** di `d` non ha un'interpretazione indipendente dal criterio di mood: sottrarre un profilo assegnato da uno osservato presuppone che uno stesso numero indichi la stessa posizione sull'asse su entrambe le scale, e questo è sostenuto solo agli estremi. Ciò che questo operatore garantisce è che `d` sia calcolabile e **confrontabile con sé stessa fra segmenti diversi**, che è l'unica proprietà su cui §7 di questo documento può contare.
 
@@ -250,11 +261,13 @@ Come il precedente: **nessun operatore nuovo qui**, la derivazione è già chius
 | **D2** | distanza come media delle distanze assolute per asse; affinità come complemento | revisione `001`, divergenza 3 | §6 |
 | **D3** | scala comune per divisione per il massimo teorico; pesi uguali | revisione `001`, divergenza 4 | §7.1 |
 | **D4** | quadrante **e** punteggio pesato, con ruoli distinti | revisione `001`, divergenza 4 | §7.2 |
-| **D5** | verso della sottrazione musica meno video; segno pubblicato | revisione `001`, divergenza 8 (parte residua) | §3 |
+| **D5** | verso della sottrazione musica meno video; risultato pubblicato con il proprio segno; chiude anche la parte di `R13` su `BQ1-K2` | revisione `001`, divergenza 8 (parte residua) e `R13` | §3 |
 | **D6** | soglia di mezzo punto percentuale per dire «cambiato», limitata al confronto delle quote di zeri | revisione `003`, divergenza 1 | §5.3 |
 | **D7** | quota di popolarità nulla obbligatoria accanto a ogni misura sulla popolarità | revisione `001`, divergenza 6 | §5.1 |
-| **D8** | prima posizione della graduatoria = punteggio più alto | revisione `001`, `R13` (parte residua) | §7.3 |
-| **D9** | invariante sul numeratore; operatore di `C1`; rapporto della North Star non pubblicato per giustapposizione | revisione `001` §3 e revisione `002`, divergenza 4 | §2 |
+| **D8** | prima posizione della graduatoria = punteggio più alto | revisione `001`, `R13` (parte residua su `BQ2-K3`) | §7.3 |
+| **`D9.1`** | invarianza del numeratore sul dato trasformato, dichiarata come assunzione e sostenuta da tre<!--#--> fatti ancorati | revisione `001` §3 | §2.1 |
+| **`D9.2`** | operatore della condizione `C1`: conteggio dei titoli per categoria sul ponte, soglia mediana stretta | revisione `001` §3 | §2.2 |
+| **`D9.3`** | il rapporto della North Star non è pubblicato per giustapposizione dei suoi due<!--#--> input | revisione `002`, divergenza 4 | §2.1 |
 
 **Nessuna di queste decisioni pretende di essere l'unica difendibile.** Ciascuna dichiara le opzioni scartate e la ragione dello scarto; sono scelte argomentate, non deduzioni univoche. È il motivo per cui la pagina è stata sottoposta a una revisione in contesto pulito prima di essere considerata definitiva.
 
@@ -267,7 +280,7 @@ Questa feature non introduce alcuna nuova fonte e **non altera alcuna classifica
 | KPI | Nome semantico | Fonte | Confidenza | Formato | Operatore fissato da |
 |---|---|---|---|---|---|
 | `BQ1-K1` | `music_adjacent_catalog_share` | Netflix (reale) | alta | valore puntuale | D9 |
-| `BQ1-K2` | `format_duration_gap` | Derivato (Netflix + Spotify) | alta | valore puntuale | D5, D8 (parte `R13`) |
+| `BQ1-K2` | `format_duration_gap` | Derivato (Netflix + Spotify) | alta | valore puntuale | D5, che chiude anche la parte residua di `R13` su questo KPI |
 | `BQ1-K3` | `mood_profile_overlap` | Derivato (Netflix + Spotify) | media | valore puntuale con nota | D1 |
 | `BQ2-K1` | `segment_demand_index` | Spotify (reale) | media | valore puntuale con nota | D7, D6 |
 | `BQ2-K2` | `segment_catalog_affinity` | Derivato (Netflix + Spotify) | media | valore puntuale con nota | D2 |
