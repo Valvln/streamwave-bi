@@ -137,7 +137,7 @@ Repository singolo. Deliverable in `docs/kpi_operators.md`; modifiche di support
 - [X] T016 [P] Aggiorna `README.md`: riga nella tabella di stato con link a `specs/007a-kpi-operators/review.md`, deliverable elencato, la frase «i cinque documenti che pubblicano misure» estesa al sesto documento, commento del passo 5 di `Setup` allineato, sezione `Struttura` allineata (FR-023)
 - [X] T017 Esegui le dieci prove di [quickstart.md](./quickstart.md) per intero, in ordine, e correggi ogni scostamento trovato prima di procedere alla revisione
 - [X] T018 **Dispatch della revisione in contesto pulito**: il revisore riceve **solo** `docs/kpi_operators.md` — una copia in una cartella isolata fuori dal repository, non il resto di `docs/`, non `specs/`, non `git`, sul modello di `specs/005-data-model-design/review.md` — non chi ha scritto il documento nella stessa sessione. Il verbale che ne risulta produce `specs/007a-kpi-operators/review.md` secondo i quattro obblighi di `CLAUDE.md`: committato prima di correggere l'artefatto, dichiara in apertura cosa è stato letto e cosa no, àncora commit e impronta del contenuto letto, non si corregge (FR-024)
-- [ ] T019 Chiudi i rilievi del verbale con un blocco in coda che dichiara per ciascuno l'esito — risolto, indebolito, respinto con prova, o rinviato — senza toccare il testo del revisore
+- [X] T019 Chiudi i rilievi del verbale con un blocco in coda che dichiara per ciascuno l'esito — risolto, indebolito, respinto con prova, o rinviato — senza toccare il testo del revisore
 
 **Checkpoint**: feature conclusa, repository coerente.
 

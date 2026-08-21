@@ -106,3 +106,23 @@ Vale la pena dirlo con la stessa esattezza dei rilievi, perché i punti di forza
 - **§13 è onesto sul limite del controllo automatico**: dichiara esplicitamente che nessuno script verifica l'argomentazione, il che è vero — ed è precisamente la ragione per cui i rilievi R1 e R2 di questo verbale sono difetti che nessun controllo di coerenza avrebbe potuto trovare.
 
 Il difetto ricorrente, quando c'è, non è la sciatteria ma l'eccesso di ambizione argomentativa: il documento a volte cerca di giustificare una scelta con più ragioni di quante ne servano (R2), o costruisce una catena di inferenza con un anello mancante (R1) invece di dichiarare più modestamente un'assunzione. Sono difetti dello stesso tipo che un secondo giro di revisione, mirato specificamente ai passaggi di `§2.1` e `§6`, risolverebbe con probabilità alta.
+
+---
+
+# Blocco di chiusura — 2026-08-21, sessione esecutiva della `007a`
+
+Aggiunto in coda dopo che il verbale è stato committato. **Il testo del revisore sopra non è stato toccato**, nemmeno dove è discutibile.
+
+| Rilievo | Esito | Come |
+|---|---|---|
+| `R1` — l'invarianza del numeratore non è dimostrata | **risolto e insieme indebolito** | il rilievo era fondato: nessuno dei due fatti citati riguardava l'assegnazione di categoria. §2.1 porta ora un **terzo fatto ancorato** che mancava — le assegnazioni titolo-categoria e le categorie distinte coincidono fra dato di origine e trasformato — e insieme **ritira la pretesa di dimostrazione**: due totali che coincidono non sono la stessa corrispondenza riga per riga, l'invarianza è dichiarata come **assunzione** e il confronto che la chiuderebbe davvero è assegnato alla `007b`, dove esce quasi gratis eseguendo l'operatore di §2.2 |
+| `R2` — l'argomento sulla «compensazione» non regge | **risolto ritirando l'argomento** | §6 non usa più quell'argomento e **dichiara esplicitamente che è falso**, invece di limitarsi a toglierlo: qualunque aggregazione additiva è compensativa, e la media delle distanze assolute lo è quanto l'euclidea. Resta l'unico argomento che regge — la scala discende direttamente da quella degli assi, senza costante di normalizzazione — e viene aggiunto ciò che il revisore chiedeva: il massimo per asse è l'alternativa davvero non compensativa, e la ragione per cui non è stata scelta è scritta |
+| `R3` — §10 e §11 in disaccordo su `D8` | **risolto** | la riga di `BQ1-K2` in §11 era sbagliata. `D8` riguarda solo `BQ2-K3`; la parte residua di `R13` su `BQ1-K2` è chiusa da `D5`. Corrette §11, l'intestazione di §3 e le righe di `D5` e `D8` in §10 |
+| `R4` — `D9.2` citata e mai definita | **risolto** | l'etichetta non era residua: il contenuto di `D9.2` c'era, in §2.2, senza il proprio nome. §2.2 porta ora l'etichetta nel titolo, e §10 scompone `D9` nelle tre sotto-voci `D9.1`, `D9.2`, `D9.3` con la propria origine e la propria sezione |
+| Divergenza 1 — «pubblica il segno, non il valore assoluto» | **risolta scegliendo la lettura B** | il revisore aveva ragione: la frase ammetteva di leggere il KPI come un semplice indicatore di verso. §3 dichiara ora che la misura pubblica **il numero di minuti con il proprio segno** — non il valore assoluto e non il solo segno — e che la decisione fissa il verso della sottrazione, non sopprime la grandezza |
+| `R5` — il metodo di calcolo della mediana non è specificato | **rinviato** | rilievo fondato e non chiuso qui: registrato come issue su GitHub. La convenzione sulla mediana è un vincolo di presentazione e implementazione, della stessa famiglia dell'arrotondamento che §12 già dichiara aperto |
+| `R6` — §11 attribuisce `D6` a `BQ2-K1` come «operatore fissato da» | **rinviato** | rilievo fondato e non chiuso qui: registrato come issue su GitHub |
+
+**Perché `R5` e `R6` non sono stati chiusi in questa feature.** Sono i due rilievi che il verbale stesso classifica come minori, e nessuno dei due invalida un operatore: `R5` chiede una convenzione di presentazione che §12 già elenca fra i vincoli aperti, `R6` è un'imprecisione di una colonna di tabella che il corpo del testo contraddice esplicitamente a due sezioni di distanza. Rinviarli è una decisione, non una dimenticanza, ed è tracciata dove chiunque la può vedere.
+
+**Che cosa questo blocco non garantisce.** Che chi lo ha scritto non abbia ammorbidito. Contro questo non esiste presidio dentro il processo, solo l'ordine dei passi: il verbale è stato committato prima che una sola riga del documento fosse corretta, e il commit lo dimostra.
