@@ -10,9 +10,11 @@ Un subagent isolato ha ricevuto **una sola copia di `docs/kpi_measures.md`**, ri
 
 | | |
 |---|---|
-| commit del repository al momento della revisione | `1c2623d` |
+| commit che contiene il testo revisionato | `c6e5e08` |
 | `sha256` del contenuto letto | `154e76c0319fdf9a04afb751272928c840c07a35beaea6bf8f4d53a090f0cedd` |
 | righe del documento letto | 701 |
+
+*(La prima stesura di questa tabella indicava `1c2623d`, che era il `HEAD` del repository quando la copia è stata presa: le modifiche di E9 erano allora ancora nell'area di lavoro. Il commit che le ha congelate è `c6e5e08`, ed è quello il cui contenuto corrisponde all'impronta qui sopra — verificabile con `git show c6e5e08:docs/kpi_measures.md | shasum -a 256`. Correzione all'intestazione, che è di chi è stato revisionato; il testo del revisore non è toccato.)*
 
 **Il testo che segue è del revisore e non viene corretto**, nemmeno dove sbaglia. Chi è stato revisionato aggiunge il proprio blocco in coda.
 
