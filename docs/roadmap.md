@@ -1,6 +1,6 @@
 # Roadmap — StreamWave BI
 
-**Aggiornata**: 2026-08-21 (sera) | **Stato**: `006` e `007a` concluse; criterio di mood alla versione 2 e `CF-1`/`CF-2` chiusi; modello materializzato tranne `R3`; `007b` apribile appena `R3` è chiusa
+**Aggiornata**: 2026-08-22 | **Stato**: `006` e `007a` concluse; criterio di mood alla versione 2; modello materializzato e `R3` tracciata; **`007b` apribile**
 
 Questo documento è il piano di lavoro del progetto: cosa resta da fare, in quale ordine, con quale stima e con quali dipendenze. È versionato perché la pianificazione — e soprattutto il suo scostamento dalla realtà — fa parte dell'artefatto da portfolio quanto i risultati.
 
@@ -27,13 +27,13 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `005` | Data Model Design | ~2,8 di sessione (stimate 5) | 003, *chore ambiente* | ✅ conclusa, con debito residuo |
 | `006` | Content Taxonomy Bridge | ~4 di sessione (stimate 6) | 002, 005 | ✅ conclusa, PR #6 mergiata, con debito residuo |
 | `007a` | Operatori delle misure | ~2 di sessione (stimate 4) | 005, 006 | ✅ conclusa, con debito residuo |
-| `007b` | Misure DAX e documento dei KPI | 5 | 007a, *materializzazione*, *`CF-1`* | ⬜ |
+| `007b` | Misure DAX e documento dei KPI | 5 | 007a, *materializzazione* ✅, *`CF-1`* ✅ | ⬜ **apribile** |
 | `008a` | Dashboard: modello, pagine, misure a schermo | 5 | 007b | ⬜ |
 | `008b` | Dashboard: narrazione, limiti esposti, rifiniture | 4 | 008a | ⬜ |
 | `009` | Porting Tableau Public | 5 | 007b | ⬜ *stretch, primo a cadere* |
 | `010` | Case Study & Portfolio Integration | 6 | 008b | ⬜ |
 
-**Totale residuo escluso `009`**: ~20 ore di feature, più ~1,7 ore di debito testuale e ~0,5 ore per chiudere `R3` sul modello materializzato — **~22 ore**. Il debito della `006` è chiuso. Erano ~30 prima della chiusura della `007a`, che esce per intero senza lasciare voci nuove di lavoro: i suoi due rilievi rinviati sono issue su GitHub, non ore di piano.
+**Totale residuo escluso `009`**: ~20 ore di feature, più ~1,7 ore di debito testuale — **~21,5 ore**. La materializzazione è conclusa e `007b` è apribile. Il debito della `006` è chiuso. Erano ~30 prima della chiusura della `007a`, che esce per intero senza lasciare voci nuove di lavoro: i suoi due rilievi rinviati sono issue su GitHub, non ore di piano.
 
 Le stime di `004`, `006`, `007` e `010` includono la **revisione in contesto pulito e la chiusura dei rilievi** — circa un'ora ciascuna. Era il rischio aperto lasciato dalla 002, dove quel costo era stato l'intero scostamento; è chiuso incorporandolo invece che continuando a scoprirlo a consuntivo. La conseguenza è che `007` sale a 8 ore e raggiunge `008` fra le feature che vanno scomposte prima di essere aperte, non dopo.
 
@@ -206,7 +206,7 @@ Ciò che `007` contiene davvero non sono otto formule: sono **sette decisioni an
 | Chore | Ore | Entro |
 |---|---|---|
 | ~~Ambiente Power BI: VM Windows 11 x64 e installazione di Power BI Desktop~~ | — | ✅ fatto il 2026-08-18: VMware, Windows 11 x64, primo accesso a Power BI Desktop riuscito |
-| Materializzazione del modello dati in Power BI Desktop | ~1,5 spese | 🟡 **eseguita il 2026-08-21, tranne `R3`** — resta ~0,5 h, vedi [l'esito](#la-materializzazione--esito-del-2026-08-21) |
+| ~~Materializzazione del modello dati in Power BI Desktop~~ | ~2 spese | ✅ **conclusa il 2026-08-22**, `R3` inclusa — vedi [il secondo tentativo](#la-materializzazione-secondo-tentativo--2026-08-22) |
 | ~~Riscrittura del criterio di mood per `CF-1`, ed eventuale versione 2 della tabella~~ | ~2 | ✅ **fatta il 2026-08-21**, chore `criterio-mood-cf1`: criterio v2, `CF-1` e `CF-2` chiusi, **tabella alla versione 2** |
 | ~~Debito testuale della 001: rilievi R9, R10, R12~~ | — | ⬜ **registrato come issue** il 2026-08-21, vedi [la decisione](#il-debito-testuale-della-001-diventa-una-issue--regia-2026-08-21) |
 | ~~Debito testuale della 001: allineamento di §3 a R11~~ | ~0,2 | ⬜ **assegnato a `007b`** il 2026-08-21, come task della feature che pubblica il valore |
@@ -415,7 +415,27 @@ Le tre voci non hanno lo stesso statuto, e trattarle insieme era un raggruppamen
 
 **Va quindi alla `007b` come task**, non come gate esterno né come issue. È la regola che il debito della `001` applica dall'inizio — ogni voce è assegnata alla feature che ha comunque bisogno di quella decisione per procedere — e `007b` è la sola feature che ha in mano insieme il numero e la frase che lo descrive. Costa ~0,2 h dentro una stima da 5.
 
-**Il percorso critico prima di `007b` scende così a `R3`**, e nient'altro.
+**Il percorso critico prima di `007b` scende così a `R3`**, e nient'altro — chiusa il 2026-08-22, quindi a nulla.
+
+### I rilievi si rinviano al tracker — decisione del 2026-08-22
+
+Da qui in avanti una feature chiude **solo i rilievi strettamente necessari** delle proprie revisioni e registra gli altri come issue. La regola, il criterio di necessità e l'obbligo di dichiarare ogni rinvio nel blocco di chiusura stanno in [`CLAUDE.md`](../CLAUDE.md#la-revisione-in-contesto-pulito), che è la sede del metodo; qui restano le conseguenze sul piano.
+
+**Le stime non scendono adesso.** La voce di revisione e chiusura resta a ~2 ore per feature. Un solo caso l'ha messa alla prova — la `007a`, chiusa in ~2 ore contro 4 rinviando due rilievi — e ridurre una stima su un punto è ciò che questa roadmap ha già sbagliato una volta con la regola legata alla lunghezza dei documenti. Il guadagno si osserverà come scostamento sotto stima su `007b` e `008a`; se si ripete, allora si riscrive la voce.
+
+**Il rischio va nominato, perché è il rovescio esatto del guadagno.** Un arretrato di issue che nessuna feature raccoglie diventa un elenco di difetti dichiarati e mai chiusi, che su un repository da portfolio è peggio di non averli trovati. Il presidio è la `010`, che legge il repository per intero da fuori: **l'arretrato del tracker si svuota lì**, o si dichiara nel case study come debito residuo con la ragione per cui resta aperto. Non esiste una terza uscita.
+
+### La materializzazione, secondo tentativo — 2026-08-22
+
+Riuscita. Il modello è caricato e `R3` si traccia uno a uno, con la derivazione da lungo a largo di §13.
+
+**Un passaggio in più che la regola non diceva.** Per far collassare il pivot a 42<!--@MOOD.coverage.rows--> righe è stato necessario **eliminare la colonna `Name`**: il blocco `values` dell'artefatto è un oggetto indicizzato per identificativo di ancoraggio, quindi ogni voce arriva al modello portando con sé un valore unico, e un valore unico per riga impedisce a qualunque rotazione di aggregare. Non è un'impostazione della GUI: è una conseguenza della forma del file, e chiunque lo carichi con qualunque strumento la incontra.
+
+**La regola di §13 è quindi incompleta**, non sbagliata: dice quali voci tenere e come ruotarle, non dice che l'identificativo che le indicizza va scartato. Va aggiunto, ed è una riga.
+
+**Va anche detto che la modifica agli artefatti serviva comunque.** L'ipotesi che il solo scarto di `Name` avrebbe risolto senza toccare i documenti non regge: senza la rotazione restano 126<!--#--> righe con `category` ripetuta tre<!--#--> volte per categoria, e `R3` fallisce come prima. Lo scarto di `Name` è un passo **in aggiunta** al pivot, non un'alternativa.
+
+**Chi lo chiude**: la `007b`, come task, insieme al resto del suo drift. Aprire un chore per una riga sarebbe più caro della riga.
 
 ### La materializzazione — esito del 2026-08-21
 
@@ -440,7 +460,7 @@ Restano tre voci prima di `007b`, per ~5 ore, di cui ~2 fuori dal percorso criti
 2. ~~**la materializzazione del modello** (~2 h), lavoro alla GUI nella VM, **in parallelo** alla precedente~~ — 🟡 fatta la sera stessa in ~1,5 h, **tranne `R3`**;
 3. ~~**il debito testuale della 001** (~1 h) — R9, R10, R12 e l'allineamento di §3 a R11~~ — ⬜ **sciolto il 2026-08-21**: R9, R10 e R12 diventano una issue, l'allineamento di §3 diventa un task della `007b`.
 
-> **Esito della sera del 2026-08-21.** Le due voci sono state eseguite in parallelo come previsto e il parallelismo ha retto: la versione 2 della tabella non ha toccato chiavi né numero di righe, e nessuno dei due lavori ha atteso l'altro. Restano **~1,5 ore** prima di `007b` — la chiusura di `R3` e il debito testuale della `001` — più le due voci di debito che il chore non ha chiuso: la frase di §7 del criterio e la decisione su dove collocare il passaggio da JSON lungo a tabella larga.
+> **Esito della sera del 2026-08-21.** Le due voci sono state eseguite in parallelo come previsto e il parallelismo ha retto: la versione 2 della tabella non ha toccato chiavi né numero di righe, e nessuno dei due lavori ha atteso l'altro. Restano **~1,5 ore** prima di `007b` — la chiusura di `R3` e il debito testuale della `001` — più le due voci di debito che il chore non ha chiuso: la frase di §7 del criterio e la decisione su dove collocare il passaggio da JSON lungo a tabella larga. *Aggiornamento del 2026-08-22: entrambe chiuse, e il debito testuale della `001` è stato sciolto fra tracker e `007b`. Prima di `007b` non resta nulla.*
 
 **Perché 1 e 2 sono davvero parallele.** Una versione 2 della tabella cambierebbe valori di mood, non chiavi né numero di righe: le 42 categorie restano quelle, `R3` resta uno a uno, e il modello caricato non va rifatto ma aggiornato. L'unica ipotesi che romperebbe il parallelismo è che la riscrittura decida di **togliere righe** — escludere le etichette generiche invece di assegnarle — e in quel caso la materializzazione va ricaricata sulla struttura, non aggiornata. È l'unica cosa che chi materializza deve sapere del chore che gira accanto.
 
@@ -530,9 +550,9 @@ La seconda: «se ne sposta zero non è un successo, è un ritrovamento». Il val
 | 19 → 20 agosto | ~4 h di sessione | `006` ✅ conclusa, revisione e verbale inclusi |
 | 21 agosto | ~2 h di sessione | `007a` ✅ conclusa, revisione e verbale inclusi |
 | 21 agosto, sera | ~2 h di sessione + ~1,5 h alla GUI | chore `CF-1` ✅ concluso, tabella dei mood alla versione 2; materializzazione 🟡 riuscita tranne `R3` |
-| **dal 22 agosto** | giornate piene, ~6 h/giorno | chiusura di `R3`, `007b`, `008a`, `008b`, `010`, più ~3 h di chore e debito |
+| **dal 22 agosto** | giornate piene, ~6 h/giorno | `007b`, `008a`, `008b`, `010`, più ~1,7 h di debito testuale |
 
-Atterraggio stimato: **25-26 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004`, poi 24-25 con la finestra non pianificata del 12-14 agosto, poi 23-24 dopo le chiusure sotto stima di `003` e `004`, poi di nuovo 24-25 con la materializzazione del modello, poi 26-27 il mattino del 21 agosto. Restano **~22 ore**, cioè poco meno di quattro giorni pieni. Il 21 agosto ha visto chiudere una feature e un chore e quasi tutto un secondo: ~5,5 ore di lavoro registrato, la giornata più densa del progetto dopo la `001`.
+Atterraggio stimato: **25-26 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004`, poi 24-25 con la finestra non pianificata del 12-14 agosto, poi 23-24 dopo le chiusure sotto stima di `003` e `004`, poi di nuovo 24-25 con la materializzazione del modello, poi 26-27 il mattino del 21 agosto. Restano **~21,5 ore**, cioè poco meno di quattro giorni pieni. Il 21 agosto ha visto chiudere una feature e un chore e quasi tutto un secondo: ~5,5 ore di lavoro registrato, la giornata più densa del progetto dopo la `001`.
 
 **Il movimento del 21 agosto, in due tempi.** Al mattino la data era scivolata a 26-27 per la ragione scritta qui sotto; in giornata la `007a` ha chiuso in ~2 ore contro 4 e ha riportato l'atterraggio a **25-26**, dentro la scadenza dell'abbonamento. Non basta a riaprire la pubblicazione di prova, che resta caduta: quella dipende da `008a`, che è ancora due feature più avanti.
 
