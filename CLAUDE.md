@@ -43,6 +43,14 @@ Quattro obblighi, tutti nati da un difetto reale:
 
 **Nel blocco di chiusura, dichiarare come ogni rilievo è stato chiuso**, distinguendo almeno *risolvendolo* da *indebolendo l'affermazione*. Sono cose diverse e la seconda è legittima — spesso è la sola onesta — ma se non è dichiarata il lettore non può distinguere un difetto riparato da una rivendicazione ritirata. La tabella in coda al verbale della `004` è il modello.
 
+**Un rilievo si chiude anche rinviandolo, e dal 2026-08-22 è la regola invece dell'eccezione.** Le prime sei feature hanno chiuso dentro il proprio branch la quasi totalità dei rilievi ricevuti, e il costo si è concentrato lì: è il blocco che ha sforato su `002` e `005`. Da qui in avanti una feature chiude **solo i rilievi strettamente necessari** e registra gli altri come issue sul tracker.
+
+*Strettamente necessario* significa una cosa sola: **il deliverable, senza quella correzione, afferma il falso o pubblica un valore che non regge.** Non «migliorabile», non «più chiaro», non «lo chiudiamo che tanto è veloce». Tre casi ricorrenti che stanno dentro la soglia — un operatore o una formula sbagliati; un numero senza ancora o con l'ancora sbagliata; un'affermazione che il deliverable stesso rende falsa nel momento in cui esce. Tutto il resto è tracker.
+
+**Il rinvio è una decisione e va dichiarato come tale**, con la stessa cura degli altri due esiti: il blocco di chiusura distingue quindi *risolto*, *indebolito* e *rinviato*, e per ogni rinvio nomina l'issue. Un rilievo che sparisce senza numero non è stato rinviato, è stato lasciato cadere. La sede in cui una decisione di rinvio resta contestabile non è il verbale — che nessuno rilegge — ma il tracker, ed è il precedente delle issue `#7` e `#8` della `007a`.
+
+**Ciò che questa regola compra e ciò che costa.** Compra che il costo di una revisione smetta di scalare col numero di rilievi, che è la ragione per cui le revisioni migliori erano diventate le più care. Costa un arretrato visibile, ed è il prezzo giusto: un arretrato numerato è un debito dichiarato, un rilievo chiuso in fretta per non lasciarlo aperto è un difetto nascosto.
+
 **Ciò che nessun verbale garantisce**: che chi trascrive non abbia ammorbidito. Contro questo non esiste presidio dentro il processo, solo l'ordine dei passi — verbale prima delle correzioni — ed è la ragione per cui l'obbligo 1 viene prima degli altri tre.
 
 ## Cosa la toolchain non fa da sola
