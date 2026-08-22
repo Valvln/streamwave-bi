@@ -33,7 +33,7 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `009` | Porting Tableau Public | 5 | 007b | ⬜ *stretch, primo a cadere* |
 | `010` | Case Study & Portfolio Integration | 6 | 008b | ⬜ |
 
-**Totale residuo escluso `009`**: ~20 ore di feature, più ~2,7 ore di debito testuale e ~0,5 ore per chiudere `R3` sul modello materializzato — **~23 ore**. Il debito della `006` è chiuso. Erano ~30 prima della chiusura della `007a`, che esce per intero senza lasciare voci nuove di lavoro: i suoi due rilievi rinviati sono issue su GitHub, non ore di piano.
+**Totale residuo escluso `009`**: ~20 ore di feature, più ~1,7 ore di debito testuale e ~0,5 ore per chiudere `R3` sul modello materializzato — **~22 ore**. Il debito della `006` è chiuso. Erano ~30 prima della chiusura della `007a`, che esce per intero senza lasciare voci nuove di lavoro: i suoi due rilievi rinviati sono issue su GitHub, non ore di piano.
 
 Le stime di `004`, `006`, `007` e `010` includono la **revisione in contesto pulito e la chiusura dei rilievi** — circa un'ora ciascuna. Era il rischio aperto lasciato dalla 002, dove quel costo era stato l'intero scostamento; è chiuso incorporandolo invece che continuando a scoprirlo a consuntivo. La conseguenza è che `007` sale a 8 ore e raggiunge `008` fra le feature che vanno scomposte prima di essere aperte, non dopo.
 
@@ -208,7 +208,8 @@ Ciò che `007` contiene davvero non sono otto formule: sono **sette decisioni an
 | ~~Ambiente Power BI: VM Windows 11 x64 e installazione di Power BI Desktop~~ | — | ✅ fatto il 2026-08-18: VMware, Windows 11 x64, primo accesso a Power BI Desktop riuscito |
 | Materializzazione del modello dati in Power BI Desktop | ~1,5 spese | 🟡 **eseguita il 2026-08-21, tranne `R3`** — resta ~0,5 h, vedi [l'esito](#la-materializzazione--esito-del-2026-08-21) |
 | ~~Riscrittura del criterio di mood per `CF-1`, ed eventuale versione 2 della tabella~~ | ~2 | ✅ **fatta il 2026-08-21**, chore `criterio-mood-cf1`: criterio v2, `CF-1` e `CF-2` chiusi, **tabella alla versione 2** |
-| Debito testuale della 001: rilievi R9, R10, R12 e allineamento di §3 a R11 | ~1 | prima di `007b` |
+| ~~Debito testuale della 001: rilievi R9, R10, R12~~ | — | ⬜ **registrato come issue** il 2026-08-21, vedi [la decisione](#il-debito-testuale-della-001-diventa-una-issue--regia-2026-08-21) |
+| ~~Debito testuale della 001: allineamento di §3 a R11~~ | ~0,2 | ⬜ **assegnato a `007b`** il 2026-08-21, come task della feature che pubblica il valore |
 | Debito testuale della 002: divergenza 3, allineare §5 del documento di audit a citare D3 della 001 e A2/A3 del business case | ~0,5 | ⬜ **spostato a prima di `010`** il 2026-08-21, vedi [la sequenza](#la-sequenza-fino-a-007b--decisione-della-regia-2026-08-21) |
 | Debito testuale della 002: portare `docs/data_audit.md` sotto la severità stretta, rimarcandone le quantità | ~1 | ⬜ **spostato a prima di `010`** il 2026-08-21, nella stessa sessione della riga sopra |
 | ~~Emendamento della constitution: ammettere i benchmark pubblici di settore fra le fonti dati~~ | — | ✅ fatto il 2026-08-15, **v1.1.0** |
@@ -287,7 +288,7 @@ La [revisione in contesto pulito](../specs/001-business-case-kpi/review.md) ha p
 | div. 10 | governance della tabella generi → mood | ✅ decisa dalla regia il 2026-08-19 insieme a `DA-1` ed **eseguita dalla `006`**: costruisce la sessione sul criterio scritto per primo, approva Valerio sulla revisione in contesto pulito, si contesta citando il criterio, e la tabella porta un **numero di versione** che ogni valore dipendente dichiara. Il contratto di versione vive in §5 di [`docs/content_taxonomy_bridge.md`](content_taxonomy_bridge.md) |
 | div. 11 | posizione dell'alternativa "non entrare" | `010` |
 | R13 | ambiguità minori sparse | ✅ **chiusa**: parte BQ3 dalla `004` — le disdette sono escluse, tasso lordo su base costante; parte `BQ1-K2` dalla `007a`, `D5`; parte `BQ2-K3` dalla `007a`, `D8` — la posizione 1 della graduatoria è il punteggio più alto, ordinamento decrescente |
-| R9, R10, R12 | correzioni terminologiche sul testo del business case | debito testuale, ~1 ora, da chiudere prima di `007b` |
+| R9, R10, R12 | correzioni terminologiche sul testo del business case | ⬜ **issue aperta** il 2026-08-21: nessuna delle tre invalida un operatore o un valore, e il criterio della `007a` le colloca nel tracker invece che nel piano |
 | div. 5 | soglie decisionali | ✅ chiusa dal commit `862bdca` (§3, condizioni C1-C3) |
 
 ### Nota su R11 — l'esito cambia il testo, non la North Star
@@ -404,6 +405,18 @@ Prima di consegnare il chore la regia ha aperto la tabella congelata, e **`CF-1`
 
 **La previsione della ricognizione era sbagliata sul merito, e va detto.** Avevo scritto che la risoluzione economica — §2 prevale, nulla si muove — era la trappola da cui guardarsi. La decisione presa al buio è andata nella direzione opposta, e sei celle si sono mosse. La cautela procedurale era giusta e l'esito che temeva non si è verificato: è il caso in cui un presidio funziona e non si vede, ed è l'unica forma in cui si possa osservarlo.
 
+### Il debito testuale della 001 diventa una issue — regia, 2026-08-21
+
+Le tre voci non hanno lo stesso statuto, e trattarle insieme era un raggruppamento per origine — vengono dalla stessa revisione — non per natura.
+
+**R9, R10 e R12 vanno nel tracker.** Sono correzioni terminologiche su `docs/business_case.md`: la North Star chiamata «criterio di successo» quando è un criterio di screening; l'esclusione di `BQ3-K2` argomentata anche su una convenzione di presentazione; §7 intitolato «Impatto economico stimato» dove ospita un ricavo lordo. Nessuna invalida un operatore, un valore o una decisione a valle, ed è esattamente il criterio che la `007a` ha stabilito per le issue [`#7`](https://github.com/Valvln/Streamwave_proj/issues/7) e [`#8`](https://github.com/Valvln/Streamwave_proj/issues/8).
+
+**L'allineamento di §3 a R11 no, e va detto perché.** §3 descrive il contenuto misurato dalla North Star come «musical, documentari musicali, concerti, film sulla musica» — quattro tipologie — mentre la misura legge una sola etichetta. Finché il numero non è pubblicato la descrizione è imprecisa; **nel momento in cui `007b` lo pubblica diventa falsa**, perché il lettore attribuisce al valore un perimetro che il valore non ha. Non è un rilievo che non invalida il deliverable: è un rilievo che il deliverable renderà attivo.
+
+**Va quindi alla `007b` come task**, non come gate esterno né come issue. È la regola che il debito della `001` applica dall'inizio — ogni voce è assegnata alla feature che ha comunque bisogno di quella decisione per procedere — e `007b` è la sola feature che ha in mano insieme il numero e la frase che lo descrive. Costa ~0,2 h dentro una stima da 5.
+
+**Il percorso critico prima di `007b` scende così a `R3`**, e nient'altro.
+
 ### La materializzazione — esito del 2026-08-21
 
 Il modello è stato caricato in Power BI Desktop. Tutto ha retto tranne **`R3`**, `dim_category[category]` → `dim_category_mood[category]`, che il motore rifiuta di tracciare uno a uno: «la colonna selezionata non può essere la colonna chiave perché contiene valori duplicati».
@@ -425,7 +438,7 @@ Restano tre voci prima di `007b`, per ~5 ore, di cui ~2 fuori dal percorso criti
 
 1. ~~**la riscrittura del criterio per `CF-1`** (~2 h), sessione esecutiva~~ — ✅ fatta la sera stessa;
 2. ~~**la materializzazione del modello** (~2 h), lavoro alla GUI nella VM, **in parallelo** alla precedente~~ — 🟡 fatta la sera stessa in ~1,5 h, **tranne `R3`**;
-3. **il debito testuale della 001** (~1 h) — R9, R10, R12 e l'allineamento di §3 a R11.
+3. ~~**il debito testuale della 001** (~1 h) — R9, R10, R12 e l'allineamento di §3 a R11~~ — ⬜ **sciolto il 2026-08-21**: R9, R10 e R12 diventano una issue, l'allineamento di §3 diventa un task della `007b`.
 
 > **Esito della sera del 2026-08-21.** Le due voci sono state eseguite in parallelo come previsto e il parallelismo ha retto: la versione 2 della tabella non ha toccato chiavi né numero di righe, e nessuno dei due lavori ha atteso l'altro. Restano **~1,5 ore** prima di `007b` — la chiusura di `R3` e il debito testuale della `001` — più le due voci di debito che il chore non ha chiuso: la frase di §7 del criterio e la decisione su dove collocare il passaggio da JSON lungo a tabella larga.
 
@@ -519,7 +532,7 @@ La seconda: «se ne sposta zero non è un successo, è un ritrovamento». Il val
 | 21 agosto, sera | ~2 h di sessione + ~1,5 h alla GUI | chore `CF-1` ✅ concluso, tabella dei mood alla versione 2; materializzazione 🟡 riuscita tranne `R3` |
 | **dal 22 agosto** | giornate piene, ~6 h/giorno | chiusura di `R3`, `007b`, `008a`, `008b`, `010`, più ~3 h di chore e debito |
 
-Atterraggio stimato: **25-26 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004`, poi 24-25 con la finestra non pianificata del 12-14 agosto, poi 23-24 dopo le chiusure sotto stima di `003` e `004`, poi di nuovo 24-25 con la materializzazione del modello, poi 26-27 il mattino del 21 agosto. Restano **~23 ore**, cioè poco meno di quattro giorni pieni. Il 21 agosto ha visto chiudere una feature e un chore e quasi tutto un secondo: ~5,5 ore di lavoro registrato, la giornata più densa del progetto dopo la `001`.
+Atterraggio stimato: **25-26 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004`, poi 24-25 con la finestra non pianificata del 12-14 agosto, poi 23-24 dopo le chiusure sotto stima di `003` e `004`, poi di nuovo 24-25 con la materializzazione del modello, poi 26-27 il mattino del 21 agosto. Restano **~22 ore**, cioè poco meno di quattro giorni pieni. Il 21 agosto ha visto chiudere una feature e un chore e quasi tutto un secondo: ~5,5 ore di lavoro registrato, la giornata più densa del progetto dopo la `001`.
 
 **Il movimento del 21 agosto, in due tempi.** Al mattino la data era scivolata a 26-27 per la ragione scritta qui sotto; in giornata la `007a` ha chiuso in ~2 ore contro 4 e ha riportato l'atterraggio a **25-26**, dentro la scadenza dell'abbonamento. Non basta a riaprire la pubblicazione di prova, che resta caduta: quella dipende da `008a`, che è ancora due feature più avanti.
 
