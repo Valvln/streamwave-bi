@@ -23,7 +23,7 @@ Repository singolo. Script in `scripts/build_kpi_measures.py`; artefatto in `rep
 
 **Purpose**: lo scheletro dello script su cui la Fase Foundational scrive la logica di calcolo.
 
-- [ ] T001 Crea `scripts/build_kpi_measures.py` con: percorsi di ingresso/uscita (`data/processed/*.csv`, `data/curated/dim_category_mood.json`, `reports/bq3_scenarios.json` → `reports/kpi_measures.json`), `SCHEMA_VERSION`, gli helper di arrotondamento per unità di misura (E5: quote a 4 cifre, minuti a 2, indice di popolarità a 1, `ROUND_HALF_UP` esplicito), `display_of()` senza dipendenza dal locale e `fingerprint()` — sullo schema di `scripts/build_bq3_scenarios.py`
+- [X] T001 Crea `scripts/build_kpi_measures.py` con: percorsi di ingresso/uscita (`data/processed/*.csv`, `data/curated/dim_category_mood.json`, `reports/bq3_scenarios.json` → `reports/kpi_measures.json`), `SCHEMA_VERSION`, gli helper di arrotondamento per unità di misura (E5: quote a 4 cifre, minuti a 2, indice di popolarità a 1, `ROUND_HALF_UP` esplicito), `display_of()` senza dipendenza dal locale e `fingerprint()` — sullo schema di `scripts/build_bq3_scenarios.py`
 
 ---
 
@@ -33,18 +33,18 @@ Repository singolo. Script in `scripts/build_kpi_measures.py`; artefatto in `rep
 
 **⚠️ CRITICAL**: nessuna Fase 3+ inizia prima che T013 sia verde.
 
-- [ ] T002 Implementa in `scripts/build_kpi_measures.py` la lettura dei cinque file di ingresso e la guardia di FR-004: l'insieme delle categorie lette dal ponte titolo-categoria coincide con le 42 attese, l'insieme dei segmenti letti da `spotify_track_genre.csv` coincide con i 114 attesi; arresto esplicito senza scrivere alcun file su qualunque disuguaglianza o insieme vuoto
-- [ ] T003 Implementa la funzione di mediana condivisa in `scripts/build_kpi_measures.py`: ordinamento, media aritmetica dei due valori centrali su conteggio pari, nessuna eccezione per i pari merito (E2/D10) — usata da tutte le misure che seguono
-- [ ] T004 Implementa `music_adjacent_catalog_share` (`BQ1-K1`, FR-005): titoli distinti in `Music & Musicals` sul ponte trasformato diviso titoli distinti di `dim_title`; conteggio dei titoli per ciascuna delle 42 categorie e posizione di `Music & Musicals` rispetto alla mediana dei 42 conteggi (operatore C1, D9.2)
-- [ ] T005 Implementa la verifica dell'invarianza del numeratore della North Star (E7, FR-012): conteggio diretto dei titoli distinti in `Music & Musicals` su `netflix_title_category.csv`, confronto con `375` (`NF.cat.music_musicals.titles`), esito booleano pubblicato come valore proprio
-- [ ] T006 Implementa `format_duration_gap` (`BQ1-K2`, FR-006): mediana della durata musicale meno mediana della durata dei film, con segno; entrambe le varianti della mediana musicale — con e senza la riga `is_duration_zero` (E3) — e la loro differenza; quota di titoli `Movie` sul catalogo video (E4)
-- [ ] T007 Implementa `mood_profile_overlap` (`BQ1-K3`, FR-007): quota di tracce il cui profilo cade, su tutti e tre gli assi contemporaneamente (AND logico), dentro gli intervalli chiusi `[min, max]` delle 42 righe di `dim_category_mood`
-- [ ] T008 Implementa `segment_demand_index` (`BQ2-K1`, FR-008) per ciascuno dei 114 segmenti: mediana di popolarità sulle coppie traccia-segmento, quota di righe a popolarità zero dello stesso segmento, propagazione del flag `is_high_zero_genre`
-- [ ] T009 Implementa `segment_catalog_affinity` (`BQ2-K2`, FR-009) per ciascuno dei 114 segmenti: `1 − d`, con `d` media delle tre distanze assolute per asse fra il profilo mediano del segmento e il profilo mediano ponderato del catalogo video sulle 19.323 assegnazioni titolo-categoria
-- [ ] T010 Implementa `segment_entry_priority` (`BQ2-K3`, FR-010) per ciascuno dei 114 segmenti: domanda normalizzata, punteggio pesato 0,5/0,5, appartenenza al quadrante alta-domanda/alta-affinità (soglia mediana stretta), graduatoria per punteggio decrescente
-- [ ] T011 Implementa la citazione di `premium_tier_adoption_rate` e `arpu_uplift` (`BQ3-K1`/`BQ3-K2`, FR-011): lettura diretta da `reports/bq3_scenarios.json`, nessun ricalcolo, valori repubblicati con chiave e ancora proprie che puntano alla fonte
-- [ ] T012 Assembla e scrivi `reports/kpi_measures.json` in `scripts/build_kpi_measures.py`: blocchi `values`/`catalogs`/`conventions`/`sources` (schema di `data-model.md`), impronta `sha256` di ciascun file di ingresso, nessuna marca temporale di esecuzione (FR-001, FR-002)
-- [ ] T013 Esegui `python3 scripts/build_kpi_measures.py` due volte di seguito; verifica che il file prodotto sia identico byte per byte (FR-003, SC-002)
+- [X] T002 Implementa in `scripts/build_kpi_measures.py` la lettura dei cinque file di ingresso e la guardia di FR-004: l'insieme delle categorie lette dal ponte titolo-categoria coincide con le 42 attese, l'insieme dei segmenti letti da `spotify_track_genre.csv` coincide con i 114 attesi; arresto esplicito senza scrivere alcun file su qualunque disuguaglianza o insieme vuoto
+- [X] T003 Implementa la funzione di mediana condivisa in `scripts/build_kpi_measures.py`: ordinamento, media aritmetica dei due valori centrali su conteggio pari, nessuna eccezione per i pari merito (E2/D10) — usata da tutte le misure che seguono
+- [X] T004 Implementa `music_adjacent_catalog_share` (`BQ1-K1`, FR-005): titoli distinti in `Music & Musicals` sul ponte trasformato diviso titoli distinti di `dim_title`; conteggio dei titoli per ciascuna delle 42 categorie e posizione di `Music & Musicals` rispetto alla mediana dei 42 conteggi (operatore C1, D9.2)
+- [X] T005 Implementa la verifica dell'invarianza del numeratore della North Star (E7, FR-012): conteggio diretto dei titoli distinti in `Music & Musicals` su `netflix_title_category.csv`, confronto con `375` (`NF.cat.music_musicals.titles`), esito booleano pubblicato come valore proprio
+- [X] T006 Implementa `format_duration_gap` (`BQ1-K2`, FR-006): mediana della durata musicale meno mediana della durata dei film, con segno; entrambe le varianti della mediana musicale — con e senza la riga `is_duration_zero` (E3) — e la loro differenza; quota di titoli `Movie` sul catalogo video (E4)
+- [X] T007 Implementa `mood_profile_overlap` (`BQ1-K3`, FR-007): quota di tracce il cui profilo cade, su tutti e tre gli assi contemporaneamente (AND logico), dentro gli intervalli chiusi `[min, max]` delle 42 righe di `dim_category_mood`
+- [X] T008 Implementa `segment_demand_index` (`BQ2-K1`, FR-008) per ciascuno dei 114 segmenti: mediana di popolarità sulle coppie traccia-segmento, quota di righe a popolarità zero dello stesso segmento, propagazione del flag `is_high_zero_genre`
+- [X] T009 Implementa `segment_catalog_affinity` (`BQ2-K2`, FR-009) per ciascuno dei 114 segmenti: `1 − d`, con `d` media delle tre distanze assolute per asse fra il profilo mediano del segmento e il profilo mediano ponderato del catalogo video sulle 19.323 assegnazioni titolo-categoria
+- [X] T010 Implementa `segment_entry_priority` (`BQ2-K3`, FR-010) per ciascuno dei 114 segmenti: domanda normalizzata, punteggio pesato 0,5/0,5, appartenenza al quadrante alta-domanda/alta-affinità (soglia mediana stretta), graduatoria per punteggio decrescente
+- [X] T011 Implementa la citazione di `premium_tier_adoption_rate` e `arpu_uplift` (`BQ3-K1`/`BQ3-K2`, FR-011): lettura diretta da `reports/bq3_scenarios.json`, nessun ricalcolo, valori repubblicati con chiave e ancora proprie che puntano alla fonte
+- [X] T012 Assembla e scrivi `reports/kpi_measures.json` in `scripts/build_kpi_measures.py`: blocchi `values`/`catalogs`/`conventions`/`sources` (schema di `data-model.md`), impronta `sha256` di ciascun file di ingresso, nessuna marca temporale di esecuzione (FR-001, FR-002)
+- [X] T013 Esegui `python3 scripts/build_kpi_measures.py` due volte di seguito; verifica che il file prodotto sia identico byte per byte (FR-003, SC-002)
 
 **Checkpoint**: `reports/kpi_measures.json` esiste, è deterministico, e ogni misura ha un valore reale su cui `docs/kpi_measures.md` può ancorare.
 
@@ -58,8 +58,8 @@ Repository singolo. Script in `scripts/build_kpi_measures.py`; artefatto in `rep
 
 ### Implementation for User Story 1
 
-- [ ] T014 [US1] Rigenera `data/processed/` da `data/raw/` con `python3 scripts/build_datasets.py`, poi esegui `python3 scripts/build_kpi_measures.py`; verifica che l'artefatto prodotto coincida con quello di T013 e ripeti la catena una seconda volta per confermare la riproducibilità end-to-end (FR-003 esteso alla pipeline intera, non al solo script)
-- [ ] T015 [US1] Scrivi l'introduzione di `docs/kpi_measures.md`: paragrafo di metodologia che dichiara la catena `data/raw/` → `build_datasets.py` → `build_kpi_measures.py` (E1), la tabella di arrotondamento per unità di misura (E5), e il rimando a `scripts/build_bq3_scenarios.py` come schema di riferimento
+- [X] T014 [US1] Rigenera `data/processed/` da `data/raw/` con `python3 scripts/build_datasets.py`, poi esegui `python3 scripts/build_kpi_measures.py`; verifica che l'artefatto prodotto coincida con quello di T013 e ripeti la catena una seconda volta per confermare la riproducibilità end-to-end (FR-003 esteso alla pipeline intera, non al solo script)
+- [X] T015 [US1] Scrivi l'introduzione di `docs/kpi_measures.md`: paragrafo di metodologia che dichiara la catena `data/raw/` → `build_datasets.py` → `build_kpi_measures.py` (E1), la tabella di arrotondamento per unità di misura (E5), e il rimando a `scripts/build_bq3_scenarios.py` come schema di riferimento
 
 **Checkpoint**: la riproducibilità è verificata sull'intera catena, non solo sul nuovo script; il documento ha un'intestazione.
 
@@ -73,8 +73,8 @@ Repository singolo. Script in `scripts/build_kpi_measures.py`; artefatto in `rep
 
 ### Implementation for User Story 2
 
-- [ ] T016 [US2] Scrivi la sezione `BQ1-K1` di `docs/kpi_measures.md`: i due operatori distinti (quota e C1), il testo DAX trascritto per ciascuno, provenienza dal modello dati, confidenza alta ereditata
-- [ ] T017 [US2] Aggiungi alla sezione `BQ1-K1` la sottosezione dell'invarianza (E7, FR-013): entrambi i conteggi ancorati, l'esito esplicito — «verificata» se coincidono con 375, ritrovamento con nota in loco su `docs/kpi_operators.md` §2.1 se divergono
+- [X] T016 [US2] Scrivi la sezione `BQ1-K1` di `docs/kpi_measures.md`: i due operatori distinti (quota e C1), il testo DAX trascritto per ciascuno, provenienza dal modello dati, confidenza alta ereditata
+- [X] T017 [US2] Aggiungi alla sezione `BQ1-K1` la sottosezione dell'invarianza (E7, FR-013): entrambi i conteggi ancorati, l'esito esplicito — «verificata» se coincidono con 375, ritrovamento con nota in loco su `docs/kpi_operators.md` §2.1 se divergono
 
 **Checkpoint**: `BQ1-K1` è completa e l'esito dell'invarianza non è mai lasciato dedurre da due numeri accostati.
 
@@ -88,8 +88,8 @@ Repository singolo. Script in `scripts/build_kpi_measures.py`; artefatto in `rep
 
 ### Implementation for User Story 3
 
-- [ ] T018 [US3] Scrivi la sezione `BQ2-K1` di `docs/kpi_measures.md`: la tabella dei 114 segmenti (mediana di popolarità, quota di zeri), il testo DAX trascritto, provenienza, confidenza media
-- [ ] T019 [US3] Aggiungi l'avvertimento testuale esplicito accanto al valore di ciascuno dei 7 segmenti con `is_high_zero_genre` vero (D7, FR-008); verifica che gli altri 107 portino comunque la quota senza l'avvertimento
+- [X] T018 [US3] Scrivi la sezione `BQ2-K1` di `docs/kpi_measures.md`: la tabella dei 114 segmenti (mediana di popolarità, quota di zeri), il testo DAX trascritto, provenienza, confidenza media
+- [X] T019 [US3] Aggiungi l'avvertimento testuale esplicito accanto al valore di ciascuno dei 7 segmenti con `is_high_zero_genre` vero (D7, FR-008); verifica che gli altri 107 portino comunque la quota senza l'avvertimento
 
 **Checkpoint**: `BQ2-K1` è completa e l'obbligo non negoziabile di D7 è rispettato su tutti e 114 i segmenti.
 
@@ -103,15 +103,15 @@ Repository singolo. Script in `scripts/build_kpi_measures.py`; artefatto in `rep
 
 ### Implementation for User Story 7
 
-- [ ] T020 [US7] Scrivi la sezione `BQ1-K2` di `docs/kpi_measures.md`: il gap con segno, le due varianti della mediana musicale e la loro differenza (E3), la quota di film sul catalogo video (E4), il testo DAX trascritto
-- [ ] T021 [US7] Scrivi la sezione `BQ1-K3` di `docs/kpi_measures.md`: `mood_profile_overlap`, il testo DAX trascritto, il limite ereditato della stima per eccesso (D1)
-- [ ] T022 [US7] Scrivi la sezione `BQ2-K2` di `docs/kpi_measures.md`: la tabella dei 114 segmenti (affinità), il testo DAX trascritto, il limite ereditato di non comparabilità assoluta (D2)
-- [ ] T023 [US7] Scrivi la sezione `BQ2-K3` di `docs/kpi_measures.md`: la tabella dei 114 segmenti (punteggio, quadrante booleano, graduatoria), il testo DAX trascritto
-- [ ] T024 [US7] Scrivi le sezioni `BQ3-K1` e `BQ3-K2` di `docs/kpi_measures.md`: citazione diretta da `reports/bq3_scenarios.json`, dichiarazione esplicita che non c'è alcun ricalcolo, range best/base/worst, confidenza bassa
-- [ ] T025 [US7] Aggiungi a ciascuna delle otto sezioni lo stato di verifica di default: «calcolato da `scripts/build_kpi_measures.py`, verifica contro il motore in corso» (FR-030) — nessuna sezione dichiara «verificato» prima di questo punto
-- [ ] T026 [US7] Dispatch di E9: prepara per Valerio l'elenco degli otto testi DAX trascritti pronti da incollare nel `.pbix` già materializzato, con accanto il valore atteso da `reports/kpi_measures.json` per ciascuno — passo esterno a questa sessione, non scriptabile (principio V)
-- [ ] T026a [US7] Congela `reports/kpi_engine_check.json` dall'esito che Valerio riporta in T026: le otto letture del motore, la data della lettura, il riferimento allo stato del `.pbix`, l'esito booleano del confronto con `reports/kpi_measures.json` e la differenza dove diverge — curato a mano, mai scritto da uno script (FR-029a). **Rilievo bloccante della revisione di regia sul piano**: senza questo artefatto l'esito di E9 non ha ancora, e `reports/kpi_measures.json` non può contenerlo perché è deterministico per FR-003
-- [ ] T027 [US7] Incorpora l'esito di T026a in ciascuna delle otto sezioni di `docs/kpi_measures.md`, ancorato a `reports/kpi_engine_check.json`: «verificato contro il motore reale» dove i valori coincidono, nota in loco con entrambi i numeri e la causa (se identificabile) dove divergono (FR-030, FR-031)
+- [X] T020 [US7] Scrivi la sezione `BQ1-K2` di `docs/kpi_measures.md`: il gap con segno, le due varianti della mediana musicale e la loro differenza (E3), la quota di film sul catalogo video (E4), il testo DAX trascritto
+- [X] T021 [US7] Scrivi la sezione `BQ1-K3` di `docs/kpi_measures.md`: `mood_profile_overlap`, il testo DAX trascritto, il limite ereditato della stima per eccesso (D1)
+- [X] T022 [US7] Scrivi la sezione `BQ2-K2` di `docs/kpi_measures.md`: la tabella dei 114 segmenti (affinità), il testo DAX trascritto, il limite ereditato di non comparabilità assoluta (D2)
+- [X] T023 [US7] Scrivi la sezione `BQ2-K3` di `docs/kpi_measures.md`: la tabella dei 114 segmenti (punteggio, quadrante booleano, graduatoria), il testo DAX trascritto
+- [X] T024 [US7] Scrivi le sezioni `BQ3-K1` e `BQ3-K2` di `docs/kpi_measures.md`: citazione diretta da `reports/bq3_scenarios.json`, dichiarazione esplicita che non c'è alcun ricalcolo, range best/base/worst, confidenza bassa
+- [X] T025 [US7] Aggiungi a ciascuna delle otto sezioni lo stato di verifica di default: «calcolato da `scripts/build_kpi_measures.py`, verifica contro il motore in corso» (FR-030) — nessuna sezione dichiara «verificato» prima di questo punto
+- [X] T026 [US7] Dispatch di E9: prepara per Valerio l'elenco degli otto testi DAX trascritti pronti da incollare nel `.pbix` già materializzato, con accanto il valore atteso da `reports/kpi_measures.json` per ciascuno — passo esterno a questa sessione, non scriptabile (principio V)
+- [X] T026a [US7] Congela `reports/kpi_engine_check.json` dall'esito che Valerio riporta in T026: le otto letture del motore, la data della lettura, il riferimento allo stato del `.pbix`, l'esito booleano del confronto con `reports/kpi_measures.json` e la differenza dove diverge — curato a mano, mai scritto da uno script (FR-029a). **Rilievo bloccante della revisione di regia sul piano**: senza questo artefatto l'esito di E9 non ha ancora, e `reports/kpi_measures.json` non può contenerlo perché è deterministico per FR-003
+- [X] T027 [US7] Incorpora l'esito di T026a in ciascuna delle otto sezioni di `docs/kpi_measures.md`, ancorato a `reports/kpi_engine_check.json`: «verificato contro il motore reale» dove i valori coincidono, nota in loco con entrambi i numeri e la causa (se identificabile) dove divergono (FR-030, FR-031)
 
 **Checkpoint**: il documento è completo su tutte e otto le misure, e nessuna dichiara uno stato di verifica che non corrisponde a un confronto realmente avvenuto.
 
@@ -125,10 +125,10 @@ Repository singolo. Script in `scripts/build_kpi_measures.py`; artefatto in `rep
 
 ### Implementation for User Story 5
 
-- [ ] T028 [P] [US5] Aggiungi `docs/kpi_measures.md` alla tupla `DOCUMENTS` di `scripts/check_audit_coherence.py`, settima riga, severità stretta (`True`) — sesto documento sotto quel regime, dato che `docs/data_audit.md` resta ad avvisi (FR-021)
-- [ ] T028a [US5] Registra `docs/kpi_measures.md` nella tabella di severità §5 e nella tabella di Provenienza di `docs/convenzioni-marcatura.md` (data, feature `007b`); nella stessa riga di Provenienza registra `reports/kpi_measures.json` (quinto artefatto) e `reports/kpi_engine_check.json` (sesto artefatto, FR-029a) (FR-024)
-- [ ] T029 [P] [US5] Aggiungi `reports/kpi_measures.json` (quinto membro) e `reports/kpi_engine_check.json` (sesto membro, FR-029a) alla tupla `ARTIFACTS` di `scripts/check_audit_coherence.py`; verifica l'assenza di collisioni di prefisso di chiave con `PROFILE`, `CLEANING`, `SCENARIOS`, `MOOD` e fra i due nuovi membri (FR-022, FR-029a)
-- [ ] T030 [US5] Esegui `python3 scripts/check_audit_coherence.py` e correggi ogni numerale privo di ancora o di marcatore di non-misurato in `docs/kpi_measures.md`, finché l'esito è verde su sette documenti e sei artefatti (dipende da T028, T029)
+- [X] T028 [P] [US5] Aggiungi `docs/kpi_measures.md` alla tupla `DOCUMENTS` di `scripts/check_audit_coherence.py`, settima riga, severità stretta (`True`) — sesto documento sotto quel regime, dato che `docs/data_audit.md` resta ad avvisi (FR-021)
+- [X] T028a [US5] Registra `docs/kpi_measures.md` nella tabella di severità §5 e nella tabella di Provenienza di `docs/convenzioni-marcatura.md` (data, feature `007b`); nella stessa riga di Provenienza registra `reports/kpi_measures.json` (quinto artefatto) e `reports/kpi_engine_check.json` (sesto artefatto, FR-029a) (FR-024)
+- [X] T029 [P] [US5] Aggiungi `reports/kpi_measures.json` (quinto membro) e `reports/kpi_engine_check.json` (sesto membro, FR-029a) alla tupla `ARTIFACTS` di `scripts/check_audit_coherence.py`; verifica l'assenza di collisioni di prefisso di chiave con `PROFILE`, `CLEANING`, `SCENARIOS`, `MOOD` e fra i due nuovi membri (FR-022, FR-029a)
+- [X] T030 [US5] Esegui `python3 scripts/check_audit_coherence.py` e correggi ogni numerale privo di ancora o di marcatore di non-misurato in `docs/kpi_measures.md`, finché l'esito è verde su sette documenti e sei artefatti (dipende da T028, T029)
 
 **Checkpoint**: il controllo di coerenza passa in severità stretta sul settimo documento e sul sesto artefatto.
 
@@ -142,11 +142,11 @@ Repository singolo. Script in `scripts/build_kpi_measures.py`; artefatto in `rep
 
 ### Implementation for User Story 4
 
-- [ ] T031 [US4] Aggiungi **D10** a `docs/kpi_operators.md` §10 e §12: la convenzione di mediana (E2), con riferimento a T003; chiude l'issue `#7` (FR-015)
-- [ ] T032 [US4] Aggiungi **D11** a `docs/kpi_operators.md` §3 e §12: la decisione sulla durata degenere (E3), con riferimento al valore comparativo prodotto da T006 (FR-016)
-- [ ] T033 [US4] Aggiungi la nota in loco a `docs/kpi_operators.md` §11 che corregge l'attribuzione di `D6` a `BQ2-K1` (E6): data, feature `007b`, causa (contraddizione con §5.3), valore corretto, testo precedente non cancellato; chiude l'issue `#8` (FR-018)
-- [ ] T034 [US4] Registra in `docs/kpi_operators.md` §12 la chiusura dei vincoli residui: l'asimmetria di `BQ1-K2` con riferimento a `docs/kpi_measures.md` (E4), l'arrotondamento con riferimento alla tabella di E5 (FR-017)
-- [ ] T035 [US4] Prepara la proposta di chiusura delle issue GitHub `#7` e `#8` con riferimento al commit che introduce D10/D11 e la nota in loco di §11 — l'esecuzione della chiusura su GitHub resta a Valerio (FR-027)
+- [X] T031 [US4] Aggiungi **D10** a `docs/kpi_operators.md` §10 e §12: la convenzione di mediana (E2), con riferimento a T003; chiude l'issue `#7` (FR-015)
+- [X] T032 [US4] Aggiungi **D11** a `docs/kpi_operators.md` §3 e §12: la decisione sulla durata degenere (E3), con riferimento al valore comparativo prodotto da T006 (FR-016)
+- [X] T033 [US4] Aggiungi la nota in loco a `docs/kpi_operators.md` §11 che corregge l'attribuzione di `D6` a `BQ2-K1` (E6): data, feature `007b`, causa (contraddizione con §5.3), valore corretto, testo precedente non cancellato; chiude l'issue `#8` (FR-018)
+- [X] T034 [US4] Registra in `docs/kpi_operators.md` §12 la chiusura dei vincoli residui: l'asimmetria di `BQ1-K2` con riferimento a `docs/kpi_measures.md` (E4), l'arrotondamento con riferimento alla tabella di E5 (FR-017)
+- [X] T035 [US4] Prepara la proposta di chiusura delle issue GitHub `#7` e `#8` con riferimento al commit che introduce D10/D11 e la nota in loco di §11 — l'esecuzione della chiusura su GitHub resta a Valerio (FR-027)
 
 **Checkpoint**: §12 non ha più vincoli aperti; le due issue sono pronte per la chiusura formale.
 
@@ -160,7 +160,7 @@ Repository singolo. Script in `scripts/build_kpi_measures.py`; artefatto in `rep
 
 ### Implementation for User Story 6
 
-- [ ] T036 [US6] Aggiungi la nota in loco a `business_case.md` §3: data, feature `007b`, causa (rilievo R11 della revisione `001`, assegnato dalla decisione di regia del 2026-08-21), valore corretto (`Music & Musicals`, una sola etichetta); testo originale non cancellato (FR-019)
+- [X] T036 [US6] Aggiungi la nota in loco a `business_case.md` §3: data, feature `007b`, causa (rilievo R11 della revisione `001`, assegnato dalla decisione di regia del 2026-08-21), valore corretto (`Music & Musicals`, una sola etichetta); testo originale non cancellato (FR-019)
 
 **Checkpoint**: §3 non afferma più, senza qualifica, una descrizione che il KPI pubblicato smentirebbe.
 
@@ -170,8 +170,8 @@ Repository singolo. Script in `scripts/build_kpi_measures.py`; artefatto in `rep
 
 **Purpose**: gli obblighi trasversali del progetto che nessun automatismo esegue, e la chiusura della feature.
 
-- [ ] T037 [P] Aggiorna `README.md`: riga nella tabella di stato con link a `specs/007b-kpi-measures/review.md`, deliverable elencato, la frase sui documenti che pubblicano misure estesa all'ottavo documento, `Setup` e `Struttura` allineati, conteggio dei documenti sotto controllo di coerenza aggiornato da sei a sette (FR-025)
-- [ ] T038 Esegui le dodici prove di [quickstart.md](./quickstart.md) per intero, in ordine; correggi ogni scostamento trovato prima di procedere alla revisione (le prove 1-11 sono eseguibili subito, la prova 12 solo dopo che T027 ha incorporato l'esito reale di E9)
+- [X] T037 [P] Aggiorna `README.md`: riga nella tabella di stato con link a `specs/007b-kpi-measures/review.md`, deliverable elencato, la frase sui documenti che pubblicano misure estesa all'ottavo documento, `Setup` e `Struttura` allineati, conteggio dei documenti sotto controllo di coerenza aggiornato da sei a sette (FR-025)
+- [X] T038 Esegui le dodici prove di [quickstart.md](./quickstart.md) per intero, in ordine; correggi ogni scostamento trovato prima di procedere alla revisione (le prove 1-11 sono eseguibili subito, la prova 12 solo dopo che T027 ha incorporato l'esito reale di E9)
 - [ ] T039 **Dispatch della revisione in contesto pulito**: il revisore riceve **solo** `docs/kpi_measures.md` — una copia in una cartella isolata fuori dal repository, non lo script, non l'artefatto JSON, non `specs/`, non `git` — sul modello di `specs/007a-kpi-operators/review.md`. Il verbale produce `specs/007b-kpi-measures/review.md` secondo i quattro obblighi di `CLAUDE.md`: committato prima di correggere il documento, dichiara in apertura cosa è stato letto e cosa no, àncora commit e impronta del contenuto letto, non si corregge (FR-026)
 - [ ] T040 Chiudi i rilievi del verbale con un blocco in coda che distingue, per ciascuno, risolto/indebolito/rinviato — solo i rilievi strettamente necessari si correggono in questa feature (il documento, senza quella correzione, afferma il falso o pubblica un valore che non regge); ogni rinvio nomina l'issue GitHub aperta per esso
 - [ ] T040a Riesegui `python3 scripts/check_audit_coherence.py` dopo le correzioni di T040; le correzioni possono toccare numeri e ancore, e l'ultimo esito verde precedente è a T030, sei task prima — correggi ogni nuova ancora rotta prima di considerare la feature conclusa
