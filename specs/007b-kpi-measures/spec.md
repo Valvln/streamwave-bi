@@ -144,6 +144,8 @@ Cinque decisioni nuove, più la chiusura verificata di un'assunzione lasciata ap
 
 **Dove vive l'esito**: `docs/kpi_measures.md` dichiara, per ciascuna misura, se il valore è «verificato contro il motore» o, in caso di divergenza non ancora risolta, «calcolato da script, verifica contro il motore in corso» — mai il secondo stato in silenzio quando il primo è già disponibile. Il riporto finale di questa feature (prima del merge) include l'esito del confronto misura per misura.
 
+**Un'ancora anche per l'esito di E9, non solo per gli otto valori dello script.** `reports/kpi_measures.json` è generato dallo script ed è deterministico per FR-003: non può contenere una lettura umana senza smettere di esserlo. Le otto letture del motore, e il confronto che ne segue — coincide, diverge, di quanto — sono quindi congelate in un secondo artefatto, curato a mano e mai scritto da uno script: `reports/kpi_engine_check.json` (FR-029a), sul precedente di `data/benchmarks/bq3_tier_upgrade.json`. Senza di esso il numero letto dal motore in caso di divergenza non avrebbe alcuna ancora — e marcarlo come non-misurato sarebbe una dichiarazione falsa su un fatto che è stato misurato per davvero, la sola categoria che `CLAUDE.md` vieta esplicitamente.
+
 ---
 
 ## Rapporto con le feature vicine
@@ -239,7 +241,7 @@ Chi legge `docs/kpi_operators.md` dopo questa feature trova §12 senza vincoli a
 
 ### User Story 5 — Il documento e l'artefatto sono verificabili meccanicamente (Priority: P2)
 
-Chi esegue `python3 scripts/check_audit_coherence.py` dopo questa feature trova `docs/kpi_measures.md` come settimo documento verificato — sesto in severità stretta, dato che `docs/data_audit.md` resta ad avvisi — e `reports/kpi_measures.json` come quinto artefatto nello spazio dei nomi unito, ed entrambi i controlli passano.
+Chi esegue `python3 scripts/check_audit_coherence.py` dopo questa feature trova `docs/kpi_measures.md` come settimo documento verificato — sesto in severità stretta, dato che `docs/data_audit.md` resta ad avvisi — `reports/kpi_measures.json` come quinto artefatto nello spazio dei nomi unito e `reports/kpi_engine_check.json` (E9, FR-029a) come sesto, e tutti i controlli passano.
 
 **Why this priority**: è il presidio meccanico che rende il documento coerente con il resto del progetto, ed è la condizione esplicita di successo dichiarata dal prompt di consegna.
 
@@ -248,7 +250,7 @@ Chi esegue `python3 scripts/check_audit_coherence.py` dopo questa feature trova 
 **Acceptance Scenarios**:
 
 1. **Given** `docs/kpi_measures.md` completo, **When** il controllo lo scandisce, **Then** ogni numerale in posizione di fatto misurato porta un'ancora verso `reports/kpi_measures.json` o un altro artefatto già versionato, o il marcatore esplicito di non-misurato.
-2. **Given** la tupla `ARTIFACTS` e `DOCUMENTS` dello script, **When** le si ispeziona, **Then** contengono rispettivamente `reports/kpi_measures.json` e `docs/kpi_measures.md` (severità stretta).
+2. **Given** la tupla `ARTIFACTS` e `DOCUMENTS` dello script, **When** le si ispeziona, **Then** `ARTIFACTS` contiene `reports/kpi_measures.json` e `reports/kpi_engine_check.json`, `DOCUMENTS` contiene `docs/kpi_measures.md` (severità stretta).
 
 ---
 
@@ -334,7 +336,7 @@ Prima del merge, Valerio incolla il DAX trascritto per ciascuna delle otto misur
 - **FR-021**: `docs/kpi_measures.md` MUST entrare in `DOCUMENTS` di `scripts/check_audit_coherence.py` sotto **severità stretta**, come settimo documento verificato.
 - **FR-022**: `reports/kpi_measures.json` MUST entrare in `ARTIFACTS` di `scripts/check_audit_coherence.py`, come quinto artefatto nello spazio dei nomi unito, verificando l'assenza di collisioni di prefisso con gli altri quattro.
 - **FR-023**: Ogni numerale scritto in `docs/kpi_measures.md` in posizione di fatto misurato MUST portare un'ancora verso un artefatto già versionato o il marcatore esplicito di non-misurato, secondo `docs/convenzioni-marcatura.md`; ogni affermazione derivata (confronto, graduatoria, rapporto — regola D5 di `docs/convenzioni-marcatura.md` §7) MUST avere un identificativo proprio nell'artefatto.
-- **FR-024**: `docs/convenzioni-marcatura.md` MUST registrare `docs/kpi_measures.md` nella propria tabella di severità e nella tabella di provenienza, con data e feature.
+- **FR-024**: `docs/convenzioni-marcatura.md` MUST registrare `docs/kpi_measures.md` nella propria tabella di severità e nella tabella di provenienza, con data e feature; la tabella di provenienza MUST registrare nella stessa riga anche `reports/kpi_measures.json` (quinto artefatto) e `reports/kpi_engine_check.json` (sesto artefatto, FR-029a).
 
 ### Obblighi che nessun automatismo esegue
 
@@ -346,13 +348,15 @@ Prima del merge, Valerio incolla il DAX trascritto per ciascuna delle otto misur
 ### La verifica contro il motore reale (E9)
 
 - **FR-029**: Prima del merge, Valerio MUST incollare il testo DAX trascritto di ciascuna delle otto misure nel `.pbix` già materializzato, leggere i valori restituiti dal motore e confrontarli con `reports/kpi_measures.json`. Questo passo non MUST essere automatizzato da alcuno script (principio V), ed è comunque dentro il perimetro di questa feature, non della `008a`.
-- **FR-030**: `docs/kpi_measures.md` MUST dichiarare, per ciascuna delle otto misure, l'esito del confronto di FR-029: «verificato contro il motore reale» se i valori coincidono, oppure una nota in loco con entrambi i numeri e la causa (se identificabile) se divergono. Nessuna misura MUST dichiararsi verificata prima che il confronto sia realmente avvenuto.
+- **FR-029a**: Il confronto di FR-029 MUST congelarsi in un artefatto versionato e **curato a mano**, `reports/kpi_engine_check.json` — mai scritto né riscritto da alcuno script, sul precedente di `data/benchmarks/bq3_tier_upgrade.json` — che contiene, per ciascuna delle otto misure: il valore letto dal motore, la data della lettura, il riferimento allo stato del `.pbix` da cui proviene, l'esito booleano del confronto con `reports/kpi_measures.json` e, dove diverge, la differenza. L'artefatto MUST entrare in `ARTIFACTS` di `scripts/check_audit_coherence.py` come **sesto** membro, senza collisioni di prefisso di chiave con gli altri cinque. È da questo artefatto, non da un numero scritto a mano nella prosa del documento, che ogni valore di E9 — la lettura, la coincidenza, la differenza — riceve la propria ancora: sono tutte affermazioni derivate dal confronto di due valori misurati, e la regola D5 le rende esse stesse valori misurati con obbligo di identificativo proprio.
+- **FR-030**: `docs/kpi_measures.md` MUST dichiarare, per ciascuna delle otto misure, l'esito del confronto di FR-029, **ancorato a `reports/kpi_engine_check.json` per FR-029a**: «verificato contro il motore reale» se i valori coincidono, oppure una nota in loco con entrambi i numeri e la causa (se identificabile) se divergono. Nessuna misura MUST dichiararsi verificata prima che il confronto sia realmente avvenuto, e nessun valore di E9 MUST comparire nel documento senza l'ancora verso l'artefatto di FR-029a.
 - **FR-031**: Una divergenza trovata da FR-029 su almeno una misura MUST essere riportata nel blocco di chiusura della feature, prima del merge, come il ritrovamento di priorità più alta — non assorbita in silenzio né rinviata alla `008a`.
 
 ### Key Entities
 
 - **`scripts/build_kpi_measures.py`**: lo script deterministico che calcola le otto misure applicando gli operatori di `docs/kpi_operators.md` sui dati versionati.
-- **`reports/kpi_measures.json`**: l'artefatto prodotto, schema `values`/`catalogs`/`conventions`/`sources`, quinto nello spazio dei nomi unito del controllo di coerenza.
+- **`reports/kpi_measures.json`**: l'artefatto prodotto dallo script, schema `values`/`catalogs`/`conventions`/`sources`, quinto nello spazio dei nomi unito del controllo di coerenza.
+- **`reports/kpi_engine_check.json`**: l'artefatto che congela l'esito di E9 — otto letture del motore, data, riferimento allo stato del `.pbix`, esito del confronto — curato a mano e mai scritto da uno script, sesto nello spazio dei nomi unito. Senza di esso i valori di E9 non hanno un'ancora, ed è la sola ragione per cui esiste.
 - **`docs/kpi_measures.md`**: il documento pubblicato, un valore per ciascuno degli otto KPI (114 righe per segmento per `BQ2-K1`/`BQ2-K2`/`BQ2-K3`, riportate per intero o riassunte con rimando esplicito all'artefatto completo), settimo documento verificato — sesto in severità stretta.
 - **`D10`, `D11`**: le due nuove decisioni aggiunte a `docs/kpi_operators.md` (convenzione di mediana, trattamento della durata degenere).
 - **Verifica contro il motore (E9)**: il confronto, eseguito a mano da Valerio, fra il valore letto dal `.pbix` materializzato per ciascuna misura e il valore corrispondente in `reports/kpi_measures.json`. Cambia lo statuto epistemico del valore pubblicato, da «calcolato da script» a «verificato contro il motore reale», o rivela un ritrovamento.
@@ -365,7 +369,7 @@ Prima del merge, Valerio incolla il DAX trascritto per ciascuna delle otto misur
 
 - **SC-001**: Tutti e otto i KPI hanno un valore pubblicato in `docs/kpi_measures.md`, ciascuno con ancora verso `reports/kpi_measures.json` o, per `BQ3-K1`/`BQ3-K2`, verso `reports/bq3_scenarios.json`.
 - **SC-002**: `python3 scripts/build_kpi_measures.py` eseguito due volte produce un artefatto identico byte per byte.
-- **SC-003**: `python3 scripts/check_audit_coherence.py` esce con stato 0, verificando tutti e sette i documenti (i sei esistenti più `docs/kpi_measures.md`) e i cinque artefatti.
+- **SC-003**: `python3 scripts/check_audit_coherence.py` esce con stato 0, verificando tutti e sette i documenti (i sei esistenti più `docs/kpi_measures.md`) e i sei artefatti (i quattro esistenti più `reports/kpi_measures.json` e `reports/kpi_engine_check.json`).
 - **SC-004**: L'invarianza del numeratore della North Star è dichiarata come verificata (con il conteggio sul trasformato ancorato e coincidente con 375) oppure come divergenza esplicita con nota in loco — non resta un'assunzione taciuta.
 - **SC-005**: I tre vincoli di `docs/kpi_operators.md` §12 e le issue `#7`/`#8` sono chiusi, ciascuno con un riferimento verificabile a dove la chiusura vive.
 - **SC-006**: `specs/007b-kpi-measures/review.md` esiste, è committato prima di qualunque correzione a `docs/kpi_measures.md`, e il suo blocco di chiusura distingue risolto/indebolito/rinviato per ogni rilievo.

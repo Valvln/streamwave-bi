@@ -46,7 +46,7 @@ Aprire `docs/kpi_operators.md` §12. Atteso: nessuno dei tre vincoli (mediana, d
 python3 scripts/check_audit_coherence.py
 ```
 
-Atteso: uscita verde in severità stretta su sette documenti (sei in severità stretta più `docs/data_audit.md` ad avvisi) e cinque artefatti nello spazio dei nomi unito.
+Atteso: uscita verde in severità stretta su sette documenti (sei in severità stretta più `docs/data_audit.md` ad avvisi) e sei artefatti nello spazio dei nomi unito (`reports/kpi_measures.json` e `reports/kpi_engine_check.json` inclusi).
 
 ### 8 — Registrazione in `convenzioni-marcatura.md`
 

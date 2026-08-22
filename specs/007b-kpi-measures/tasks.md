@@ -9,7 +9,7 @@ description: "Task list template for feature implementation"
 
 **Prerequisiti**: plan.md, spec.md, research.md, data-model.md, contracts/kpi-measures-contract.md, quickstart.md — tutti presenti.
 
-**Test**: nessun task di test in senso software separato dal deliverable. La correttezza si verifica con le dodici prove di [quickstart.md](./quickstart.md), incorporate come task T038, più la revisione in contesto pulito (T039-T040).
+**Test**: nessun task di test in senso software separato dal deliverable. La correttezza si verifica con le dodici prove di [quickstart.md](./quickstart.md), incorporate come task T038, più la revisione in contesto pulito (T039-T040) e la riesecuzione del controllo di coerenza dopo le sue correzioni (T040a).
 
 **Perché due soli file dominano questa lista**: la Fase Foundational scrive per intero `scripts/build_kpi_measures.py`; le Fasi 3-6 scrivono per intero `docs/kpi_measures.md`. La marcatura `[P]` segue la regola del template — file diversi, nessuna dipendenza — e per questo compare solo dove due task toccano file davvero distinti (l'estensione dello script di controllo, `convenzioni-marcatura.md`, `README.md`); i task che condividono uno dei due file principali sono sequenziali per costruzione.
 
@@ -110,25 +110,27 @@ Repository singolo. Script in `scripts/build_kpi_measures.py`; artefatto in `rep
 - [ ] T024 [US7] Scrivi le sezioni `BQ3-K1` e `BQ3-K2` di `docs/kpi_measures.md`: citazione diretta da `reports/bq3_scenarios.json`, dichiarazione esplicita che non c'è alcun ricalcolo, range best/base/worst, confidenza bassa
 - [ ] T025 [US7] Aggiungi a ciascuna delle otto sezioni lo stato di verifica di default: «calcolato da `scripts/build_kpi_measures.py`, verifica contro il motore in corso» (FR-030) — nessuna sezione dichiara «verificato» prima di questo punto
 - [ ] T026 [US7] Dispatch di E9: prepara per Valerio l'elenco degli otto testi DAX trascritti pronti da incollare nel `.pbix` già materializzato, con accanto il valore atteso da `reports/kpi_measures.json` per ciascuno — passo esterno a questa sessione, non scriptabile (principio V)
-- [ ] T027 [US7] Incorpora l'esito che Valerio riporta in ciascuna delle otto sezioni di `docs/kpi_measures.md`: «verificato contro il motore reale» dove i valori coincidono, nota in loco con entrambi i numeri e la causa (se identificabile) dove divergono (FR-030, FR-031)
+- [ ] T026a [US7] Congela `reports/kpi_engine_check.json` dall'esito che Valerio riporta in T026: le otto letture del motore, la data della lettura, il riferimento allo stato del `.pbix`, l'esito booleano del confronto con `reports/kpi_measures.json` e la differenza dove diverge — curato a mano, mai scritto da uno script (FR-029a). **Rilievo bloccante della revisione di regia sul piano**: senza questo artefatto l'esito di E9 non ha ancora, e `reports/kpi_measures.json` non può contenerlo perché è deterministico per FR-003
+- [ ] T027 [US7] Incorpora l'esito di T026a in ciascuna delle otto sezioni di `docs/kpi_measures.md`, ancorato a `reports/kpi_engine_check.json`: «verificato contro il motore reale» dove i valori coincidono, nota in loco con entrambi i numeri e la causa (se identificabile) dove divergono (FR-030, FR-031)
 
 **Checkpoint**: il documento è completo su tutte e otto le misure, e nessuna dichiara uno stato di verifica che non corrisponde a un confronto realmente avvenuto.
 
 ---
 
-## Phase 7: User Story 5 - Il documento e l'artefatto sono verificabili meccanicamente (Priority: P2)
+## Phase 7: User Story 5 - Il documento e gli artefatti sono verificabili meccanicamente (Priority: P2)
 
-**Goal**: `docs/kpi_measures.md` e `reports/kpi_measures.json` entrano nel controllo di coerenza automatico.
+**Goal**: `docs/kpi_measures.md`, `reports/kpi_measures.json` e `reports/kpi_engine_check.json` entrano nel controllo di coerenza automatico.
 
 **Independent Test**: prova 7 di [quickstart.md](./quickstart.md).
 
 ### Implementation for User Story 5
 
 - [ ] T028 [P] [US5] Aggiungi `docs/kpi_measures.md` alla tupla `DOCUMENTS` di `scripts/check_audit_coherence.py`, settima riga, severità stretta (`True`) — sesto documento sotto quel regime, dato che `docs/data_audit.md` resta ad avvisi (FR-021)
-- [ ] T029 [P] [US5] Aggiungi `reports/kpi_measures.json` alla tupla `ARTIFACTS` di `scripts/check_audit_coherence.py`, quinto membro; verifica l'assenza di collisioni di prefisso di chiave con `PROFILE`, `CLEANING`, `SCENARIOS`, `MOOD` (FR-022)
-- [ ] T030 [US5] Esegui `python3 scripts/check_audit_coherence.py` e correggi ogni numerale privo di ancora o di marcatore di non-misurato in `docs/kpi_measures.md`, finché l'esito è verde su sette documenti e cinque artefatti (dipende da T028, T029)
+- [ ] T028a [US5] Registra `docs/kpi_measures.md` nella tabella di severità §5 e nella tabella di Provenienza di `docs/convenzioni-marcatura.md` (data, feature `007b`); nella stessa riga di Provenienza registra `reports/kpi_measures.json` (quinto artefatto) e `reports/kpi_engine_check.json` (sesto artefatto, FR-029a) (FR-024)
+- [ ] T029 [P] [US5] Aggiungi `reports/kpi_measures.json` (quinto membro) e `reports/kpi_engine_check.json` (sesto membro, FR-029a) alla tupla `ARTIFACTS` di `scripts/check_audit_coherence.py`; verifica l'assenza di collisioni di prefisso di chiave con `PROFILE`, `CLEANING`, `SCENARIOS`, `MOOD` e fra i due nuovi membri (FR-022, FR-029a)
+- [ ] T030 [US5] Esegui `python3 scripts/check_audit_coherence.py` e correggi ogni numerale privo di ancora o di marcatore di non-misurato in `docs/kpi_measures.md`, finché l'esito è verde su sette documenti e sei artefatti (dipende da T028, T029)
 
-**Checkpoint**: il controllo di coerenza passa in severità stretta sul settimo documento.
+**Checkpoint**: il controllo di coerenza passa in severità stretta sul settimo documento e sul sesto artefatto.
 
 ---
 
@@ -172,8 +174,9 @@ Repository singolo. Script in `scripts/build_kpi_measures.py`; artefatto in `rep
 - [ ] T038 Esegui le dodici prove di [quickstart.md](./quickstart.md) per intero, in ordine; correggi ogni scostamento trovato prima di procedere alla revisione (le prove 1-11 sono eseguibili subito, la prova 12 solo dopo che T027 ha incorporato l'esito reale di E9)
 - [ ] T039 **Dispatch della revisione in contesto pulito**: il revisore riceve **solo** `docs/kpi_measures.md` — una copia in una cartella isolata fuori dal repository, non lo script, non l'artefatto JSON, non `specs/`, non `git` — sul modello di `specs/007a-kpi-operators/review.md`. Il verbale produce `specs/007b-kpi-measures/review.md` secondo i quattro obblighi di `CLAUDE.md`: committato prima di correggere il documento, dichiara in apertura cosa è stato letto e cosa no, àncora commit e impronta del contenuto letto, non si corregge (FR-026)
 - [ ] T040 Chiudi i rilievi del verbale con un blocco in coda che distingue, per ciascuno, risolto/indebolito/rinviato — solo i rilievi strettamente necessari si correggono in questa feature (il documento, senza quella correzione, afferma il falso o pubblica un valore che non regge); ogni rinvio nomina l'issue GitHub aperta per esso
+- [ ] T040a Riesegui `python3 scripts/check_audit_coherence.py` dopo le correzioni di T040; le correzioni possono toccare numeri e ancore, e l'ultimo esito verde precedente è a T030, sei task prima — correggi ogni nuova ancora rotta prima di considerare la feature conclusa
 
-**Checkpoint**: feature conclusa, repository coerente, `README.md` senza drift.
+**Checkpoint**: feature conclusa, repository coerente, `README.md` senza drift, controllo di coerenza verde riconfermato dopo le correzioni.
 
 ---
 
@@ -186,11 +189,11 @@ Repository singolo. Script in `scripts/build_kpi_measures.py`; artefatto in `rep
 - **User Story 1 (Phase 3, P1)**: dipende da T013 (l'artefatto esiste ed è deterministico). T014 verifica la catena intera; T015 apre il documento.
 - **User Story 2 (Phase 4, P1)**: dipende da T015 (documento aperto) e da T004/T005 (valori di `BQ1-K1` ed esito dell'invarianza già calcolati).
 - **User Story 3 (Phase 5, P1)**: dipende da T015 e da T008. Nessuna dipendenza da Phase 4 — le due sezioni sono indipendenti nel contenuto, ma condividono il file e procedono in sequenza per evitare conflitti.
-- **User Story 7 (Phase 6, P1, con le sei sezioni residue anticipate qui)**: dipende da T016-T019 (il documento deve avere già `BQ1-K1` e `BQ2-K1` prima che T025 possa dichiarare lo stato di default su «ciascuna delle otto» sezioni). T026 dipende dal documento completo (T020-T025); T027 dipende dall'esito esterno di T026, che questa sessione non può produrre da sola.
-- **User Story 5 (Phase 7, P2)**: dipende dal documento completo (fine di Phase 6, prima di T027 se si vuole verificare le ancore indipendentemente dallo stato di E9 — la severità stretta scandisce i numerali, non la prosa dello stato di verifica).
+- **User Story 7 (Phase 6, P1, con le sei sezioni residue anticipate qui)**: dipende da T016-T019 (il documento deve avere già `BQ1-K1` e `BQ2-K1` prima che T025 possa dichiarare lo stato di default su «ciascuna delle otto» sezioni). T026 dipende dal documento completo (T020-T025); **T026a dipende dall'esito esterno di T026**, che questa sessione non può produrre da sola, ed è il task che congela `reports/kpi_engine_check.json` (rilievo bloccante della revisione di regia sul piano: senza di esso T027 scriverebbe un numero privo di ancora); T027 dipende da T026a, non direttamente da T026.
+- **User Story 5 (Phase 7, P2)**: dipende dal documento completo (fine di Phase 6, T027 incluso — T029 aggiunge anche `reports/kpi_engine_check.json`, che T026a deve già aver scritto).
 - **User Story 4 (Phase 8, P2)**: dipende da T003 (D10 cita la funzione di mediana) e T006 (D11 cita il valore comparativo). Nessuna dipendenza dal documento pubblicato.
 - **User Story 6 (Phase 9, P2)**: nessuna dipendenza da alcun'altra fase — può procedere in qualunque momento dopo l'apertura della spec.
-- **Polish (Phase 10)**: T037 dipende dal completamento delle Phase 3-9 (per sapere cosa il README deve riflettere). T038 dipende da tutte le fasi precedenti. T039-T040 sono strettamente sequenziali e dipendono da T038.
+- **Polish (Phase 10)**: T037 dipende dal completamento delle Phase 3-9 (per sapere cosa il README deve riflettere). T038 dipende da tutte le fasi precedenti. T039-T040-T040a sono strettamente sequenziali e dipendono da T038 — T040a non è opzionale: le correzioni di T040 possono toccare numeri e ancore, e senza rieseguire il controllo l'ultimo esito verde resterebbe quello di T030, sei task prima.
 
 ### Perché questa feature non ha una vera indipendenza fra user story, come già la `007a`
 
@@ -231,21 +234,21 @@ FR-020 richiede un valore per **ciascuno** degli otto KPI prima che il documento
 3. T014-T015 (US1): la catena intera verificata, il documento aperto.
 4. T016-T017 (US2): `BQ1-K1` e l'esito dell'invarianza.
 5. T018-T019 (US3): `BQ2-K1` e gli avvertimenti.
-6. T020-T027 (US7): le sei sezioni residue, lo stato di default, il dispatch di E9, l'incorporazione dell'esito reale.
-7. T028-T030 (US5, P2): il documento entra nel controllo di coerenza automatico.
+6. T020-T027, T026a incluso (US7): le sei sezioni residue, lo stato di default, il dispatch di E9, il congelamento del suo esito in `reports/kpi_engine_check.json`, l'incorporazione dell'esito reale nel documento.
+7. T028-T030, T028a incluso (US5, P2): il documento e i due artefatti entrano nel controllo di coerenza automatico.
 8. T031-T035 (US4, P2): D10, D11, la nota in loco di §11, la chiusura di §12, la proposta di chiusura delle issue.
 9. T036 (US6, P2): la nota in loco su `business_case.md` §3.
-10. T037-T040 (Polish): README, quickstart per intero, dispatch della revisione in contesto pulito, chiusura dei suoi rilievi.
+10. T037-T040a (Polish): README, quickstart per intero, dispatch della revisione in contesto pulito, chiusura dei suoi rilievi, riesecuzione del controllo di coerenza dopo le correzioni.
 
-**Il confine di sosta più sicuro, se la sessione si interrompe prima di ★ (E9), è la fine di Phase 8 o Phase 9** — a quel punto lo script esiste ed è deterministico, il documento è completo nella sua forma "calcolata", il controllo meccanico passa, e i debiti ereditati di `kpi_operators.md`/`business_case.md` sono chiusi. Ciò che resta — T026-T027 (E9), T039-T040 (revisione) — dipende da un'azione di Valerio fuori da questa sessione: non è lavoro da comprimere, è lavoro che aspetta un input esterno per definizione (coerente con "Ordine di lavoro e punti di sosta" di [plan.md](./plan.md)).
+**Il confine di sosta più sicuro, se la sessione si interrompe prima di ★ (E9), è la fine di Phase 8 o Phase 9** — a quel punto lo script esiste ed è deterministico, il documento è completo nella sua forma "calcolata", il controllo meccanico passa, e i debiti ereditati di `kpi_operators.md`/`business_case.md` sono chiusi. Ciò che resta — T026-T026a-T027 (E9 e il suo artefatto), T039-T040-T040a (revisione) — dipende da un'azione di Valerio fuori da questa sessione: non è lavoro da comprimere, è lavoro che aspetta un input esterno per definizione (coerente con "Ordine di lavoro e punti di sosta" di [plan.md](./plan.md)).
 
 ---
 
 ## Notes
 
 - `[P]` compare solo su T028, T029, T037 — le uniche combinazioni di task che non hanno dipendenza reciproca stretta.
-- `[Story]` mappa ogni task alla propria user story per tracciabilità verso spec.md; Setup, Foundational e Polish non portano l'etichetta, come da convenzione del template.
-- Nessun task di test in senso software: la verifica è affidata interamente a T038 (le dodici prove di quickstart.md) e alla revisione in contesto pulito (T039-T040).
+- `[Story]` mappa ogni task alla propria user story per tracciabilità verso spec.md; Setup, Foundational e Polish non portano l'etichetta, come da convenzione del template. T026a, T028a e T040a portano la lettera perché inseriti fra due task già numerati in risposta alla revisione di regia sul piano, sullo stesso schema dei suffissi letterali già in uso nel progetto per gli FR (`FR-011a`, `FR-013a`).
+- Nessun task di test in senso software: la verifica è affidata interamente a T038 (le dodici prove di quickstart.md), alla revisione in contesto pulito (T039-T040) e alla sua riconferma meccanica (T040a).
 - Propendere per commit dopo ogni fase (non dopo ogni task): la fase è l'unità di senso su ciascuno dei due file principali, il singolo task quasi mai lo è.
 - `docs/roadmap.md` non compare in nessun task: appartiene alla regia (FR-028).
-- T026-T027 sono gli unici due task di questa lista che una sessione esecutiva non può chiudere da sola: T026 consegna a Valerio ciò che serve per E9, T027 ne registra l'esito quando arriva. Nessun task successivo a T025 dichiara «verificato contro il motore reale» prima che T027 sia stato eseguito per davvero (FR-030).
+- T026, T026a e T027 sono i tre task di questa lista che una sessione esecutiva non può chiudere da sola senza un input esterno: T026 consegna a Valerio ciò che serve per E9, T026a congela il suo esito in `reports/kpi_engine_check.json` (senza il quale T027 scriverebbe un numero privo di ancora — rilievo bloccante della revisione di regia sul piano), T027 lo incorpora nel documento. Nessun task successivo a T025 dichiara «verificato contro il motore reale» prima che T027 sia stato eseguito per davvero (FR-030).

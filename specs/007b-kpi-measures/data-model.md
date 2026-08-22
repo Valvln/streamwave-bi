@@ -65,6 +65,22 @@ Impronta (`sha256`, dimensione in byte) di ciascuno dei file letti: `netflix_tit
 
 Prima di scrivere il file, lo script verifica che: (a) l'insieme dei 42 nomi di categoria letti dal ponte titolo-categoria coincida con `catalogs.mood_categories`; (b) l'insieme dei 114 nomi di segmento letti da `spotify_track_genre.csv` coincida con `catalogs.segments`; (c) nessuna aggregazione per categoria o per segmento operi su un insieme vuoto. Una qualunque disuguaglianza ferma lo script con un errore esplicito, senza scrivere alcun file — stesso principio del `guard_rate` di `build_bq3_scenarios.py`.
 
+## Entità 1bis — `reports/kpi_engine_check.json`
+
+**Aggiunta dalla revisione di regia sul piano — rilievo bloccante.** `reports/kpi_measures.json` è generato dallo script ed è deterministico per FR-003: non può contenere una lettura umana senza smettere di esserlo. Le otto letture del motore prodotte da E9, e il confronto che ne segue, hanno quindi bisogno di un artefatto proprio — **curato a mano, mai scritto né riscritto da alcuno script**, sul precedente di `data/benchmarks/bq3_tier_upgrade.json` — perché senza di esso il numero letto dal motore non avrebbe alcuna ancora, e sotto severità stretta il controllo di coerenza fermerebbe proprio il ramo in cui E9 trova una divergenza: l'unico caso in cui questa feature avrebbe qualcosa di nuovo da dire.
+
+| Chiave (esempio) | Contenuto |
+|---|---|
+| `ENGINE.check.date` | data in cui Valerio ha eseguito il confronto |
+| `ENGINE.check.pbix_state` | riferimento allo stato del `.pbix` da cui provengono le letture (es. commit o versione della materializzazione citata in `docs/roadmap.md`) |
+| `ENGINE.check.<misura>.reading` | il valore letto dal motore per ciascuna delle otto misure |
+| `ENGINE.check.<misura>.matches` | booleano — coincide con `reports/kpi_measures.json` |
+| `ENGINE.check.<misura>.delta` | la differenza, dove `matches` è falso — anch'essa un valore misurato per costruzione (confronto fra due valori misurati, regola D5), non un numero scritto a mano nella prosa |
+
+**Perché è curato a mano e non generato.** Il passaggio che lo alimenta — Valerio che legge un numero a schermo in Power BI Desktop — non è uno script e non può esserlo (principio V): è un'osservazione umana, irripetibile allo stesso modo di una ricognizione di benchmark. Congelarla in un artefatto versionato, invece di scriverla solo nella prosa di `docs/kpi_measures.md`, è ciò che le dà un'ancora — esattamente la stessa ragione per cui `data/benchmarks/bq3_tier_upgrade.json` esiste.
+
+**Sesto membro di `ARTIFACTS`.** Entra dopo `reports/kpi_measures.json` (quinto), con verifica di assenza di collisioni di prefisso di chiave (`ENGINE.` non è usato da alcun altro artefatto) contro gli altri cinque.
+
 ## Entità 2 — `docs/kpi_measures.md`
 
 Otto blocchi, uno per KPI, ciascuno con la forma seguente (da FR-020):
@@ -87,3 +103,5 @@ Otto blocchi, uno per KPI, ciascuno con la forma seguente (da FR-020):
 Ogni `valore_pubblicato` di un blocco-KPI in `docs/kpi_measures.md` porta un'ancora che risolve a una chiave di `values` in `reports/kpi_measures.json` (o a `reports/bq3_scenarios.json` per `BQ3-K1`/`BQ3-K2`) — è la proprietà che `scripts/check_audit_coherence.py` verifica meccanicamente dopo l'estensione del blocco C del piano. Nessuna chiave di `values` resta senza un punto del documento che la cita, e nessun valore del documento è scritto a mano: è la stessa relazione biunivoca che l'entità 3 della `007a` aveva dichiarato per i numerali citati come esempio, letta qui al contrario — lì il numero era un input già ancorato da un'altra feature, qui è un risultato che questa feature stessa ancora per la prima volta.
 
 **Il caso che rompe questa corrispondenza**, dichiarato esplicitamente perché non venga scoperto in fase di controllo: le affermazioni derivate (E3's `median_variant_delta`, l'esito booleano di E7, la posizione in graduatoria di `BQ2-K3`) sono ciascuna una chiave propria di `values`, non un numero calcolato a mente nella prosa del documento — regola D5, la stessa che la `002` aveva violato tre volte sotto un esito verde.
+
+**Lo stesso vale per E9, verso l'artefatto diverso.** Lo `stato_di_verifica_e9` di ciascun blocco-KPI non ancora a `reports/kpi_measures.json` — che non contiene alcuna lettura del motore — ma a `reports/kpi_engine_check.json` (Entità 1bis): la lettura, l'esito booleano del confronto e, dove diverge, la differenza sono ciascuno una chiave di quell'artefatto, mai un numero scritto a mano nella prosa di `docs/kpi_measures.md`.
