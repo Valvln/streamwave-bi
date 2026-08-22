@@ -1,6 +1,6 @@
 # Roadmap — StreamWave BI
 
-**Aggiornata**: 2026-08-21 | **Stato**: `006` e `007a` concluse; `007` e `008` scomposte in quattro feature apribili; materializzazione del modello e riscrittura del criterio (`CF-1`) prima della `007b`
+**Aggiornata**: 2026-08-21 (sera) | **Stato**: `006` e `007a` concluse; criterio di mood alla versione 2 e `CF-1`/`CF-2` chiusi; modello materializzato tranne `R3`; `007b` apribile appena `R3` è chiusa
 
 Questo documento è il piano di lavoro del progetto: cosa resta da fare, in quale ordine, con quale stima e con quali dipendenze. È versionato perché la pianificazione — e soprattutto il suo scostamento dalla realtà — fa parte dell'artefatto da portfolio quanto i risultati.
 
@@ -33,7 +33,7 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `009` | Porting Tableau Public | 5 | 007b | ⬜ *stretch, primo a cadere* |
 | `010` | Case Study & Portfolio Integration | 6 | 008b | ⬜ |
 
-**Totale residuo escluso `009`**: ~20 ore di feature, più ~2,5 ore di debito testuale, ~2 ore di debito della `006` e ~2 ore di altri chore — **~26,5 ore**. Erano ~30 prima della chiusura della `007a`, che esce per intero senza lasciare voci nuove di lavoro: i suoi due rilievi rinviati sono issue su GitHub, non ore di piano.
+**Totale residuo escluso `009`**: ~20 ore di feature, più ~2,7 ore di debito testuale e ~0,5 ore per chiudere `R3` sul modello materializzato — **~23 ore**. Il debito della `006` è chiuso. Erano ~30 prima della chiusura della `007a`, che esce per intero senza lasciare voci nuove di lavoro: i suoi due rilievi rinviati sono issue su GitHub, non ore di piano.
 
 Le stime di `004`, `006`, `007` e `010` includono la **revisione in contesto pulito e la chiusura dei rilievi** — circa un'ora ciascuna. Era il rischio aperto lasciato dalla 002, dove quel costo era stato l'intero scostamento; è chiuso incorporandolo invece che continuando a scoprirlo a consuntivo. La conseguenza è che `007` sale a 8 ore e raggiunge `008` fra le feature che vanno scomposte prima di essere aperte, non dopo.
 
@@ -206,8 +206,8 @@ Ciò che `007` contiene davvero non sono otto formule: sono **sette decisioni an
 | Chore | Ore | Entro |
 |---|---|---|
 | ~~Ambiente Power BI: VM Windows 11 x64 e installazione di Power BI Desktop~~ | — | ✅ fatto il 2026-08-18: VMware, Windows 11 x64, primo accesso a Power BI Desktop riuscito |
-| **Materializzazione del modello dati in Power BI Desktop** | ~2 | **prima di `007b`** — vedi sotto |
-| **Riscrittura del criterio di mood per `CF-1`**, ed **eventuale** versione 2 della tabella | ~2 | **prima di `007b`** — vedi [Debito della feature 006](#debito-della-feature-006) e la [ricognizione del 21 agosto](#la-ricognizione-su-cf-1--regia-2026-08-21) |
+| Materializzazione del modello dati in Power BI Desktop | ~1,5 spese | 🟡 **eseguita il 2026-08-21, tranne `R3`** — resta ~0,5 h, vedi [l'esito](#la-materializzazione--esito-del-2026-08-21) |
+| ~~Riscrittura del criterio di mood per `CF-1`, ed eventuale versione 2 della tabella~~ | ~2 | ✅ **fatta il 2026-08-21**, chore `criterio-mood-cf1`: criterio v2, `CF-1` e `CF-2` chiusi, **tabella alla versione 2** |
 | Debito testuale della 001: rilievi R9, R10, R12 e allineamento di §3 a R11 | ~1 | prima di `007b` |
 | Debito testuale della 002: divergenza 3, allineare §5 del documento di audit a citare D3 della 001 e A2/A3 del business case | ~0,5 | ⬜ **spostato a prima di `010`** il 2026-08-21, vedi [la sequenza](#la-sequenza-fino-a-007b--decisione-della-regia-2026-08-21) |
 | Debito testuale della 002: portare `docs/data_audit.md` sotto la severità stretta, rimarcandone le quantità | ~1 | ⬜ **spostato a prima di `010`** il 2026-08-21, nella stessa sessione della riga sopra |
@@ -375,9 +375,9 @@ La [revisione in contesto pulito](../specs/006-content-taxonomy-bridge/review.md
 
 | Voce | Contenuto | Chiusa da |
 |---|---|---|
-| **`CF-1` — il criterio si contraddice** | criterio §2 impone alle etichette generiche, geografiche e linguistiche di restare centrali su tutti gli assi; criterio §5 attribuisce a ogni formato episodico a durata fissa una cadenza più alta. Cinque etichette cadono sotto entrambe le regole | ⬜ **chore di ~1,5 ore prima di `007b`**, vedi sotto |
-| frase ritirata dal documento e conservata dal criterio | criterio §7 dice «questo è l'unico strato interpretativo del progetto», che è l'affermazione che il rilievo `R4.1` ha fatto ritirare da §0 del documento pubblicato | ⬜ si corregge nella stessa riscrittura, per la ragione dichiarata nel blocco di chiusura del verbale |
-| `CF-2` — nessuna regola per le etichette di pubblico | il criterio non dice come si assegna a `Children & Family Movies` e `Kids' TV`, che ricevono positività molto alta per due vie diverse | ⬜ da valutare nella stessa riscrittura |
+| **`CF-1` — il criterio si contraddice** | criterio §2 impone alle etichette generiche, geografiche e linguistiche di restare centrali su tutti gli assi; criterio §5 attribuisce a ogni formato episodico a durata fissa una cadenza più alta. Cinque etichette cadono sotto entrambe le regole | ✅ **chiuso il 2026-08-21** dal chore `criterio-mood-cf1`: criterio v2, nota in loco a §2 e §5, **prevale il tipo che porta segnale**. Le cinque celle salgono da 0,50 a 0,55 sull'asse del ritmo, tabella alla **versione 2** |
+| frase ritirata dal documento e conservata dal criterio | criterio §7 dice «questo è l'unico strato interpretativo del progetto», che è l'affermazione che il rilievo `R4.1` ha fatto ritirare da §0 del documento pubblicato | ⬜ **non chiusa** dal chore, che pure doveva prenderla: la frase è ancora in §7 del criterio. Passa al debito testuale, ~0,2 h |
+| `CF-2` — nessuna regola per le etichette di pubblico | il criterio non dice come si assegna a `Children & Family Movies` e `Kids' TV`, che ricevono positività molto alta per due vie diverse | ✅ **chiuso il 2026-08-21**, e più largamente di come era registrato: i tipi di §2 non sono esaustivi, e la nota ne aggiunge tre — pubblico, epoca o ricezione, modo di produzione o tema — con la regola di default (centrali per assenza di segnale) e le due eccezioni |
 | `CF-3` — griglia implicita a 19 livelli | tutti i 126 valori della proposta sono multipli di 0,05, granularità che il criterio non chiede e non vieta | ⬜ dichiarato, non necessariamente correggibile |
 | il criterio è scritto da chi pubblica la tabella | un metro scritto da chi verrà misurato; contestabile e in un file, ma non indipendente | ⬜ dichiarato in §7, non chiudibile dentro il progetto |
 | nessuna verifica del merito | che i profili siano *quelli giusti* non è stato testato: servirebbe un secondo giudice indipendente dal criterio, che questo progetto non ha | ⬜ dichiarato, non chiudibile qui |
@@ -400,13 +400,34 @@ Prima di consegnare il chore la regia ha aperto la tabella congelata, e **`CF-1`
 
 **Un ritrovamento puntuale, dalla stessa ricognizione.** `Teen TV Shows` sta a 0,50 su tutti e tre gli assi. È episodica a durata fissa e non è generica, geografica né linguistica: è **esattamente il caso** in cui la verifica ha mosso `Anime Series` e `Classic & Cult TV`, con la motivazione che ha scritto due volte. Applicando quella stessa motivazione, la cella andava mossa e non lo è stata. È un errore di copertura della verifica, non una decisione — e se il chore lo chiude, `MOOD.review.changes_count` passa da 2 a 3 e la frase che lo commenta in §3 del documento del ponte va rivista con esso.
 
+**Esito, la sera del 2026-08-21.** Il chore ha eseguito i quattro passi. Il subagent isolato ha ricevuto il solo criterio e ha risposto che i tre tipi di §2 non sono né esaustivi né esclusivi; la regola scritta in nota è che **fra un tipo che porta segnale e uno che non ne porta prevale il primo**, perché l'assenza di segnale non ha nulla da opporre a un segnale reale. Le cinque celle di `CF-1` si muovono quindi da 0,50 a 0,55 sull'asse del ritmo, `Teen TV Shows` con esse ma per causa diversa — e il `changelog` della tabella lo tiene fuori dall'elenco di `CF-1` dichiarando perché. La tabella è alla **versione 2**, `MOOD.review.changes_count` a 3, e una seconda verifica isolata ha controllato le sei celle contro il criterio v2 confermandone la direzione e dichiarando che **il criterio autorizza la direzione, non la cifra**: 0,55 resta un'assegnazione dell'analista dentro il verso consentito.
+
+**La previsione della ricognizione era sbagliata sul merito, e va detto.** Avevo scritto che la risoluzione economica — §2 prevale, nulla si muove — era la trappola da cui guardarsi. La decisione presa al buio è andata nella direzione opposta, e sei celle si sono mosse. La cautela procedurale era giusta e l'esito che temeva non si è verificato: è il caso in cui un presidio funziona e non si vede, ed è l'unica forma in cui si possa osservarlo.
+
+### La materializzazione — esito del 2026-08-21
+
+Il modello è stato caricato in Power BI Desktop. Tutto ha retto tranne **`R3`**, `dim_category[category]` → `dim_category_mood[category]`, che il motore rifiuta di tracciare uno a uno: «la colonna selezionata non può essere la colonna chiave perché contiene valori duplicati».
+
+**Il motore non ha contraddetto il documento.** È la prima cosa da stabilire, perché l'obbligo di riporto del chore fa scattare una nota in loco su `docs/data_model.md` solo in quel caso. Sui dati le due colonne hanno **42 valori distinti ciascuna e differenza simmetrica vuota** — è la stessa verifica che `scripts/check_audit_coherence.py` esegue a ogni giro e che continua a passare. `R3` uno a uno, come `data_model.md` §6 la progetta, è quindi corretta: nessuna delle due colonne contiene duplicati **nella forma che il documento prescrive**.
+
+**Il duplicato viene da come una delle due tabelle è arrivata nel modello**, e i candidati sono due:
+
+- `dim_category` caricata dal ponte senza la derivazione di §13 — «i valori distinti di `category` nel ponte» — che senza il passo di deduplicazione porta **19.323 righe** invece di 42;
+- `dim_category_mood` caricata dal blocco `values` del JSON, che **non è una tabella a 42 righe**: è un elenco lungo di 129 voci, 126 delle quali sono una coppia categoria-asse e 3 non hanno categoria affatto. Letto così, `category` compare tre volte per categoria.
+
+**Il secondo caso è il più probabile, e sotto di esso c'è un vuoto vero.** Nessun documento dice come si passa dal JSON congelato alla tabella che il modello si aspetta. §10 di `data_model.md` dichiara le colonne e la chiave di `dim_category_mood`; §13 elenca tre derivazioni interne al modello e **questa non c'è**; la `006` ha consegnato un artefatto sagomato per essere ancorato, non per essere caricato. È esattamente la classe di ritrovamento per cui il chore esisteva — una cosa che nessun documento poteva scoprire — e non è un difetto di progettazione: è un passaggio mancante fra due artefatti che nessuno dei due possiede.
+
+**Che cosa non si fa stasera.** Non si apre una nota in loco su `docs/data_model.md`: sarebbe la correzione di un'affermazione errata, e l'affermazione non è errata. La decisione — se il passaggio da lungo a largo sia una quarta derivazione di §13, e quindi debito della `005`, oppure una forma di consegna che spetta alla `006` — si prende domani, insieme all'ispezione delle due tabelle nel modello che dice quale dei due candidati sia il caso reale. Fino ad allora resta **~0,5 h** aperte sul chore.
+
 ### La sequenza fino a `007b` — decisione della regia, 2026-08-21
 
 Restano tre voci prima di `007b`, per ~5 ore, di cui ~2 fuori dal percorso critico:
 
-1. **la riscrittura del criterio per `CF-1`** (~2 h), sessione esecutiva;
-2. **la materializzazione del modello** (~2 h), lavoro alla GUI nella VM, **in parallelo** alla precedente;
+1. ~~**la riscrittura del criterio per `CF-1`** (~2 h), sessione esecutiva~~ — ✅ fatta la sera stessa;
+2. ~~**la materializzazione del modello** (~2 h), lavoro alla GUI nella VM, **in parallelo** alla precedente~~ — 🟡 fatta la sera stessa in ~1,5 h, **tranne `R3`**;
 3. **il debito testuale della 001** (~1 h) — R9, R10, R12 e l'allineamento di §3 a R11.
+
+> **Esito della sera del 2026-08-21.** Le due voci sono state eseguite in parallelo come previsto e il parallelismo ha retto: la versione 2 della tabella non ha toccato chiavi né numero di righe, e nessuno dei due lavori ha atteso l'altro. Restano **~1,5 ore** prima di `007b` — la chiusura di `R3` e il debito testuale della `001` — più le due voci di debito che il chore non ha chiuso: la frase di §7 del criterio e la decisione su dove collocare il passaggio da JSON lungo a tabella larga.
 
 **Perché 1 e 2 sono davvero parallele.** Una versione 2 della tabella cambierebbe valori di mood, non chiavi né numero di righe: le 42 categorie restano quelle, `R3` resta uno a uno, e il modello caricato non va rifatto ma aggiornato. L'unica ipotesi che romperebbe il parallelismo è che la riscrittura decida di **togliere righe** — escludere le etichette generiche invece di assegnarle — e in quel caso la materializzazione va ricaricata sulla struttura, non aggiornata. È l'unica cosa che chi materializza deve sapere del chore che gira accanto.
 
@@ -495,9 +516,10 @@ La seconda: «se ne sposta zero non è un successo, è un ritrovamento». Il val
 | 18 agosto | ~2,8 h di sessione | chore ambiente ✅ eseguito; `005` ✅ conclusa, revisione e verbale inclusi |
 | 19 → 20 agosto | ~4 h di sessione | `006` ✅ conclusa, revisione e verbale inclusi |
 | 21 agosto | ~2 h di sessione | `007a` ✅ conclusa, revisione e verbale inclusi |
-| **dal 21 agosto** | giornate piene, ~6 h/giorno | materializzazione e riscrittura del criterio, `007b`, `008a`, `008b`, `010`, più ~6 h di chore e debito |
+| 21 agosto, sera | ~2 h di sessione + ~1,5 h alla GUI | chore `CF-1` ✅ concluso, tabella dei mood alla versione 2; materializzazione 🟡 riuscita tranne `R3` |
+| **dal 22 agosto** | giornate piene, ~6 h/giorno | chiusura di `R3`, `007b`, `008a`, `008b`, `010`, più ~3 h di chore e debito |
 
-Atterraggio stimato: **25-26 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004`, poi 24-25 con la finestra non pianificata del 12-14 agosto, poi 23-24 dopo le chiusure sotto stima di `003` e `004`, poi di nuovo 24-25 con la materializzazione del modello, poi 26-27 il mattino del 21 agosto. Restano **~26,5 ore**, cioè poco più di quattro giorni pieni. Il mezzo punto in più rispetto alla stima del pomeriggio viene dalla [ricognizione su `CF-1`](#la-ricognizione-su-cf-1--regia-2026-08-21), che porta quel chore da ~1,5 a ~2 ore: la decisione va presa senza vedere i valori, e questo costa un passaggio che la stima non prevedeva.
+Atterraggio stimato: **25-26 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004`, poi 24-25 con la finestra non pianificata del 12-14 agosto, poi 23-24 dopo le chiusure sotto stima di `003` e `004`, poi di nuovo 24-25 con la materializzazione del modello, poi 26-27 il mattino del 21 agosto. Restano **~23 ore**, cioè poco meno di quattro giorni pieni. Il 21 agosto ha visto chiudere una feature e un chore e quasi tutto un secondo: ~5,5 ore di lavoro registrato, la giornata più densa del progetto dopo la `001`.
 
 **Il movimento del 21 agosto, in due tempi.** Al mattino la data era scivolata a 26-27 per la ragione scritta qui sotto; in giornata la `007a` ha chiuso in ~2 ore contro 4 e ha riportato l'atterraggio a **25-26**, dentro la scadenza dell'abbonamento. Non basta a riaprire la pubblicazione di prova, che resta caduta: quella dipende da `008a`, che è ancora due feature più avanti.
 
