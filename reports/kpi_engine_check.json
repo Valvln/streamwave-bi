@@ -1,0 +1,35 @@
+{
+  "catalogs": {
+    "engine_check_measures": [
+      "music_adjacent_catalog_share",
+      "format_duration_gap",
+      "mood_profile_overlap",
+      "segment_demand_index",
+      "segment_catalog_affinity",
+      "segment_entry_priority",
+      "premium_tier_adoption_rate",
+      "arpu_uplift"
+    ],
+    "engine_check_verified": []
+  },
+  "conventions": {
+    "engine_check_nature": "Artefatto versionato e curato a mano, mai scritto ne' riscritto da alcuno script. Congela l'esito del confronto E9: le letture del motore DAX di Power BI Desktop sulle otto misure di docs/kpi_measures.md, la data della lettura, il riferimento allo stato del .pbix da cui provengono, l'esito del confronto con reports/kpi_measures.json e, dove diverge, la differenza. Esiste sul precedente di data/benchmarks/bq3_tier_upgrade.json e per la stessa ragione: il passaggio che lo alimenta -- una persona che legge un numero a schermo -- non e' uno script e non puo' esserlo (principio V), ma resta un'osservazione, e un'osservazione senza un artefatto che la congeli non ha alcuna ancora.",
+    "engine_check_status": "In corso. Le otto misure sono state trascritte in docs/kpi_measures.md e l'artefatto esiste con il proprio catalogo, ma nessuna lettura del motore e' ancora stata registrata: engine_check_verified e' vuoto e ENGINE.check.measures_verified vale zero. Nessuna sezione di docs/kpi_measures.md dichiara «verificato contro il motore reale» finche' questo blocco non dice altro. Dichiarare lo stato qui, invece di lasciare l'artefatto assente, e' cio' che rende la mancata verifica un fatto leggibile invece che un silenzio.",
+    "engine_check_comparison_rule": "Due valori si dicono coincidenti se la lettura del motore, arrotondata alla precisione di pubblicazione della propria unita' di misura secondo la convenzione kpi_rounding di reports/kpi_measures.json, e' identica al valore pubblicato. Un motore che restituisse piu' cifre non costituisce divergenza: la precisione di pubblicazione e' dichiarata, e confrontare sotto di essa confronterebbe due arrotondamenti invece di due misure. Ogni altra differenza e' una divergenza e va dichiarata con entrambi i numeri."
+  },
+  "schema_version": 1,
+  "values": {
+    "ENGINE.check.measures_total": {
+      "display": "8",
+      "label": "misure da confrontare contro il motore reale",
+      "unit": "conteggio",
+      "value": "8"
+    },
+    "ENGINE.check.measures_verified": {
+      "display": "0",
+      "label": "misure per cui la lettura del motore e' stata registrata in questo artefatto",
+      "unit": "conteggio",
+      "value": "0"
+    }
+  }
+}
