@@ -34,7 +34,7 @@ Cinque decisioni nuove, più la chiusura verificata di un'assunzione lasciata ap
 
 **La ragione**: (a) non è riproducibile da chi clona il repository — dipende da un'esecuzione manuale su una macchina specifica, e un valore che nessuno script rigenera è un debito per principio I; (c) contraddirebbe la sequenza già decisa dalla regia, che dichiara `007b` apribile ora. (b) è l'unica opzione compatibile con un repository verificabile da fuori: il numero che il documento pubblica è quello che chiunque, eseguendo lo stesso comando sugli stessi file versionati, ottiene di nuovo.
 
-**Il limite che la scelta introduce, dichiarato e non nascosto**: lo script applica gli operatori a `data/processed/*.csv`, che sono gli stessi file da cui il modello Power BI legge — non è un ricalcolo su dati diversi. Ma lo script **non è** il motore DAX: una differenza di comportamento fra come Power BI valuta una misura (contesto di filtro, propagazione delle relazioni) e come questo script itera sulle stesse righe è un rischio residuo che nessuna delle due parti elimina da sola. È la ragione per cui ogni valore di questo documento dichiara «calcolato da `scripts/build_kpi_measures.py`, non ancora verificato contro il motore Power BI reale» accanto alla propria ancora, e non semplicemente il numero.
+**Il limite che la scelta introduce, dichiarato e non nascosto**: lo script applica gli operatori a `data/processed/*.csv`, che sono gli stessi file da cui il modello Power BI legge — non è un ricalcolo su dati diversi. Ma lo script **non è** il motore DAX: una differenza di comportamento fra come Power BI valuta una misura (contesto di filtro, propagazione delle relazioni) e come questo script itera sulle stesse righe è un rischio residuo che nessuna delle due parti elimina da sola. Finché quel rischio resta solo dichiarato, ogni valore di questo documento porta «calcolato da `scripts/build_kpi_measures.py`, non ancora verificato contro il motore Power BI reale» accanto alla propria ancora — ma questa feature non si ferma alla dichiarazione: **E9** chiude il rischio eseguendo il confronto, non limitandosi a scriverlo come limite permanente.
 
 ---
 
@@ -127,13 +127,34 @@ Cinque decisioni nuove, più la chiusura verificata di un'assunzione lasciata ap
 
 ---
 
+### E9 — Verifica contro il motore reale, eseguita da Valerio prima del merge
+
+**Il contesto**: revisione della regia sulla prima versione di questa spec, 2026-08-22. La prima versione relegava il confronto fra il DAX trascritto e il motore Power BI reale a un limite dichiarato e permanente — «questa feature non ha accesso a quel motore» — e ne assegnava l'eventuale verifica alla `008a`. La regia corregge: il `.pbix` è già aperto, le misure sono otto, e il confronto costa incollare il DAX e leggere un numero. Rinviarlo significa scoprire alla `008a` un difetto che questa feature poteva trovare da sé, nel momento in cui trovarlo costa meno.
+
+**Nota di perimetro, dalla stessa revisione**: eseguire il DAX nella GUI di Power BI Desktop non viola il principio V. Il principio colloca **l'interazione con la GUI fuori dall'automazione** — nessuno script di questa feature apre Power BI o vi scrive dentro — non fuori dal perimetro del progetto. È la stessa distinzione già applicata alla materializzazione del modello (`docs/roadmap.md`): un chore fatto a mano da Valerio, dentro il progetto, mai da uno script.
+
+**Il passo**: Valerio, nel `.pbix` già materializzato, incolla il testo DAX trascritto in `docs/kpi_measures.md` per ciascuna delle otto misure, legge i valori che il motore restituisce, e li confronta con quelli pubblicati in `reports/kpi_measures.json`.
+
+**I due esiti, entrambi dichiarati in anticipo**:
+
+- **Coincidono**: il documento non pubblica più «valori calcolati da uno script, non ancora verificati contro il motore» — pubblica **valori verificati contro il motore reale**, che è una categoria diversa e più forte. Il limite dichiarato in E1 («una differenza di comportamento fra script e motore è un rischio residuo») si chiude per tutte e otto le misure, e il documento lo dichiara esplicitamente invece di lasciare il limite scritto come se fosse ancora aperto.
+- **Non coincidono, su almeno una misura**: è il ritrovamento più importante che questa feature possa produrre — una differenza fra la regola scritta (`docs/kpi_operators.md`) e il comportamento del motore che la esegue davvero, o un errore nello script che nessuna lettura del codice aveva colto. Si dichiara con nota in loco sul valore in `docs/kpi_measures.md` (numero dello script, numero del motore, causa se identificabile) e si registra nel blocco di chiusura riportato prima del merge. Non si sceglie in silenzio quale dei due numeri pubblicare.
+
+**Perché questo passo non è automatizzabile e resta comunque dentro questa feature**: nessuno script di questo repository può aprire Power BI Desktop, incollare del testo in una GUI o leggere un valore a schermo — è esattamente il confine del principio V. Ma il passo stesso — Valerio che lo esegue a mano, una volta, su otto misure già scritte — è lavoro della `007b`, non della `008a`: la `008a` costruisce pagine e navigazione sul `.pbix`, non verifica se i numeri del `.pbix` sono corretti.
+
+**Dove vive l'esito**: `docs/kpi_measures.md` dichiara, per ciascuna misura, se il valore è «verificato contro il motore» o, in caso di divergenza non ancora risolta, «calcolato da script, verifica contro il motore in corso» — mai il secondo stato in silenzio quando il primo è già disponibile. Il riporto finale di questa feature (prima del merge) include l'esito del confronto misura per misura.
+
+---
+
 ## Rapporto con le feature vicine
 
 **Questa feature eredita senza riaprire**: le nove decisioni di `docs/kpi_operators.md` (D1-D9) restano quelle della `007a` — nessun operatore viene ridiscusso, solo eseguito. Le quattro derivazioni interne di `docs/data_model.md` §13 (incluso il passaggio da lungo a largo di `dim_category_mood`, con lo scarto dell'identificativo di riga che indicizza il blocco `values`, senza il quale il pivot non collassa a 42 righe) sono applicate dallo script esattamente come descritte, non ridiscusse.
 
 **Questa feature non tocca**: `docs/roadmap.md` (regia), `data/raw/` (sola lettura, principio II), Tableau (`009`), pagine/layout/navigazione (`008a`), narrazione e limiti a schermo (`008b`).
 
-**Questa feature lascia a valle**: la verifica del testo DAX contro un'esecuzione reale in Power BI Desktop (materiale della `008a`, quando il `.pbix` diventa il deliverable dichiarato), e la presentazione dei 114 valori per segmento in una forma leggibile a colpo d'occhio (`docs/kpi_operators.md` §7.3 lo dichiara già «un problema della dashboard, non di questo operatore»).
+**Questa feature include, e non lascia a valle**: la verifica del testo DAX contro un'esecuzione reale in Power BI Desktop, eseguita a mano da Valerio nel `.pbix` già materializzato, prima del merge (E9). Non è un'interazione automatizzata con la GUI — nessuno script la esegue — quindi resta dentro il confine del principio V, ed è dentro il perimetro di questa feature perché il costo di trovare ora una divergenza fra script e motore è più basso di scoprirla alla `008a`.
+
+**Questa feature lascia a valle**: la presentazione dei 114 valori per segmento in una forma leggibile a colpo d'occhio (`docs/kpi_operators.md` §7.3 lo dichiara già «un problema della dashboard, non di questo operatore»).
 
 ---
 
@@ -147,26 +168,26 @@ Cinque decisioni nuove, più la chiusura verificata di un'assunzione lasciata ap
 | **Modificare `docs/roadmap.md`** | appartiene alla regia, per qualunque ragione | regia |
 | **Toccare `data/raw/`** | sola lettura per principio II, non versionata | nessuno, mai da script |
 | **Riaprire le nove decisioni di `docs/kpi_operators.md` (D1-D9)** | già chiuse e revisionate dalla `007a` | `007a`, conclusa |
-| **Verificare il DAX trascritto contro un'esecuzione reale in Power BI Desktop** | interazione con la GUI, fuori dal confine dell'automazione (principio V) | Valerio, quando apre il `.pbix`; eventuale ritrovamento per `008a` |
+| **Automatizzare l'apertura di Power BI Desktop o la scrittura nel `.pbix`** | interazione con la GUI, fuori dal confine dell'automazione (principio V) — la verifica manuale di E9 resta invece dentro perimetro | nessuno, mai da script |
 
 ---
 
 ## User Scenarios & Testing *(mandatory)*
 
-Gli attori sono due: **chi scrive** questo documento e lo script (la sessione della `007b`) e **chi lo eredita** — Valerio, che verificherà i numeri contro Power BI Desktop quando il `.pbix` sarà il deliverable dichiarato (`008a`), e chiunque cloni il repository e voglia rigenerare ogni valore senza una licenza Power BI.
+Gli attori sono due: **chi scrive** questo documento e lo script (la sessione della `007b`) e **chi lo eredita** — Valerio, che incolla il DAX trascritto nel `.pbix` già materializzato e verifica i numeri contro il motore reale prima del merge (E9), e chiunque cloni il repository e voglia rigenerare ogni valore senza una licenza Power BI.
 
-### User Story 1 — Chiunque cloni il repository rigenera tutti gli 8 valori con un comando (Priority: P1)
+### User Story 1 — La pipeline intera, non solo lo script, rigenera tutti gli 8 valori in modo riproducibile (Priority: P1)
 
-Chi clona il repository, senza token Kaggle e senza Power BI Desktop, esegue `python3 scripts/build_kpi_measures.py` e ottiene `reports/kpi_measures.json` con lo stesso contenuto, byte per byte, di quello versionato.
+`data/processed/` non è versionato (`.gitignore`, fuori dal principio II): chi verifica la riproducibilità non può fermarsi a rieseguire `scripts/build_kpi_measures.py` da solo, perché il suo input non è nel repository. La prova che conta parte da `data/raw/` — ottenuto con `scripts/download_data.sh` e un token Kaggle, come dichiarato in `CLAUDE.md` — e attraversa `scripts/build_datasets.py` (già verificato deterministico: nessuna lettura dell'orologio, nessun generatore casuale) prima di arrivare a `scripts/build_kpi_measures.py`.
 
-**Why this priority**: è la proprietà che rende questa feature compatibile con un repository da portfolio letto da esterni — un numero che dipende da un'esecuzione manuale non riproducibile è un debito verso il principio I fin dal primo giorno.
+**Why this priority**: è la proprietà che rende questa feature compatibile con un repository da portfolio letto da esterni — un numero che dipende da un'esecuzione manuale non riproducibile è un debito verso il principio I fin dal primo giorno. Rivendicare la riproducibilità e verificarla solo su metà della catena (lo script nuovo, non la rigenerazione del suo input) sarebbe la stessa classe di scorciatoia che questa feature esiste per non prendere.
 
-**Independent Test**: si esegue lo script due volte di seguito; il diff fra le due esecuzioni è vuoto.
+**Independent Test**: si rigenera `data/processed/` da `data/raw/` con `python3 scripts/build_datasets.py`, poi si esegue `python3 scripts/build_kpi_measures.py`; l'artefatto prodotto coincide con quello committato. Ripetere l'intera catena una seconda volta produce lo stesso risultato.
 
 **Acceptance Scenarios**:
 
-1. **Given** una copia pulita del repository con `data/processed/` e `data/curated/` presenti, **When** si esegue `python3 scripts/build_kpi_measures.py`, **Then** lo script termina con successo e produce `reports/kpi_measures.json`.
-2. **Given** l'artefatto prodotto, **When** lo si confronta con quello committato, **Then** coincide.
+1. **Given** `data/raw/` presente (scaricato una volta con token Kaggle), **When** si esegue `python3 scripts/build_datasets.py` seguito da `python3 scripts/build_kpi_measures.py`, **Then** entrambi terminano con successo e `reports/kpi_measures.json` viene prodotto.
+2. **Given** l'artefatto prodotto dalla catena completa, **When** lo si confronta con quello committato, **Then** coincide byte per byte.
 
 ---
 
@@ -218,7 +239,7 @@ Chi legge `docs/kpi_operators.md` dopo questa feature trova §12 senza vincoli a
 
 ### User Story 5 — Il documento e l'artefatto sono verificabili meccanicamente (Priority: P2)
 
-Chi esegue `python3 scripts/check_audit_coherence.py` dopo questa feature trova `docs/kpi_measures.md` come settimo documento in severità stretta e `reports/kpi_measures.json` come quinto artefatto nello spazio dei nomi unito, ed entrambi i controlli passano.
+Chi esegue `python3 scripts/check_audit_coherence.py` dopo questa feature trova `docs/kpi_measures.md` come settimo documento verificato — sesto in severità stretta, dato che `docs/data_audit.md` resta ad avvisi — e `reports/kpi_measures.json` come quinto artefatto nello spazio dei nomi unito, ed entrambi i controlli passano.
 
 **Why this priority**: è il presidio meccanico che rende il documento coerente con il resto del progetto, ed è la condizione esplicita di successo dichiarata dal prompt di consegna.
 
@@ -242,6 +263,22 @@ Chi legge `business_case.md` §3 mentre `docs/kpi_measures.md` pubblica per la p
 **Acceptance Scenarios**:
 
 1. **Given** `business_case.md` §3, **When** lo si legge dopo questa feature, **Then** il testo originale non è stato cancellato né riscritto, e la nota in loco è immediatamente accanto al passaggio che corregge.
+
+---
+
+### User Story 7 — Ogni valore pubblicato dichiara se è stato verificato contro il motore reale, non solo calcolato da script (Priority: P1)
+
+Prima del merge, Valerio incolla il DAX trascritto per ciascuna delle otto misure nel `.pbix` già materializzato, legge i valori restituiti dal motore, e li confronta con `reports/kpi_measures.json` (E9). `docs/kpi_measures.md` dichiara l'esito per ciascuna misura.
+
+**Why this priority**: è la correzione più importante della revisione di regia sulla prima versione di questa spec — un valore verificato contro il motore reale è una categoria diversa, e più forte, di un valore calcolato da uno script che replica le stesse regole. Rinviare questo confronto alla `008a` sposterebbe a valle il ritrovamento più rilevante che questa feature possa produrre, nel momento in cui costerebbe di più risolverlo.
+
+**Independent Test**: si apre `docs/kpi_measures.md` dopo il merge; ciascuna delle otto misure dichiara esplicitamente «verificato contro il motore» oppure, in caso di divergenza, la nota in loco con i due numeri e la causa se identificabile.
+
+**Acceptance Scenarios**:
+
+1. **Given** una misura il cui valore letto dal motore coincide con `reports/kpi_measures.json`, **When** si legge la sua sezione in `docs/kpi_measures.md`, **Then** dichiara che il valore è verificato contro il motore reale, non solo calcolato da script.
+2. **Given** una misura il cui valore letto dal motore non coincide, **When** si legge la sua sezione, **Then** porta una nota in loco con entrambi i numeri, dichiarata come il ritrovamento più rilevante della feature, e il blocco di chiusura riportato prima del merge la cita esplicitamente.
+3. **Given** l'intero documento, **When** lo si legge prima che Valerio esegua il confronto, **Then** nessuna misura dichiara di essere «verificata contro il motore» senza che il confronto sia realmente avvenuto — lo stato di default resta «calcolato da script».
 
 ---
 
@@ -306,12 +343,19 @@ Chi legge `business_case.md` §3 mentre `docs/kpi_measures.md` pubblica per la p
 - **FR-027**: Nessun commit MUST essere eseguito di iniziativa dalla sessione esecutiva. Messaggio e contenuto si propongono; decide Valerio. Vale per `add`, `push`, apertura di PR, merge, e per la chiusura delle issue `#7` e `#8` su GitHub.
 - **FR-028**: `docs/roadmap.md` NON DEVE essere modificato da questa feature: appartiene alla regia.
 
+### La verifica contro il motore reale (E9)
+
+- **FR-029**: Prima del merge, Valerio MUST incollare il testo DAX trascritto di ciascuna delle otto misure nel `.pbix` già materializzato, leggere i valori restituiti dal motore e confrontarli con `reports/kpi_measures.json`. Questo passo non MUST essere automatizzato da alcuno script (principio V), ed è comunque dentro il perimetro di questa feature, non della `008a`.
+- **FR-030**: `docs/kpi_measures.md` MUST dichiarare, per ciascuna delle otto misure, l'esito del confronto di FR-029: «verificato contro il motore reale» se i valori coincidono, oppure una nota in loco con entrambi i numeri e la causa (se identificabile) se divergono. Nessuna misura MUST dichiararsi verificata prima che il confronto sia realmente avvenuto.
+- **FR-031**: Una divergenza trovata da FR-029 su almeno una misura MUST essere riportata nel blocco di chiusura della feature, prima del merge, come il ritrovamento di priorità più alta — non assorbita in silenzio né rinviata alla `008a`.
+
 ### Key Entities
 
 - **`scripts/build_kpi_measures.py`**: lo script deterministico che calcola le otto misure applicando gli operatori di `docs/kpi_operators.md` sui dati versionati.
 - **`reports/kpi_measures.json`**: l'artefatto prodotto, schema `values`/`catalogs`/`conventions`/`sources`, quinto nello spazio dei nomi unito del controllo di coerenza.
-- **`docs/kpi_measures.md`**: il documento pubblicato, un valore per ciascuno degli otto KPI (114 righe per segmento per `BQ2-K1`/`BQ2-K2`/`BQ2-K3`, riportate per intero o riassunte con rimando esplicito all'artefatto completo), settimo documento sotto severità stretta.
+- **`docs/kpi_measures.md`**: il documento pubblicato, un valore per ciascuno degli otto KPI (114 righe per segmento per `BQ2-K1`/`BQ2-K2`/`BQ2-K3`, riportate per intero o riassunte con rimando esplicito all'artefatto completo), settimo documento verificato — sesto in severità stretta.
 - **`D10`, `D11`**: le due nuove decisioni aggiunte a `docs/kpi_operators.md` (convenzione di mediana, trattamento della durata degenere).
+- **Verifica contro il motore (E9)**: il confronto, eseguito a mano da Valerio, fra il valore letto dal `.pbix` materializzato per ciascuna misura e il valore corrispondente in `reports/kpi_measures.json`. Cambia lo statuto epistemico del valore pubblicato, da «calcolato da script» a «verificato contro il motore reale», o rivela un ritrovamento.
 
 ---
 
@@ -326,14 +370,17 @@ Chi legge `business_case.md` §3 mentre `docs/kpi_measures.md` pubblica per la p
 - **SC-005**: I tre vincoli di `docs/kpi_operators.md` §12 e le issue `#7`/`#8` sono chiusi, ciascuno con un riferimento verificabile a dove la chiusura vive.
 - **SC-006**: `specs/007b-kpi-measures/review.md` esiste, è committato prima di qualunque correzione a `docs/kpi_measures.md`, e il suo blocco di chiusura distingue risolto/indebolito/rinviato per ogni rilievo.
 - **SC-007**: `README.md` non presenta alcun disallineamento con lo stato della feature (tabella di stato, deliverable, conteggio documenti, `Setup`, `Struttura`).
+- **SC-008**: Ciascuna delle otto misure dichiara in `docs/kpi_measures.md` l'esito del confronto con il motore reale (E9) prima del merge — verificata, o divergente con nota in loco e ritrovamento riportato.
 
-Sette criteri, verificabili sul prodotto da chi riceve il repository senza sapere come è stato costruito. La stima di 5 ore, revisione inclusa, è un vincolo di processo del principio III e non compare fra loro.
+Otto criteri, verificabili sul prodotto da chi riceve il repository senza sapere come è stato costruito. La stima di 5 ore, revisione inclusa, è un vincolo di processo del principio III e non compare fra loro.
 
 ---
 
 ## Stima e scomposizione
 
-**5 ore**, dichiarate nel prompt di consegna, revisione e chiusura dei rilievi incluse. Se dopo `/speckit.tasks` la scomposizione dei task rivela un lavoro sostanzialmente più grande — in particolare se il confronto di E7 rivela una divergenza che richiede di riaprire l'operatore di `BQ1-K1` invece di limitarsi a dichiararla — la sessione esecutiva si ferma al secondo punto di stop e lo riporta, invece di comprimere la verifica per restare dentro la stima.
+**5 ore** di sessione esecutiva, dichiarate nel prompt di consegna, revisione e chiusura dei rilievi incluse. Il tempo che Valerio spende sul passo manuale di E9 — incollare otto misure DAX in un `.pbix` già aperto e leggere i valori — è lavoro alla GUI, non della sessione, sullo stesso trattamento riservato alla materializzazione del modello: non entra nella stima di 5 ore e non la fa slittare.
+
+Se dopo `/speckit.tasks` la scomposizione dei task rivela un lavoro sostanzialmente più grande — in particolare se il confronto di E7 rivela una divergenza che richiede di riaprire l'operatore di `BQ1-K1` invece di limitarsi a dichiararla, o se E9 rivela una divergenza fra script e motore che richiede di correggere lo script — la sessione esecutiva si ferma al secondo punto di stop e lo riporta, invece di comprimere la verifica per restare dentro la stima.
 
 Questa spec non propone una scomposizione in più feature: le otto misure condividono lo stesso script e lo stesso documento, e separarle moltiplicherebbe la revisione senza ridurre il lavoro — la `007a` aveva già osservato lo stesso argomento per le nove decisioni interdipendenti.
 
@@ -341,8 +388,8 @@ Questa spec non propone una scomposizione in più feature: le otto misure condiv
 
 ## Assumptions
 
-- **`data/processed/*.csv` è il dato che il modello Power BI materializzato legge**, verificato per coincidenza di conteggio riga con gli anchor di `reports/cleaning_report.json` (8.807 titoli, 19.323 assegnazioni, 89.741 tracce deduplicate, 113.550 coppie traccia-genere). Se il `.pbix` reale leggesse da una copia divergente di questi file, il confronto fra lo script e il motore reale (fuori dal perimetro di questa feature, vedi E1) lo rivelerebbe.
-- **Il testo DAX trascritto in `docs/kpi_measures.md` è equivalente, non identico byte per byte, al comportamento del motore Power BI Desktop reale.** Questa feature non ha modo di eseguirlo per verificarlo (principio V); un'eventuale divergenza scoperta in `008a` è un ritrovamento da registrare con nota in loco su questo documento, non un difetto di questa feature.
+- **`data/processed/*.csv` è il dato che il modello Power BI materializzato legge**, verificato per coincidenza di conteggio riga con gli anchor di `reports/cleaning_report.json` (8.807 titoli, 19.323 assegnazioni, 89.741 tracce deduplicate, 113.550 coppie traccia-genere). Se il `.pbix` reale leggesse da una copia divergente di questi file, il confronto di E9 fra script e motore lo rivelerebbe.
+- **Il testo DAX trascritto in `docs/kpi_measures.md` è equivalente, non necessariamente identico nella meccanica di valutazione, al comportamento del motore Power BI Desktop reale.** Questa feature non lo assume più senza verifica: E9 esegue il confronto a mano, dentro questa stessa feature e prima del merge, non alla `008a`. Una divergenza trovata è un ritrovamento da registrare con nota in loco su questo documento (FR-030), non un difetto del processo che l'ha trovata.
 - **I sei debiti ereditati non richiedono di riaprire alcuna decisione di `docs/kpi_operators.md` (D1-D9).** Se l'esecuzione di E7 rivelasse una divergenza che invalida l'operatore stesso di `BQ1-K1` (non solo il numero di origine), sarebbe un ritrovamento più ampio della stima di questa feature, e la sessione si fermerebbe a dichiararlo invece di decidere autonomamente come correggerlo.
 - **Il verbale di revisione della `007b` riceve solo `docs/kpi_measures.md`**, non lo script né l'artefatto JSON: è il documento pubblicato, non il codice che lo produce, l'oggetto della revisione in contesto pulito — coerente con il precedente della `007a`, che ha revisionato `docs/kpi_operators.md` e non gli artefatti a monte.
 
@@ -378,9 +425,9 @@ Questa feature non introduce alcuna nuova fonte dati: eredita per intero la clas
 
 ## Limiti Dichiarati *(obbligatoria — Constitution, principio IV)*
 
-- **Non risponde a**: se il testo DAX trascritto produca esattamente lo stesso numero quando eseguito dal motore reale di Power BI Desktop. Questa feature non ha accesso a quel motore (principio V); il numero pubblicato è calcolato da uno script che applica le stesse regole sugli stessi dati, non dal motore stesso.
+- **Non risponde a, fino al passo E9**: se il testo DAX trascritto produca esattamente lo stesso numero quando eseguito dal motore reale di Power BI Desktop. Questa feature esegue quel confronto a mano, dentro il proprio perimetro e prima del merge (FR-029) — non lo lascia indefinito: la domanda resta aperta solo nella finestra fra l'implementazione dello script e l'esecuzione manuale di Valerio, non oltre il merge.
 - **Non risponde a**: se le nove decisioni di `docs/kpi_operators.md` (D1-D9) o le due nuove di questa feature (D10-D11) siano le uniche difendibili — eredita quel limite dalla `007a` senza aggiungerne di analoghi propri, tranne dove questa feature stessa argomenta una scelta nuova (E2-E5), per cui vale la stessa riserva.
-- **Inferenza da evitare — un valore calcolato da questa feature non è un valore verificato contro il motore reale.** Riduce l'arbitrarietà residua che restava dopo `docs/kpi_operators.md` (una formula ben definita eseguita male produce comunque un numero sbagliato), ma non elimina il rischio di una divergenza di comportamento fra lo script e Power BI — vedi E1 e Assumptions.
+- **Inferenza da evitare — un valore calcolato da questa feature non è, di per sé, un valore verificato contro il motore reale.** Riduce l'arbitrarietà residua che restava dopo `docs/kpi_operators.md` (una formula ben definita eseguita male produce comunque un numero sbagliato), ma il salto di categoria — da «calcolato da script» a «verificato contro il motore» — avviene solo con E9, non per il solo fatto che lo script applichi correttamente le regole.
 - **Inferenza da evitare — `mood_profile_overlap` resta una stima per eccesso della sovrapposizione reale** (D1 della `007a`, ereditato senza modifiche): il valore pubblicato sovrastima quanto un inviluppo convesso stimerebbe, per la ragione già dichiarata in `docs/kpi_operators.md` §4.
 - **Inferenza da evitare — la grandezza assoluta di `segment_catalog_affinity` non è confrontabile con una distanza osservata altrove** (D2 della `007a`, ereditato): ha senso solo relativamente ad altri segmenti calcolati con la stessa formula.
 - **Copertura del dato**: eredita per intero i limiti già dichiarati da `docs/business_case.md` (A1-A6), `docs/data_model.md` §18 e `docs/kpi_operators.md` §12 — cataloghi proxy, non StreamWave; copertura ferma al 2021 (video) e al 2022 (musica, non verificabile); nessun dato comportamentale; nessuna dimensione temporale nel modello. Questa feature non ne introduce di nuovi, perché non tocca alcun dato oltre a quello già modellato.
