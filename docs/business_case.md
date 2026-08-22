@@ -79,6 +79,18 @@ I valori adottati, la citazione puntuale di ciascuno, ciò che la fonte misura d
 >
 > **Confidenza: alta** · valore puntuale
 
+> **Nota in loco — 2026-08-22, feature `007b`** (rilievo `R11` della revisione `001`, assegnato a questa feature dalla decisione di regia del 2026-08-21).
+>
+> **Affermazione precedente**: il contenuto musicale del catalogo video è descritto come «musical, documentari musicali, concerti, film sulla musica» — quattro tipologie.
+>
+> **Che cosa la misura legge davvero**: **una sola etichetta**, la categoria `Music & Musicals` del catalogo video. Non esiste nel dato alcuna distinzione fra le quattro tipologie elencate qui, e nessuna misura del progetto le separa.
+>
+> **Causa della divergenza**: la descrizione è stata scritta prima che il catalogo fosse profilato, e nomina ciò che ci si aspettava di trovare dentro la categoria invece della categoria stessa. Non è un errore di misura: è una glossa che il dato non sostiene.
+>
+> **Conseguenza per chi cita**: la quota pubblicata è quella dei titoli assegnati a quell'unica etichetta. Se la categoria del catalogo di origine non copre una delle quattro tipologie — un concerto classificato altrove, per esempio — quel titolo non entra nel numeratore, e questo progetto non ha modo di accorgersene.
+>
+> **Fonte verificabile**: [`kpi_measures.md`](kpi_measures.md) §2, e l'operatore in [`kpi_operators.md`](kpi_operators.md) §2.1. Il testo originale resta sopra e non viene riscritto.
+
 **Perché questa e non un'altra.** Il criterio di successo dell'iniziativa deve essere una misura di **coerenza strategica**: se il pubblico che StreamWave ha già mostra appetito per il contenuto musicale, l'espansione è un'estensione naturale del catalogo; se non lo mostra, è l'ingresso in un mercato estraneo, con tutti i costi di acquisizione che comporta.
 
 Questa misura ha una proprietà che nessuna alternativa possiede: è **osservata direttamente**. Il catalogo video classifica già i propri titoli, e una delle categorie è dedicata al contenuto musicale. Non serve alcuna mappatura interpretativa tra domini, nessuna assunzione, nessun dato simulato. È l'unica misura del framework che può reggere la confidenza alta ed essere presentata come valore puntuale — e una metrica di riferimento che dovesse essere presentata come intervallo sarebbe un oggetto strano da mettere in cima a una dashboard.
