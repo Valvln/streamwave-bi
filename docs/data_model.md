@@ -408,13 +408,14 @@ Va detto che **la stessa informazione è già derivabile** dal fatto, confrontan
 
 ## 13. Le derivazioni interne al modello
 
-Tre<!--#--> costruzioni che gli insiemi di partenza non forniscono già pronte. Sono derivazioni **interne al modello**, non modifiche alla pipeline: nessuna aggiunge, seleziona o interpreta informazione, e per questo nessuna abbassa la confidenza di ciò che vi poggia.
+Quattro<!--#--> costruzioni che gli insiemi di partenza non forniscono già pronte. Sono derivazioni **interne al modello**, non modifiche alla pipeline: nessuna aggiunge, seleziona o interpreta informazione, e per questo nessuna abbassa la confidenza di ciò che vi poggia.
 
 | Derivazione | Regola |
 |---|---|
 | `dim_category` | i valori distinti di `category` nel ponte |
 | `dim_segment` | i valori distinti di `track_genre` nell'insieme di partenza delle appartenenze, più `is_high_zero_genre` letto dallo stesso |
 | `dim_track.duration_min` | `duration_ms` diviso `60000` |
+| `dim_category_mood` | dal blocco `values` di `data/curated/dim_category_mood.json`, le voci che portano un campo `category` — le altre si escludono nominandole: `MOOD.coverage.rows`, `MOOD.table.version`, `MOOD.review.changes_count` — ruotate da forma lunga a larga: chiave `category`, e `axis` diventato tre<!--#--> colonne, `mood_energy`, `mood_valence`, `mood_danceability` |
 
 **Su `dim_segment`, da dove si legge davvero.** La derivazione lavora sull'**insieme di partenza** — `data/processed/spotify_track_genre.csv` — e non sulla tabella di fatto del modello, che porta quattro<!--#--> colonne fra cui `is_high_zero_genre` non c'è (§10.6). È una distinzione che conta per chi materializza: le derivazioni sono interne al modello nel senso che non modificano la pipeline, non nel senso che leggano soltanto tabelle già caricate.
 
@@ -423,6 +424,10 @@ Tre<!--#--> costruzioni che gli insiemi di partenza non forniscono già pronte. 
 **Su `duration_min`, il divieto di arrotondare.** La conversione è una divisione esatta e non porta alcun arrotondamento a livello di colonna. Arrotondare qui arrotonderebbe **ogni traccia prima della mediana**, che è una decisione statistica presa di nascosto e capace di spostare il risultato. L'arrotondamento è una scelta di presentazione e appartiene a chi scriverà le misure.
 
 **Perché la conversione sta nel modello e non nella misura.** `BQ1-K2` è una differenza fra due<!--#--> mediane espresse in minuti. Se la conversione vivesse dentro la misura, i due<!--#--> lati arriverebbero al confronto per strade diverse — uno letto, l'altro calcolato — e la simmetria del confronto dipenderebbe da come la misura è scritta. Convertire nel modello mette i due<!--#--> lati sulla stessa unità **prima** che qualcuno li confronti.
+
+**Su `dim_category_mood`, il passaggio da lungo a largo — aggiunta il 2026-08-22, chore `derivazione-mood-larga`.** Questa non è una correzione: `§13` non conteneva un'affermazione errata su questa tabella, non conteneva alcuna regola. Il vuoto è stato trovato dalla materializzazione del modello in Power BI Desktop il 2026-08-21 (`docs/roadmap.md`, «La materializzazione — esito del 2026-08-21»): il motore rifiuta di tracciare `R3` uno a uno perché la forma che riceve non è la tabella a 42<!--@MOOD.coverage.rows--> righe che il modello si aspetta, è l'elenco lungo che l'artefatto congelato porta per essere ancorato. Sui dati non c'è alcun difetto — entrambe le colonne di `R3` hanno 42<!--@CL.NF.category.distinct--> valori distinti e differenza simmetrica vuota — manca solo il passaggio dichiarato fra le due<!--#--> forme, e questo documento possiede il modo in cui il modello consuma l'artefatto, non l'artefatto stesso.
+
+**Perché il pivot vive qui e non nel file congelato.** `data/curated/dim_category_mood.json` non si tocca: la forma lunga è quella corretta per un artefatto ancorato voce per voce, dove ogni cella porta il proprio identificativo. Riscriverla in forma larga dentro il file perderebbe quell'ancoraggio; farla vivere come regola del modello, come le altre tre<!--#--> derivazioni di questa sezione, la lascia intatta.
 
 **Il codice di queste derivazioni non è scritto qui.** La constitution ammette Power Query M fra i linguaggi di trasformazione, quindi scriverlo sarebbe legittimo; sarebbe però materializzazione, che questa feature non fa. Questo documento dichiara la regola; chi materializza la applica, e riporta ogni divergenza invece di aggiustarla.
 
