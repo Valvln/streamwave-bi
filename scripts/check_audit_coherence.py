@@ -58,11 +58,18 @@ PROFILE = REPO / "reports" / "data_profile.json"
 CLEANING = REPO / "reports" / "cleaning_report.json"
 SCENARIOS = REPO / "reports" / "bq3_scenarios.json"
 MOOD = REPO / "data" / "curated" / "dim_category_mood.json"
+MEASURES = REPO / "reports" / "kpi_measures.json"
+# Curato a mano e mai scritto da uno script: congela l'esito del confronto E9
+# fra le misure di `docs/kpi_measures.md` e il motore DAX reale. Senza di esso
+# quell'esito non avrebbe alcuna ancora, e sotto severita' stretta il controllo
+# fermerebbe proprio il ramo in cui il confronto trova una divergenza — l'unico
+# in cui la verifica ha qualcosa di nuovo da dire.
+ENGINE_CHECK = REPO / "reports" / "kpi_engine_check.json"
 
 # Gli artefatti da unire, dichiarati **una volta sola**: erano elencati sia qui
 # sia nell'intestazione stampata, e un quarto artefatto aggiunto in un solo
 # punto avrebbe prodotto un controllo che verifica tre cose e ne dichiara due.
-ARTIFACTS = (PROFILE, CLEANING, SCENARIOS, MOOD)
+ARTIFACTS = (PROFILE, CLEANING, SCENARIOS, MOOD, MEASURES, ENGINE_CHECK)
 
 # Le due chiavi che il presidio di tassonomia confronta (D6 della 006). La
 # prima e' l'insieme coperto dalla tabella dei profili di mood, la seconda il
@@ -78,6 +85,7 @@ DOCUMENTS = (
     (REPO / "docs" / "data_model.md", True, "feature 005"),
     (REPO / "docs" / "content_taxonomy_bridge.md", True, "feature 006"),
     (REPO / "docs" / "kpi_operators.md", True, "feature 007a"),
+    (REPO / "docs" / "kpi_measures.md", True, "feature 007b"),
 )
 
 # Grammatica della marcatura (docs/convenzioni-marcatura.md): il marcatore
@@ -111,7 +119,7 @@ STRUCTURAL = re.compile(
     r"""\b(?:
           BQ\d(?:-K\d)?      # sigle KPI del framework 001
         | (?:FR|SC|US|T)-?\d+ # requisiti, criteri, storie, task
-        | [RDFVA]\d+          # rilievi, decisioni, ritrovamenti, inventario, assunzioni
+        | [RDEFVA]\d+        # rilievi, decisioni, esecuzioni, ritrovamenti, inventario, assunzioni
         | 0\d\d               # numeri di feature (001-010)
         | \d{4}-\d{2}-\d{2}   # date
         | v?\d+\.\d+\.\d+     # versioni
