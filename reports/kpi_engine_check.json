@@ -10,15 +10,37 @@
       "premium_tier_adoption_rate",
       "arpu_uplift"
     ],
-    "engine_check_verified": []
+    "engine_check_sampled_segments": [
+      "pop",
+      "jazz",
+      "sleep"
+    ],
+    "engine_check_verified": [
+      "music_adjacent_catalog_share",
+      "format_duration_gap",
+      "mood_profile_overlap",
+      "segment_demand_index",
+      "segment_catalog_affinity",
+      "segment_entry_priority",
+      "premium_tier_adoption_rate",
+      "arpu_uplift"
+    ]
   },
   "conventions": {
     "engine_check_nature": "Artefatto versionato e curato a mano, mai scritto ne' riscritto da alcuno script. Congela l'esito del confronto E9: le letture del motore DAX di Power BI Desktop sulle otto misure di docs/kpi_measures.md, la data della lettura, il riferimento allo stato del .pbix da cui provengono, l'esito del confronto con reports/kpi_measures.json e, dove diverge, la differenza. Esiste sul precedente di data/benchmarks/bq3_tier_upgrade.json e per la stessa ragione: il passaggio che lo alimenta -- una persona che legge un numero a schermo -- non e' uno script e non puo' esserlo (principio V), ma resta un'osservazione, e un'osservazione senza un artefatto che la congeli non ha alcuna ancora.",
-    "engine_check_status": "In corso. Le otto misure sono state trascritte in docs/kpi_measures.md e l'artefatto esiste con il proprio catalogo, ma nessuna lettura del motore e' ancora stata registrata: engine_check_verified e' vuoto e ENGINE.check.measures_verified vale zero. Nessuna sezione di docs/kpi_measures.md dichiara «verificato contro il motore reale» finche' questo blocco non dice altro. Dichiarare lo stato qui, invece di lasciare l'artefatto assente, e' cio' che rende la mancata verifica un fatto leggibile invece che un silenzio.",
-    "engine_check_comparison_rule": "Due valori si dicono coincidenti se la lettura del motore, arrotondata alla precisione di pubblicazione della propria unita' di misura secondo la convenzione kpi_rounding di reports/kpi_measures.json, e' identica al valore pubblicato. Un motore che restituisse piu' cifre non costituisce divergenza: la precisione di pubblicazione e' dichiarata, e confrontare sotto di essa confronterebbe due arrotondamenti invece di due misure. Ogni altra differenza e' una divergenza e va dichiarata con entrambi i numeri."
+    "engine_check_status": "Concluso il 2026-08-22. Le otto misure sono state confrontate e tutte coincidono con reports/kpi_measures.json. Il confronto ha richiesto due passaggi: il primo ha trovato una divergenza di due ordini di grandezza sulle misure che leggono i tre assi di mood, imputabile alla tipizzazione delle colonne nel modello e non alla formula (vedi engine_check_finding); il secondo, dopo la correzione, coincide su ogni voce.",
+    "engine_check_comparison_rule": "Due valori si dicono coincidenti se la lettura del motore, arrotondata alla precisione di pubblicazione della propria unita' di misura secondo la convenzione kpi_rounding di reports/kpi_measures.json, e' identica al valore pubblicato. Un motore che restituisse piu' cifre non costituisce divergenza: la precisione di pubblicazione e' dichiarata, e confrontare sotto di essa confronterebbe due arrotondamenti invece di due misure. Ogni altra differenza e' una divergenza e va dichiarata con entrambi i numeri.",
+    "engine_check_scope": "Il confronto e' **esaustivo** sulle misure scalari -- music_adjacent_catalog_share, format_duration_gap, mood_profile_overlap -- e sulle soglie e i conteggi di BQ2-K3, che restituiscono un valore solo. E' **campionario** sulle tre misure per segmento, che ne restituiscono 114 ciascuna: sono stati letti i segmenti pop, jazz e sleep. La scelta non e' casuale -- pop e' il primo in graduatoria, jazz uno dei sette a mediana nulla, sleep quello di affinita' piu' bassa -- ma tre segmenti su 114 restano tre su 114, e questo artefatto non afferma di piu'. Che le altre 111 righe coincidano non e' verificato ed e' dichiarato come non verificato.",
+    "engine_check_pbix_note": "Il .pbix non e' versionato (principio V) e non esiste quindi un'impronta di contenuto a cui ancorare la lettura. Il riferimento allo stato e' ENGINE.check.pbix_state, che nomina la materializzazione da cui il file proviene e la correzione applicata durante questo confronto. E' un riferimento piu' debole di una sha256, e lo si dichiara invece di lasciarlo credere piu' forte di quanto sia."
   },
   "schema_version": 1,
   "values": {
+    "ENGINE.check.date": {
+      "display": "2026-08-22",
+      "label": "data in cui il confronto contro il motore reale e' stato eseguito",
+      "unit": "data",
+      "value": "2026-08-22"
+    },
     "ENGINE.check.measures_total": {
       "display": "8",
       "label": "misure da confrontare contro il motore reale",
@@ -26,10 +48,118 @@
       "value": "8"
     },
     "ENGINE.check.measures_verified": {
-      "display": "0",
+      "display": "8",
       "label": "misure per cui la lettura del motore e' stata registrata in questo artefatto",
       "unit": "conteggio",
-      "value": "0"
+      "value": "8"
+    },
+    "ENGINE.check.measures_matching": {
+      "display": "8",
+      "label": "misure la cui lettura del motore coincide con il valore pubblicato",
+      "unit": "conteggio",
+      "value": "8"
+    },
+    "ENGINE.check.all_match": {
+      "display": "sì",
+      "label": "tutte le misure confrontate coincidono con reports/kpi_measures.json",
+      "unit": "esito booleano",
+      "value": "true"
+    },
+    "ENGINE.check.sampled_segments_count": {
+      "display": "3",
+      "label": "segmenti letti nel motore per le tre misure per segmento, su 114",
+      "unit": "conteggio",
+      "value": "3"
+    },
+    "ENGINE.check.passes": {
+      "display": "2",
+      "label": "passaggi che il confronto ha richiesto: il primo ha trovato il difetto di tipizzazione, il secondo ha confrontato sul modello corretto",
+      "unit": "conteggio",
+      "value": "2"
+    },
+    "ENGINE.check.pbix_state": {
+      "display": "materializzazione del 2026-08-22, con la tipizzazione a locale corretta sulle colonne di mood di dim_track",
+      "label": "stato del .pbix da cui provengono le letture; il file non e' versionato e non ha un'impronta di contenuto",
+      "unit": "riferimento",
+      "value": "materializzazione del 2026-08-22, con la tipizzazione a locale corretta sulle colonne di mood di dim_track"
+    },
+    "ENGINE.check.finding.axis_locale_typing": {
+      "display": "sì",
+      "label": "il confronto ha trovato, al primo passaggio, un difetto nella tipizzazione delle colonne energy, valence e danceability di dim_track: il punto decimale era interpretato come separatore delle migliaia, e 0.396 valeva 396",
+      "unit": "esito booleano",
+      "value": "true"
+    },
+    "ENGINE.check.finding.affected_measures": {
+      "display": "3",
+      "label": "misure che il difetto di tipizzazione rendeva errate prima della correzione: mood_profile_overlap, segment_catalog_affinity e, per composizione, segment_entry_priority",
+      "unit": "conteggio",
+      "value": "3"
+    },
+    "ENGINE.check.music_adjacent_catalog_share.reading": {
+      "display": "0,0426",
+      "label": "lettura del motore per music_adjacent_catalog_share",
+      "unit": "quota, 0-1",
+      "value": "0.0426"
+    },
+    "ENGINE.check.music_adjacent_catalog_share.matches": {
+      "display": "sì",
+      "label": "la lettura coincide con KPI.BQ1K1.share",
+      "unit": "esito booleano",
+      "value": "true"
+    },
+    "ENGINE.check.format_duration_gap.reading": {
+      "display": "-94,45",
+      "label": "lettura del motore per format_duration_gap",
+      "unit": "minuti",
+      "value": "-94.45"
+    },
+    "ENGINE.check.format_duration_gap.matches": {
+      "display": "sì",
+      "label": "la lettura coincide con KPI.BQ1K2.gap_minutes",
+      "unit": "esito booleano",
+      "value": "true"
+    },
+    "ENGINE.check.mood_profile_overlap.reading": {
+      "display": "0,8450",
+      "label": "lettura del motore per mood_profile_overlap, dopo la correzione della tipizzazione",
+      "unit": "quota, 0-1",
+      "value": "0.8450"
+    },
+    "ENGINE.check.mood_profile_overlap.matches": {
+      "display": "sì",
+      "label": "la lettura coincide con KPI.BQ1K3.overlap_share",
+      "unit": "esito booleano",
+      "value": "true"
+    },
+    "ENGINE.check.segment_demand_index.matches": {
+      "display": "sì",
+      "label": "le letture di segment_demand_index sui tre segmenti campionati coincidono con le voci corrispondenti di KPI.BQ2K1",
+      "unit": "esito booleano",
+      "value": "true"
+    },
+    "ENGINE.check.segment_catalog_affinity.matches": {
+      "display": "sì",
+      "label": "le letture di segment_catalog_affinity sui tre segmenti campionati coincidono con le voci corrispondenti di KPI.BQ2K2, dopo la correzione della tipizzazione",
+      "unit": "esito booleano",
+      "value": "true"
+    },
+    "ENGINE.check.segment_entry_priority.matches": {
+      "display": "sì",
+      "label": "le letture di punteggio, quadrante e posizione sui tre segmenti campionati coincidono con le voci corrispondenti di KPI.BQ2K3, dopo la correzione della tipizzazione",
+      "unit": "esito booleano",
+      "value": "true"
+    },
+    "ENGINE.check.premium_tier_adoption_rate.matches": {
+      "display": "sì",
+      "label": "i tre valori di scenario portati nel modello coincidono con BQ3.adoption.worst/base/best di reports/bq3_scenarios.json; nessuna misura DAX e' stata scritta, perche' non ce n'e' una da scrivere",
+      "unit": "esito booleano",
+      "value": "true"
+    },
+    "ENGINE.check.arpu_uplift.matches": {
+      "display": "sì",
+      "label": "i tre valori di scenario portati nel modello coincidono con BQ3.uplift.worst/base/best di reports/bq3_scenarios.json",
+      "unit": "esito booleano",
+      "value": "true"
     }
   }
 }
