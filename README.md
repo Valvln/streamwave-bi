@@ -37,6 +37,7 @@ Governance: [`constitution`](.specify/memory/constitution.md) v1.2.0 · [metodo 
 | `005` Data Model Design | [`docs/data_model.md`](docs/data_model.md) | ✅ conclusa, [revisionata](specs/005-data-model-design/review.md) |
 | `006` Content Taxonomy Bridge | [`docs/content_taxonomy_bridge.md`](docs/content_taxonomy_bridge.md) · [`docs/mood_assignment_criteria.md`](docs/mood_assignment_criteria.md) · [`data/curated/`](data/curated/) | ✅ conclusa, [revisionata](specs/006-content-taxonomy-bridge/review.md) |
 | `007a` Operatori delle misure | [`docs/kpi_operators.md`](docs/kpi_operators.md) | ✅ conclusa, [revisionata](specs/007a-kpi-operators/review.md) |
+| `007b` Misure dei KPI | [`docs/kpi_measures.md`](docs/kpi_measures.md) · `scripts/build_kpi_measures.py` · [`reports/kpi_measures.json`](reports/kpi_measures.json) · [`reports/kpi_engine_check.json`](reports/kpi_engine_check.json) | ✅ conclusa, [revisionata](specs/007b-kpi-measures/review.md) |
 
 Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](docs/roadmap.md).
 
@@ -56,7 +57,11 @@ Il sesto è **[`docs/content_taxonomy_bridge.md`](docs/content_taxonomy_bridge.m
 
 Il settimo è **[`docs/kpi_operators.md`](docs/kpi_operators.md)**: per ciascuno degli 8 KPI, l'operatore analitico con cui la misura verrà calcolata — formula, grana, tabelle da cui legge, confidenza ereditata, limiti dichiarati — e le nove decisioni analitiche che quelle regole hanno richiesto di prendere, ciascuna con l'opzione scartata e la ragione dello scarto. **Non contiene alcun valore dei KPI**: pubblica la regola, non il numero, e ogni cifra che vi compare è un input già ancorato da una feature precedente. Esiste come feature a sé perché un operatore sbagliato non produce un valore sbagliato — li produce tutti quelli che ne dipendono — e perché una formula scritta dentro una misura è contestabile solo da chi apre lo strumento di reporting, mentre una scritta qui lo è da chiunque legga il repository.
 
-I sei documenti che pubblicano misure — l'audit, il cleaning, gli scenari, il modello, il ponte fra tassonomia e mood e gli operatori — legano ogni numero all'artefatto che lo produce con la stessa grammatica, definita in **[`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md)** e verificata da `scripts/check_audit_coherence.py`. Lo stesso controllo presidia la tassonomia: se le categorie del catalogo video e quelle della tabella dei mood divergessero, **fallisce** invece di avvisare.
+L'ottavo è **[`docs/kpi_measures.md`](docs/kpi_measures.md)**: il valore di ciascuno degli 8 KPI, la formula DAX con cui la misura si scrive nel modello, la provenienza di ogni numero e i limiti che quel numero porta con sé. È il primo documento del progetto in cui una cifra pubblicata è un **risultato** e non un input ereditato da una feature precedente. I valori non sono letti a schermo e ricopiati: li calcola `scripts/build_kpi_measures.py`, uno script deterministico che applica le stesse regole del modello dati e degli operatori sugli stessi dati, perché chi clona il repository senza una licenza Power BI possa comunque rigenerarli.
+
+Che script e motore DAX diano lo stesso numero **non è assunto**: il confronto è stato eseguito a mano sul modello materializzato, e il suo esito è congelato in [`reports/kpi_engine_check.json`](reports/kpi_engine_check.json) — l'unico artefatto del progetto, insieme ai benchmark, che nessuno script scrive. È servito: al primo passaggio tre KPI su otto divergevano di due ordini di grandezza, per una tipizzazione sbagliata delle colonne decimali in fase di caricamento — un difetto che nessun controllo automatico di questo repository poteva vedere, perché il `.pbix` non è un artefatto versionato.
+
+I sette documenti che pubblicano misure — l'audit, il cleaning, gli scenari, il modello, il ponte fra tassonomia e mood, gli operatori e le misure — legano ogni numero all'artefatto che lo produce con la stessa grammatica, definita in **[`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md)** e verificata da `scripts/check_audit_coherence.py`. Lo stesso controllo presidia la tassonomia: se le categorie del catalogo video e quelle della tabella dei mood divergessero, **fallisce** invece di avvisare.
 
 ## Setup
 
@@ -74,12 +79,15 @@ python3 scripts/build_datasets.py
 # 4. Scenari BQ3 dal benchmark congelato (NON richiede i dati raw né rete)
 python3 scripts/build_bq3_scenarios.py
 
-# 5. Coerenza fra i sei documenti pubblicati e i quattro artefatti versionati,
+# 5. Misure degli 8 KPI dai dataset trasformati (richiede data/processed/)
+python3 scripts/build_kpi_measures.py
+
+# 6. Coerenza fra i sette documenti pubblicati e i sei artefatti versionati,
 #    più il presidio sulla tassonomia delle categorie (NON richiede i dati raw)
 python3 scripts/check_audit_coherence.py
 ```
 
-Nessuna dipendenza da installare: gli script usano la sola libreria standard di Python 3. Il passo 5 funziona su una copia del repository priva di `data/raw/`, perché confronta soltanto artefatti versionati — è il modo in cui chi non ha i dati di origine verifica che i numeri dei documenti non siano stati scritti a mano.
+Nessuna dipendenza da installare: gli script usano la sola libreria standard di Python 3. Il passo 6 funziona su una copia del repository priva di `data/raw/`, perché confronta soltanto artefatti versionati — è il modo in cui chi non ha i dati di origine verifica che i numeri dei documenti non siano stati scritti a mano.
 
 **Non esiste un passo che rigeneri i profili di mood**, e non è un'omissione: quei valori sono assegnati, non calcolati, e nessuno script li tocca dopo il congelamento.
 
@@ -92,8 +100,9 @@ Nessuna dipendenza da installare: gli script usano la sola libreria standard di 
 data/           # raw / interim / processed (gitignored) + benchmarks/ e curated/ (versionate: non riproducibili)
 docs/           # i documenti pubblicati: business case, audit, cleaning, scenari, modello dati,
                 #   criterio di mood, ponte tassonomia-mood, operatori delle misure,
-                #   convenzioni, roadmap
-reports/        # artefatti generati e versionati: profilo, rendiconto delle trasformazioni, scenari BQ3
+                #   misure dei KPI, convenzioni, roadmap
+reports/        # artefatti versionati: profilo, rendiconto delle trasformazioni, scenari BQ3 e
+                #   misure dei KPI (generati) + esito del confronto col motore DAX (curato a mano)
 scripts/        # utility riproducibili
 specs/          # una cartella per feature: spec.md, plan.md, tasks.md, review.md
 ```

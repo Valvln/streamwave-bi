@@ -1,6 +1,6 @@
 # Gli operatori delle misure
 
-Con quale regola ciascuno degli otto<!--#--> KPI del [business case](business_case.md) verrà calcolato — formula, grana, tabelle da cui legge, confidenza ereditata, limiti dichiarati — e le nove<!--#--> decisioni analitiche che quelle regole hanno richiesto di prendere.
+Con quale regola ciascuno degli otto<!--#--> KPI del [business case](business_case.md) verrà calcolato — formula, grana, tabelle da cui legge, confidenza ereditata, limiti dichiarati — e le nove<!--#--> decisioni analitiche che quelle regole hanno richiesto di prendere. *(Nota in loco — 2026-08-22, feature `007b`: le decisioni sono ora undici<!--#-->, per l'aggiunta di `D10` e `D11`. Vedi la nota in coda a §10.)*
 
 **Data**: 2026-08-21 · **Feature**: `007a` · **Stato**: concluso, [revisionato in contesto pulito](../specs/007a-kpi-operators/review.md)
 
@@ -85,6 +85,7 @@ La risposta non è ricontare, ma **dichiarare l'invariante**, sullo stesso schem
 **Due<!--#--> vincoli ereditati che questa feature non chiude**, e che restano a carico di chi implementa (`data_model.md` §19):
 
 - **se le righe a durata degenere entrino nella mediana.** La marcatura `is_duration_zero` esiste sulla dimensione delle tracce e vale su 1<!--@CL.SP.duration.zero.rows--> riga; il modello la rende leggibile ma non decide se includerla. Il perimetro di questa feature non comprende quella decisione: chi la prenderà deve dichiararla accanto al valore, non assorbirla in silenzio;
+    *(Chiuso il 2026-08-22 dalla feature `007b` come decisione **`D11`**: le righe a durata degenere **entrano** nella mediana, per la stessa disciplina con cui `D7` tratta gli zeri di popolarità — la trasformazione ha scelto di conservare e marcare, non di eliminare. La variante esclusa è comunque calcolata, e la differenza fra le due<!--#--> è pubblicata in [`kpi_measures.md`](kpi_measures.md) §3.3 perché la decisione sia verificabile invece che dichiarata a parole.)*
 - **l'asimmetria del confronto va dichiarata accanto al valore.** Il lato video contribuisce con i soli film, il lato musicale con l'intero catalogo. La quota di film sul catalogo video è calcolabile dal campo che distingue film e serie, e va pubblicata insieme al risultato perché il confronto sia leggibile.
 
 ---
@@ -255,6 +256,8 @@ Come il precedente: **nessun operatore nuovo qui**, la derivazione è già chius
 
 ## 10. Le nove decisioni, in sintesi
 
+> **Nota in loco — 2026-08-22, feature `007b`.** Il titolo dice nove<!--#--> e la tabella ne elenca ora undici<!--#-->. Il titolo non viene riscritto: era esatto quando la `007a` lo ha scritto, e le due<!--#--> decisioni aggiunte — `D10` sulla convenzione di mediana, `D11` sulle righe a durata degenere — sono state prese dalla `007b` e non dalla feature che possiede questa pagina. Chi conta le decisioni conti le righe della tabella, che è la forma autorevole; il titolo registra quante ne aveva la stesura originale.
+
 | | Che cosa fissa | Da dove viene | Dove è applicata |
 |---|---|---|---|
 | **D1** | appartenenza all'intervallo occupato come prodotto cartesiano di tre<!--#--> intervalli scalari | revisione `001`, divergenza 2 | §4 |
@@ -268,6 +271,8 @@ Come il precedente: **nessun operatore nuovo qui**, la derivazione è già chius
 | **`D9.1`** | invarianza del numeratore sul dato trasformato, dichiarata come assunzione e sostenuta da tre<!--#--> fatti ancorati | revisione `001` §3 | §2.1 |
 | **`D9.2`** | operatore della condizione `C1`: conteggio dei titoli per categoria sul ponte, soglia mediana stretta | revisione `001` §3 | §2.2 |
 | **`D9.3`** | il rapporto della North Star non è pubblicato per giustapposizione dei suoi due<!--#--> input | revisione `002`, divergenza 4 | §2.1 |
+| **`D10`** | convenzione di mediana: ordinamento, media aritmetica dei due<!--#--> valori centrali su conteggio pari, nessun trattamento speciale dei pari merito | feature `007b`, issue `#7` | §2.2, §3, §5, §6, §7 |
+| **`D11`** | le righe a durata degenere entrano nella mediana di `BQ1-K2`, con la variante esclusa calcolata e la differenza pubblicata | feature `007b`, §12 | §3 |
 
 **Nessuna di queste decisioni pretende di essere l'unica difendibile.** Ciascuna dichiara le opzioni scartate e la ragione dello scarto; sono scelte argomentate, non deduzioni univoche. È il motivo per cui la pagina è stata sottoposta a una revisione in contesto pulito prima di essere considerata definitiva.
 
@@ -283,6 +288,8 @@ Questa feature non introduce alcuna nuova fonte e **non altera alcuna classifica
 | `BQ1-K2` | `format_duration_gap` | Derivato (Netflix + Spotify) | alta | valore puntuale | D5, che chiude anche la parte residua di `R13` su questo KPI |
 | `BQ1-K3` | `mood_profile_overlap` | Derivato (Netflix + Spotify) | media | valore puntuale con nota | D1 |
 | `BQ2-K1` | `segment_demand_index` | Spotify (reale) | media | valore puntuale con nota | D7, D6 |
+
+> **Nota in loco — 2026-08-22, feature `007b`, issue `#8`.** La riga di `BQ2-K1` dichiara l'operatore fissato da **`D7, D6`**. L'attribuzione di `D6` è **errata**, e la contraddice §5.3 di questa stessa pagina, che apre dichiarando: «questa decisione non entra nella formula del KPI». `D6` fissa una soglia di confronto fra due<!--#--> artefatti sulle quote di zeri per segmento; non fissa alcun operatore, e il perimetro che §5.3 le assegna è esplicitamente stretto. **Valore corretto della cella: `D7`.** La causa della divergenza è di prossimità — `D6` è argomentata dentro la sezione di `BQ2-K1` perché è lì che serve a chi presenta il KPI, e la tabella l'ha letta come se ne facesse parte. La cella non viene riscritta: il testo originale è la traccia di ciò che la `007a` aveva pubblicato, ed è esso stesso un dato. Fonte verificabile: §5.3, primo capoverso.
 | `BQ2-K2` | `segment_catalog_affinity` | Derivato (Netflix + Spotify) | media | valore puntuale con nota | D2 |
 | `BQ2-K3` | `segment_entry_priority` | Derivato (`BQ2-K1` + `BQ2-K2`) | media | ordinamento | D3, D4, D8 |
 | `BQ3-K1` | `premium_tier_adoption_rate` | Sintetico | bassa | range best/base/worst | nessuno nuovo |
@@ -318,6 +325,14 @@ Questa feature non introduce alcuna nuova fonte e **non altera alcuna classifica
 
 Chi li chiuderà deve dichiararlo dove chiude, non assorbirli in silenzio.
 
+> **Nota in loco — 2026-08-22, feature `007b`.** I tre<!--#--> vincoli sono chiusi. Il testo sopra non viene riscritto: era vero quando è stato scritto, e la traccia di che cosa la `007a` aveva lasciato aperto è essa stessa un dato. Dove ciascuno si chiude:
+>
+> - **la durata degenere** — decisione **`D11`**: le righe marcate `is_duration_zero` **entrano** nella mediana, per coerenza con `D7`. Entrambe le varianti sono calcolate e la loro differenza è pubblicata, in [`kpi_measures.md`](kpi_measures.md) §3.3;
+> - **l'asimmetria di `BQ1-K2`** — la quota di titoli `Movie` sul catalogo video è pubblicata accanto al valore, in [`kpi_measures.md`](kpi_measures.md) §3.4. Il vincolo chiedeva di dichiararla, non di valutarla, e nessun giudizio sulla sua entità viene aggiunto;
+> - **l'arrotondamento e la precisione** — una convenzione unica **per unità di misura** e non per KPI, dichiarata nella tabella di [`kpi_measures.md`](kpi_measures.md) §1.2 e nella convenzione `kpi_rounding` di [`reports/kpi_measures.json`](../reports/kpi_measures.json): `Decimal` ovunque, `ROUND_HALF_UP` esplicito, e l'arrotondamento applicato solo alla presentazione, mai prima di una mediana o di un confronto di soglia.
+>
+> **Un quarto vincolo si chiude qui**, e non era in questo elenco perché la `007a` non lo aveva riconosciuto come tale: la **convenzione di mediana su conteggio pari**, aperta come issue `#7` mentre quattro<!--#--> operatori di questa pagina già la usavano. È la decisione **`D10`** — ordinamento, media aritmetica dei due<!--#--> valori centrali su conteggio pari, nessun trattamento speciale dei pari merito.
+
 **Copertura del dato**: questa pagina eredita per intero i limiti già dichiarati dal business case e da `data_model.md` §18 — cataloghi proxy, non StreamWave; copertura temporale ferma agli anni dichiarati dalle assunzioni strutturali; nessun dato comportamentale. Non ne introduce di nuovi, perché non tocca alcun dato.
 
 **Dove è esposto a chi legge la dashboard**: da nessuna parte. Questo è un documento tecnico. I limiti di §4, §6 e §7.2 devono essere ereditati e ripresentati in forma comprensibile da chi costruirà la narrazione, dove il lettore della dashboard li incontra.
@@ -333,4 +348,4 @@ python3 scripts/check_audit_coherence.py
 
 Il controllo scandisce questa pagina in **severità stretta**: ogni quantità priva di ancora o di marcatore di non-misurato è un errore, non un avviso.
 
-**Che cosa l'esito verde certifica, e che cosa no.** Certifica che ogni numero ancorato coincida con il valore dell'artefatto che lo produce. Non può accorgersi di un'affermazione che *avrebbe dovuto* essere ancorata, né impedire che un fatto misurato venga dichiarato non-misurato — contro la dichiarazione falsa esiste la revisione in contesto pulito, non il controllo. Soprattutto: **nessun controllo automatico verifica l'argomentazione**, che è la sostanza di questa pagina. Le nove<!--#--> decisioni sono difendibili o non lo sono per ragioni che nessuno script può leggere.
+**Che cosa l'esito verde certifica, e che cosa no.** Certifica che ogni numero ancorato coincida con il valore dell'artefatto che lo produce. Non può accorgersi di un'affermazione che *avrebbe dovuto* essere ancorata, né impedire che un fatto misurato venga dichiarato non-misurato — contro la dichiarazione falsa esiste la revisione in contesto pulito, non il controllo. Soprattutto: **nessun controllo automatico verifica l'argomentazione**, che è la sostanza di questa pagina. Le undici<!--#--> decisioni sono difendibili o non lo sono per ragioni che nessuno script può leggere.
