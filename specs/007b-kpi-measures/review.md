@@ -223,3 +223,30 @@ L'argomento della §6.2 è corretto ma riguarda il **filtro di segmento**. `dim_
 - **La correttezza sintattica e semantica del DAX contro il modello reale.** Ho letto le dieci formule come codice e le trovo plausibili e coerenti con la prosa che le accompagna (uso di `DIVIDE`, comparatori stretti dove le soglie sono dichiarate strette, `Skip` in `RANKX` coerente con la regola dei pari merito). Non ho il `.pbix` e non posso dire se le relazioni che `RELATED` presuppone esistano.
 - **Se il difetto di tipizzazione sia stato effettivamente corretto**, e se la correzione copra anche le colonne che R4 mette in questione.
 - **La riga di intestazione «revisionato in contesto pulito», con link a `specs/007b-kpi-measures/review.md`.** La segnalo senza classificarla come rilievo: al momento in cui leggo, quel verbale è questo, e non esisteva. È un'affermazione che diventerà vera; chi la committa dovrebbe assicurarsi che non arrivi su `main` prima del file che cita.
+
+---
+
+## Blocco di chiusura — chi è stato revisionato
+
+**Data**: 2026-08-22. Applica CLAUDE.md: solo i rilievi strettamente necessari si correggono in questa feature — quelli senza i quali il documento afferma il falso o pubblica un valore che non regge. Il resto è issue GitHub, con la stessa numerazione del rilievo che le ha prodotte.
+
+| Rilievo | Esito | Come |
+|---|---|---|
+| `R1` | **risolto** | Le sette righe boilerplate «verificato — sì» sono state sostituite con testo specifico per sezione, che nomina esattamente quale/i formula/e DAX di quella sezione è stata letta dal motore, distingue esaustivo da campionario (`pop`/`jazz`/`sleep` su 114), e dichiara esplicitamente dove soglie, conteggi o varianti pubblicate nella sezione sono calcolati dallo script e non letti separatamente dal motore. Due formule companion emerse dalla revisione (`c1_music_above_median`, `segment_zero_share`) sono state aggiunte a `reports/kpi_engine_check.json` — erano state effettivamente incollate e confermate durante E9, ma non ancora registrate nell'artefatto. |
+| `R2` | **risolto** | «Ogni cifra che segue nasce qui» e «ogni valore di questa pagina è calcolato da `build_kpi_measures.py`» sono state riformulate per escludere esplicitamente `BQ3-K1`/`BQ3-K2` (§8), citazioni dirette dell'artefatto della `004` senza alcun ricalcolo, come il documento stesso dichiara due sezioni dopo. |
+| `R3` | **risolto** | «Tre misure divergevano di due ordini di grandezza» — un moltiplicatore derivato non ancorato e qualitativamente sbagliato per due delle tre misure — è stato sostituito con una descrizione per misura: `segment_catalog_affinity` fuori dominio con la lettura originale ora ancorata; `mood_profile_overlap` «collassava verso un valore prossimo a zero» (l'esito corretto, non un multiplo); `segment_entry_priority` come ereditato per composizione. |
+| `R4` | **risolto** | Aggiunta la spiegazione per cui `format_duration_gap` (che legge `dim_track[duration_min]`, anch'essa decimale) non era colpita: `duration_min` è una derivazione interna al modello (`duration_ms / 60000`, `data_model.md` §13), calcolata dopo che `duration_ms` — un intero — era già tipizzato correttamente; le tre colonne di mood sono invece testo decimale caricato direttamente dal CSV, ed è lì che la tipizzazione ha sbagliato. |
+| `R5` | **risolto** | La lettura errata `-253,8667` del primo passaggio è ora una voce propria di `reports/kpi_engine_check.json` (`ENGINE.check.finding.sleep_affinity_first_pass_reading`), ancorata in prosa invece di comparire come testo libero fra apici inversi. |
+| `R6` | **indebolito** (in parte) | Il «4 per cento circa» non ancorato è stato sostituito dalla citazione diretta del valore ancorato (`0,0426`) — risolto senza perdita di precisione. Il «105 altri segmenti» — un conteggio derivato senza identificativo proprio — non ha ricevuto un'ancora nuova: costruirne una corretta per il ranking con pari merito (`Skip`) avrebbe richiesto di estendere lo script per un'unica frase illustrativa. È stato invece sostituito con «la maggior parte degli altri segmenti», un'affermazione qualitativa vera (posizione 9 su 114, ben sopra la mediana) che non introduce un numerale derivato non ancorato. |
+| `R7` | **rinviato** | [`#12`](https://github.com/Valvln/streamwave-bi/issues/12) |
+| `R8` | **rinviato** | [`#13`](https://github.com/Valvln/streamwave-bi/issues/13) |
+| `R9` | **rinviato** | [`#14`](https://github.com/Valvln/streamwave-bi/issues/14) |
+| `R10` | **rinviato** | [`#15`](https://github.com/Valvln/streamwave-bi/issues/15) |
+| `R11` | **rinviato** | [`#16`](https://github.com/Valvln/streamwave-bi/issues/16) |
+| `R12` | **rinviato** | [`#17`](https://github.com/Valvln/streamwave-bi/issues/17) |
+| `R13` | **rinviato** | [`#18`](https://github.com/Valvln/streamwave-bi/issues/18) — nonostante tocchi una formula DAX trascritta, il valore attuale non è sbagliato nel contesto in cui è stato verificato (nessun filtro di categoria); è un rischio per l'uso futuro in `008a`, non un difetto presente. |
+| `R14` | **rinviato** | [`#19`](https://github.com/Valvln/streamwave-bi/issues/19) |
+
+**Perché `R6` è indebolito e non risolto per intero.** La cella lo dichiara perché la distinzione fra "risolvere aggiungendo un'ancora" e "risolvere ritirando la pretesa di precisione" è esattamente quella che CLAUDE.md chiede di non confondere. Nessuna delle due metà di `R6` lascia in piedi la dichiarazione falsa che il revisore ha trovato — un fatto misurato marcato come non misurato — ma solo la prima ottiene l'ancora che il documento promette ovunque altrove; la seconda rinuncia a un numero preciso perché costruirlo correttamente (con la regola dei pari merito di `D8`) eccedeva ciò che una frase illustrativa richiede.
+
+**Verifica meccanica dopo le correzioni**: `python3 scripts/check_audit_coherence.py` è verde su sette documenti e sei artefatti (T040a), incluse le nuove ancore introdotte da questo blocco di chiusura.
