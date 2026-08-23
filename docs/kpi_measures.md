@@ -8,7 +8,7 @@ Il valore di ciascuno degli otto<!--#--> KPI del [business case](business_case.m
 
 ## 1. Che cosa è questo documento, e come si legge
 
-[`kpi_operators.md`](kpi_operators.md) ha fissato **con quale regola** ciascun KPI andasse calcolato, e dichiara in apertura di non contenere alcun valore. Questo documento contiene i valori. È il primo del progetto in cui un numero pubblicato è un **risultato di questa feature** e non un input ereditato da una precedente: ogni cifra che segue nasce qui, e per questo ciascuna porta un'ancora verso l'artefatto che la produce.
+[`kpi_operators.md`](kpi_operators.md) ha fissato **con quale regola** ciascun KPI andasse calcolato, e dichiara in apertura di non contenere alcun valore. Questo documento contiene i valori. È il primo del progetto in cui un numero pubblicato può essere un **risultato di questa feature** e non solo un input ereditato da una precedente: sei<!--#--> degli otto<!--#--> KPI sono calcolati qui per la prima volta, mentre `BQ3-K1` e `BQ3-K2` (§8) restano citazioni dirette dell'artefatto della `004`, senza alcun ricalcolo. Ogni cifra di questa pagina — calcolata qui o ereditata — porta un'ancora verso l'artefatto che la produce.
 
 **La grammatica delle ancore** è quella di [`convenzioni-marcatura.md`](convenzioni-marcatura.md), e questa pagina è verificata in **severità stretta**: una quantità priva di ancora o di marcatore di non-misurato è un errore, non un avviso.
 
@@ -109,7 +109,7 @@ RETURN
     IF ( MusicTitles > MedianOfCategories, TRUE (), FALSE () )
 ```
 
-**Che cosa `C1` soddisfatta significa, e che cosa no.** Significa che la categoria musicale non è residuale per numero di titoli. Non significa che il catalogo sia musicale: la quota di §2.1 dice che è il 4<!--#--> per cento circa, e le due<!--#--> letture non si contraddicono — misurano cose diverse. Una categoria può stare sopra la mediana di 42<!--@CL.NF.category.distinct--> categorie e restare una frazione piccola del totale, ed è esattamente ciò che accade qui.
+**Che cosa `C1` soddisfatta significa, e che cosa no.** Significa che la categoria musicale non è residuale per numero di titoli. Non significa che il catalogo sia musicale: la quota di §2.1 vale 0,0426<!--@KPI.BQ1K1.share-->, e le due<!--#--> letture non si contraddicono — misurano cose diverse. Una categoria può stare sopra la mediana di 42<!--@CL.NF.category.distinct--> categorie e restare una frazione piccola del totale, ed è esattamente ciò che accade qui.
 
 ### 2.4 L'invarianza del numeratore, verificata invece che assunta
 
@@ -128,7 +128,7 @@ L'esito è dichiarato come valore con ancora propria — `matches` e `delta` —
 
 **Che cosa la verifica dimostra, e che cosa continua a non dimostrare.** Dimostra che il conteggio dei titoli di `Music & Musicals`<!--@catalogs.netflix_categories_musical--> è identico prima e dopo la trasformazione. Non dimostra che la corrispondenza fra titoli e categorie sia rimasta identica riga per riga su **tutte** le 42<!--@CL.NF.category.distinct--> categorie: due<!--#--> totali che coincidono su una categoria restano compatibili, in linea di principio, con riassegnazioni che si compensano altrove. La verifica chiude l'assunzione **sul numeratore della North Star**, che è ciò che `D9.1` dichiarava aperto, e non un invariante generale del ponte.
 
-**Stato di verifica contro il motore reale (E9)**: **verificato** — la lettura del motore coincide con il valore pubblicato: sì<!--@ENGINE.check.all_match-->. Vedi §11, che dichiara anche il perimetro del confronto. Lo stato è in un punto solo perché discende da un unico confronto, congelato in un unico artefatto.
+**Stato di verifica contro il motore reale (E9)**: **verificato**: la lettura del motore per `music_adjacent_catalog_share` coincide, sì<!--@ENGINE.check.music_adjacent_catalog_share.matches-->, e coincide anche per la formula companion `c1_music_above_median`, sì<!--@ENGINE.check.c1_music_above_median.matches-->. L'invarianza di questa sottosezione **non** fa parte di E9: è un confronto interno allo script contro un valore di origine, non un confronto contro il motore. Vedi §11 per il perimetro completo del confronto.
 
 ---
 
@@ -194,7 +194,7 @@ Secondo vincolo aperto di §12. Il lato video contribuisce con i **soli film**, 
 
 Il numero è pubblicato senza un giudizio su quanto l'asimmetria sia grave: `kpi_operators.md` chiedeva di dichiararla, non di valutarla, e la valutazione richiederebbe un criterio che nessun documento del progetto ha fissato.
 
-**Stato di verifica contro il motore reale (E9)**: **verificato** — la lettura del motore coincide con il valore pubblicato: sì<!--@ENGINE.check.all_match-->. Vedi §11, che dichiara anche il perimetro del confronto. Lo stato è in un punto solo perché discende da un unico confronto, congelato in un unico artefatto.
+**Stato di verifica contro il motore reale (E9)**: **verificato**: la lettura del motore per `format_duration_gap` coincide, sì<!--@ENGINE.check.format_duration_gap.matches-->. Le due<!--#--> varianti della mediana di §3.3 e la quota di film di §3.4 sono calcolate dallo script e non sono state lette separatamente dal motore. Vedi §11 per il perimetro completo del confronto.
 
 ---
 
@@ -259,7 +259,7 @@ Non è un difetto dell'implementazione: `data_model.md` §11 non costruisce alcu
 
 **Un secondo limite, più facile da perdere.** Gli estremi valgono 0,0500<!--@KPI.BQ1K3.bound.mood_energy.min--> e 0,9500<!--@KPI.BQ1K3.bound.mood_energy.max--> su **tutti e tre<!--#--> gli assi**: la tabella dei mood è costruita dall'analista su una scala a passi regolari, e i suoi estremi sono quindi una proprietà del criterio di assegnazione prima che del catalogo video. Un intervallo così ampio su ciascun asse rende la quota alta quasi per costruzione, ed è la ragione principale per cui la confidenza di questo KPI resta **media** e non sale.
 
-**Stato di verifica contro il motore reale (E9)**: **verificato** — la lettura del motore coincide con il valore pubblicato: sì<!--@ENGINE.check.all_match-->. Vedi §11, che dichiara anche il perimetro del confronto. Lo stato è in un punto solo perché discende da un unico confronto, congelato in un unico artefatto.
+**Stato di verifica contro il motore reale (E9)**: **verificato**: la lettura del motore per `mood_profile_overlap` coincide, sì<!--@ENGINE.check.mood_profile_overlap.matches-->. Gli estremi degli assi di §4.1 sono calcolati dallo script e non sono valori letti separatamente dal motore. Vedi §11 per il perimetro completo del confronto.
 
 ---
 
@@ -322,7 +322,7 @@ Nessuna correzione statistica è stata applicata: ricalcolare la mediana esclude
 
 Il catalogo musicale non è più bilanciato dopo la trasformazione: il segmento meno numeroso porta 904<!--@KPI.BQ2K1.romance.rows--> righe contro le 1000<!--@KPI.BQ2K1.techno.rows--> del più numeroso. Il conteggio delle righe di un segmento misura il **campionamento**, non il mercato, e non va usato per dimensionare un segmento — è la ragione per cui questo KPI poggia sulla domanda e mai sull'offerta (`kpi_operators.md` §5.2).
 
-**Stato di verifica contro il motore reale (E9)**: **verificato** — la lettura del motore coincide con il valore pubblicato: sì<!--@ENGINE.check.all_match-->. Vedi §11, che dichiara anche il perimetro del confronto. Lo stato è in un punto solo perché discende da un unico confronto, congelato in un unico artefatto.
+**Stato di verifica contro il motore reale (E9)**: **verificato sui segmenti campionati** `pop` e `jazz`, per `segment_demand_index`, sì<!--@ENGINE.check.segment_demand_index.matches-->, e per la formula companion `segment_zero_share`, sì<!--@ENGINE.check.segment_zero_share.matches-->. Le altre righe dell'appendice §9, e i ritrovamenti di §5.3, sono calcolati dallo script e non letti dal motore. Vedi §11 per il perimetro completo del confronto.
 
 ---
 
@@ -386,7 +386,7 @@ Ciò che il valore garantisce è di essere **confrontabile con sé stesso fra se
 
 **Un secondo limite, che la formula sceglie deliberatamente.** La media delle distanze assolute è un operatore **compensativo**: uno scostamento piccolo su un asse bilancia uno grande su un altro. `D2` lo dichiara e non lo nasconde dietro l'argomento — falso — che l'euclidea sarebbe compensativa e questa no. L'unica alternativa davvero non compensativa sarebbe il massimo degli scostamenti per asse, scartata perché produrrebbe un'affinità governata dal solo asse peggiore.
 
-**Stato di verifica contro il motore reale (E9)**: **verificato** — la lettura del motore coincide con il valore pubblicato: sì<!--@ENGINE.check.all_match-->. Vedi §11, che dichiara anche il perimetro del confronto. Lo stato è in un punto solo perché discende da un unico confronto, congelato in un unico artefatto.
+**Stato di verifica contro il motore reale (E9)**: **verificato sui segmenti campionati** `pop`, `jazz` e `sleep`, per `segment_catalog_affinity`, sì<!--@ENGINE.check.segment_catalog_affinity.matches-->. Il profilo mediano del catalogo video di §6.1 vive come variabile interna alla formula ed è esercitato solo indirettamente attraverso i segmenti campionati; le altre righe dell'appendice §9 sono calcolate dallo script. Vedi §11 per il perimetro completo del confronto.
 
 ---
 
@@ -423,7 +423,7 @@ Ordinata per punteggio **decrescente**: la prima posizione è quella del puntegg
 | 4<!--@KPI.BQ2K3.psych_rock.rank--> | `psych-rock` | 51,0<!--@KPI.BQ2K1.psych_rock.demand_index--> | 0,9230<!--@KPI.BQ2K2.psych_rock.affinity--> | 0,7165<!--@KPI.BQ2K3.psych_rock.score--> | sì<!--@KPI.BQ2K3.psych_rock.quadrant_high_high--> |
 | 5<!--@KPI.BQ2K3.k_pop.rank--> | `k-pop` | 60,0<!--@KPI.BQ2K1.k_pop.demand_index--> | 0,8243<!--@KPI.BQ2K2.k_pop.affinity--> | 0,7122<!--@KPI.BQ2K3.k_pop.score--> | sì<!--@KPI.BQ2K3.k_pop.quadrant_high_high--> |
 
-**Perché quadrante e punteggio non si fondono, con l'esempio che questi dati forniscono.** `metal` occupa la posizione 9<!--@KPI.BQ2K3.metal.rank--> con punteggio 0,6915<!--@KPI.BQ2K3.metal.score-->, più alto di quello di 105<!--#--> altri segmenti, e **non** sta nel quadrante: la sua affinità vale 0,8130<!--@KPI.BQ2K2.metal.affinity-->, sotto la soglia di 0,8210<!--@KPI.BQ2K3.threshold.affinity-->. Leggere «punteggio alto» come sinonimo di «nel quadrante» lo classificherebbe male, ed è esattamente la distinzione che `D4` chiedeva di preservare — qui con un caso reale invece che ipotetico.
+**Perché quadrante e punteggio non si fondono, con l'esempio che questi dati forniscono.** `metal` occupa la posizione 9<!--@KPI.BQ2K3.metal.rank--> con punteggio 0,6915<!--@KPI.BQ2K3.metal.score-->, più alto di quello della maggior parte degli altri segmenti, e **non** sta nel quadrante: la sua affinità vale 0,8130<!--@KPI.BQ2K2.metal.affinity-->, sotto la soglia di 0,8210<!--@KPI.BQ2K3.threshold.affinity-->. Leggere «punteggio alto» come sinonimo di «nel quadrante» lo classificherebbe male, ed è esattamente la distinzione che `D4` chiedeva di preservare — qui con un caso reale invece che ipotetico.
 
 **Sui pari merito**: due<!--#--> segmenti con lo stesso punteggio ricevono la **stessa** posizione, e la successiva salta di altrettante unità. È la scelta che non introduce un criterio di spareggio che nessuna decisione della `007a` ha fissato: spareggiare per nome produrrebbe un ordine riproducibile ma arbitrario, presentato con l'autorevolezza di un risultato.
 
@@ -454,7 +454,7 @@ La domanda si porta sul dominio `0-1` dividendo per il proprio **massimo teorico
 
 La domanda entra nel punteggio con peso 0,5<!--#-->, e per i 7<!--@KPI.BQ2K1.zero_median_segments_count--> segmenti a mediana nulla quel contributo è **nullo**. La loro posizione in graduatoria — nessuna sopra la 96<!--@KPI.BQ2K3.high_zero_best_rank--> — non misura quindi una priorità bassa: misura l'assenza di segnale della fonte su metà del punteggio. **Questi 7<!--@KPI.BQ2K1.high_zero_segments_count--> segmenti vanno esclusi da qualunque lettura della coda della graduatoria**, o la coda si legge come una classifica di preferenza quando è in parte una classifica di copertura del dato.
 
-**Stato di verifica contro il motore reale (E9)**: **verificato** — la lettura del motore coincide con il valore pubblicato: sì<!--@ENGINE.check.all_match-->. Vedi §11, che dichiara anche il perimetro del confronto. Lo stato è in un punto solo perché discende da un unico confronto, congelato in un unico artefatto.
+**Stato di verifica contro il motore reale (E9)**: **verificato sui segmenti campionati** `pop` e `jazz`, per punteggio, quadrante e posizione di `segment_entry_priority`, sì<!--@ENGINE.check.segment_entry_priority.matches-->. Le due<!--#--> soglie e il conteggio del quadrante di §7.1 **non** sono stati letti come valori a sé stanti — vivono come variabili interne alla formula — e le altre righe dell'appendice §9 sono calcolate dallo script. Vedi §11 per il perimetro completo del confronto.
 
 ---
 
@@ -480,7 +480,7 @@ Unità: punti percentuali della base per `BQ3-K1`, euro per utente al mese per `
 - l'uplift di `BQ3-K2` **non è scalabile**. Nessuna base utenti è quantificata in questo progetto, e moltiplicarlo per una dimensione di base produrrebbe un totale che nessuno ha misurato, presentato con l'autorevolezza di uno misurato;
 - l'uplift è **a regime**, non cumulato sull'orizzonte.
 
-**Stato di verifica contro il motore reale (E9)**: **verificato** — la lettura del motore coincide con il valore pubblicato: sì<!--@ENGINE.check.all_match-->. Vedi §11, che dichiara anche il perimetro del confronto. Lo stato è in un punto solo perché discende da un unico confronto, congelato in un unico artefatto.
+**Stato di verifica contro il motore reale (E9)**: **verificato in modo esaustivo** sui sei<!--#--> valori di scenario portati nel modello: per `premium_tier_adoption_rate`, sì<!--@ENGINE.check.premium_tier_adoption_rate.matches-->; per `arpu_uplift`, sì<!--@ENGINE.check.arpu_uplift.matches-->. Non c'è campionamento perché non c'è una dimensione per segmento: sono solo sei<!--#--> valori, e sono stati letti tutti. Vedi §11 per il perimetro completo del confronto.
 
 ---
 
@@ -633,7 +633,7 @@ I 7<!--@KPI.BQ2K1.high_zero_segments_count--> segmenti marcati `is_high_zero_gen
 
 ## 11. Stato di verifica contro il motore reale
 
-Ogni valore di questa pagina è **calcolato da `scripts/build_kpi_measures.py`**. Che il motore DAX di Power BI Desktop, applicando le formule trascritte qui, restituisca lo stesso numero non è assunto: è verificato incollando le otto<!--#--> misure nel modello già materializzato e leggendo i valori restituiti.
+Ogni valore di KPI calcolato in questa pagina (dalla §2 alla §7) è **calcolato da `scripts/build_kpi_measures.py`**; `BQ3-K1` e `BQ3-K2` (§8) sono citazioni dell'artefatto della `004`, come dichiarato lì. Che il motore DAX di Power BI Desktop, applicando le formule trascritte qui, restituisca lo stesso numero non è assunto: è verificato incollando le misure nel modello già materializzato e leggendo i valori restituiti — le 8<!--@ENGINE.check.measures_total--> misure principali, più le formule ausiliarie che non producono un valore per segmento (`c1_music_above_median`, companion di `music_adjacent_catalog_share`; `segment_zero_share`, companion di `segment_demand_index` per l'obbligo di `D7`).
 
 L'esito di quel confronto è congelato in [`reports/kpi_engine_check.json`](../reports/kpi_engine_check.json) — **curato a mano e mai scritto da alcuno script**, perché è un'osservazione umana e non una derivazione: nessuno script di questo repository può aprire Power BI Desktop, incollare una formula o leggere il valore che restituisce, ed è esattamente il confine che il principio V traccia. È da quell'artefatto, e non da un numero scritto a mano in questa prosa, che ogni valore del confronto riceve la propria ancora.
 
@@ -655,17 +655,21 @@ Le tre<!--#--> letture scalari, per esteso:
 | `format_duration_gap` | -94,45<!--@ENGINE.check.format_duration_gap.reading--> | sì<!--@ENGINE.check.format_duration_gap.matches--> |
 | `mood_profile_overlap` | 0,8450<!--@ENGINE.check.mood_profile_overlap.reading--> | sì<!--@ENGINE.check.mood_profile_overlap.matches--> |
 
-Le cinque<!--#--> misure restanti:
+Le misure restanti:
 
 | Misura | Coincide |
 |---|---|
+| `c1_music_above_median`, companion di `music_adjacent_catalog_share` | sì<!--@ENGINE.check.c1_music_above_median.matches--> |
 | `segment_demand_index`, sui segmenti campionati | sì<!--@ENGINE.check.segment_demand_index.matches--> |
+| `segment_zero_share`, companion di `segment_demand_index`, sui segmenti campionati | sì<!--@ENGINE.check.segment_zero_share.matches--> |
 | `segment_catalog_affinity`, sui segmenti campionati | sì<!--@ENGINE.check.segment_catalog_affinity.matches--> |
-| `segment_entry_priority`, sui segmenti campionati | sì<!--@ENGINE.check.segment_entry_priority.matches--> |
+| `segment_entry_priority` — punteggio, quadrante e posizione — sui segmenti campionati | sì<!--@ENGINE.check.segment_entry_priority.matches--> |
 | `premium_tier_adoption_rate`, valori di scenario portati nel modello | sì<!--@ENGINE.check.premium_tier_adoption_rate.matches--> |
 | `arpu_uplift`, valori di scenario portati nel modello | sì<!--@ENGINE.check.arpu_uplift.matches--> |
 
-Per gli ultimi due<!--#--> non è stata scritta alcuna misura DAX, perché non ce n'è una da scrivere: sono valori congelati nell'artefatto della `004`, e il confronto verifica che siano stati portati nel modello senza alterazioni.
+Per gli ultimi due<!--#-->, `premium_tier_adoption_rate` e `arpu_uplift`, non è stata scritta alcuna misura DAX, perché non ce n'è una da scrivere: sono valori congelati nell'artefatto della `004`, e il confronto verifica che siano stati portati nel modello senza alterazioni.
+
+**Un'esclusione va dichiarata esplicitamente**: le due<!--#--> soglie e il conteggio del quadrante di `BQ2-K3` (§7.1 — 36,5<!--@KPI.BQ2K3.threshold.demand-->; 0,8210<!--@KPI.BQ2K3.threshold.affinity-->; 33<!--@KPI.BQ2K3.quadrant_members_count-->) **non sono state lette come valori a sé stanti**. Vivono come variabili interne alla formula DAX di `segment_entry_priority_quadrant`, non come misure separatamente visualizzabili in una scheda o in una tabella: il confronto le esercita solo indirettamente, attraverso l'accordo riga per riga sui 3<!--@ENGINE.check.sampled_segments_count--> segmenti campionati.
 
 **Il confronto non è esaustivo sulle tre<!--#--> misure per segmento**, e va detto prima di ogni altra cosa. Ciascuna restituisce 114<!--@SP.genre.count--> valori, e ne sono stati letti 3<!--@ENGINE.check.sampled_segments_count-->: `pop`, il primo in graduatoria; `jazz`, uno dei 7<!--@KPI.BQ2K1.high_zero_segments_count--> a mediana nulla; `sleep`, quello di affinità più bassa. La scelta non è casuale, ma 3<!--@ENGINE.check.sampled_segments_count--> segmenti su 114<!--@SP.genre.count--> restano 3<!--@ENGINE.check.sampled_segments_count--> su 114<!--@SP.genre.count-->: **che le altre righe coincidano non è verificato, ed è dichiarato come non verificato.** Chi legge una riga dell'appendice §9 legge un valore calcolato dallo script, non uno letto dal motore.
 
@@ -673,11 +677,11 @@ Per gli ultimi due<!--#--> non è stata scritta alcuna misura DAX, perché non c
 
 ### 11.2 Il ritrovamento: il confronto è servito
 
-Il confronto ha richiesto 2<!--@ENGINE.check.passes--> passaggi. **Al primo, tre<!--#--> misure divergevano di due<!--#--> ordini di grandezza**: `segment_catalog_affinity` restituiva valori negativi nell'ordine delle centinaia — per `sleep`, `-253,8667` contro lo 0,6408<!--@KPI.BQ2K2.sleep.affinity--> atteso — e con essa `segment_entry_priority`, che la compone, e `mood_profile_overlap`, che legge le stesse colonne. Le misure interessate erano 3<!--@ENGINE.check.finding.affected_measures--> su 8<!--@ENGINE.check.measures_total-->.
+Il confronto ha richiesto 2<!--@ENGINE.check.passes--> passaggi. **Al primo, 3<!--@ENGINE.check.finding.affected_measures--> misure su 8<!--@ENGINE.check.measures_total--> risultavano sbagliate, ciascuna in un modo diverso e non in un unico moltiplicatore comune**: `segment_catalog_affinity` restituiva valori negativi fuori dal proprio dominio `0-1` — per `sleep`, il motore leggeva -253,8667<!--@ENGINE.check.finding.sleep_affinity_first_pass_reading--> contro lo 0,6408<!--@KPI.BQ2K2.sleep.affinity--> atteso, una lettura del primo passaggio registrata come dato del ritrovamento e non come valore corrente; `mood_profile_overlap` **collassava verso un valore prossimo a zero<!--#-->**, perché nessuna traccia cadeva più dentro gli intervalli `[0,05; 0,95]` una volta che le colonne da confrontare erano nell'ordine delle centinaia; `segment_entry_priority` ereditava l'errore per composizione, attraverso l'affinità che vi entra con peso 0,5<!--#-->.
 
 **La causa non era né la formula né lo script.** Le colonne `energy`, `valence` e `danceability` di `dim_track` erano caricate nel modello con il punto decimale interpretato come **separatore delle migliaia**: `0.396` valeva `396`. È un difetto di tipizzazione in fase di caricamento — un `Change Type` eseguito con locale italiano su un file scritto in notazione inglese — e la sua correzione appartiene alla materializzazione del modello, non a questa feature. Il difetto è registrato come ritrovamento in `reports/kpi_engine_check.json`: sì<!--@ENGINE.check.finding.axis_locale_typing-->.
 
-**Perché `segment_demand_index` non era toccata**, ed è la firma che ha permesso di riconoscere la causa: `popularity` è un intero e non ha punto decimale da fraintendere.
+**Due<!--#--> misure erano al riparo, e per ragioni diverse fra loro.** `segment_demand_index` legge `popularity`, che è un intero e non ha punto decimale da fraintendere — è la firma che ha permesso di riconoscere la causa. `format_duration_gap` legge `dim_track[duration_min]`, anch'essa una colonna decimale della stessa tabella `dim_track`: non era al riparo per lo stesso motivo di `popularity`, ma per un motivo diverso e più sottile. `data_model.md` §13 la dichiara una **derivazione interna al modello** — `duration_ms` diviso `60000` — non una colonna caricata come testo decimale dal CSV: `duration_ms` è un intero, non ha mai avuto un punto da fraintendere, e la divisione che produce `duration_min` avviene dentro il modello dopo che il tipo era già corretto. Le tre<!--#--> colonne di mood sono invece caricate direttamente come testo decimale dal file di origine, ed è lì che la tipizzazione ha sbagliato.
 
 > **Questo è il ritrovamento per cui `E9` esiste, e la ragione per cui non è stato rinviato alla `008a`.** Il controllo di coerenza di questo repository confronta i documenti con gli artefatti versionati; il `.pbix` non è né l'uno né l'altro, e nessuno script del progetto può leggerlo. Senza questo confronto il modello sarebbe arrivato alla costruzione delle pagine con 3<!--@ENGINE.check.finding.affected_measures--> KPI su 8<!--@ENGINE.check.measures_total--> costruiti su numeri sbagliati, sotto un esito verde di ogni controllo automatico esistente. Il costo di trovarlo qui è stato di due<!--#--> letture; a valle sarebbe stato quello di rifare le pagine.
 

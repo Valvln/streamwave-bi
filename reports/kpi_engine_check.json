@@ -15,6 +15,10 @@
       "jazz",
       "sleep"
     ],
+    "engine_check_companion_formulas": [
+      "c1_music_above_median",
+      "segment_zero_share"
+    ],
     "engine_check_verified": [
       "music_adjacent_catalog_share",
       "format_duration_gap",
@@ -28,9 +32,9 @@
   },
   "conventions": {
     "engine_check_nature": "Artefatto versionato e curato a mano, mai scritto ne' riscritto da alcuno script. Congela l'esito del confronto E9: le letture del motore DAX di Power BI Desktop sulle otto misure di docs/kpi_measures.md, la data della lettura, il riferimento allo stato del .pbix da cui provengono, l'esito del confronto con reports/kpi_measures.json e, dove diverge, la differenza. Esiste sul precedente di data/benchmarks/bq3_tier_upgrade.json e per la stessa ragione: il passaggio che lo alimenta -- una persona che legge un numero a schermo -- non e' uno script e non puo' esserlo (principio V), ma resta un'osservazione, e un'osservazione senza un artefatto che la congeli non ha alcuna ancora.",
-    "engine_check_status": "Concluso il 2026-08-22. Le otto misure sono state confrontate e tutte coincidono con reports/kpi_measures.json. Il confronto ha richiesto due passaggi: il primo ha trovato una divergenza di due ordini di grandezza sulle misure che leggono i tre assi di mood, imputabile alla tipizzazione delle colonne nel modello e non alla formula (vedi engine_check_finding); il secondo, dopo la correzione, coincide su ogni voce.",
+    "engine_check_status": "Concluso il 2026-08-22. Le otto misure, piu' le due formule ausiliarie di engine_check_companion_formulas, sono state confrontate e tutte coincidono con reports/kpi_measures.json. Il confronto ha richiesto due passaggi: il primo ha trovato una divergenza, sulle misure che leggono i tre assi di mood, imputabile alla tipizzazione delle colonne nel modello e non alla formula (vedi ENGINE.check.finding.axis_locale_typing); il secondo, dopo la correzione, coincide su ogni voce.",
     "engine_check_comparison_rule": "Due valori si dicono coincidenti se la lettura del motore, arrotondata alla precisione di pubblicazione della propria unita' di misura secondo la convenzione kpi_rounding di reports/kpi_measures.json, e' identica al valore pubblicato. Un motore che restituisse piu' cifre non costituisce divergenza: la precisione di pubblicazione e' dichiarata, e confrontare sotto di essa confronterebbe due arrotondamenti invece di due misure. Ogni altra differenza e' una divergenza e va dichiarata con entrambi i numeri.",
-    "engine_check_scope": "Il confronto e' **esaustivo** sulle misure scalari -- music_adjacent_catalog_share, format_duration_gap, mood_profile_overlap -- e sulle soglie e i conteggi di BQ2-K3, che restituiscono un valore solo. E' **campionario** sulle tre misure per segmento, che ne restituiscono 114 ciascuna: sono stati letti i segmenti pop, jazz e sleep. La scelta non e' casuale -- pop e' il primo in graduatoria, jazz uno dei sette a mediana nulla, sleep quello di affinita' piu' bassa -- ma tre segmenti su 114 restano tre su 114, e questo artefatto non afferma di piu'. Che le altre 111 righe coincidano non e' verificato ed e' dichiarato come non verificato.",
+    "engine_check_scope": "Il confronto e' **esaustivo** sulle tre misure scalari -- music_adjacent_catalog_share, format_duration_gap, mood_profile_overlap -- e sulle due formule ausiliarie che non restituiscono un valore per segmento, c1_music_above_median (companion di music_adjacent_catalog_share) e, sui soli segmenti campionati, segment_zero_share (companion di segment_demand_index, D7). E' **campionario** sulle tre misure per segmento (demand_index, catalog_affinity, entry_priority con il suo punteggio/quadrante/posizione), che ne restituiscono 114 ciascuna: sono stati letti i segmenti pop, jazz e sleep. La scelta non e' casuale -- pop e' il primo in graduatoria, jazz uno dei sette a mediana nulla, sleep quello di affinita' piu' bassa -- ma tre segmenti su 114 restano tre su 114, e questo artefatto non afferma di piu'. Che le altre 111 righe coincidano non e' verificato ed e' dichiarato come non verificato. **Le soglie e il conteggio del quadrante di BQ2-K3 (36,5; 0,8210; 33) non sono state lette come valori a se stanti**: vivono come variabili interne alla formula DAX, non come misure separatamente visualizzabili, e il confronto le esercita solo indirettamente attraverso l'accordo riga per riga sui tre segmenti campionati.",
     "engine_check_pbix_note": "Il .pbix non e' versionato (principio V) e non esiste quindi un'impronta di contenuto a cui ancorare la lettura. Il riferimento allo stato e' ENGINE.check.pbix_state, che nomina la materializzazione da cui il file proviene e la correzione applicata durante questo confronto. E' un riferimento piu' debole di una sha256, e lo si dichiara invece di lasciarlo credere piu' forte di quanto sia."
   },
   "schema_version": 1,
@@ -91,9 +95,27 @@
     },
     "ENGINE.check.finding.affected_measures": {
       "display": "3",
-      "label": "misure che il difetto di tipizzazione rendeva errate prima della correzione: mood_profile_overlap, segment_catalog_affinity e, per composizione, segment_entry_priority",
+      "label": "misure che il difetto di tipizzazione rendeva errate prima della correzione: mood_profile_overlap (collassata verso zero, perche' nessuna traccia cadeva piu' dentro intervalli 0-1 confrontati con colonne nell'ordine delle centinaia), segment_catalog_affinity (valori negativi nell'ordine delle centinaia, non piu' sul dominio 0-1) e, per composizione attraverso l'affinita', segment_entry_priority",
       "unit": "conteggio",
       "value": "3"
+    },
+    "ENGINE.check.finding.sleep_affinity_first_pass_reading": {
+      "display": "-253,8667",
+      "label": "lettura del motore per segment_catalog_affinity del segmento sleep al primo passaggio, prima della correzione della tipizzazione -- registrata come dato del ritrovamento, non come valore corrente",
+      "unit": "quota, 0-1 (fuori dominio per il difetto)",
+      "value": "-253.8667"
+    },
+    "ENGINE.check.c1_music_above_median.matches": {
+      "display": "sì",
+      "label": "la lettura del motore per la formula companion c1_music_above_median coincide con KPI.BQ1K1.c1.above_median",
+      "unit": "esito booleano",
+      "value": "true"
+    },
+    "ENGINE.check.segment_zero_share.matches": {
+      "display": "sì",
+      "label": "le letture della formula companion segment_zero_share sui segmenti campionati pop e jazz coincidono con le voci corrispondenti di KPI.BQ2K1",
+      "unit": "esito booleano",
+      "value": "true"
     },
     "ENGINE.check.music_adjacent_catalog_share.reading": {
       "display": "0,0426",
