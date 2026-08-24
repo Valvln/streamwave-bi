@@ -87,7 +87,7 @@ Atteso: `C1` compare accanto a `BQ1-K1` e `C3` accanto a `BQ2-K3`; **nessuna pag
 
 ## Esito della costruzione
 
-> **Da compilare nel blocco B**, dopo ★2 e ★3. Fino ad allora questa sezione è vuota, e la sua vuotezza è essa stessa un'informazione: le pagine non sono state costruite.
+> **Da compilare nel blocco B**, dopo ★2 e ★3. Le voci si riempiono **mentre accadono** e non a memoria alla fine: è la regola di [tasks.md](./tasks.md), e la ragione per cui alcune sono già compilate mentre le pagine non esistono ancora. Una voce che porta ancora *(esito da dichiarare)* è una voce non ancora osservata; «Le pagine che esistono» vuota significa che la costruzione non è iniziata.
 
 ### Le pagine che esistono
 
@@ -101,9 +101,28 @@ Atteso: `C1` compare accanto a `BQ1-K1` e `C3` accanto a `BQ2-K3`; **nessuna pag
 
 *(una riga per ritrovamento, con il riferimento alla nota in loco che lo dichiara. L'esito atteso è zero.)*
 
+### I difetti di caricamento trovati e corretti
+
+Categoria distinta dalle due precedenti, e la distinzione non è formale: non è uno scostamento dal contratto — il contratto non parla di come i file si leggono — e non è un ritrovamento, perché nessun valore pubblicato è risultato sbagliato. È il caso che [data-model.md](./data-model.md) §1.1 prevede in una riga: «se il modello caricato ne mostrasse di diversi, è un difetto di caricamento e la costruzione si ferma».
+
+**`dim_title` caricava 8809 righe invece delle 8807 attese** (T013, 2026-08-24).
+
+- **Causa**: due record di `data/processed/netflix_titles.csv` contengono un ritorno a capo dentro un campo quotato — `s8202` nel campo `description`, `s8420` nel campo `title`. Il passaggio di origine leggeva il file con `QuoteStyle.None`, che ignora le virgolette e spezza quei due record in due righe ciascuno.
+- **Correzione**: `QuoteStyle.Csv` sul passaggio di origine di `dim_title`. Dopo il ricaricamento il conteggio coincide con quello atteso.
+- **Perimetro accertato**: è l'unico dei quattro file di `data/processed/` in cui record CSV e righe fisiche divergono. Le altre sei tabelle tornavano già prima della correzione, e la ragione è questa.
+- **Che cosa il difetto avrebbe prodotto se non fosse stato visto**: le righe spurie portano i campi spostati di posizione, quindi `type` e `movie_duration_min` degeneri. Sarebbero entrate nella mediana dei film di `format_duration_gap` e nei conteggi per categoria della North Star, cambiando due valori pubblicati **senza che nulla lo segnalasse** — nessuno script di questo repository entra nel modello.
+- **Il dato di origine non è stato toccato.** Il ritorno a capo dentro il titolo di `s8420` è il valore vero e resta tale: `data/processed/` è fuori dal perimetro di scrittura di questa feature, e il titolo si legge su due righe anche a schermo.
+- **Nulla impedisce che ricompaia.** L'impostazione vive dentro il `.pbix`, che non è versionato: un reimport futuro può rimettere `QuoteStyle.None` senza che nessun controllo se ne accorga. È la stessa forma dell'issue `#11`, e alla chiusura va aperta una issue analoga.
+
+### Le decisioni `CP` e come sono state eseguite
+
+- **`CP-2` — i sei valori di `BQ3`**: creata la tabella `bq3_scenarios`, **disconnessa** dal resto del modello (T013, 2026-08-24). Le tabelle nel modello sono quindi otto invece delle sette di [data-model.md](./data-model.md) §1.1, e le relazioni restano cinque. L'assenza di relazioni è la proprietà che impedisce di filtrare gli scenari per segmento o per categoria.
+- **`CP-1` — le due misure companion**: *(esito da dichiarare in T016-T017)*
+- **`CP-3` — la North Star su due pagine**: *(esito da dichiarare in T018-T019)*
+
 ### L'esito delle prove 2 e 11
 
-- **★1 — tipizzazione delle colonne di mood (issue `#11`)**: *(esito da dichiarare)*
+- **★1 — tipizzazione delle colonne di mood (issue `#11`)**: **difetto assente**. `energy`, `valence` e `danceability` di `dim_track` stanno nel dominio `0-1`; verificato in seconda lettura (T011-T012, 2026-08-24).
 - **★3 — lettura delle due soglie (`F7`)**: *(esito da dichiarare)*
 
 ### Lo stato delle due issue

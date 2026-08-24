@@ -57,8 +57,8 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 
 **⚠️ Questa fase precede ogni altra costruzione.** È il costo di una lettura contro il costo di rifare le pagine — la lezione che `E9` ha già pagato per conto di questa feature.
 
-- [ ] T011 **(manuale, Valerio)** Apri il `.pbix` e ispeziona `energy`, `valence`, `danceability` di `dim_track`: i valori devono stare fra 0 e 1. Se sono nell'ordine delle centinaia, **fermati**, correggi la tipizzazione e annota l'accaduto come ricomparsa dell'issue `#11` (`FR-007`)
-- [ ] T012 **(manuale, Valerio)** Annota l'esito di T011 in forma grezza, per la trascrizione del blocco B: difetto assente, oppure presente e corretto
+- [X] T011 **(manuale, Valerio)** Apri il `.pbix` e ispeziona `energy`, `valence`, `danceability` di `dim_track`: i valori devono stare fra 0 e 1. Se sono nell'ordine delle centinaia, **fermati**, correggi la tipizzazione e annota l'accaduto come ricomparsa dell'issue `#11` (`FR-007`)
+- [X] T012 **(manuale, Valerio)** Annota l'esito di T011 in forma grezza, per la trascrizione del blocco B: difetto assente, oppure presente e corretto
 
 **Checkpoint**: le tre colonne di mood sono nel dominio giusto. Solo ora si costruisce.
 
@@ -70,7 +70,7 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 
 **Independent Test**: prove 3, 4, 5, 6, 7 e 10 di [quickstart.md](./quickstart.md).
 
-- [ ] T013 **(manuale, Valerio)** [US1] Verifica nel `.pbix` le sette tabelle e i loro conteggi di riga contro [data-model.md](./data-model.md) §1.1, inclusa la versione 2 di `dim_category_mood`; accerta inoltre in quale forma il modello porta oggi i sei valori di scenario di `BQ3` e, se sono digitati, portali a leggere `reports/bq3_scenarios.json` come tabella disconnessa (`CP-2`)
+- [X] T013 **(manuale, Valerio)** [US1] Verifica nel `.pbix` le sette tabelle e i loro conteggi di riga contro [data-model.md](./data-model.md) §1.1, inclusa la versione 2 di `dim_category_mood`; accerta inoltre in quale forma il modello porta oggi i sei valori di scenario di `BQ3` e, se sono digitati, portali a leggere `reports/bq3_scenarios.json` come tabella disconnessa (`CP-2`)
 - [ ] T014 **(manuale, Valerio)** [US1] Verifica nel `.pbix` le cinque relazioni e le loro direzioni contro [data-model.md](./data-model.md) §1.2: R1 bidirezionale, nessuna relazione fra gruppo video e gruppo musicale, R5 fra `dim_segment[segment]` e `fact_track_segment[track_genre]`
 - [ ] T015 **(manuale, Valerio)** [US1] Incolla nel `.pbix` le dieci misure con i nomi semantici di [data-model.md](./data-model.md) §1.3, organizzate in cartelle DAX per domanda di business; il testo DAX è quello pubblicato da `docs/kpi_measures.md`, non riscritto (`FR-008`, `FR-009`)
 - [ ] T016 **(manuale, Valerio)** [US1] Esponi come misure proprie le due soglie del quadrante — le stesse espressioni `MEDIANX ( ALL ( dim_segment ), … )` che vivono dentro `segment_entry_priority_quadrant` (`F7`, `FR-010`) — e scrivi le due misure companion di `CP-1`: la quota di titoli `Movie` sul catalogo video e `C3`, sul modello di `c1_music_above_median`
