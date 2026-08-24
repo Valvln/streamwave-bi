@@ -98,6 +98,9 @@ Atteso: `C1` compare accanto a `BQ1-K1` e `C3` accanto a `BQ2-K3`; **nessuna pag
 | Voce | Contratto | Costruito | Ragione |
 |---|---|---|---|
 | `BQ3`, tipo di visuale (T020, 2026-08-24) | «una tabella, due righe e tre colonne, più una colonna di unità» | una **matrice** | realizza la stessa disposizione — i due KPI in riga, i tre scenari in colonna — e regge gli stessi due divieti: nessuna scheda singola, nessuna moltiplicazione. La differenza è il nome della visuale in Power BI, non la forma con cui i sei valori si leggono |
+| modello, una colonna calcolata in più (T024, 2026-08-25) | [data-model.md](./data-model.md) §1.3 prevede misure, non colonne calcolate | `dim_segment[segment_quadrant_class]`, a tre stati: nel quadrante, domanda non misurata dalla fonte, fuori dal quadrante | il pozzo **Legenda** della dispersione accetta solo colonne, mai misure: è un vincolo dello strumento, non una scelta. Senza la colonna, la marcatura a tre stati che il contratto §5.1 richiede non è esprimibile. La colonna non calcola nulla di nuovo — rilegge `segment_entry_priority_quadrant` per segmento tramite transizione di contesto, e le soglie restano globali perché portano `ALL ( dim_segment )` |
+
+**La colonna è stata verificata come `CP-1`**: i segmenti che ricadono in «nel quadrante» sono 33, che è il numero di membri del quadrante pubblicato da `kpi_measures.md` §7.1 (T024, 2026-08-25). Coincidenza, quindi aggiunta e non ritrovamento. Resta da confrontare il conteggio dello stato «domanda non misurata dalla fonte» con i sette segmenti `is_high_zero_genre` attesi.
 
 ### I ritrovamenti
 
