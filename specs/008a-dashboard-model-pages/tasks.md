@@ -71,10 +71,10 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 **Independent Test**: prove 3, 4, 5, 6, 7 e 10 di [quickstart.md](./quickstart.md).
 
 - [X] T013 **(manuale, Valerio)** [US1] Verifica nel `.pbix` le sette tabelle e i loro conteggi di riga contro [data-model.md](./data-model.md) §1.1, inclusa la versione 2 di `dim_category_mood`; accerta inoltre in quale forma il modello porta oggi i sei valori di scenario di `BQ3` e, se sono digitati, portali a leggere `reports/bq3_scenarios.json` come tabella disconnessa (`CP-2`)
-- [ ] T014 **(manuale, Valerio)** [US1] Verifica nel `.pbix` le cinque relazioni e le loro direzioni contro [data-model.md](./data-model.md) §1.2: R1 bidirezionale, nessuna relazione fra gruppo video e gruppo musicale, R5 fra `dim_segment[segment]` e `fact_track_segment[track_genre]`
-- [ ] T015 **(manuale, Valerio)** [US1] Incolla nel `.pbix` le dieci misure con i nomi semantici di [data-model.md](./data-model.md) §1.3, organizzate in cartelle DAX per domanda di business; il testo DAX è quello pubblicato da `docs/kpi_measures.md`, non riscritto (`FR-008`, `FR-009`)
-- [ ] T016 **(manuale, Valerio)** [US1] Esponi come misure proprie le due soglie del quadrante — le stesse espressioni `MEDIANX ( ALL ( dim_segment ), … )` che vivono dentro `segment_entry_priority_quadrant` (`F7`, `FR-010`) — e scrivi le due misure companion di `CP-1`: la quota di titoli `Movie` sul catalogo video e `C3`, sul modello di `c1_music_above_median`
-- [ ] T017 **(manuale, Valerio)** [US1] Leggi le due misure di soglia contro i valori pubblicati in `docs/kpi_measures.md` §7.1 e le due companion di `CP-1` contro §3.4 e §7.1; annota per ciascuna coincidenza o divergenza (★3, prova 11)
+- [X] T014 **(manuale, Valerio)** [US1] Verifica nel `.pbix` le cinque relazioni e le loro direzioni contro [data-model.md](./data-model.md) §1.2: R1 bidirezionale, nessuna relazione fra gruppo video e gruppo musicale, R5 fra `dim_segment[segment]` e `fact_track_segment[track_genre]`
+- [X] T015 **(manuale, Valerio)** [US1] Incolla nel `.pbix` le dieci misure con i nomi semantici di [data-model.md](./data-model.md) §1.3, organizzate in cartelle DAX per domanda di business; il testo DAX è quello pubblicato da `docs/kpi_measures.md`, non riscritto (`FR-008`, `FR-009`)
+- [X] T016 **(manuale, Valerio)** [US1] Esponi come misure proprie le due soglie del quadrante — le stesse espressioni `MEDIANX ( ALL ( dim_segment ), … )` che vivono dentro `segment_entry_priority_quadrant` (`F7`, `FR-010`) — e scrivi le due misure companion di `CP-1`: la quota di titoli `Movie` sul catalogo video e `C3`, sul modello di `c1_music_above_median`
+- [X] T017 **(manuale, Valerio)** [US1] Leggi le due misure di soglia contro i valori pubblicati in `docs/kpi_measures.md` §7.1 e le due companion di `CP-1` contro §3.4 e §7.1; annota per ciascuna coincidenza o divergenza (★3, prova 11)
 - [ ] T018 **(manuale, Valerio)** [US1] Costruisci la **pagina di ingresso** secondo il contratto approvato: North Star con le sue etichette, navigazione verso le tre pagine, nessuna prosa
 - [ ] T019 **(manuale, Valerio)** [US1] Costruisci la **pagina `BQ1`** secondo il contratto: `BQ1-K1` con `C1`, `BQ1-K2`, `BQ1-K3`, **senza alcun filtro di categoria video** (`FR-020`)
 - [ ] T020 **(manuale, Valerio)** [US1] Costruisci la **pagina `BQ3`** secondo il contratto: tre valori di scenario affiancati per ciascuno dei due KPI, con le unità; nessuna scheda singola, nessuna moltiplicazione (`FR-013`, `FR-014`)
@@ -126,7 +126,7 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 - [ ] T033 [US5] Compila l'elenco degli **scostamenti** dal contratto approvato, ciascuno con la propria ragione; zero scostamenti è ammesso solo se le pagine coincidono con il contratto in ogni voce (`FR-023`, `F9`)
 - [ ] T034 [US5] Compila l'esito di ★1 (T011-T012) e di ★3 (T017), e lo stato dichiarato delle issue `#11` e `#18` con l'evidenza che manca per chiuderle (`FR-025`)
 - [ ] T035 [US5] Se e solo se T023 o T017 hanno prodotto un ritrovamento, scrivi la **nota in loco** su `docs/kpi_measures.md`: data, feature, valore precedente, valore corretto, causa, fonte verificabile — senza riscrivere il valore originale (`FR-024`)
-- [ ] T035a [US5] **Indipendentemente dall'esito di T017 e T023**, scrivi la **nota in loco** su `docs/kpi_measures.md` §3.4 e §7.1 con il testo DAX delle due misure companion di `CP-1`, verificato da T017: non è una correzione ma un'aggiunta, ed è dovuta perché quelle due sezioni sono gli unici punti del documento che dichiarano un valore senza il proprio blocco DAX mentre nel modello quel DAX ora esiste. Senza la nota il documento canonico esce silenziosamente fuori sincrono con il modello
+- [ ] T035a [US5] **Indipendentemente dall'esito di T017 e T023**, scrivi la **nota in loco** su `docs/kpi_measures.md` §3.4 e §7.1 con il testo DAX delle due misure companion di `CP-1`, verificato da T017: non è una correzione ma un'aggiunta, ed è dovuta perché quelle due sezioni sono gli unici punti del documento che dichiarano un valore senza il proprio blocco DAX mentre nel modello quel DAX ora esiste. Senza la nota il documento canonico esce silenziosamente fuori sincrono con il modello. **Estensione decisa il 2026-08-24 dopo T017**: la nota copre anche §11.1, dove le due soglie del quadrante figurano fra gli esclusi dal confronto contro il motore perché non leggibili come valori a sé stanti — `F7` le ha rese leggibili e T017 le ha lette, quindi quell'esclusione non è più vera. È lo stesso difetto di sincronia e va chiuso con lo stesso strumento
 - [ ] T036 [US5] Allinea `specs/008a-dashboard-model-pages/contracts/dashboard-contract.md` all'esito reale: che cosa `008b` e `010` possono presupporre su ciò che **esiste**, non su ciò che era stato disegnato
 - [ ] T037 [US5] Esegui le dodici prove di [quickstart.md](./quickstart.md) in blocco, incluso `python3 scripts/check_audit_coherence.py`, e registra l'esito
 
@@ -172,3 +172,24 @@ Fase 1 (T001-T002)
 **Il confine di sosta migliore, se la giornata si spezza, è T010.** È il punto in cui il repository è coerente per costruzione: esistono spec, piano, task e contratto, e non esiste ancora nulla che possa contraddirli. Ogni altro confine cade in mezzo alla costruzione, dove metà delle pagine esistono e l'esito non è scrivibile.
 
 **Che cosa fare se la costruzione si scosta dal contratto**: annotare lo scostamento **mentre accade**, dentro la Fase 4 o 5, non ricostruirlo a memoria nella Fase 7. È il secondo rischio dichiarato dal piano, e l'unico presidio contro di esso è l'abitudine di chi costruisce.
+
+---
+
+## Avanzamento
+
+Tracciamento di comodo, non una fonte: la misura autorevole del tempo speso sono i timestamp dei commit, ed è su quelli che la regia misura lo scostamento dalle stime di [plan.md](./plan.md).
+
+| Blocco | Task | Stato | Data |
+|---|---|---|---|
+| A — contratto di pagina | T001-T009 | chiuso | 2026-08-24 |
+| ⏸ punto di fermata 3 | T010 | chiuso: contratto approvato, `CP-1`, `CP-2` e `CP-3` confermati | 2026-08-24 |
+| ★1 — tipizzazione | T011-T012 | chiuso: difetto assente | 2026-08-24 |
+| ★2 — costruzione, modello | T013-T017 | chiuso: un difetto di caricamento trovato e corretto | 2026-08-24 |
+| ★2 — costruzione, pagine | T018-T031 | aperto | — |
+| B — esito | T032-T037 | in corso: le voci si riempiono mentre accadono | 2026-08-24 |
+| C — note in loco | T035, T035a | aperto | — |
+| D — contratto di lettura | T036 | aperto | — |
+| E — revisione | T038-T040 | aperto | — |
+| F — chiusura | T041-T042 | aperto | — |
+
+**Le voci di esito già compilate** stanno nella sezione «Esito della costruzione» di [quickstart.md](./quickstart.md), ciascuna con la propria data.

@@ -117,13 +117,15 @@ Categoria distinta dalle due precedenti, e la distinzione non è formale: non è
 ### Le decisioni `CP` e come sono state eseguite
 
 - **`CP-2` — i sei valori di `BQ3`**: creata la tabella `bq3_scenarios`, **disconnessa** dal resto del modello (T013, 2026-08-24). Le tabelle nel modello sono quindi otto invece delle sette di [data-model.md](./data-model.md) §1.1, e le relazioni restano cinque. L'assenza di relazioni è la proprietà che impedisce di filtrare gli scenari per segmento o per categoria.
-- **`CP-1` — le due misure companion**: *(esito da dichiarare in T016-T017)*
+- **`CP-1` — le due misure companion**: scritte ed esposte nel modello, e la loro lettura **coincide** con i valori pubblicati — la quota di titoli `Movie` con `kpi_measures.md` §3.4, `C3` con §7.1 (T016-T017, 2026-08-24). Nessun ritrovamento: la nota in loco di T035a resta dovuta come **aggiunta** del testo DAX, non come correzione di un valore.
 - **`CP-3` — la North Star su due pagine**: *(esito da dichiarare in T018-T019)*
 
 ### L'esito delle prove 2 e 11
 
 - **★1 — tipizzazione delle colonne di mood (issue `#11`)**: **difetto assente**. `energy`, `valence` e `danceability` di `dim_track` stanno nel dominio `0-1`; verificato in seconda lettura (T011-T012, 2026-08-24).
-- **★3 — lettura delle due soglie (`F7`)**: *(esito da dichiarare)*
+- **★3 — lettura delle due soglie (`F7`)**: **coincidenza**. Le due misure di soglia esposte per le linee di riferimento restituiscono i valori pubblicati in `kpi_measures.md` §7.1 (T016-T017, 2026-08-24).
+
+  **Che cosa questa coincidenza chiude.** `kpi_measures.md` §11.1 dichiara le due soglie fra gli esclusi dal confronto contro il motore, perché vivevano come variabili interne a `segment_entry_priority_quadrant` e non erano leggibili come valori a sé stanti. Esposte come misure, sono state lette: l'esclusione non è più vera. È lo stesso caso di §3.4 e §7.1 — il documento canonico resta indietro rispetto al modello — e per la stessa ragione va registrato in loco. Vedi la nota su T035a in [tasks.md](./tasks.md).
 
 ### Lo stato delle due issue
 
