@@ -95,11 +95,15 @@ Atteso: `C1` compare accanto a `BQ1-K1` e `C3` accanto a `BQ2-K3`; **nessuna pag
 
 ### Gli scostamenti dal contratto approvato
 
-*(una riga per scostamento, con la ragione. Zero righe è ammesso solo se le pagine coincidono con il contratto in ogni voce — non come forma abbreviata di «non ho controllato».)*
+| Voce | Contratto | Costruito | Ragione |
+|---|---|---|---|
+| `BQ3`, tipo di visuale (T020, 2026-08-24) | «una tabella, due righe e tre colonne, più una colonna di unità» | una **matrice** | realizza la stessa disposizione — i due KPI in riga, i tre scenari in colonna — e regge gli stessi due divieti: nessuna scheda singola, nessuna moltiplicazione. La differenza è il nome della visuale in Power BI, non la forma con cui i sei valori si leggono |
 
 ### I ritrovamenti
 
-*(una riga per ritrovamento, con il riferimento alla nota in loco che lo dichiara. L'esito atteso è zero.)*
+**Nessuno finora.** Gli otto valori letti a schermo coincidono con quelli pubblicati da `docs/kpi_measures.md` alla stessa grana (T023, 2026-08-24); le due soglie e le due companion di `CP-1` coincidono con §7.1 e §3.4. La riga resta aperta fino a T027 e T031, che verificano la pagina `BQ2` e le interazioni.
+
+*(I due difetti corretti in fase di caricamento non sono ritrovamenti: nessun valore pubblicato è risultato sbagliato. Stanno nella sezione dedicata più sotto.)*
 
 ### I difetti di caricamento trovati e corretti
 
@@ -114,11 +118,18 @@ Categoria distinta dalle due precedenti, e la distinzione non è formale: non è
 - **Il dato di origine non è stato toccato.** Il ritorno a capo dentro il titolo di `s8420` è il valore vero e resta tale: `data/processed/` è fuori dal perimetro di scrittura di questa feature, e il titolo si legge su due righe anche a schermo.
 - **Nulla impedisce che ricompaia.** L'impostazione vive dentro il `.pbix`, che non è versionato: un reimport futuro può rimettere `QuoteStyle.None` senza che nessun controllo se ne accorga. È la stessa forma dell'issue `#11`, e alla chiusura va aperta una issue analoga.
 
+**`bq3_scenarios` aveva perso la colonna `scenario`** (T020, 2026-08-24).
+
+- **Causa**: la materializzazione della tabella disconnessa di `CP-2` non ha portato la colonna che nomina lo scenario.
+- **Correzione**: colonna ripristinata prima di costruire la pagina.
+- **Perché non è un dettaglio**: senza `scenario` i sei valori restano sei numeri senza l'etichetta che dice a quale ipotesi ciascuno appartiene. `F4` impone che `BQ3` compaia come intervallo a tre scenari, e un intervallo di cui non si sa quale estremo sia il pessimista non è un intervallo: è tre numeri affiancati. Il divieto di scheda singola sarebbe stato rispettato alla lettera e violato nella sostanza.
+- **Stessa fragilità delle due precedenti**: vive nel `.pbix` non versionato, e rientra nella issue che alla chiusura va aperta.
+
 ### Le decisioni `CP` e come sono state eseguite
 
 - **`CP-2` — i sei valori di `BQ3`**: creata la tabella `bq3_scenarios`, **disconnessa** dal resto del modello (T013, 2026-08-24). Le tabelle nel modello sono quindi otto invece delle sette di [data-model.md](./data-model.md) §1.1, e le relazioni restano cinque. L'assenza di relazioni è la proprietà che impedisce di filtrare gli scenari per segmento o per categoria.
 - **`CP-1` — le due misure companion**: scritte ed esposte nel modello, e la loro lettura **coincide** con i valori pubblicati — la quota di titoli `Movie` con `kpi_measures.md` §3.4, `C3` con §7.1 (T016-T017, 2026-08-24). Nessun ritrovamento: la nota in loco di T035a resta dovuta come **aggiunta** del testo DAX, non come correzione di un valore.
-- **`CP-3` — la North Star su due pagine**: *(esito da dichiarare in T018-T019)*
+- **`CP-3` — la North Star su due pagine**: eseguita come approvata (T018-T019, 2026-08-24). `music_adjacent_catalog_share` compare sulla pagina di ingresso con le sole etichette e sulla pagina `BQ1` con `C1` accanto. Stessa misura, stessa grana: non può divergere, e la ripetizione è voluta.
 
 ### L'esito delle prove 2 e 11
 

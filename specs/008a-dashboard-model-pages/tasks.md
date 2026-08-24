@@ -77,10 +77,10 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 - [X] T017 **(manuale, Valerio)** [US1] Leggi le due misure di soglia contro i valori pubblicati in `docs/kpi_measures.md` §7.1 e le due companion di `CP-1` contro §3.4 e §7.1; annota per ciascuna coincidenza o divergenza (★3, prova 11)
 - [X] T018 **(manuale, Valerio)** [US1] Costruisci la **pagina di ingresso** secondo il contratto approvato: North Star con le sue etichette, navigazione verso le tre pagine, nessuna prosa
 - [X] T019 **(manuale, Valerio)** [US1] Costruisci la **pagina `BQ1`** secondo il contratto: `BQ1-K1` con `C1`, `BQ1-K2`, `BQ1-K3`, **senza alcun filtro di categoria video** (`FR-020`)
-- [ ] T020 **(manuale, Valerio)** [US1] Costruisci la **pagina `BQ3`** secondo il contratto: tre valori di scenario affiancati per ciascuno dei due KPI, con le unità; nessuna scheda singola, nessuna moltiplicazione (`FR-013`, `FR-014`)
-- [ ] T021 **(manuale, Valerio)** [US1] Aggiungi accanto a ciascuno degli otto KPI l'etichetta di **fonte** e quella di **confidenza**, nella forma di `business_case.md` §5.4 (`F5`, `FR-012`)
-- [ ] T022 **(manuale, Valerio)** [US1] Aggiungi gli elementi di navigazione su tutte e quattro le pagine: da ciascuna si raggiunge ogni altra senza usare il riquadro delle schede (`FR-021`)
-- [ ] T023 **(manuale, Valerio)** [US1] Confronta ciascuno degli otto valori letti a schermo con quello pubblicato da `docs/kpi_measures.md` alla stessa grana; annota ogni divergenza come **ritrovamento**, non come scostamento (prova 6, `F9`)
+- [X] T020 **(manuale, Valerio)** [US1] Costruisci la **pagina `BQ3`** secondo il contratto: tre valori di scenario affiancati per ciascuno dei due KPI, con le unità; nessuna scheda singola, nessuna moltiplicazione (`FR-013`, `FR-014`)
+- [X] T021 **(manuale, Valerio)** [US1] Aggiungi accanto a ciascuno degli otto KPI l'etichetta di **fonte** e quella di **confidenza**, nella forma di `business_case.md` §5.4 (`F5`, `FR-012`)
+- [X] T022 **(manuale, Valerio)** [US1] Aggiungi gli elementi di navigazione su tutte e quattro le pagine: da ciascuna si raggiunge ogni altra senza usare il riquadro delle schede (`FR-021`)
+- [X] T023 **(manuale, Valerio)** [US1] Confronta ciascuno degli otto valori letti a schermo con quello pubblicato da `docs/kpi_measures.md` alla stessa grana; annota ogni divergenza come **ritrovamento**, non come scostamento (prova 6, `F9`)
 
 **Checkpoint**: otto KPI a schermo con etichette e navigazione. La pagina `BQ2` esiste ma non è ancora completa: la Fase 5 la chiude.
 
@@ -185,7 +185,7 @@ Tracciamento di comodo, non una fonte: la misura autorevole del tempo speso sono
 | ⏸ punto di fermata 3 | T010 | chiuso: contratto approvato, `CP-1`, `CP-2` e `CP-3` confermati | 2026-08-24 |
 | ★1 — tipizzazione | T011-T012 | chiuso: difetto assente | 2026-08-24 |
 | ★2 — costruzione, modello | T013-T017 | chiuso: un difetto di caricamento trovato e corretto | 2026-08-24 |
-| ★2 — costruzione, pagine | T018-T031 | in corso: pagine di ingresso e `BQ1` costruite (T018-T019) | 2026-08-24 |
+| ★2 — costruzione, pagine | T018-T031 | US1 chiusa (T018-T023): ingresso, `BQ1`, `BQ3`, etichette, navigazione | 2026-08-24 |
 | B — esito | T032-T037 | in corso: le voci si riempiono mentre accadono | 2026-08-24 |
 | C — note in loco | T035, T035a | aperto | — |
 | D — contratto di lettura | T036 | aperto | — |
