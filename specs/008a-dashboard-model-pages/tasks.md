@@ -11,7 +11,7 @@ description: "Task list template for feature implementation"
 
 **Test**: nessun task di test in senso software. La correttezza si verifica con le dodici prove di [quickstart.md](./quickstart.md) — una eseguibile, undici manuali — incorporate come task lungo le fasi e riverificate in blocco da T037, più la revisione in contesto pulito (T039-T040).
 
-**Una lista diversa da tutte le precedenti, e va detto prima di leggerla.** Ventuno task su quarantadue — esattamente metà — sono marcati **(manuale, Valerio)**: non sono istruzioni che questa sessione esegue, sono istruzioni che una persona esegue davanti a Power BI Desktop. È il principio V, e la constitution lo prescrive esplicitamente — «i task di build della dashboard DEVONO essere formulati come istruzioni eseguibili da una persona». La sessione li scrive, ne raccoglie l'esito e lo documenta; non li esegue e non può verificarli da sé.
+**Una lista diversa da tutte le precedenti, e va detto prima di leggerla.** Ventuno task su quarantatré sono marcati **(manuale, Valerio)**: non sono istruzioni che questa sessione esegue, sono istruzioni che una persona esegue davanti a Power BI Desktop. È il principio V, e la constitution lo prescrive esplicitamente — «i task di build della dashboard DEVONO essere formulati come istruzioni eseguibili da una persona». La sessione li scrive, ne raccoglie l'esito e lo documenta; non li esegue e non può verificarli da sé.
 
 **La marcatura `[P]` è quasi assente**, e non è una svista. La Fase 2 scrive per intero un solo file (`contracts/page-contract.md`); le Fasi 4-7 toccano tutte lo stesso `.pbix`, che è un file solo e non ammette lavoro parallelo. `[P]` compare solo dove due task toccano file davvero distinti.
 
@@ -43,7 +43,7 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 - [X] T007 Scrivi in `specs/008a-dashboard-model-pages/contracts/page-contract.md`, per ciascuna delle quattro pagine, la voce **«interazioni non offerte, e perché»** (`FR-004`): nessun filtro di categoria video dove vive `BQ1-K3` (issue `#18`), nessun filtro di anno, nessuna somma su più segmenti, nessun conteggio di righe per segmento, nessun verdetto composto sulle tre condizioni della North Star (`F6`)
 - [X] T008 Scrivi la sezione **«Dove la `008b` scriverà»**: per ciascuna pagina, lo spazio lasciato libero per la narrazione e i limiti, dichiarato come riservato e non come vuoto — così che la feature successiva non debba ridisegnare le pagine per farvi entrare il proprio testo
 - [X] T009 Rileggi `specs/008a-dashboard-model-pages/contracts/page-contract.md` contro `FR-003`: nessun valore di KPI trascritto, solo nomi di misura e rinvii alle sezioni di `docs/kpi_measures.md` che li pubblicano
-- [ ] T010 **PUNTO DI FERMATA 3** — proponi il commit del contratto di pagina e **fermati**: il contratto torna a Valerio per approvazione o correzione, prima che Power BI Desktop venga aperto (`FR-005`, `F1`). Riporta che cosa il contratto decide e su che cosa chiede una conferma
+- [X] T010 **PUNTO DI FERMATA 3** — proponi il commit del contratto di pagina e **fermati**: il contratto torna a Valerio per approvazione o correzione, prima che Power BI Desktop venga aperto (`FR-005`, `F1`). Riporta che cosa il contratto decide e su che cosa chiede una conferma
 
 **Checkpoint**: contratto approvato e committato. Il repository è in uno stato coerente e nulla di ciò che esiste può ancora contraddirlo.
 
@@ -70,11 +70,11 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 
 **Independent Test**: prove 3, 4, 5, 6, 7 e 10 di [quickstart.md](./quickstart.md).
 
-- [ ] T013 **(manuale, Valerio)** [US1] Verifica nel `.pbix` le sette tabelle e i loro conteggi di riga contro [data-model.md](./data-model.md) §1.1, inclusa la versione 2 di `dim_category_mood`
+- [ ] T013 **(manuale, Valerio)** [US1] Verifica nel `.pbix` le sette tabelle e i loro conteggi di riga contro [data-model.md](./data-model.md) §1.1, inclusa la versione 2 di `dim_category_mood`; accerta inoltre in quale forma il modello porta oggi i sei valori di scenario di `BQ3` e, se sono digitati, portali a leggere `reports/bq3_scenarios.json` come tabella disconnessa (`CP-2`)
 - [ ] T014 **(manuale, Valerio)** [US1] Verifica nel `.pbix` le cinque relazioni e le loro direzioni contro [data-model.md](./data-model.md) §1.2: R1 bidirezionale, nessuna relazione fra gruppo video e gruppo musicale, R5 fra `dim_segment[segment]` e `fact_track_segment[track_genre]`
 - [ ] T015 **(manuale, Valerio)** [US1] Incolla nel `.pbix` le dieci misure con i nomi semantici di [data-model.md](./data-model.md) §1.3, organizzate in cartelle DAX per domanda di business; il testo DAX è quello pubblicato da `docs/kpi_measures.md`, non riscritto (`FR-008`, `FR-009`)
-- [ ] T016 **(manuale, Valerio)** [US1] Esponi come misure proprie le due soglie del quadrante — le stesse espressioni `MEDIANX ( ALL ( dim_segment ), … )` che vivono dentro `segment_entry_priority_quadrant` (`F7`, `FR-010`)
-- [ ] T017 **(manuale, Valerio)** [US1] Leggi le due misure di soglia e confrontale con i valori pubblicati in `docs/kpi_measures.md` §7.1; annota coincidenza o divergenza (★3, prova 11)
+- [ ] T016 **(manuale, Valerio)** [US1] Esponi come misure proprie le due soglie del quadrante — le stesse espressioni `MEDIANX ( ALL ( dim_segment ), … )` che vivono dentro `segment_entry_priority_quadrant` (`F7`, `FR-010`) — e scrivi le due misure companion di `CP-1`: la quota di titoli `Movie` sul catalogo video e `C3`, sul modello di `c1_music_above_median`
+- [ ] T017 **(manuale, Valerio)** [US1] Leggi le due misure di soglia contro i valori pubblicati in `docs/kpi_measures.md` §7.1 e le due companion di `CP-1` contro §3.4 e §7.1; annota per ciascuna coincidenza o divergenza (★3, prova 11)
 - [ ] T018 **(manuale, Valerio)** [US1] Costruisci la **pagina di ingresso** secondo il contratto approvato: North Star con le sue etichette, navigazione verso le tre pagine, nessuna prosa
 - [ ] T019 **(manuale, Valerio)** [US1] Costruisci la **pagina `BQ1`** secondo il contratto: `BQ1-K1` con `C1`, `BQ1-K2`, `BQ1-K3`, **senza alcun filtro di categoria video** (`FR-020`)
 - [ ] T020 **(manuale, Valerio)** [US1] Costruisci la **pagina `BQ3`** secondo il contratto: tre valori di scenario affiancati per ciascuno dei due KPI, con le unità; nessuna scheda singola, nessuna moltiplicazione (`FR-013`, `FR-014`)
@@ -126,6 +126,7 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 - [ ] T033 [US5] Compila l'elenco degli **scostamenti** dal contratto approvato, ciascuno con la propria ragione; zero scostamenti è ammesso solo se le pagine coincidono con il contratto in ogni voce (`FR-023`, `F9`)
 - [ ] T034 [US5] Compila l'esito di ★1 (T011-T012) e di ★3 (T017), e lo stato dichiarato delle issue `#11` e `#18` con l'evidenza che manca per chiuderle (`FR-025`)
 - [ ] T035 [US5] Se e solo se T023 o T017 hanno prodotto un ritrovamento, scrivi la **nota in loco** su `docs/kpi_measures.md`: data, feature, valore precedente, valore corretto, causa, fonte verificabile — senza riscrivere il valore originale (`FR-024`)
+- [ ] T035a [US5] **Indipendentemente dall'esito di T017 e T023**, scrivi la **nota in loco** su `docs/kpi_measures.md` §3.4 e §7.1 con il testo DAX delle due misure companion di `CP-1`, verificato da T017: non è una correzione ma un'aggiunta, ed è dovuta perché quelle due sezioni sono gli unici punti del documento che dichiarano un valore senza il proprio blocco DAX mentre nel modello quel DAX ora esiste. Senza la nota il documento canonico esce silenziosamente fuori sincrono con il modello
 - [ ] T036 [US5] Allinea `specs/008a-dashboard-model-pages/contracts/dashboard-contract.md` all'esito reale: che cosa `008b` e `010` possono presupporre su ciò che **esiste**, non su ciò che era stato disegnato
 - [ ] T037 [US5] Esegui le dodici prove di [quickstart.md](./quickstart.md) in blocco, incluso `python3 scripts/check_audit_coherence.py`, e registra l'esito
 
