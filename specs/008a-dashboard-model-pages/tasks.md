@@ -93,7 +93,7 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 **Independent Test**: prova 8 di [quickstart.md](./quickstart.md).
 
 - [X] T024 **(manuale, Valerio)** [US2] Costruisci sulla pagina `BQ2` la **dispersione** domanda × affinità, con le due misure di soglia di T016 come linee di riferimento e i segmenti del quadrante distinguibili dagli altri
-- [ ] T025 **(manuale, Valerio)** [US2] Costruisci sulla stessa pagina la **graduatoria completa**: tutti i 114 segmenti, ordinati per punteggio decrescente, con la quota di zeri accanto a ogni indice di domanda e `C3` accanto a `BQ2-K3` (`FR-015`, `FR-016`, `FR-017`)
+- [X] T025 **(manuale, Valerio)** [US2] Costruisci sulla stessa pagina la **graduatoria completa**: tutti i 114 segmenti, ordinati per punteggio decrescente, con la quota di zeri accanto a ogni indice di domanda e `C3` accanto a `BQ2-K3` (`FR-015`, `FR-016`, `FR-017`)
 - [ ] T026 **(manuale, Valerio)** [US2] Aggiungi l'avvertimento accanto al nome dei sette segmenti `is_high_zero_genre` — `country`, `iranian`, `jazz`, `latin`, `rock`, `romance`, `soul` (`D7`, `FR-015`)
 - [ ] T027 **(manuale, Valerio)** [US2] Verifica a schermo: 114 righe contate, nessun segmento escluso, e due segmenti a pari punteggio che portano la stessa posizione con la successiva che salta (`kpi_measures.md` §7.2)
 
@@ -185,7 +185,7 @@ Tracciamento di comodo, non una fonte: la misura autorevole del tempo speso sono
 | ⏸ punto di fermata 3 | T010 | chiuso: contratto approvato, `CP-1`, `CP-2` e `CP-3` confermati | 2026-08-24 |
 | ★1 — tipizzazione | T011-T012 | chiuso: difetto assente | 2026-08-24 |
 | ★2 — costruzione, modello | T013-T017 | chiuso: un difetto di caricamento trovato e corretto | 2026-08-24 |
-| ★2 — costruzione, pagine | T018-T031 | US1 chiusa (T018-T023); dispersione di `BQ2` costruita (T024) | 2026-08-24 / 2026-08-25 |
+| ★2 — costruzione, pagine | T018-T031 | US1 chiusa (T018-T023); dispersione e graduatoria di `BQ2` costruite (T024-T025) | 2026-08-24 / 2026-08-25 |
 | B — esito | T032-T037 | in corso: le voci si riempiono mentre accadono | 2026-08-24 |
 | C — note in loco | T035, T035a | aperto | — |
 | D — contratto di lettura | T036 | aperto | — |
