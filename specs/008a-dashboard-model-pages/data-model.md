@@ -68,8 +68,8 @@ Otto principali più due companion, con i nomi semantici invariati (`F8`). Il te
 | Grana | KPI | Che cosa una selezione può legittimamente restringere |
 |---|---|---|
 | catalogo intero | `BQ1-K1`, `BQ1-K2`, `BQ1-K3` | **nulla**: il valore è unico e non ha varianti pubblicate |
-| segmento | `BQ2-K1`, `BQ2-K2`, `BQ2-K3` | il segmento, per tutti e 114 |
-| scenario | `BQ3-K1`, `BQ3-K2` | lo scenario, per tutti e tre — ma mai riducendo a uno solo (`F4`) |
+| segmento | `BQ2-K1`, `BQ2-K2`, `BQ2-K3` | **nulla per via di filtro**: i 114 valori stanno a schermo insieme, e una selezione evidenzia senza ricalcolare |
+| scenario | `BQ3-K1`, `BQ3-K2` | **nulla**: i tre scenari sono un intervallo e si leggono insieme (`F4`) |
 
 È la forma tabellare della regola `F2`. Una quarta riga non esiste, e ogni interazione che ne produrrebbe una è vietata dal contratto di pagina.
 

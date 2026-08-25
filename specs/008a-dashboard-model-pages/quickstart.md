@@ -87,7 +87,9 @@ Atteso: `C1` compare accanto a `BQ1-K1` e `C3` accanto a `BQ2-K3`; **nessuna pag
 
 ## Esito della costruzione
 
-> **Da compilare nel blocco B**, dopo ★2 e ★3. Le voci si riempiono **mentre accadono** e non a memoria alla fine: è la regola di [tasks.md](./tasks.md), e la ragione per cui alcune sono già compilate mentre le pagine non esistono ancora. Una voce che porta ancora *(esito da dichiarare)* è una voce non ancora osservata; «Le pagine che esistono» vuota significa che la costruzione non è iniziata.
+> **Sezione completa al 2026-08-25**: la costruzione è conclusa e non restano voci da osservare. Le voci sono state compilate **mentre accadevano** e non a memoria alla fine, ed è la ragione per cui portano ciascuna la propria data.
+>
+> **È questa sezione, non il contratto di pagina, la fonte autorevole su ciò che esiste.** Il contratto dichiara che cosa era stato deciso di costruire; dove i due divergono, la divergenza è elencata qui sotto con la propria ragione.
 
 ### Le pagine che esistono
 
@@ -147,7 +149,9 @@ Nessuna delle due calcola un valore nuovo: la prima rilegge `segment_entry_prior
 
 **Nessuno.** Gli otto valori letti a schermo coincidono con quelli pubblicati da `docs/kpi_measures.md` alla stessa grana (T023); le due soglie e le due companion di `CP-1` coincidono con §7.1 e §3.4 (T017); i due conteggi della colonna di classe coincidono con §7.1 e §5.3 (T024, T026); la graduatoria mostra 114 righe con la regola dei pari merito preservata (T027). Le verifiche di interazione sono chiuse (T028-T031) e non hanno prodotto divergenze.
 
-La sezione si chiude a zero, ed è l'esito atteso: questa feature non ha ricalcolato nulla, ha portato a schermo valori già verificati contro il motore dalla `007b`.
+La sezione si chiude a zero, **e ciò che la sostiene è T023**: il confronto diretto, valore per valore, fra ciò che si legge a schermo e ciò che `docs/kpi_measures.md` pubblica, eseguito dopo che i difetti di caricamento erano stati corretti. Non la sostiene il fatto che la `007b` avesse già verificato quelle formule contro il motore: il difetto di caricamento di `dim_title` descritto più sotto avrebbe alterato due valori pubblicati, e **se preceda o segua la verifica della `007b` questa feature non lo ha stabilito**. È un'ancora più debole e non serve.
+
+*(Non è un ritrovamento nemmeno il disallineamento fra il modello e `docs/kpi_measures.md` §3.4, §7.1 e §11.1, dove valori pubblicati erano privi del proprio blocco DAX e un'esclusione era diventata imprecisa: sono **aggiunte**, chiuse con nota in loco su quel documento. Nessun valore pubblicato è risultato sbagliato in nessuna delle tre categorie — ritrovamenti, difetti di caricamento, aggiunte — e le tre insieme esauriscono ciò che questa feature ha trovato.)*
 
 *(I due difetti corretti in fase di caricamento non sono ritrovamenti: nessun valore pubblicato è risultato sbagliato. Stanno nella sezione dedicata più sotto.)*
 
@@ -162,18 +166,18 @@ Categoria distinta dalle due precedenti, e la distinzione non è formale: non è
 - **Perimetro accertato**: è l'unico dei quattro file di `data/processed/` in cui record CSV e righe fisiche divergono. Le altre sei tabelle tornavano già prima della correzione, e la ragione è questa.
 - **Che cosa il difetto avrebbe prodotto se non fosse stato visto**: le righe spurie portano i campi spostati di posizione, quindi `type` e `movie_duration_min` degeneri. Sarebbero entrate nella mediana dei film di `format_duration_gap` e nei conteggi per categoria della North Star, cambiando due valori pubblicati **senza che nulla lo segnalasse** — nessuno script di questo repository entra nel modello.
 - **Il dato di origine non è stato toccato.** Il ritorno a capo dentro il titolo di `s8420` è il valore vero e resta tale: `data/processed/` è fuori dal perimetro di scrittura di questa feature, e il titolo si legge su due righe anche a schermo.
-- **Nulla impedisce che ricompaia.** L'impostazione vive dentro il `.pbix`, che non è versionato: un reimport futuro può rimettere `QuoteStyle.None` senza che nessun controllo se ne accorga. È la stessa forma dell'issue `#11`, e alla chiusura va aperta una issue analoga.
+- **Nulla impedisce che ricompaia.** L'impostazione vive dentro il `.pbix`, che non è versionato: un reimport futuro può rimettere `QuoteStyle.None` senza che nessun controllo se ne accorga. È la stessa forma dell'issue `#11`, ed è la ragione dell'issue `#20`.
 
 **`bq3_scenarios` aveva perso la colonna `scenario`** (T020, 2026-08-24).
 
 - **Causa**: la materializzazione della tabella disconnessa di `CP-2` non ha portato la colonna che nomina lo scenario.
 - **Correzione**: colonna ripristinata prima di costruire la pagina.
 - **Perché non è un dettaglio**: senza `scenario` i sei valori restano sei numeri senza l'etichetta che dice a quale ipotesi ciascuno appartiene. `F4` impone che `BQ3` compaia come intervallo a tre scenari, e un intervallo di cui non si sa quale estremo sia il pessimista non è un intervallo: è tre numeri affiancati. Il divieto di scheda singola sarebbe stato rispettato alla lettera e violato nella sostanza.
-- **Stessa fragilità delle due precedenti**: vive nel `.pbix` non versionato, e rientra nella issue che alla chiusura va aperta.
+- **Stessa fragilità delle due precedenti**: vive nel `.pbix` non versionato, e rientra nell'issue `#20`.
 
 ### Le decisioni `CP` e come sono state eseguite
 
-- **`CP-2` — i sei valori di `BQ3`**: creata la tabella `bq3_scenarios`, **disconnessa** dal resto del modello (T013, 2026-08-24). Le tabelle nel modello sono quindi otto invece delle sette di [data-model.md](./data-model.md) §1.1, e le relazioni restano cinque. L'assenza di relazioni è la proprietà che impedisce di filtrare gli scenari per segmento o per categoria.
+- **`CP-2` — i sei valori di `BQ3`**: creata la tabella `bq3_scenarios`, **disconnessa** dal resto del modello (T013, 2026-08-24). Le tabelle nel modello sono quindi otto invece delle sette di [data-model.md](./data-model.md) §1.1; le relazioni restano le cinque di §1.2, perché la tabella aggiunta non ne porta alcuna. L'assenza di relazioni è la proprietà che impedisce di filtrare gli scenari per segmento o per categoria.
 - **`CP-1` — le due misure companion**: scritte ed esposte nel modello, e la loro lettura **coincide** con i valori pubblicati — la quota di titoli `Movie` con `kpi_measures.md` §3.4, `C3` con §7.1 (T016-T017, 2026-08-24). Nessun ritrovamento: la nota in loco di T035a resta dovuta come **aggiunta** del testo DAX, non come correzione di un valore.
 - **`CP-3` — la North Star su due pagine**: eseguita come approvata (T018-T019, 2026-08-24). `music_adjacent_catalog_share` compare sulla pagina di ingresso con le sole etichette e sulla pagina `BQ1` con `C1` accanto. Stessa misura, stessa grana: non può divergere, e la ripetizione è voluta.
 
@@ -217,5 +221,5 @@ Registrato il 2026-08-25 (T037), e va letto sapendo **come** è stato ottenuto.
 
 Due, entrambe nate costruendo e nessuna delle due chiudibile qui. Aperte il 2026-08-25.
 
-1. **La fragilità del `.pbix` non versionato.** Tre impostazioni che vivono solo dentro il file e che nessun controllo del repository può vedere si sono già rivelate perdibili: la tipizzazione delle colonne di mood (`#11`), il `QuoteStyle` dell'origine di `dim_title`, la colonna `scenario` di `bq3_scenarios`. Serve una nota di ricostruzione che le elenchi come punti da riverificare a ogni riapertura. Aperta come **`#20`**.
+1. **La fragilità del `.pbix` non versionato.** Tre impostazioni vivono solo dentro il file e nessun controllo del repository può vederle. Ciascuna si è già persa almeno una volta: la tipizzazione delle colonne di mood si perse durante la `007b`, dove `E9` la trovò e la registrò come issue `#11` — in questa materializzazione la verifica ★1 è passata, ma è un esito di oggi e non una garanzia; il `QuoteStyle` dell'origine di `dim_title` e la colonna `scenario` di `bq3_scenarios` si sono perse qui, e sono state corrette costruendo. Serve una nota di ricostruzione che le elenchi come punti da riverificare a ogni riapertura. Aperta come **`#20`**.
 2. **La selezione incrociata su `BQ2`.** Vedi la nota nella sezione degli scostamenti. Aperta come **`#21`**.

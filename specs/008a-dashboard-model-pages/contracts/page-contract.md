@@ -1,6 +1,6 @@
 # Contratto di pagina: che cosa la dashboard espone, e con quale forma
 
-**Feature**: 008a-dashboard-model-pages | **Data**: 2026-08-24 | **Stato**: **da approvare** (punto di fermata 3)
+**Feature**: 008a-dashboard-model-pages | **Data**: 2026-08-24 | **Stato**: **approvato il 2026-08-24** al punto di fermata 3, con le tre decisioni `CP` della sezione 9 confermate; invariato da allora, salvo la chiusura dei rilievi di revisione del 2026-08-25
 
 Questo documento è il disegno delle pagine, scritto **prima** che Power BI Desktop venga aperto (`FR-001`). Non è un resoconto di ciò che esiste: nel momento in cui viene proposto, non esiste nulla. Ciò che esiste sarà descritto dalla sezione «Esito della costruzione» di [quickstart.md](../quickstart.md), e in caso di divergenza **quella** è la fonte autorevole, non questa (`F9`).
 
@@ -20,6 +20,16 @@ Quattro pagine. Otto KPI, ciascuno su esattamente una pagina di domanda; la Nort
 | **BQ1 — Posizionamento** | `BQ1-K1` 🎯, `BQ1-K2`, `BQ1-K3` | `music_adjacent_catalog_share`, `c1_music_above_median`, `format_duration_gap`, `mood_profile_overlap` | catalogo intero |
 | **BQ2 — Segmento di ingresso** | `BQ2-K1`, `BQ2-K2`, `BQ2-K3` | `segment_demand_index`, `segment_zero_share`, `segment_catalog_affinity`, `segment_entry_priority_score`, `segment_entry_priority_quadrant`, `segment_entry_priority_rank` | segmento |
 | **BQ3 — Impatto stimato** | `BQ3-K1`, `BQ3-K2` | nessuna misura: sei valori di scenario (sezione 6) | scenario |
+
+**Su `BQ2` le misure sono più dei KPI, e la corrispondenza va dichiarata** invece di lasciarla indovinare — sei misure per tre KPI:
+
+| KPI | Misura che lo pubblica | Misure che lo accompagnano |
+|---|---|---|
+| `BQ2-K1` | `segment_demand_index` | `segment_zero_share`, companion obbligatoria per `D7` |
+| `BQ2-K2` | `segment_catalog_affinity` | — |
+| `BQ2-K3` | `segment_entry_priority_score` | `segment_entry_priority_quadrant` e `segment_entry_priority_rank`, che lo stesso KPI pubblica come valori distinti e non intercambiabili |
+
+**`segment_zero_share` non è un KPI**, come non lo è la quota di titoli `Movie` su `BQ1`: è la quota che `D7` impone di mostrare accanto alla domanda perché quel valore si legga correttamente. Non porta etichette di fonte e confidenza, che appartengono ai KPI. L'etichetta di `BQ2-K3` in §1.1 dice `Derivato (BQ2-K1 + BQ2-K2)` e va letta su questa tabella: il punteggio compone **domanda e affinità**, non domanda e quota di zeri.
 
 **Le pagine sono quattro e non tre**, e la ragione non è estetica: la pagina di ingresso è l'unica che porta la navigazione senza essere sotto la giurisdizione di una domanda di business. Fondere l'ingresso con `BQ1` costringerebbe la North Star a convivere sulla stessa pagina con i due KPI che non la compongono, e la vicinanza suggerirebbe una composizione che non esiste.
 
@@ -65,13 +75,13 @@ Enunciata qui una volta sola. Le sezioni per pagina la citano, non la ripetono.
 
 > **Regola di invarianza a schermo (`F2`).** Un valore a schermo deve essere un valore pubblicato da [`docs/kpi_measures.md`](../../../docs/kpi_measures.md), **alla grana a cui quel documento lo pubblica**. Nessuna pagina offre un'interazione che produca un valore di KPI a una grana diversa.
 
-Le grane pubblicate sono tre, e non ne esiste una quarta:
+Le grane pubblicate sono tre, e non ne esiste una quarta. **La colonna di destra dice «nulla» su tutte e tre le righe**, e non è una ridondanza: la grana pubblicata è già quella che si vede, quindi nessuna pagina ha ragione di offrire un filtro.
 
 | Grana | KPI | Che cosa una selezione può legittimamente restringere |
 |---|---|---|
-| catalogo intero | `BQ1-K1`, `BQ1-K2`, `BQ1-K3` | **nulla** |
-| segmento | `BQ2-K1`, `BQ2-K2`, `BQ2-K3` | il segmento, per tutti e 114 |
-| scenario | `BQ3-K1`, `BQ3-K2` | lo scenario, per tutti e tre — mai riducendo a uno solo |
+| catalogo intero | `BQ1-K1`, `BQ1-K2`, `BQ1-K3` | **nulla**: il valore è unico e non ha varianti pubblicate |
+| segmento | `BQ2-K1`, `BQ2-K2`, `BQ2-K3` | **nulla per via di filtro**: i 114 valori sono tutti pubblicati e stanno tutti a schermo insieme. Una selezione può evidenziarne uno, non ricalcolare su un sottoinsieme |
+| scenario | `BQ3-K1`, `BQ3-K2` | **nulla**: i tre scenari sono un intervallo e si leggono insieme; ridurre a uno solo è vietato da `F4` |
 
 **Perché la regola sta qui e non dentro le formule.** L'issue `#18` osserva che `mood_profile_overlap` legge gli estremi degli assi di mood senza un `ALL` sulla categoria: un filtro di categoria video restringerebbe silenziosamente l'inviluppo e produrrebbe un valore diverso da quello pubblicato, senza alcun segnale. La correzione della formula chiuderebbe quel caso; la regola chiude **la classe** di cui quel caso è un membro, al costo di una riga di contratto e senza toccare un artefatto già verificato contro il motore. L'issue resta aperta: questa feature dimostra che il difetto non si manifesta nelle pagine costruite, non che non esista (`F2`).
 
