@@ -194,6 +194,24 @@ Secondo vincolo aperto di §12. Il lato video contribuisce con i **soli film**, 
 
 Il numero è pubblicato senza un giudizio su quanto l'asimmetria sia grave: `kpi_operators.md` chiedeva di dichiararla, non di valutarla, e la valutazione richiederebbe un criterio che nessun documento del progetto ha fissato.
 
+> **⚠️ Nota di aggiunta — 2026-08-25, feature `008a`.** Non è una correzione: **il valore non cambia e non è stato riaperto.** È un'aggiunta, e va dichiarata perché la sua assenza faceva di questa sezione uno dei pochi punti del documento in cui un valore è pubblicato **senza il proprio blocco DAX**.
+>
+> **Perché mancava**: questa quota è calcolata dallo script e non è mai stata una misura del modello. Nessuna feature precedente aveva avuto ragione di scriverla in DAX.
+>
+> **Che cosa è cambiato**: la `008a` porta la quota a schermo accanto a `BQ1-K2`, perché l'asimmetria del confronto sia leggibile dove il valore si legge. Un numero digitato a mano in una visuale sarebbe un valore la cui unica fonte è che qualcuno lo ha scritto — ciò che il principio I vieta — quindi la quota esiste ora come misura:
+>
+> ```dax
+> movie_share_of_video_catalog =
+> DIVIDE (
+>     CALCULATE ( DISTINCTCOUNT ( dim_title[show_id] ), dim_title[type] = "Movie" ),
+>     DISTINCTCOUNT ( dim_title[show_id] )
+> )
+> ```
+>
+> **La lettura del motore coincide con il valore pubblicato qui sopra**, verificata una volta durante la costruzione. La misura non ricalcola il KPI: rilegge una quota già pubblicata.
+>
+> **Fonte verificabile**: [`specs/008a-dashboard-model-pages/quickstart.md`](../specs/008a-dashboard-model-pages/quickstart.md), sezione «Esito della costruzione»; la decisione che la richiede è `CP-1` del contratto di pagina della stessa feature.
+
 **Stato di verifica contro il motore reale (E9)**: **verificato**: la lettura del motore per `format_duration_gap` coincide, sì<!--@ENGINE.check.format_duration_gap.matches-->. Le due<!--#--> varianti della mediana di §3.3 e la quota di film di §3.4 sono calcolate dallo script e non sono state lette separatamente dal motore. Vedi §11 per il perimetro completo del confronto.
 
 ---
@@ -410,6 +428,37 @@ Ciò che il valore garantisce è di essere **confrontabile con sé stesso fra se
 Entrambe le soglie sono **strette**: un segmento esattamente sulla mediana non entra nel quadrante. Entrambe sono calcolate sui valori **esatti**, non su quelli arrotondati per la pubblicazione — arrotondare prima farebbe cadere dal lato sbagliato i segmenti vicini alla soglia.
 
 `C3` chiede che «esista almeno un segmento musicale che si colloca contemporaneamente nella metà superiore per domanda e nella metà superiore per affinità» (`business_case.md` §3). Il quadrante lo risponde per sì o per no, ed è soddisfatta.
+
+> **⚠️ Nota di aggiunta — 2026-08-25, feature `008a`.** Come per §3.4: **nessun valore di questa sezione cambia**, e nessuno è stato riaperto. Si aggiungono i blocchi DAX che mancavano.
+>
+> **Perché mancavano**: le due<!--#--> soglie vivevano come variabili interne a `segment_entry_priority_quadrant` (§7.3) e `C3` non aveva alcuna formula, essendo la lettura in prosa di un conteggio. Nessuna delle tre<!--#--> era una misura del modello.
+>
+> **Che cosa è cambiato**: la `008a` usa le due<!--#--> soglie come linee di riferimento della dispersione ed espone `C3` accanto a `BQ2-K3`. Costanti digitate in una visuale sarebbero valori senza fonte, quindi tutte e tre<!--#--> esistono ora come misure:
+>
+> ```dax
+> demand_threshold = MEDIANX ( ALL ( dim_segment ), [segment_demand_index] )
+>
+> affinity_threshold = MEDIANX ( ALL ( dim_segment ), [segment_catalog_affinity] )
+>
+> c3_satisfied =
+> VAR DemandThreshold = MEDIANX ( ALL ( dim_segment ), [segment_demand_index] )
+> VAR AffinityThreshold = MEDIANX ( ALL ( dim_segment ), [segment_catalog_affinity] )
+> VAR QuadrantCount =
+>     COUNTROWS (
+>         FILTER (
+>             ALL ( dim_segment ),
+>             [segment_demand_index] > DemandThreshold
+>                 && [segment_catalog_affinity] > AffinityThreshold
+>         )
+>     )
+> RETURN IF ( QuadrantCount > 0, TRUE (), FALSE () )
+> ```
+>
+> Le due<!--#--> soglie sono le stesse espressioni già scritte in §7.3, estratte e non riscritte; `c3_satisfied` ricostruisce le proprie perché una misura non può leggere le variabili di un'altra. Gli operatori restano `>`, che è la soglia **stretta** dichiarata qui sopra.
+>
+> **Le letture del motore coincidono con i valori pubblicati** in questa sezione, verificate una volta durante la costruzione. Vedi anche la nota in §11.1, che riguarda l'esclusione che questa lettura tocca.
+>
+> **Fonte verificabile**: [`specs/008a-dashboard-model-pages/quickstart.md`](../specs/008a-dashboard-model-pages/quickstart.md), sezione «Esito della costruzione»; decisione `CP-1` e decisione `F7` della feature `008a`.
 
 ### 7.2 La graduatoria
 
@@ -670,6 +719,14 @@ Le misure restanti:
 Per gli ultimi due<!--#-->, `premium_tier_adoption_rate` e `arpu_uplift`, non è stata scritta alcuna misura DAX, perché non ce n'è una da scrivere: sono valori congelati nell'artefatto della `004`, e il confronto verifica che siano stati portati nel modello senza alterazioni.
 
 **Un'esclusione va dichiarata esplicitamente**: le due<!--#--> soglie e il conteggio del quadrante di `BQ2-K3` (§7.1 — 36,5<!--@KPI.BQ2K3.threshold.demand-->; 0,8210<!--@KPI.BQ2K3.threshold.affinity-->; 33<!--@KPI.BQ2K3.quadrant_members_count-->) **non sono state lette come valori a sé stanti**. Vivono come variabili interne alla formula DAX di `segment_entry_priority_quadrant`, non come misure separatamente visualizzabili in una scheda o in una tabella: il confronto le esercita solo indirettamente, attraverso l'accordo riga per riga sui 3<!--@ENGINE.check.sampled_segments_count--> segmenti campionati.
+
+> **⚠️ Nota di aggiunta — 2026-08-25, feature `008a`.** L'esclusione qui sopra **resta vera di questo confronto** e non viene riscritta: il perimetro di `E9` è quello che è stato eseguito il 2026-08-22<!--@ENGINE.check.date-->, e ampliarlo a posteriori significherebbe attribuire a quell'esercizio letture che non ha fatto.
+>
+> **Che cosa è cambiato dopo**: costruendo la dashboard, la `008a` ha esposto le due<!--#--> soglie come misure proprie (§7.1, nota di aggiunta) e le ha lette; ha inoltre letto il conteggio dei membri del quadrante attraverso la colonna che classifica i segmenti nella dispersione. **Le letture coincidono con i valori pubblicati in §7.1.**
+>
+> **Che cosa questo non fa.** Non estende `reports/kpi_engine_check.json`, che resta l'artefatto di `E9` e non viene toccato; non trasforma quelle letture in valori ancorati di questo documento; e non cambia il fatto che il confronto sulle tre<!--#--> misure per segmento resti non esaustivo. Sposta una sola cosa: quei valori non sono più **illeggibili** come valori a sé stanti, ed è la ragione per cui l'esclusione era stata dichiarata.
+>
+> **Fonte verificabile**: [`specs/008a-dashboard-model-pages/quickstart.md`](../specs/008a-dashboard-model-pages/quickstart.md), sezione «Esito della costruzione», la voce sulla lettura delle soglie e quella su `CP-1`.
 
 **Il confronto non è esaustivo sulle tre<!--#--> misure per segmento**, e va detto prima di ogni altra cosa. Ciascuna restituisce 114<!--@SP.genre.count--> valori, e ne sono stati letti 3<!--@ENGINE.check.sampled_segments_count-->: `pop`, il primo in graduatoria; `jazz`, uno dei 7<!--@KPI.BQ2K1.high_zero_segments_count--> a mediana nulla; `sleep`, quello di affinità più bassa. La scelta non è casuale, ma 3<!--@ENGINE.check.sampled_segments_count--> segmenti su 114<!--@SP.genre.count--> restano 3<!--@ENGINE.check.sampled_segments_count--> su 114<!--@SP.genre.count-->: **che le altre righe coincidano non è verificato, ed è dichiarato come non verificato.** Chi legge una riga dell'appendice §9 legge un valore calcolato dallo script, non uno letto dal motore.
 
