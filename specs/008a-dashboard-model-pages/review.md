@@ -178,3 +178,43 @@ Trascritta dalla chiusura della revisione.
 > Ho letto per intero e una sola volta i due file indicati, nella cartella isolata. Non sono uscito dal perimetro: non ho aperto altri file, non ho elencato il contenuto della cartella oltre ai due percorsi che mi sono stati dati, non ho cercato nel repository, non ho letto history git e non ho seguito alcun collegamento relativo. Non ho tentato di farlo in nessun momento.
 >
 > Di conseguenza **non ho potuto verificare nulla di ciò che i documenti citano come fonte**: `business_case.md`, `kpi_measures.md` (né `kpi_operators.md`), `data-model.md`/`data_model.md`, `plan.md`, `tasks.md`, `research.md`, `roadmap.md`, la constitution, `reports/bq3_scenarios.json`, i file di `data/processed/` e le issue `#11`, `#18`, `#20`, `#21`. Tutti i valori ancorati a quelle fonti — i 114 segmenti, i 33 membri del quadrante, gli 8807 record attesi, i sette segmenti `is_high_zero_genre`, le dieci misure pubblicate, le sette tabelle, le cinque relazioni — li ho potuti controllare **solo per coerenza reciproca fra i due documenti**, non per corrispondenza al valore pubblicato. Su questo piano interno i conti tornano: 8807 + 2 = 8809; dieci misure pubblicate + due soglie + due companion = quattordici; sette tabelle + una disconnessa = otto; otto KPI ripartiti 1/3/3/2 sulle quattro pagine con l'unica ripetizione dichiarata; sette segmenti marcati nel documento 1 e sette contati nel documento 2. Non ho potuto verificare nulla di ciò che riguarda il `.pbix`, che i documenti stessi dichiarano non versionato e non leggibile dal repository — ed è la ragione per cui i rilievi R2, R5, R9 e R25 restano rilievi su ciò che il testo dichiara, non sul costruito.
+
+---
+
+## Blocco di chiusura — scritto dalla parte revisionata, 2026-08-25
+
+Aggiunto in coda. **Il testo del revisore qui sopra non è stato toccato**, nemmeno dove un rilievo è stato giudicato non accolto: un verbale riscritto da chi è stato revisionato non è più un verbale.
+
+**Come è stata applicata la soglia.** Si chiudono qui i soli rilievi per cui il deliverable, senza la correzione, **afferma il falso o si contraddice**. Tutto il resto è rinviato al tracker, e il rinvio è una decisione dichiarata come tale — non un rilievo lasciato cadere.
+
+### Risolti
+
+| Rilievo | Come | Dove |
+|---|---|---|
+| `R1` | l'esito non poggia più sulla verifica della `007b` ma su `T023`, il confronto diretto fra schermo e valori pubblicati fatto **dopo** la correzione dei difetti di caricamento. Riancorato, non riformulato | `quickstart.md`, *I ritrovamenti* |
+| `R3` | la parentesi dichiara ora tutte e tre le categorie — ritrovamenti, difetti di caricamento, aggiunte — e afferma che insieme esauriscono ciò che la feature ha trovato | `quickstart.md`, *I ritrovamenti* |
+| `R4` | aggiunta la tabella KPI ↔ misura per `BQ2`, con la dichiarazione esplicita che `segment_zero_share` non è un KPI e non porta etichette | `page-contract.md` §1 |
+| `R8` | le tre righe della tabella delle grane dicono ora **nulla**, che è la verità: nessuna pagina offre un filtro. Corretta anche la riga gemella in `data-model.md` §1.4, che portava lo stesso difetto | `page-contract.md` §2, `data-model.md` §1.4 |
+| `R13` | il blocco di apertura non dichiara più la sezione da compilare e dice invece che è completa e che è la fonte autorevole su ciò che esiste | `quickstart.md` |
+| `R15` | lo stato del contratto dichiara data di approvazione e che cosa è stato approvato | `page-contract.md`, intestazione |
+| `R21` | dichiarato che la tipizzazione si perse durante la `007b` — è l'origine dell'issue `#11` — e che ★1 è un esito di oggi, non una garanzia | `quickstart.md`, *Le issue* |
+| `R22` | rimossa la formulazione «va aperta»: l'issue `#20` esiste, e i due punti che la citano lo dicono entrambi | `quickstart.md` |
+
+### Indeboliti
+
+Nessuno. Nessuna delle otto correzioni ritira una rivendicazione: `R1` sostituisce un'ancora debole con una più forte già disponibile, e le altre sette rimuovono contraddizioni o aggiungono ciò che mancava.
+
+### Rinviati
+
+Diciassette rilievi, raggruppati in quattro issue. Il raggruppamento è una scelta: diciassette issue separate sarebbero un arretrato che nessuno rilegge, e i rilievi di ciascun gruppo si chiudono con la stessa passata di lavoro. **Ogni rilievo è nominato dentro la propria issue**, così che nessuno sparisca senza numero.
+
+| Issue | Rilievi | Tema |
+|---|---|---|
+| [`#22`](https://github.com/Valvln/streamwave-bi/issues/22) | `R2`, `R5`, `R6`, `R24`, `R25` | obblighi del contratto che l'esito non riporta come verificati. Si chiudono con una passata di verifica a schermo, non riscrivendo il testo |
+| [`#23`](https://github.com/Valvln/streamwave-bi/issues/23) | `R7`, `R9`, `R11` | affermazioni date come accertate senza dire come e da chi |
+| [`#24`](https://github.com/Valvln/streamwave-bi/issues/24) | `R12`, `R14`, `R16`, `R19`, `R23` | leggibilità per il lettore esterno: sigle mai sciolte, due numerazioni delle verifiche, nomi di file incoerenti |
+| [`#25`](https://github.com/Valvln/streamwave-bi/issues/25) | `R10`, `R17`, `R18`, `R20` | completezza della mappa, dei formati e del DAX trascritto |
+
+**`R9` merita una nota**, perché è il rilievo che questa feature meno può chiudere da sola: l'affermazione contestata — che Power BI non offra l'evidenziazione per dispersione e tabella — è vera per quanto chi ha costruito ha potuto accertare, ma è stata accertata provando, non consultando una fonte citabile. Rinviarla è la risposta onesta: dichiararla verificata sarebbe esattamente ciò che il rilievo contesta.
+
+**Nessun rilievo è stato giudicato infondato.** I diciassette rinviati sono tutti riconosciuti; ciò che li distingue dagli otto chiusi è che nessuno di essi rende falso ciò che il deliverable afferma.

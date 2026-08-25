@@ -136,11 +136,11 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 
 ## Phase 8: Polish & Cross-Cutting Concerns
 
-- [ ] T038 Prepara la copia isolata per la revisione in contesto pulito: `contracts/page-contract.md` e la sezione «Esito della costruzione» di `quickstart.md`, **senza** spec, piano, task né history — è l'unica configurazione in cui la revisione dice qualcosa (`CLAUDE.md`)
-- [ ] T039 Raccogli il verbale in `specs/008a-dashboard-model-pages/review.md` e **committalo prima di toccare l'artefatto revisionato**: dichiarazione di che cosa è stato letto e cosa no, ancoraggio alla versione revisionata (commit e impronta), rilievi (`FR-027`, i quattro obblighi di `CLAUDE.md`)
-- [ ] T040 Chiudi i soli rilievi **strettamente necessari** — il documento afferma il falso o pubblica un valore che non regge — e rinvia gli altri come issue GitHub con numero; aggiungi in coda al verbale il blocco di chiusura che distingue *risolto*, *indebolito* e *rinviato*
+- [X] T038 Prepara la copia isolata per la revisione in contesto pulito: `contracts/page-contract.md` e la sezione «Esito della costruzione» di `quickstart.md`, **senza** spec, piano, task né history — è l'unica configurazione in cui la revisione dice qualcosa (`CLAUDE.md`)
+- [X] T039 Raccogli il verbale in `specs/008a-dashboard-model-pages/review.md` e **committalo prima di toccare l'artefatto revisionato**: dichiarazione di che cosa è stato letto e cosa no, ancoraggio alla versione revisionata (commit e impronta), rilievi (`FR-027`, i quattro obblighi di `CLAUDE.md`)
+- [X] T040 Chiudi i soli rilievi **strettamente necessari** — il documento afferma il falso o pubblica un valore che non regge — e rinvia gli altri come issue GitHub con numero; aggiungi in coda al verbale il blocco di chiusura che distingue *risolto*, *indebolito* e *rinviato*
 - [X] T041 [P] Allinea `README.md`: riga di stato della `008a` — al 2026-08-25 «costruita, in revisione», da portare a «revisionata» con il link al verbale **dopo T040**, perché il README non asserisca una revisione che non esiste, deliverable elencato (il `.pbix` non versionato, con il rinvio a contratto ed esito che lo rendono ispezionabile), `Setup` e `Struttura` allineati se qualcosa cambia nel modo di rigenerare o verificare il progetto (`FR-026`)
-- [ ] T042 Riesegui `python3 scripts/check_audit_coherence.py` dopo le correzioni di T040 e T041, e riporta: contratto approvato, esito con gli scostamenti, stato di `#11` e `#18`, rilievi chiusi e rinviati, esito del controllo
+- [X] T042 Riesegui `python3 scripts/check_audit_coherence.py` dopo le correzioni di T040 e T041, e riporta: contratto approvato, esito con gli scostamenti, stato di `#11` e `#18`, rilievi chiusi e rinviati, esito del controllo
 
 ---
 
@@ -189,7 +189,7 @@ Tracciamento di comodo, non una fonte: la misura autorevole del tempo speso sono
 | B — esito | T032-T037 | chiuso | 2026-08-25 |
 | C — note in loco | T035, T035a | chiuso: T035 non dovuto (zero ritrovamenti); T035a su §3.4, §7.1 e §11.1 | 2026-08-25 |
 | D — contratto di lettura | T036 | chiuso: riallineato all'esito | 2026-08-25 |
-| E — revisione | T038-T040 | aperto | — |
-| F — chiusura | T041-T042 | T041 chiuso (README); T042 dopo la revisione | 2026-08-25 |
+| E — revisione | T038-T040 | chiuso: 25 rilievi, 8 risolti, 17 rinviati a #22-#25 | 2026-08-25 |
+| F — chiusura | T041-T042 | chiuso | 2026-08-25 |
 
 **Le voci di esito già compilate** stanno nella sezione «Esito della costruzione» di [quickstart.md](./quickstart.md), ciascuna con la propria data.

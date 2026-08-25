@@ -38,7 +38,7 @@ Governance: [`constitution`](.specify/memory/constitution.md) v1.2.0 · [metodo 
 | `006` Content Taxonomy Bridge | [`docs/content_taxonomy_bridge.md`](docs/content_taxonomy_bridge.md) · [`docs/mood_assignment_criteria.md`](docs/mood_assignment_criteria.md) · [`data/curated/`](data/curated/) | ✅ conclusa, [revisionata](specs/006-content-taxonomy-bridge/review.md) |
 | `007a` Operatori delle misure | [`docs/kpi_operators.md`](docs/kpi_operators.md) | ✅ conclusa, [revisionata](specs/007a-kpi-operators/review.md) |
 | `007b` Misure dei KPI | [`docs/kpi_measures.md`](docs/kpi_measures.md) · `scripts/build_kpi_measures.py` · [`reports/kpi_measures.json`](reports/kpi_measures.json) · [`reports/kpi_engine_check.json`](reports/kpi_engine_check.json) | ✅ conclusa, [revisionata](specs/007b-kpi-measures/review.md) |
-| `008a` Dashboard — modello e pagine | il `.pbix` **non versionato**, reso ispezionabile dal [contratto di pagina](specs/008a-dashboard-model-pages/contracts/page-contract.md) e dall'[esito della costruzione](specs/008a-dashboard-model-pages/quickstart.md) | 🚧 costruita, in revisione |
+| `008a` Dashboard — modello e pagine | il `.pbix` **non versionato**, reso ispezionabile dal [contratto di pagina](specs/008a-dashboard-model-pages/contracts/page-contract.md) e dall'[esito della costruzione](specs/008a-dashboard-model-pages/quickstart.md) | ✅ conclusa, [revisionata](specs/008a-dashboard-model-pages/review.md) |
 
 Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](docs/roadmap.md).
 
