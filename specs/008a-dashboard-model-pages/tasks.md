@@ -94,8 +94,8 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 
 - [X] T024 **(manuale, Valerio)** [US2] Costruisci sulla pagina `BQ2` la **dispersione** domanda × affinità, con le due misure di soglia di T016 come linee di riferimento e i segmenti del quadrante distinguibili dagli altri
 - [X] T025 **(manuale, Valerio)** [US2] Costruisci sulla stessa pagina la **graduatoria completa**: tutti i 114 segmenti, ordinati per punteggio decrescente, con la quota di zeri accanto a ogni indice di domanda e `C3` accanto a `BQ2-K3` (`FR-015`, `FR-016`, `FR-017`)
-- [ ] T026 **(manuale, Valerio)** [US2] Aggiungi l'avvertimento accanto al nome dei sette segmenti `is_high_zero_genre` — `country`, `iranian`, `jazz`, `latin`, `rock`, `romance`, `soul` (`D7`, `FR-015`)
-- [ ] T027 **(manuale, Valerio)** [US2] Verifica a schermo: 114 righe contate, nessun segmento escluso, e due segmenti a pari punteggio che portano la stessa posizione con la successiva che salta (`kpi_measures.md` §7.2)
+- [X] T026 **(manuale, Valerio)** [US2] Aggiungi l'avvertimento accanto al nome dei sette segmenti `is_high_zero_genre` — `country`, `iranian`, `jazz`, `latin`, `rock`, `romance`, `soul` (`D7`, `FR-015`)
+- [X] T027 **(manuale, Valerio)** [US2] Verifica a schermo: 114 righe contate, nessun segmento escluso, e due segmenti a pari punteggio che portano la stessa posizione con la successiva che salta (`kpi_measures.md` §7.2)
 
 **Checkpoint**: la pagina `BQ2` risponde alla domanda di business e non nasconde la coda.
 
@@ -107,10 +107,10 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 
 **Independent Test**: prova 9 di [quickstart.md](./quickstart.md).
 
-- [ ] T028 **(manuale, Valerio)** [US3] Percorri le quattro pagine ed **elenca** ogni filtro, slicer e interazione incrociata attivi; per ciascuno dichiara quale grana produce, confrontandola con le tre di [data-model.md](./data-model.md) §1.4 (`FR-019`)
-- [ ] T029 **(manuale, Valerio)** [US3] Verifica che nessuna pagina che espone `BQ1-K3` offra un filtro di categoria video, e che nessuna offra un filtro di anno (issue `#18`, `FR-020`)
-- [ ] T030 **(manuale, Valerio)** [US3] Verifica che nessuna visuale offra un conteggio di righe per segmento, una somma su più segmenti o un asse temporale (`FR-018`)
-- [ ] T031 **(manuale, Valerio)** [US3] Verifica che nessuna pagina componga `C1` e `C3` in un verdetto né nomini la regola «tre su tre» (`F6`, prova 12)
+- [X] T028 **(manuale, Valerio)** [US3] Percorri le quattro pagine ed **elenca** ogni filtro, slicer e interazione incrociata attivi; per ciascuno dichiara quale grana produce, confrontandola con le tre di [data-model.md](./data-model.md) §1.4 (`FR-019`)
+- [X] T029 **(manuale, Valerio)** [US3] Verifica che nessuna pagina che espone `BQ1-K3` offra un filtro di categoria video, e che nessuna offra un filtro di anno (issue `#18`, `FR-020`)
+- [X] T030 **(manuale, Valerio)** [US3] Verifica che nessuna visuale offra un conteggio di righe per segmento, una somma su più segmenti o un asse temporale (`FR-018`)
+- [X] T031 **(manuale, Valerio)** [US3] Verifica che nessuna pagina componga `C1` e `C3` in un verdetto né nomini la regola «tre su tre» (`F6`, prova 12)
 
 **Checkpoint**: la regola di invarianza a schermo è verificata sul costruito, pagina per pagina.
 
@@ -122,12 +122,12 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 
 **Independent Test**: leggere contratto ed esito in sequenza e ricostruire che cosa esiste, senza aprire il `.pbix`.
 
-- [ ] T032 [US5] Compila in `specs/008a-dashboard-model-pages/quickstart.md`, sezione «Esito della costruzione», l'elenco delle pagine che esistono: nome, KPI esposti, visuali, filtri presenti (`FR-022`)
-- [ ] T033 [US5] Compila l'elenco degli **scostamenti** dal contratto approvato, ciascuno con la propria ragione; zero scostamenti è ammesso solo se le pagine coincidono con il contratto in ogni voce (`FR-023`, `F9`)
-- [ ] T034 [US5] Compila l'esito di ★1 (T011-T012) e di ★3 (T017), e lo stato dichiarato delle issue `#11` e `#18` con l'evidenza che manca per chiuderle (`FR-025`)
+- [X] T032 [US5] Compila in `specs/008a-dashboard-model-pages/quickstart.md`, sezione «Esito della costruzione», l'elenco delle pagine che esistono: nome, KPI esposti, visuali, filtri presenti (`FR-022`)
+- [X] T033 [US5] Compila l'elenco degli **scostamenti** dal contratto approvato, ciascuno con la propria ragione; zero scostamenti è ammesso solo se le pagine coincidono con il contratto in ogni voce (`FR-023`, `F9`)
+- [X] T034 [US5] Compila l'esito di ★1 (T011-T012) e di ★3 (T017), e lo stato dichiarato delle issue `#11` e `#18` con l'evidenza che manca per chiuderle (`FR-025`)
 - [ ] T035 [US5] Se e solo se T023 o T017 hanno prodotto un ritrovamento, scrivi la **nota in loco** su `docs/kpi_measures.md`: data, feature, valore precedente, valore corretto, causa, fonte verificabile — senza riscrivere il valore originale (`FR-024`)
 - [ ] T035a [US5] **Indipendentemente dall'esito di T017 e T023**, scrivi la **nota in loco** su `docs/kpi_measures.md` §3.4 e §7.1 con il testo DAX delle due misure companion di `CP-1`, verificato da T017: non è una correzione ma un'aggiunta, ed è dovuta perché quelle due sezioni sono gli unici punti del documento che dichiarano un valore senza il proprio blocco DAX mentre nel modello quel DAX ora esiste. Senza la nota il documento canonico esce silenziosamente fuori sincrono con il modello. **Estensione decisa il 2026-08-24 dopo T017**: la nota copre anche §11.1, dove le due soglie del quadrante figurano fra gli esclusi dal confronto contro il motore perché non leggibili come valori a sé stanti — `F7` le ha rese leggibili e T017 le ha lette, quindi quell'esclusione non è più vera. È lo stesso difetto di sincronia e va chiuso con lo stesso strumento
-- [ ] T036 [US5] Allinea `specs/008a-dashboard-model-pages/contracts/dashboard-contract.md` all'esito reale: che cosa `008b` e `010` possono presupporre su ciò che **esiste**, non su ciò che era stato disegnato
+- [X] T036 [US5] Allinea `specs/008a-dashboard-model-pages/contracts/dashboard-contract.md` all'esito reale: che cosa `008b` e `010` possono presupporre su ciò che **esiste**, non su ciò che era stato disegnato
 - [ ] T037 [US5] Esegui le dodici prove di [quickstart.md](./quickstart.md) in blocco, incluso `python3 scripts/check_audit_coherence.py`, e registra l'esito
 
 **Checkpoint**: il deliverable è documentato. La feature è pronta per la revisione.
@@ -185,10 +185,10 @@ Tracciamento di comodo, non una fonte: la misura autorevole del tempo speso sono
 | ⏸ punto di fermata 3 | T010 | chiuso: contratto approvato, `CP-1`, `CP-2` e `CP-3` confermati | 2026-08-24 |
 | ★1 — tipizzazione | T011-T012 | chiuso: difetto assente | 2026-08-24 |
 | ★2 — costruzione, modello | T013-T017 | chiuso: un difetto di caricamento trovato e corretto | 2026-08-24 |
-| ★2 — costruzione, pagine | T018-T031 | US1 chiusa (T018-T023); dispersione e graduatoria di `BQ2` costruite (T024-T025) | 2026-08-24 / 2026-08-25 |
-| B — esito | T032-T037 | in corso: le voci si riempiono mentre accadono | 2026-08-24 |
-| C — note in loco | T035, T035a | aperto | — |
-| D — contratto di lettura | T036 | aperto | — |
+| ★2 — costruzione, pagine | T018-T031 | chiuso: quattro pagine costruite, interazioni verificate | 2026-08-24 / 2026-08-25 |
+| B — esito | T032-T037 | T032-T034 chiusi; T037 dopo le note in loco | 2026-08-25 |
+| C — note in loco | T035, T035a | T035 non dovuto: zero ritrovamenti. T035a aperto | 2026-08-25 |
+| D — contratto di lettura | T036 | chiuso: riallineato all'esito | 2026-08-25 |
 | E — revisione | T038-T040 | aperto | — |
 | F — chiusura | T041-T042 | aperto | — |
 

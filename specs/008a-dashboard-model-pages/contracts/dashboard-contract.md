@@ -6,7 +6,7 @@ Come i contratti della `007a` e della `007b`, non è un'interfaccia software: è
 
 **Una differenza rispetto ai due contratti precedenti, ed è la più importante.** Quelli garantivano proprietà di artefatti versionati, verificabili da chiunque eseguendo uno script. Questo garantisce proprietà di **un file binario non versionato che vive su una macchina sola**. Nessuno script può controllarlo, e la garanzia poggia interamente su tre presidi umani: il contratto di pagina scritto prima della costruzione, la sezione di esito scritta dopo, la revisione in contesto pulito su entrambi. Chi legge questo documento deve saperlo prima di fidarsene.
 
-**Stato**: scritto in fase di piano contro la spec approvata; **va riallineato all'esito reale nel blocco D**, dopo la costruzione. Fino ad allora dichiara ciò che la feature si impegna a produrre, non ciò che ha prodotto.
+**Stato**: **riallineato all'esito reale il 2026-08-25** (blocco D, T036). Le garanzie qui sotto descrivono ciò che il `.pbix` costruito contiene, non ciò che la feature si era impegnata a produrre. Dove le due cose divergono, la divergenza è dichiarata nella sezione «Esito della costruzione» di [quickstart.md](../quickstart.md), che resta la fonte autorevole.
 
 ## Che cosa la `008a` garantisce
 
@@ -19,7 +19,10 @@ Come i contratti della `007a` e della `007b`, non è un'interfaccia software: è
 7. **Nessuna visuale rende possibile una delle tre letture prive di significato** dichiarate da `data_model.md` §18: conteggio di righe per segmento, somma di una quantità su più segmenti, asse temporale (`FR-018`).
 8. **I nomi delle misure nel modello sono i nomi semantici** di `business_case.md` §5.1 (`F8`). Chi scrive una visuale nuova trova il vocabolario già usato da cinque documenti pubblicati.
 9. **Le colonne di mood sono state verificate nel dominio `0-1` prima che la prima pagina fosse costruita** (`FR-007`), e l'esito è dichiarato.
-10. **Ogni differenza fra il disegno approvato e ciò che esiste è elencata** nella sezione di esito, con la propria ragione (`F9`, `FR-023`).
+10. **Ogni differenza fra il disegno approvato e ciò che esiste è elencata** nella sezione di esito, con la propria ragione (`F9`, `FR-023`). Sono quattro, e nessuna tocca un valore.
+11. **Il modello contiene due colonne calcolate su `dim_segment` che `data-model.md` non prevedeva**: `segment_quadrant_class`, a tre stati, che serve la legenda della dispersione, e `segment_display`, che porta il nome del segmento insieme al proprio avvertimento. Entrambe rileggono valori pubblicati e i loro conteggi coincidono con `kpi_measures.md` §7.1 e §5.3. **Chi costruisce una visuale nuova sui segmenti usi `segment_display` e non `segment`**, o l'avvertimento sparisce dal nome.
+12. **Le tabelle del modello sono otto e non sette**: la ottava è `bq3_scenarios`, disconnessa, letta da `reports/bq3_scenarios.json`. Le relazioni restano cinque.
+13. **Le misure sono quattordici**: le dieci pubblicate, le due soglie di `F7`, le due companion di `CP-1`. Nessuna delle quattro aggiunte calcola un KPI.
 
 ## Che cosa la `008a` non garantisce, e resta a carico di `008b` e `010`
 
@@ -30,7 +33,8 @@ Come i contratti della `007a` e della `007b`, non è un'interfaccia software: è
 5. **Che l'issue `#11` sia chiusa.** La tipizzazione è stata verificata una volta, su una materializzazione. Il `.pbix` non è versionato e nessun controllo del repository entra nel modello: chi lo riapre, o chi lo ricostruisce, deve rifare la verifica. Costa una lettura.
 6. **Che il debito della `004` sulla verificabilità del benchmark sia risolto.** Non lo è, ed è una decisione di governance che questa feature non poteva prendere. I valori di `BQ3` vanno a schermo con quel debito aperto, ed è dichiarato.
 7. **Che le pagine costruite siano quelle disegnate**, se la sezione di esito elenca scostamenti. Chi legge questo contratto deve leggere anche quella sezione: **il disegno approvato non è la fonte autorevole su ciò che esiste, l'esito lo è.**
-8. **Che il file esista sulla macchina di chi legge.** Il `.pbix` non è versionato (`FR-029`) e non è rigenerabile da una copia pulita del repository — è la conseguenza dichiarata del principio V. `010` deve prevederlo: ciò che il repository contiene è il disegno e l'esito, non il file.
+8. **Che dispersione e graduatoria di `BQ2` si parlino.** Non lo fanno: l'interazione è disattivata in entrambe le direzioni, perché Power BI non offre l'evidenziazione come modalità di risposta per quelle due visuali e l'unica alternativa — il filtro — farebbe sparire gli altri segmenti dalla graduatoria. Chi in `008b` volesse ripristinarla deve prima risolvere quel vincolo, non semplicemente riattivare l'interazione.
+9. **Che il file esista sulla macchina di chi legge.** Il `.pbix` non è versionato (`FR-029`) e non è rigenerabile da una copia pulita del repository — è la conseguenza dichiarata del principio V. `010` deve prevederlo: ciò che il repository contiene è il disegno e l'esito, non il file.
 
 ## Come si verifica che il contratto è rispettato
 

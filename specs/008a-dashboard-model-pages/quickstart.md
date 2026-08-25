@@ -91,7 +91,16 @@ Atteso: `C1` compare accanto a `BQ1-K1` e `C3` accanto a `BQ2-K3`; **nessuna pag
 
 ### Le pagine che esistono
 
-*(una riga per pagina: nome, KPI esposti, visuali, filtri presenti)*
+Quattro, come il contratto le disegna (T032, 2026-08-25).
+
+| Pagina | KPI esposti | Visuali | Filtri presenti |
+|---|---|---|---|
+| **Ingresso** | `BQ1-K1` 🎯 | una scheda con le etichette di fonte e confidenza; barra di navigazione verso le tre pagine di domanda | **nessuno** |
+| **`BQ1`** | `BQ1-K1` 🎯, `BQ1-K2`, `BQ1-K3` | tre schede affiancate; l'indicatore booleano di `C1` accanto alla prima; la quota di titoli `Movie` accanto alla seconda | **nessuno**, e in particolare nessun filtro di categoria video |
+| **`BQ2`** | `BQ2-K1`, `BQ2-K2`, `BQ2-K3` | dispersione domanda × affinità con le due misure di soglia come linee di riferimento e la legenda a tre stati; graduatoria completa dei 114 segmenti sulla stessa pagina | **nessuno** |
+| **`BQ3`** | `BQ3-K1`, `BQ3-K2` | una matrice: i due KPI in riga, i tre scenari in colonna, le unità accanto | **nessuno**, e nessuno slicer di scenario |
+
+Tutte e otto le etichette di fonte e confidenza sono a schermo accanto al proprio KPI (T021). La navigazione è una barra persistente su tutte e quattro le pagine, con l'elemento corrente marcato (T022).
 
 ### Gli scostamenti dal contratto approvato
 
@@ -99,12 +108,20 @@ Atteso: `C1` compare accanto a `BQ1-K1` e `C3` accanto a `BQ2-K3`; **nessuna pag
 |---|---|---|---|
 | `BQ3`, tipo di visuale (T020, 2026-08-24) | «una tabella, due righe e tre colonne, più una colonna di unità» | una **matrice** | realizza la stessa disposizione — i due KPI in riga, i tre scenari in colonna — e regge gli stessi due divieti: nessuna scheda singola, nessuna moltiplicazione. La differenza è il nome della visuale in Power BI, non la forma con cui i sei valori si leggono |
 | modello, una colonna calcolata in più (T024, 2026-08-25) | [data-model.md](./data-model.md) §1.3 prevede misure, non colonne calcolate | `dim_segment[segment_quadrant_class]`, a tre stati: nel quadrante, domanda non misurata dalla fonte, fuori dal quadrante | il pozzo **Legenda** della dispersione accetta solo colonne, mai misure: è un vincolo dello strumento, non una scelta. Senza la colonna, la marcatura a tre stati che il contratto §5.1 richiede non è esprimibile. La colonna non calcola nulla di nuovo — rilegge `segment_entry_priority_quadrant` per segmento tramite transizione di contesto, e le soglie restano globali perché portano `ALL ( dim_segment )` |
+| modello, una seconda colonna calcolata (T026, 2026-08-25) | il contratto §5.2 chiede «l'avvertimento accanto al nome», senza prescrivere come | `dim_segment[segment_display]`, che unisce il nome del segmento e l'avvertimento; sostituisce `dim_segment[segment]` nella dispersione e nella graduatoria | l'avvertimento deve stare **accanto al nome** e viaggiare con esso ovunque il nome compaia. Una colonna separata lo lascerebbe scorporabile da chi costruisce una visuale nuova, che è lo stesso difetto che `D7` previene tenendo la quota di zeri adiacente alla domanda |
+| `BQ2`, interazione fra le due visuali (T028, 2026-08-25) | selezione incrociata ammessa come evidenziazione (§2.1) | interazione **disattivata** in entrambe le direzioni | vedi la nota qui sotto |
 
-**La colonna è stata verificata come `CP-1`**: i segmenti che ricadono in «nel quadrante» sono 33, che è il numero di membri del quadrante pubblicato da `kpi_measures.md` §7.1 (T024, 2026-08-25). Coincidenza, quindi aggiunta e non ritrovamento. Resta da confrontare il conteggio dello stato «domanda non misurata dalla fonte» con i sette segmenti `is_high_zero_genre` attesi.
+**La colonna è stata verificata come `CP-1`**: i segmenti che ricadono in «nel quadrante» sono 33, che è il numero di membri del quadrante pubblicato da `kpi_measures.md` §7.1 (T024, 2026-08-25), e lo stato «domanda non misurata dalla fonte» marca i sette segmenti `is_high_zero_genre` attesi (T026, 2026-08-25). Coincidenza su entrambi i conteggi: aggiunta, non ritrovamento.
+
+**La selezione incrociata fra dispersione e graduatoria non è stata realizzata** (T028, 2026-08-25). Il contratto §2.1 la ammetteva **come evidenziazione**, distinguendola dal filtro; Power BI non offre l'evidenziazione come modalità di risposta né per una dispersione né per una tabella, e l'unica alternativa disponibile è il filtro — che sulla graduatoria farebbe sparire gli altri segmenti.
+
+Il filtro è stato quindi **disattivato in entrambe le direzioni**: le due visuali non si parlano. È la scelta conservativa e va detto perché lo è: un filtro incrociato lasciato attivo renderebbe le 114 righe di `FR-016` una proprietà dello stato iniziale invece che della pagina, e basterebbe un clic per ottenere una graduatoria di una riga sola. Ciò che si perde è comodità di lettura; ciò che si sarebbe perso è la garanzia. Rinviato come issue: **`#NN`** — *(numero da inserire all'apertura)*.
 
 ### I ritrovamenti
 
-**Nessuno finora.** Gli otto valori letti a schermo coincidono con quelli pubblicati da `docs/kpi_measures.md` alla stessa grana (T023, 2026-08-24); le due soglie e le due companion di `CP-1` coincidono con §7.1 e §3.4. La riga resta aperta fino a T027 e T031, che verificano la pagina `BQ2` e le interazioni.
+**Nessuno.** Gli otto valori letti a schermo coincidono con quelli pubblicati da `docs/kpi_measures.md` alla stessa grana (T023); le due soglie e le due companion di `CP-1` coincidono con §7.1 e §3.4 (T017); i due conteggi della colonna di classe coincidono con §7.1 e §5.3 (T024, T026); la graduatoria mostra 114 righe con la regola dei pari merito preservata (T027). Le verifiche di interazione sono chiuse (T028-T031) e non hanno prodotto divergenze.
+
+La sezione si chiude a zero, ed è l'esito atteso: questa feature non ha ricalcolato nulla, ha portato a schermo valori già verificati contro il motore dalla `007b`.
 
 *(I due difetti corretti in fase di caricamento non sono ritrovamenti: nessun valore pubblicato è risultato sbagliato. Stanno nella sezione dedicata più sotto.)*
 
@@ -143,5 +160,12 @@ Categoria distinta dalle due precedenti, e la distinzione non è formale: non è
 
 ### Lo stato delle due issue
 
-- **`#11`**: *(chiusa / aperta, con l'evidenza che manca)*
-- **`#18`**: *(chiusa / aperta, con l'evidenza che manca)*
+- **`#11` — la tipizzazione delle colonne di mood: resta APERTA.** La verifica di ★1 è passata, ma dimostra che il difetto non c'era **in questa materializzazione**, non che non possa tornare. L'evidenza che manca è strutturale e questa feature non può produrla: il `.pbix` non è versionato e nessun controllo del repository entra nel modello. Chi lo riapre o lo ricostruisce rifà la verifica, e costa una lettura.
+- **`#18` — l'`ALL` mancante su `mood_profile_overlap`: resta APERTA.** Nessuna pagina che espone `BQ1-K3` offre un filtro di categoria video (T029), quindi il difetto non si manifesta nelle pagine costruite. La formula però è quella pubblicata e resta priva dell'`ALL`: l'evidenza che manca è la correzione della misura, che questa feature ha deliberatamente scelto di non fare (`F2`). Chiunque, in `008b` o dopo, voglia esporre `BQ1-K3` in un contesto filtrabile per categoria deve chiudere l'issue prima.
+
+### Le issue da aprire alla chiusura
+
+Due, entrambe nate costruendo e nessuna delle due chiudibile qui.
+
+1. **La fragilità del `.pbix` non versionato.** Tre impostazioni che vivono solo dentro il file e che nessun controllo del repository può vedere si sono già rivelate perdibili: la tipizzazione delle colonne di mood (`#11`), il `QuoteStyle` dell'origine di `dim_title`, la colonna `scenario` di `bq3_scenarios`. Serve una nota di ricostruzione che le elenchi come punti da riverificare a ogni riapertura. Numero: **`#NN`** — *(da inserire)*.
+2. **La selezione incrociata su `BQ2`.** Vedi la nota nella sezione degli scostamenti. Numero: **`#NN`** — *(da inserire)*.
