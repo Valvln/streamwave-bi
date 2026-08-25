@@ -189,6 +189,30 @@ Categoria distinta dalle due precedenti, e la distinzione non è formale: non è
 - **`#11` — la tipizzazione delle colonne di mood: resta APERTA.** La verifica di ★1 è passata, ma dimostra che il difetto non c'era **in questa materializzazione**, non che non possa tornare. L'evidenza che manca è strutturale e questa feature non può produrla: il `.pbix` non è versionato e nessun controllo del repository entra nel modello. Chi lo riapre o lo ricostruisce rifà la verifica, e costa una lettura.
 - **`#18` — l'`ALL` mancante su `mood_profile_overlap`: resta APERTA.** Nessuna pagina che espone `BQ1-K3` offre un filtro di categoria video (T029), quindi il difetto non si manifesta nelle pagine costruite. La formula però è quella pubblicata e resta priva dell'`ALL`: l'evidenza che manca è la correzione della misura, che questa feature ha deliberatamente scelto di non fare (`F2`). Chiunque, in `008b` o dopo, voglia esporre `BQ1-K3` in un contesto filtrabile per categoria deve chiudere l'issue prima.
 
+### L'esito delle dodici prove
+
+Registrato il 2026-08-25 (T037), e va letto sapendo **come** è stato ottenuto.
+
+**La prova 1 è stata rieseguita in blocco**, dopo le note in loco del blocco C: `python3 scripts/check_audit_coherence.py` restituisce esito verde. È l'unica delle dodici che questa sessione può eseguire.
+
+**Le prove dalla 2 alla 12 non sono state rieseguite in blocco**: richiedono il `.pbix` aperto, e una riesecuzione in blocco richiederebbe una seconda passata davanti allo schermo. Ciascuna è stata eseguita nel task che la incorpora, e il suo esito è registrato sopra:
+
+| Prova | Chiusa da | Esito |
+|---|---|---|
+| 2 — colonne di mood nel dominio `0-1` | T011-T012 | difetto assente |
+| 3 — tabelle e relazioni | T013-T014 | conforme dopo la correzione del caricamento di `dim_title`; tabelle otto per `CP-2` |
+| 4 — le misure con i nomi semantici | T015-T016 | conforme; misure quattordici per `F7` e `CP-1` |
+| 5 — gli otto KPI a schermo con le etichette | T021 | conforme |
+| 6 — i valori a schermo coincidono con i pubblicati | T023 | coincidenza |
+| 7 — la navigazione | T022 | conforme |
+| 8 — i 114 segmenti senza troncamenti | T025-T027 | conforme |
+| 9 — nessuna interazione a grana non pubblicata | T028-T030 | conforme; interazione fra le due visuali di `BQ2` disattivata |
+| 10 — `BQ3` come intervallo | T020 | conforme dopo il ripristino della colonna `scenario` |
+| 11 — le due soglie del quadrante | T017 | coincidenza |
+| 12 — la regola della North Star non compare | T031 | conforme |
+
+**Questa è la forma più forte disponibile, e non è la più forte immaginabile.** Undici prove su dodici poggiano su un'osservazione umana dichiarata, non su un artefatto che qualcuno possa riesercitare. È il principio V, non una lacuna di questa feature — ma chi legge deve saperlo prima di fidarsene.
+
 ### Le issue aperte da questa feature
 
 Due, entrambe nate costruendo e nessuna delle due chiudibile qui. Aperte il 2026-08-25.

@@ -38,6 +38,7 @@ Governance: [`constitution`](.specify/memory/constitution.md) v1.2.0 · [metodo 
 | `006` Content Taxonomy Bridge | [`docs/content_taxonomy_bridge.md`](docs/content_taxonomy_bridge.md) · [`docs/mood_assignment_criteria.md`](docs/mood_assignment_criteria.md) · [`data/curated/`](data/curated/) | ✅ conclusa, [revisionata](specs/006-content-taxonomy-bridge/review.md) |
 | `007a` Operatori delle misure | [`docs/kpi_operators.md`](docs/kpi_operators.md) | ✅ conclusa, [revisionata](specs/007a-kpi-operators/review.md) |
 | `007b` Misure dei KPI | [`docs/kpi_measures.md`](docs/kpi_measures.md) · `scripts/build_kpi_measures.py` · [`reports/kpi_measures.json`](reports/kpi_measures.json) · [`reports/kpi_engine_check.json`](reports/kpi_engine_check.json) | ✅ conclusa, [revisionata](specs/007b-kpi-measures/review.md) |
+| `008a` Dashboard — modello e pagine | il `.pbix` **non versionato**, reso ispezionabile dal [contratto di pagina](specs/008a-dashboard-model-pages/contracts/page-contract.md) e dall'[esito della costruzione](specs/008a-dashboard-model-pages/quickstart.md) | 🚧 costruita, in revisione |
 
 Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](docs/roadmap.md).
 
@@ -60,6 +61,10 @@ Il settimo è **[`docs/kpi_operators.md`](docs/kpi_operators.md)**: per ciascuno
 L'ottavo è **[`docs/kpi_measures.md`](docs/kpi_measures.md)**: il valore di ciascuno degli 8 KPI, la formula DAX con cui la misura si scrive nel modello, la provenienza di ogni numero e i limiti che quel numero porta con sé. È il primo documento del progetto in cui una cifra pubblicata è un **risultato** e non un input ereditato da una feature precedente. I valori non sono letti a schermo e ricopiati: li calcola `scripts/build_kpi_measures.py`, uno script deterministico che applica le stesse regole del modello dati e degli operatori sugli stessi dati, perché chi clona il repository senza una licenza Power BI possa comunque rigenerarli.
 
 Che script e motore DAX diano lo stesso numero **non è assunto**: il confronto è stato eseguito a mano sul modello materializzato, e il suo esito è congelato in [`reports/kpi_engine_check.json`](reports/kpi_engine_check.json) — l'unico artefatto del progetto, insieme ai benchmark, che nessuno script scrive. È servito: al primo passaggio tre KPI su otto divergevano di due ordini di grandezza, per una tipizzazione sbagliata delle colonne decimali in fase di caricamento — un difetto che nessun controllo automatico di questo repository poteva vedere, perché il `.pbix` non è un artefatto versionato.
+
+Il nono deliverable è il primo che **non è un documento**: la dashboard Power BI in cui gli 8 KPI vanno a schermo, su quattro pagine con la propria navigazione. Il `.pbix` **non è versionato** — incorpora i dati, che per scelta stanno fuori dal repository — quindi ciò che il repository contiene non è il file ma i due artefatti che lo rendono ispezionabile da chi non può aprirlo: il **[contratto di pagina](specs/008a-dashboard-model-pages/contracts/page-contract.md)**, che disegna ogni pagina prima che lo strumento venga aperto e motiva ogni visuale contro la forma del dato, e l'**[esito della costruzione](specs/008a-dashboard-model-pages/quickstart.md)**, che dichiara che cosa esiste davvero e in che cosa differisce dal disegno. L'ordine fra i due è il presidio, ed è lo stesso del ponte fra tassonomia e mood: il disegno si committa prima, e non può quindi ratificare ciò che è stato costruito.
+
+Costruire ha prodotto tre difetti che nessun controllo del repository poteva vedere, tutti in impostazioni che vivono solo dentro il file binario: due sono stati corretti durante la costruzione, il terzo è la tipizzazione già nota alla `007b`. È la ragione dell'issue `#20` e il limite dichiarato di questo deliverable. **Il file è leggibile, non pubblicabile**: i limiti a schermo, in forma comprensibile a un lettore non tecnico, sono il deliverable della feature successiva.
 
 I sette documenti che pubblicano misure — l'audit, il cleaning, gli scenari, il modello, il ponte fra tassonomia e mood, gli operatori e le misure — legano ogni numero all'artefatto che lo produce con la stessa grammatica, definita in **[`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md)** e verificata da `scripts/check_audit_coherence.py`. Lo stesso controllo presidia la tassonomia: se le categorie del catalogo video e quelle della tabella dei mood divergessero, **fallisce** invece di avvisare.
 
@@ -91,6 +96,8 @@ Nessuna dipendenza da installare: gli script usano la sola libreria standard di 
 
 **Non esiste un passo che rigeneri i profili di mood**, e non è un'omissione: quei valori sono assegnati, non calcolati, e nessuno script li tocca dopo il congelamento.
 
+**Non esiste nemmeno un passo che rigeneri la dashboard.** Il `.pbix` si costruisce a mano in Power BI Desktop a partire da `data/processed/`, ed è il confine dell'automazione che la constitution traccia. Le istruzioni sono il [contratto di pagina](specs/008a-dashboard-model-pages/contracts/page-contract.md); ciò che va riverificato a ogni riapertura del file — tipizzazione, lettura dei CSV, colonne di scenario — è elencato nell'[esito della costruzione](specs/008a-dashboard-model-pages/quickstart.md) e nell'issue `#20`.
+
 ## Struttura
 
 ```
@@ -104,7 +111,8 @@ docs/           # i documenti pubblicati: business case, audit, cleaning, scenar
 reports/        # artefatti versionati: profilo, rendiconto delle trasformazioni, scenari BQ3 e
                 #   misure dei KPI (generati) + esito del confronto col motore DAX (curato a mano)
 scripts/        # utility riproducibili
-specs/          # una cartella per feature: spec.md, plan.md, tasks.md, review.md
+specs/          # una cartella per feature: spec.md, plan.md, tasks.md, review.md,
+                #   contracts/ dove la feature ne pubblica uno (007a, 007b, 008a)
 ```
 
 ## Dati

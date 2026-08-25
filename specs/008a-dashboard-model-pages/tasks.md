@@ -125,10 +125,10 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 - [X] T032 [US5] Compila in `specs/008a-dashboard-model-pages/quickstart.md`, sezione «Esito della costruzione», l'elenco delle pagine che esistono: nome, KPI esposti, visuali, filtri presenti (`FR-022`)
 - [X] T033 [US5] Compila l'elenco degli **scostamenti** dal contratto approvato, ciascuno con la propria ragione; zero scostamenti è ammesso solo se le pagine coincidono con il contratto in ogni voce (`FR-023`, `F9`)
 - [X] T034 [US5] Compila l'esito di ★1 (T011-T012) e di ★3 (T017), e lo stato dichiarato delle issue `#11` e `#18` con l'evidenza che manca per chiuderle (`FR-025`)
-- [ ] T035 [US5] Se e solo se T023 o T017 hanno prodotto un ritrovamento, scrivi la **nota in loco** su `docs/kpi_measures.md`: data, feature, valore precedente, valore corretto, causa, fonte verificabile — senza riscrivere il valore originale (`FR-024`)
-- [ ] T035a [US5] **Indipendentemente dall'esito di T017 e T023**, scrivi la **nota in loco** su `docs/kpi_measures.md` §3.4 e §7.1 con il testo DAX delle due misure companion di `CP-1`, verificato da T017: non è una correzione ma un'aggiunta, ed è dovuta perché quelle due sezioni sono gli unici punti del documento che dichiarano un valore senza il proprio blocco DAX mentre nel modello quel DAX ora esiste. Senza la nota il documento canonico esce silenziosamente fuori sincrono con il modello. **Estensione decisa il 2026-08-24 dopo T017**: la nota copre anche §11.1, dove le due soglie del quadrante figurano fra gli esclusi dal confronto contro il motore perché non leggibili come valori a sé stanti — `F7` le ha rese leggibili e T017 le ha lette, quindi quell'esclusione non è più vera. È lo stesso difetto di sincronia e va chiuso con lo stesso strumento
+- [X] T035 [US5] Se e solo se T023 o T017 hanno prodotto un ritrovamento, scrivi la **nota in loco** su `docs/kpi_measures.md`: data, feature, valore precedente, valore corretto, causa, fonte verificabile — senza riscrivere il valore originale (`FR-024`)
+- [X] T035a [US5] **Indipendentemente dall'esito di T017 e T023**, scrivi la **nota in loco** su `docs/kpi_measures.md` §3.4 e §7.1 con il testo DAX delle due misure companion di `CP-1`, verificato da T017: non è una correzione ma un'aggiunta, ed è dovuta perché quelle due sezioni sono gli unici punti del documento che dichiarano un valore senza il proprio blocco DAX mentre nel modello quel DAX ora esiste. Senza la nota il documento canonico esce silenziosamente fuori sincrono con il modello. **Estensione decisa il 2026-08-24 dopo T017**: la nota copre anche §11.1, dove le due soglie del quadrante figurano fra gli esclusi dal confronto contro il motore perché non leggibili come valori a sé stanti — `F7` le ha rese leggibili e T017 le ha lette, quindi quell'esclusione non è più vera. È lo stesso difetto di sincronia e va chiuso con lo stesso strumento
 - [X] T036 [US5] Allinea `specs/008a-dashboard-model-pages/contracts/dashboard-contract.md` all'esito reale: che cosa `008b` e `010` possono presupporre su ciò che **esiste**, non su ciò che era stato disegnato
-- [ ] T037 [US5] Esegui le dodici prove di [quickstart.md](./quickstart.md) in blocco, incluso `python3 scripts/check_audit_coherence.py`, e registra l'esito
+- [X] T037 [US5] Esegui le dodici prove di [quickstart.md](./quickstart.md) in blocco, incluso `python3 scripts/check_audit_coherence.py`, e registra l'esito
 
 **Checkpoint**: il deliverable è documentato. La feature è pronta per la revisione.
 
@@ -139,7 +139,7 @@ Repository singolo. Contratto di pagina in `specs/008a-dashboard-model-pages/con
 - [ ] T038 Prepara la copia isolata per la revisione in contesto pulito: `contracts/page-contract.md` e la sezione «Esito della costruzione» di `quickstart.md`, **senza** spec, piano, task né history — è l'unica configurazione in cui la revisione dice qualcosa (`CLAUDE.md`)
 - [ ] T039 Raccogli il verbale in `specs/008a-dashboard-model-pages/review.md` e **committalo prima di toccare l'artefatto revisionato**: dichiarazione di che cosa è stato letto e cosa no, ancoraggio alla versione revisionata (commit e impronta), rilievi (`FR-027`, i quattro obblighi di `CLAUDE.md`)
 - [ ] T040 Chiudi i soli rilievi **strettamente necessari** — il documento afferma il falso o pubblica un valore che non regge — e rinvia gli altri come issue GitHub con numero; aggiungi in coda al verbale il blocco di chiusura che distingue *risolto*, *indebolito* e *rinviato*
-- [ ] T041 [P] Allinea `README.md`: riga di stato della `008a` con link al verbale, deliverable elencato (il `.pbix` non versionato, con il rinvio a contratto ed esito che lo rendono ispezionabile), `Setup` e `Struttura` allineati se qualcosa cambia nel modo di rigenerare o verificare il progetto (`FR-026`)
+- [X] T041 [P] Allinea `README.md`: riga di stato della `008a` — al 2026-08-25 «costruita, in revisione», da portare a «revisionata» con il link al verbale **dopo T040**, perché il README non asserisca una revisione che non esiste, deliverable elencato (il `.pbix` non versionato, con il rinvio a contratto ed esito che lo rendono ispezionabile), `Setup` e `Struttura` allineati se qualcosa cambia nel modo di rigenerare o verificare il progetto (`FR-026`)
 - [ ] T042 Riesegui `python3 scripts/check_audit_coherence.py` dopo le correzioni di T040 e T041, e riporta: contratto approvato, esito con gli scostamenti, stato di `#11` e `#18`, rilievi chiusi e rinviati, esito del controllo
 
 ---
@@ -186,10 +186,10 @@ Tracciamento di comodo, non una fonte: la misura autorevole del tempo speso sono
 | ★1 — tipizzazione | T011-T012 | chiuso: difetto assente | 2026-08-24 |
 | ★2 — costruzione, modello | T013-T017 | chiuso: un difetto di caricamento trovato e corretto | 2026-08-24 |
 | ★2 — costruzione, pagine | T018-T031 | chiuso: quattro pagine costruite, interazioni verificate | 2026-08-24 / 2026-08-25 |
-| B — esito | T032-T037 | T032-T034 chiusi; T037 dopo le note in loco | 2026-08-25 |
-| C — note in loco | T035, T035a | T035 non dovuto: zero ritrovamenti. T035a aperto | 2026-08-25 |
+| B — esito | T032-T037 | chiuso | 2026-08-25 |
+| C — note in loco | T035, T035a | chiuso: T035 non dovuto (zero ritrovamenti); T035a su §3.4, §7.1 e §11.1 | 2026-08-25 |
 | D — contratto di lettura | T036 | chiuso: riallineato all'esito | 2026-08-25 |
 | E — revisione | T038-T040 | aperto | — |
-| F — chiusura | T041-T042 | aperto | — |
+| F — chiusura | T041-T042 | T041 chiuso (README); T042 dopo la revisione | 2026-08-25 |
 
 **Le voci di esito già compilate** stanno nella sezione «Esito della costruzione» di [quickstart.md](./quickstart.md), ciascuna con la propria data.
