@@ -115,7 +115,33 @@ Tutte e otto le etichette di fonte e confidenza sono a schermo accanto al propri
 
 **La selezione incrociata fra dispersione e graduatoria non è stata realizzata** (T028, 2026-08-25). Il contratto §2.1 la ammetteva **come evidenziazione**, distinguendola dal filtro; Power BI non offre l'evidenziazione come modalità di risposta né per una dispersione né per una tabella, e l'unica alternativa disponibile è il filtro — che sulla graduatoria farebbe sparire gli altri segmenti.
 
-Il filtro è stato quindi **disattivato in entrambe le direzioni**: le due visuali non si parlano. È la scelta conservativa e va detto perché lo è: un filtro incrociato lasciato attivo renderebbe le 114 righe di `FR-016` una proprietà dello stato iniziale invece che della pagina, e basterebbe un clic per ottenere una graduatoria di una riga sola. Ciò che si perde è comodità di lettura; ciò che si sarebbe perso è la garanzia. Rinviato come issue: **`#NN`** — *(numero da inserire all'apertura)*.
+Il filtro è stato quindi **disattivato in entrambe le direzioni**: le due visuali non si parlano. È la scelta conservativa e va detto perché lo è: un filtro incrociato lasciato attivo renderebbe le 114 righe di `FR-016` una proprietà dello stato iniziale invece che della pagina, e basterebbe un clic per ottenere una graduatoria di una riga sola. Ciò che si perde è comodità di lettura; ciò che si sarebbe perso è la garanzia. Rinviato come issue: **`#21`**.
+
+### Il testo delle due colonne calcolate
+
+Trascritto qui perché il `.pbix` non è versionato: senza questo blocco le due colonne esisterebbero solo dentro un file che nessuno può leggere dal repository. È lo stesso motivo che apre l'issue `#20`.
+
+```dax
+segment_quadrant_class =
+IF (
+    dim_segment[is_high_zero_genre] = TRUE (),
+    "Domanda non misurata dalla fonte",
+    IF (
+        [segment_entry_priority_quadrant],
+        "Nel quadrante",
+        "Fuori dal quadrante"
+    )
+)
+
+segment_display =
+IF (
+    dim_segment[is_high_zero_genre] = TRUE (),
+    dim_segment[segment] & " ⚠ domanda non misurata dalla fonte",
+    dim_segment[segment]
+)
+```
+
+Nessuna delle due calcola un valore nuovo: la prima rilegge `segment_entry_priority_quadrant` per segmento tramite transizione di contesto, la seconda concatena una colonna esistente a un testo fisso.
 
 ### I ritrovamenti
 
@@ -163,9 +189,9 @@ Categoria distinta dalle due precedenti, e la distinzione non è formale: non è
 - **`#11` — la tipizzazione delle colonne di mood: resta APERTA.** La verifica di ★1 è passata, ma dimostra che il difetto non c'era **in questa materializzazione**, non che non possa tornare. L'evidenza che manca è strutturale e questa feature non può produrla: il `.pbix` non è versionato e nessun controllo del repository entra nel modello. Chi lo riapre o lo ricostruisce rifà la verifica, e costa una lettura.
 - **`#18` — l'`ALL` mancante su `mood_profile_overlap`: resta APERTA.** Nessuna pagina che espone `BQ1-K3` offre un filtro di categoria video (T029), quindi il difetto non si manifesta nelle pagine costruite. La formula però è quella pubblicata e resta priva dell'`ALL`: l'evidenza che manca è la correzione della misura, che questa feature ha deliberatamente scelto di non fare (`F2`). Chiunque, in `008b` o dopo, voglia esporre `BQ1-K3` in un contesto filtrabile per categoria deve chiudere l'issue prima.
 
-### Le issue da aprire alla chiusura
+### Le issue aperte da questa feature
 
-Due, entrambe nate costruendo e nessuna delle due chiudibile qui.
+Due, entrambe nate costruendo e nessuna delle due chiudibile qui. Aperte il 2026-08-25.
 
-1. **La fragilità del `.pbix` non versionato.** Tre impostazioni che vivono solo dentro il file e che nessun controllo del repository può vedere si sono già rivelate perdibili: la tipizzazione delle colonne di mood (`#11`), il `QuoteStyle` dell'origine di `dim_title`, la colonna `scenario` di `bq3_scenarios`. Serve una nota di ricostruzione che le elenchi come punti da riverificare a ogni riapertura. Numero: **`#NN`** — *(da inserire)*.
-2. **La selezione incrociata su `BQ2`.** Vedi la nota nella sezione degli scostamenti. Numero: **`#NN`** — *(da inserire)*.
+1. **La fragilità del `.pbix` non versionato.** Tre impostazioni che vivono solo dentro il file e che nessun controllo del repository può vedere si sono già rivelate perdibili: la tipizzazione delle colonne di mood (`#11`), il `QuoteStyle` dell'origine di `dim_title`, la colonna `scenario` di `bq3_scenarios`. Serve una nota di ricostruzione che le elenchi come punti da riverificare a ogni riapertura. Aperta come **`#20`**.
+2. **La selezione incrociata su `BQ2`.** Vedi la nota nella sezione degli scostamenti. Aperta come **`#21`**.
