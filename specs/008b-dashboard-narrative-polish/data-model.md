@@ -19,7 +19,7 @@ Gli spazi sono quelli riservati dal contratto di pagina della `008a` §8. Nessun
 | Pagina | Spazio riservato | Obblighi che vi atterrano | Carico |
 |---|---|---|---|
 | **Ingresso** | una fascia a piena larghezza sotto la scheda della North Star, più una striscia a piè di pagina | `OB-01`-`OB-04` | quattro obblighi, di cui due brevi. La striscia a piè di pagina è la destinazione naturale della copertura temporale |
-| **`BQ1`** | una fascia sotto la fila delle tre schede, con tre aree allineate alle schede | `OB-05`-`OB-12` | otto obblighi su tre aree, cioè da due a tre per area. È la fascia meglio proporzionata delle quattro |
+| **`BQ1`** | una fascia sotto la fila delle tre schede, con tre aree allineate alle schede | `OB-05`-`OB-12`, `OB-35` | nove obblighi su tre aree, cioè tre per area. È la fascia meglio proporzionata delle quattro |
 | **`BQ2`** | una fascia sotto la graduatoria | `OB-13`-`OB-23`, `OB-33` | dodici obblighi in una fascia sola, la più carica per numero. Quattro di essi (`OB-20`, `OB-21`, `OB-23`, `OB-33`) riguardano la pagina e non un singolo KPI, e si possono raggruppare |
 | **`BQ3`** | una fascia sotto la tabella degli scenari, «la più alta delle quattro» | `OB-24`-`OB-32` | nove obblighi, di cui tre assunzioni strutturali e un debito di governance. È la fascia dichiarata più alta ed è anche la più densa per **peso**, non per numero |
 
@@ -52,6 +52,9 @@ Colonne: l'identificativo dell'obbligo, che cosa impone, la **fonte** che lo imp
 | `OB-10` | perché `BQ1-K3` è a confidenza media: dipende dalla tabella dei profili di mood, che l'analista assegna e nessuna fonte osserva | `kpi_operators.md` §11; `data_model.md` §15 | `FR-009` |
 | `OB-11` | la sovrapposizione pubblicata è una **stima per eccesso**: la sovrapposizione reale è minore o uguale, e quanto minore il progetto non lo misura | `kpi_operators.md` §4 e §12 (assegnato per nome a questa feature); `kpi_measures.md` §4.3 | `FR-010` |
 | `OB-12` | gli intervalli di mood sono ampi per costruzione del criterio di assegnazione, ed è la ragione principale per cui la confidenza resta media | `kpi_measures.md` §4.3 | `FR-009`, `FR-010` |
+| `OB-35` | il conteggio di `BQ1-K1` legge **una sola etichetta** del catalogo video, e un titolo musicale classificato altrove non vi entra | `business_case.md` §3, nota in loco della `007b` (rilievo `R11` della revisione `001`) | `FR-009` |
+
+> **Nota di aggiunta — 2026-08-27, punto di fermata 3.** `OB-35` non era in questo inventario quando è stato committato: è stato sollevato dal contratto di narrazione, che lo ha proposto come blocco senza obbligo invece di scriverlo in silenzio, e adottato con il testo approvato da Valerio. L'inventario resta la lista contro cui la prova 4 si esegue, e questa riga è ciò che rende `BL-Q1-1b` un blocco con obbligo invece che testo che qualcuno ha voluto scrivere.
 
 ### 3.3 Pagina `BQ2` — Segmento di ingresso
 

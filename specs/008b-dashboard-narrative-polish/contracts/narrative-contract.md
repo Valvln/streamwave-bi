@@ -99,7 +99,7 @@ Una formulazione esclusa è una frase **vicina a quella corretta e sbagliata**, 
 
 # Parte II — I blocchi
 
-Trentuno blocchi. Il testo dentro i riquadri è **letterale**: è ciò che va a schermo, e `T021` (prova 5) verifica la coincidenza alla lettera.
+Trentadue blocchi. Il testo dentro i riquadri è **letterale**: è ciò che va a schermo, e `T021` (prova 5) verifica la coincidenza alla lettera.
 
 Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore incontra per prima e serve a fargli decidere se leggere il resto; a schermo sarà distinguibile dal testo, ma **come** distinguerlo — grassetto, corpo maggiore, colore — è di chi costruisce.
 
@@ -127,9 +127,9 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > ```text
 > Sono calcolati su cataloghi pubblici reali, usati come riferimento: il catalogo video di
 > Netflix sta al posto del catalogo attuale di StreamWave, il catalogo musicale di Spotify
-> sta al posto del mercato musicale accessibile. È un'ipotesi dichiarata, non un fatto
-> verificato, e nessun dato di StreamWave esiste in questo progetto. Ogni volta che qui si
-> legge «il nostro catalogo», si intende il catalogo di riferimento.
+> sta al posto del mercato musicale accessibile. È un'ipotesi dichiarata, e nessun dato di
+> StreamWave esiste in questo progetto. Ogni volta che qui si legge «il nostro catalogo», si
+> intende il catalogo di riferimento.
 > ```
 
 **Perché sta sulla pagina di ingresso e non altrove**: è l'unica affermazione il cui mancato incontro rende sbagliata la lettura di ogni pagina successiva. È anche la sola che la constitution impone **per estensione**, indipendentemente da quale numero il lettore guardi.
@@ -144,13 +144,13 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > **Titolo**
 >
 > ```text
-> Che cosa questa dashboard non risponde
+> A cosa questa dashboard non risponde
 > ```
 >
 > **Testo**
 >
 > ```text
-> Non dice se convenga entrare nel mercato musicale: la decisione resta a chi legge.
+> Non dice se convenga entrare nel mercato musicale.
 > Non contiene il lato costi — licenze, infrastruttura, organico — e senza quello non c'è
 > alcun ritorno sull'investimento da leggere qui.
 > Non osserva le persone: nessuna delle fonti di questo progetto contiene visioni, ascolti,
@@ -181,18 +181,14 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > ipotesi interposte.
 > Media: fra il dato e il numero si interpone almeno una corrispondenza costruita
 > dall'analista o un'ipotesi dichiarata.
-> Bassa: il numero dipende da ipotesi che i dati disponibili non permettono di verificare, e
-> per questo si presenta sempre come intervallo, mai come valore singolo.
->
-> Che cosa questa etichetta non dice. Non dice quanto il numero descriva StreamWave. Anche
-> un indicatore a confidenza alta è alto rispetto al catalogo di riferimento, non rispetto a
-> StreamWave: la distanza fra il catalogo di riferimento e StreamWave resta l'ipotesi
-> dichiarata qui sopra, e nessun livello di questa scala la copre.
+> Bassa: il numero dipende da ipotesi che i dati disponibili non permettono di verificare.
+> Questa etichetta non dice quanto il numero descriva StreamWave. Un indicatore a confidenza
+> alta è alto rispetto al catalogo di riferimento, non rispetto a StreamWave.
 > ```
 
-**Perché la seconda metà è la più importante delle due** (`N5`): la scala misura la solidità del calcolo, non la trasferibilità. Senza la chiusa, un'etichetta «alta» accanto alla metrica di riferimento si legge come una garanzia su StreamWave — che è precisamente ciò che `business_case.md` §6 dichiara che nessun livello autorizza.
+**Perché la chiusa è la parte più importante del blocco** (`N5`): la scala misura la solidità del calcolo, non la trasferibilità. Senza di essa, un'etichetta «alta» accanto alla metrica di riferimento si legge come una garanzia su StreamWave — che è precisamente ciò che `business_case.md` §6 dichiara che nessun livello autorizza.
 
-**Rimando interno**: la chiusa dice «l'ipotesi dichiarata qui sopra» e presuppone quindi che `BL-IN-1` stia **sopra** questo blocco sulla stessa pagina. È un vincolo di posizione, non di formattazione, e va rispettato in costruzione.
+**Che cosa il blocco non ripete, e dove sta invece.** Che un valore a confidenza bassa si presenti obbligatoriamente come intervallo è detto su `BQ3` da `BL-Q3-1`, cioè sulla pagina in cui il lettore ha quell'intervallo davanti. Qui la scala definisce i livelli e non prescrive formati.
 
 ---
 
@@ -211,21 +207,22 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > **Testo**
 >
 > ```text
-> Il catalogo video si ferma al 2021: è l'anno di uscita più recente presente nel dato, ed è
-> verificabile. Per il catalogo musicale la documentazione della fonte indica il 2022, e
-> questo progetto non ha modo di verificarlo — il catalogo musicale non porta alcun campo di
-> data. Sono fotografie di momenti diversi, e nulla in questi dati permette di misurare
-> quanto distino fra loro. Nessuna conclusione presentata qui riguarda ciò che è accaduto
-> dopo.
+> Il catalogo video si ferma al 2021: è l'anno di uscita più recente presente nel dato. Per il
+> catalogo musicale la documentazione della fonte indica il 2022. Sono fotografie di momenti
+> diversi. Nessuna conclusione presentata qui riguarda ciò che è accaduto dopo.
 > ```
 
-**Come la distinzione è realizzata**: non con un'etichetta accanto a ciascun anno, che il lettore salterebbe, ma con la struttura della frase — *«ed è verificabile»* contro *«non ha modo di verificarlo»*, con la ragione accanto. Un lettore che legge una sola delle due frasi non conclude nulla di falso.
+**Come la distinzione è realizzata**: non con un'etichetta accanto a ciascun anno, che il lettore salterebbe, ma con il verbo — *«presente nel dato»* contro *«la documentazione della fonte indica»*. Il primo anno è dichiarato osservato, il secondo è attribuito a chi lo afferma.
+
+> **Che cosa questa formulazione dichiara in meno, dichiarato qui perché non passi in silenzio.** `FR-018` chiede che i due anni siano distinti per statuto — *osservato* sul lato video, *dichiarato dalla fonte e non verificabile* sul lato musicale. La distinzione fra osservato e dichiarato è realizzata; la **non verificabilità** non è più detta a schermo, e con essa la sua ragione — che il catalogo musicale non porta alcun campo di data, per cui nessuno in questo progetto potrebbe verificare quell'anno nemmeno volendo (`data_model.md` §18).
+>
+> Il requisito è quindi **indebolito, non soddisfatto**, ed è registrato come tale in §13. È una scelta di brevità legittima: il blocco resta vero, e un lettore che si ferma qui non conclude nulla di falso. Ciò che perde è la ragione per cui i due anni non sono intercambiabili.
 
 ---
 
 ## 6. Pagina `BQ1` — Posizionamento
 
-**Spazio**: la fascia sotto la fila delle tre schede, con tre aree allineate alle schede. `BL-Q1-1`, `BL-Q1-2` e `BL-Q1-3` stanno nell'area della metrica di riferimento; `BL-Q1-4` e `BL-Q1-5` in quella della differenza di durata; `BL-Q1-6`, `BL-Q1-7` e `BL-Q1-8` in quella della sovrapposizione dei profili.
+**Spazio**: la fascia sotto la fila delle tre schede, con tre aree allineate alle schede. `BL-Q1-1`, `BL-Q1-1b`, `BL-Q1-2` e `BL-Q1-3` stanno nell'area della metrica di riferimento; `BL-Q1-4` e `BL-Q1-5` in quella della differenza di durata; `BL-Q1-6`, `BL-Q1-7` e `BL-Q1-8` in quella della sovrapposizione dei profili.
 
 ---
 
@@ -247,6 +244,25 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > leggendo la classificazione che il catalogo porta con sé. Fra il dato e il numero non si
 > interpone alcuna corrispondenza costruita né alcuna ipotesi.
 > ```
+
+---
+
+### `BL-Q1-1b` — Che cosa il conteggio legge davvero
+
+**Obblighi**: `OB-35` · **Requisito**: `FR-009`
+**Fonte**: `business_case.md` §3, nota in loco della `007b` (rilievo `R11` della revisione `001`)
+**Sta in coda a `BL-Q1-1`**, nella stessa area della fascia
+
+> **Testo**
+>
+> ```text
+> Il conteggio legge una sola etichetta del catalogo: la categoria dedicata al contenuto
+> musicale. Un titolo musicale classificato altrove non vi entra.
+> ```
+
+**Perché esiste**: la nota in loco della `007b` corregge la descrizione della metrica di riferimento — il business case la descriveva enumerando tipologie di contenuto, mentre la misura legge **una sola etichetta**. È un limite di lettura di un valore visibile, cioè la classe che la regola di selezione di [data-model.md](../data-model.md) §6 manda a schermo.
+
+**Perché non ha un titolo proprio**: sta sotto il titolo di `BL-Q1-1` e ne continua il discorso. Separarlo con un titolo suggerirebbe che sia un limite di natura diversa dalla confidenza, mentre è la ragione per cui quella confidenza alta vale su un perimetro stretto.
 
 ---
 
@@ -292,7 +308,7 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > C1 è il nome che il business case dà a una condizione della propria regola di decisione: il
 > contenuto musicale non è residuale nel catalogo attuale. Da sola, questa condizione non
 > decide nulla. Questa dashboard non pubblica alcun esito complessivo della regola di
-> decisione, e il segno che compare qui accanto non va letto come una risposta all'argomento.
+> decisione.
 > ```
 
 **Formulazione gemella**: `BL-Q2-8`, identica nell'attacco e nella chiusa. Vedi Parte I §3.
@@ -329,16 +345,16 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > **Titolo**
 >
 > ```text
-> Che cosa questo confronto mette a confronto
+> Che cosa si sta confrontando
 > ```
 >
 > **Testo**
 >
 > ```text
-> Sul lato video entrano i soli film. Le serie misurano la propria durata in stagioni, e
-> convertirle in minuti richiederebbe un'ipotesi che i dati non contengono. Sul lato musicale
-> entra invece il catalogo intero. Il confronto è quindi asimmetrico per costruzione, e la
-> quota di film accanto al valore dice quanta parte del catalogo video vi partecipi.
+> Sul lato video entrano i soli film. Le serie misurano la propria durata in stagioni. Sul
+> lato musicale entra invece il catalogo intero. Il confronto è quindi asimmetrico per
+> costruzione, e la quota di film accanto al valore dice quanta parte del catalogo video vi
+> partecipi.
 > ```
 
 **Perché la formulazione esclusa è pericolosa e non solo imprecisa**: `data_model.md` §18 la nomina come *«una lettura sbagliata di quel numero»* e aggiunge che **nulla nel modello la smentisce**. È un limite della categoria *sconsigliato*: l'operazione riesce, il risultato è privo del significato che chi lo legge gli attribuisce, e questo blocco è l'unico presidio esistente.
@@ -362,10 +378,8 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 >
 > ```text
 > Questo valore poggia su una tabella che assegna a ciascuna categoria video un profilo di
-> energia, positività e ritmo. Quel profilo è deciso dall'analista secondo un criterio
-> scritto e pubblico, e non è osservato da alcuna fonte: fra il dato e il numero si interpone
-> un giudizio dichiarato. Nessuna cura nella costruzione del criterio cambia la natura del
-> dato.
+> energia, positività e ritmo. Quel profilo è deciso secondo un criterio scritto e pubblico, e
+> non è osservato da alcuna fonte.
 > ```
 
 ---
@@ -388,12 +402,16 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > asse, il valore minimo e quello massimo dei profili video. Include quindi combinazioni di
 > energia, positività e ritmo che nessuna categoria video occupa davvero: un'energia pari a
 > quella della categoria più energica insieme a una positività pari a quella della categoria
-> più cupa, per esempio, anche se nessuna categoria è insieme l'una e l'altra. La
-> sovrapposizione reale è quindi minore o uguale a quella mostrata, e quanto minore questo
-> progetto non lo misura.
+> più cupa, per esempio, anche se nessuna categoria è insieme l'una e l'altra.
 > ```
 
 **Sui superlativi che compaiono nel testo**: *«la categoria più energica»* e *«la più cupa»* non sono affermazioni su un fatto misurato — non nominano alcuna categoria e non pubblicano alcun valore. Sono l'esempio che rende concreta la costruzione geometrica, ed è preso alla lettera da `kpi_measures.md` §4.3. Il divieto del corollario (a) riguarda i superlativi **riferiti a un fatto misurato**; questo non lo è, e la distinzione è dichiarata qui perché `T024` (prova 8) la incontrerà.
+
+> **Che cosa questa formulazione dichiara in meno.** `OB-11` impone due cose: che la sovrapposizione sia una stima per eccesso, e che **la sovrapposizione reale sia minore o uguale a quella mostrata, quanto minore il progetto non lo misura**. Il titolo del blocco porta la prima e il testo ne spiega il meccanismo; la seconda non è più a schermo.
+>
+> `FR-010` è quindi **indebolito** su questo obbligo, ed è il caso più oneroso dei tre di questa pagina: `kpi_operators.md` §12 assegna il limite di §4 **per nome** a questa feature, e ciò che cade è precisamente la parte che dichiara di non sapere quanto grande sia lo scarto. Un lettore che si ferma al titolo sa che il numero è gonfiato; non sa che di quanto nessuno lo ha misurato.
+>
+> Registrato in §13. Il blocco resta vero e non afferma nulla di falso.
 
 ---
 
@@ -405,18 +423,22 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > **Titolo**
 >
 > ```text
-> Perché questo valore è alto quasi per costruzione
+> Perché questo valore è alto per costruzione
 > ```
 >
 > **Testo**
 >
 > ```text
-> Gli estremi di ciascun asse vengono dalla scala a passi regolari con cui l'analista assegna
-> i profili, non dal catalogo video: sono una proprietà del criterio prima che del catalogo.
-> L'intervallo che ne risulta è ampio su ogni asse, e un intervallo ampio è facile da
-> coprire. È la ragione principale per cui la confidenza di questo indicatore resta media e
-> non sale.
+> Gli estremi di ciascun asse provengono dalla scala a passi regolari con cui sono stati
+> assegnati i profili, non dal catalogo video in sé: sono una proprietà del criterio prima che
+> del catalogo. L'intervallo che ne risulta è ampio su ogni asse.
 > ```
+
+> **Che cosa questa formulazione dichiara in meno.** `OB-12` chiede che l'ampiezza degli intervalli sia dichiarata **come la ragione principale per cui la confidenza resta media**. Il blocco dichiara l'ampiezza e la sua provenienza; il legame con la confidenza non è più scritto, e nemmeno il passaggio che lo rendeva leggibile — *un intervallo ampio è facile da coprire*.
+>
+> Il titolo afferma che il valore è alto per costruzione, e il testo ne dà la causa geometrica; che questo sia anche il motivo dell'etichetta «media» accanto al numero, il lettore lo deve dedurre. `FR-009` è **indebolito** su questo obbligo, `FR-010` resta soddisfatto: l'ampiezza è dichiarata come proprietà del criterio, che è ciò che `kpi_measures.md` §4.3 chiama il limite «più facile da perdere».
+>
+> Registrato in §13.
 
 ---
 
@@ -424,7 +446,7 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 
 **Spazio**: la fascia sotto la graduatoria. È **la fascia più carica per numero di obblighi** ([data-model.md](../data-model.md) §2), e i blocchi sono ordinati per rendere il taglio governabile se non basta: prima i limiti che riguardano la lettura di un valore visibile, poi quelli che riguardano la pagina nel suo insieme.
 
-**Se la fascia non basta** (`N4`): si taglia il testo, non si allarga la fascia a spese della graduatoria. L'ordine di taglio proposto è dal fondo — `BL-Q2-9` per primo, poi `BL-Q2-5` — e ogni taglio va annotato con l'obbligo che ha ridotto o scoperto. **`BL-Q2-2` e `BL-Q2-10` non si tagliano in nessun caso**: il primo è l'unico presidio contro una lettura che `kpi_measures.md` §5.3 vieta alla lettera, il secondo è l'unico blocco della pagina che dichiara che cosa la parola «domanda» nomini.
+**Se la fascia non basta** (`N4`): si taglia il testo, non si allarga la fascia a spese della graduatoria. L'ordine di taglio proposto è dal fondo — `BL-Q2-9` per primo, poi `BL-Q2-5` — e ogni taglio va annotato con l'obbligo che ha ridotto o scoperto. **`BL-Q2-3` non si taglia prima di `BL-Q2-4`**, che dopo la revisione dei testi ne porta la ragione. **`BL-Q2-2` e `BL-Q2-10` non si tagliano in nessun caso**: il primo è l'unico presidio contro una lettura che `kpi_measures.md` §5.3 vieta alla lettera, il secondo è l'unico blocco della pagina che dichiara che cosa la parola «domanda» nomini.
 
 ---
 
@@ -444,8 +466,7 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > ```text
 > L'indice di domanda aggrega per segmento un indicatore di popolarità pubblicato dalla fonte
 > musicale. La fonte non dichiara come quell'indicatore sia costruito, e questo progetto lo
-> usa come approssimazione della domanda di mercato: è un'ipotesi dichiarata, e sta nella
-> riga di fonte e non nella formula.
+> usa come approssimazione della domanda di mercato
 > ```
 
 ---
@@ -469,13 +490,16 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > Per questi segmenti l'indice di domanda non è basso: è non misurato dalla fonte. Più della
 > metà delle loro righe porta popolarità nulla, la mediana cade dentro quella metà, e il
 > valore che ne esce misura la copertura del dato invece della domanda. La loro posizione in
-> fondo alla graduatoria misura quindi l'assenza di segnale, non una priorità bassa: vanno
-> esclusi da qualunque lettura della coda.
+> fondo alla graduatoria misura quindi l'assenza di segnale, non una priorità bassa
 > ```
 
 **Rimando invece di ripetizione** (`FR-017`): il testo dice *«i segmenti che portano l'avvertimento in graduatoria»* e non ne scrive il numero. L'avvertimento viene da `segment_display`, cioè da una colonna del modello, e si aggiorna con essa; un numero digitato qui sopravvivrebbe a un ricalcolo che lo cambiasse.
 
 **Perché questo blocco non si taglia**: `kpi_measures.md` §5.3 prescrive testualmente la presentazione da adottare e quella da evitare. Senza questo blocco la coda della graduatoria si legge come una classifica di preferenza quando è in parte una classifica di copertura del dato — ed è l'unico punto della pagina in cui una lettura sbagliata è anche la più naturale.
+
+> **Che cosa questa formulazione dichiara in meno.** `OB-14` è servito per intero: la formulazione esclusa è negata alla lettera nella prima riga. `OB-15` no. Il blocco dice che cosa quella posizione misura — l'assenza di segnale — ma non dice più che i segmenti marcati **vanno esclusi da qualunque lettura della coda della graduatoria**, che è la prescrizione testuale di `kpi_measures.md` §7.4.
+>
+> `FR-012` è quindi **indebolito** sulla metà `OB-15`: resta la constatazione, cade l'istruzione. Registrato in §13.1.
 
 ---
 
@@ -493,9 +517,9 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > **Testo**
 >
 > ```text
-> L'affinità confronta un profilo osservato sul lato musicale con un profilo assegnato
-> dall'analista sul lato video. La scala su cui questi profili si incontrano è ancorata solo
-> agli estremi: nessun valore osservato ne calibra il centro.
+> L'affinità confronta un profilo osservato sul lato musicale con un profilo assegnato sul
+> lato video. La scala su cui questi profili si incontrano è ancorata solo agli estremi:
+> nessun valore osservato ne calibra il centro.
 > ```
 
 ---
@@ -514,11 +538,11 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > **Testo**
 >
 > ```text
-> Permette di confrontare i segmenti fra loro: che un segmento sia più affine di un altro è
-> un'affermazione difendibile. Non permette di leggerne la grandezza in assoluto. Dire quanto
-> un segmento sia affine, in sé, non ha significato: il centro della scala non è ancorato a
-> nulla di osservato, e solo gli estremi lo sono.
+> Permette di confrontare i segmenti fra loro. Non permette di leggerne la grandezza in
+> assoluto: dire quanto un segmento sia affine, in sé, non ha significato
 > ```
+
+**`OB-17` resta servito per intero**, ma la sua **ragione** non vive più in questo blocco: che il centro della scala non sia ancorato a nulla di osservato lo dice `BL-Q2-3`, poco sopra nella stessa fascia. Ne discende un vincolo per la costruzione: **`BL-Q2-3` non si taglia prima di `BL-Q2-4`**, o questo blocco resta un divieto senza motivo.
 
 ---
 
@@ -559,10 +583,12 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > Il quadrante dice se un segmento supera insieme la soglia di domanda e quella di affinità:
 > è una risposta per sì o per no, e non cambia a seconda di quanto sopra la soglia il
 > segmento si trovi. Il punteggio dice invece quanto un segmento sia preferibile a un altro,
-> anche fra segmenti che stanno tutti dentro o tutti fuori dal quadrante. Un segmento può avere
-> punteggio alto e restare fuori dal quadrante — affinità molto alta e domanda appena sotto
-> la soglia — e leggere l'uno come sinonimo dell'altro nasconde proprio questo caso.
+> anche fra segmenti che stanno tutti dentro o tutti fuori dal quadrante
 > ```
+
+> **Che cosa questa formulazione dichiara in meno.** Il blocco distingue le due letture; cade il caso concreto che le rende non intercambiabili — **un segmento può avere punteggio alto e restare fuori dal quadrante**, con affinità alta e domanda appena sotto la soglia.
+>
+> È il caso che `kpi_operators.md` §7.2 nomina come quello che la fusione *«nasconderebbe»*, e la fusione è ciò che `OB-19` esiste per impedire: senza di esso il blocco dice che le due letture rispondono a domande diverse, ma non mostra dove il lettore sbaglierebbe. `FR-010` è **indebolito** su questo obbligo, ed è il secondo dei tre limiti che `kpi_operators.md` §12 assegna **per nome** a questa feature a subire un taglio. Registrato in §13.1.
 
 ---
 
@@ -581,8 +607,7 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 >
 > ```text
 > I segmenti si sovrappongono: una stessa traccia appartiene a più segmenti. Sommare una
-> quantità su più segmenti non ricostruisce il catalogo, lo eccede, e questa graduatoria non
-> è un elenco di alternative che si escludono a vicenda.
+> quantità su più segmenti non ricostruisce il catalogo, lo eccede.
 > Contare le righe di un segmento, poi, non lo dimensiona: il catalogo musicale di
 > riferimento è campionato, e un conteggio di righe misura il campionamento invece del
 > mercato.
@@ -591,6 +616,10 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 **Perché entrambi in un blocco solo**: appartengono alla stessa categoria di `data_model.md` §18 — *sconsigliato*, cioè «il calcolo riesce, e il risultato è privo di significato» — e sono le **uniche due operazioni** che un lettore compie spontaneamente davanti a una graduatoria. Separarli su due blocchi distanti li renderebbe leggibili uno senza l'altro.
 
 **Perché il testo non quantifica lo sbilanciamento del campione**: `data_model.md` §18 dichiara deliberatamente di non pubblicare né il conteggio massimo né alcuna misura di dispersione, e affermare che lo scostamento sia grande — o rassicurare che sia piccolo — sarebbe un numero senza fonte travestito da valutazione.
+
+> **Che cosa questa formulazione dichiara in meno.** `OB-21` è servito per intero. `OB-20` a metà: resta che sommare eccede il catalogo, cade che **la graduatoria non è un elenco di alternative che si escludono a vicenda**.
+>
+> È la metà che `data_model.md` §18 dichiara più insidiosa delle due — *«la rappresentazione corretta di una sovrapposizione assomiglia in tutto a quella di una partizione, e la differenza non compare in nessun numero pubblicato»* — e la graduatoria è precisamente la visuale che la fa assomigliare a un elenco di alternative. `FR-011` è **indebolito** su questo obbligo, e registrato in §13.1.
 
 ---
 
@@ -611,8 +640,7 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > C3 è il nome che il business case dà a una condizione della propria regola di decisione:
 > esiste almeno un segmento musicale che si colloca insieme nella metà superiore per domanda
 > e nella metà superiore per affinità. Da sola, questa condizione non decide nulla. Questa
-> dashboard non pubblica alcun esito complessivo della regola di decisione, e il segno che
-> compare qui accanto non va letto come una risposta all'argomento.
+> dashboard non pubblica alcun esito complessivo della regola di decisione.
 > ```
 
 **Formulazione gemella**: `BL-Q1-3`, identica nell'attacco e nella chiusa. Vedi Parte I §3.
@@ -635,9 +663,7 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 >
 > ```text
 > Selezionare un punto nella dispersione non riduce la graduatoria, che mostra sempre tutti i
-> segmenti. È una scelta di costruzione dichiarata, non un malfunzionamento: l'unica forma di
-> risposta disponibile per queste visuali avrebbe fatto sparire dalla graduatoria i segmenti
-> non selezionati, e una graduatoria parziale si legge come una graduatoria.
+> segmenti.
 > ```
 
 **Che cosa questo blocco non fa**: non riapre l'issue `#21`. Dichiara lo stato costruito, che è vero indipendentemente da come e se quell'issue verrà chiusa.
@@ -693,11 +719,12 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > ```text
 > I valori di questa pagina non sono osservati: discendono da ipotesi che i dati di questo
 > progetto non permettono di verificare. Per questa ragione sono presentati come intervallo e
-> vanno letti insieme. Un valore singolo comunicherebbe una certezza che il dato non ha, e la
-> differenza fra informare e persuadere passa di qui.
+> vanno letti insieme.
 > ```
 
 **Copre entrambi gli indicatori della pagina**: il tasso di adozione e l'uplift condividono il livello e la ragione, e ripeterla due volte occuperebbe lo spazio dei limiti.
+
+> **Che cosa questa formulazione dichiara in meno.** Resta che gli scenari si leggono insieme; cade **perché**: *un valore singolo comunicherebbe una certezza che il dato non ha*. È la ragione che `business_case.md` §6 dà alla propria regola non negoziabile, e senza di essa la lettura congiunta è prescritta e non motivata. `FR-013` è **indebolito** su `OB-24`, e registrato in §13.1.
 
 ---
 
@@ -762,11 +789,16 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 >
 > ```text
 > Non è osservato su StreamWave. Viene da un benchmark pubblico: un valore osservato e
-> pubblicato da terzi su un operatore che non è StreamWave. Assumere che si applichi qui è
-> un'ipotesi di trasferimento. Che la fonte sia citabile rende il valore verificabile — chi
-> legge può risalire alla pubblicazione e contestarla — non vero per StreamWave, e non
-> innalza la confidenza.
+> pubblicato da terzi su un operatore che non è StreamWave. La fonte è citabile, e il valore
+> verificabile: ciò non innalza la confidenza.
 > ```
+
+> **Che cosa questa formulazione dichiara in meno, ed è il caso più delicato del contratto.** Resta la provenienza — un operatore terzo — e resta che l'ancoraggio non innalza la confidenza. Cadono due cose:
+>
+> - che assumere quel valore per StreamWave sia **un'ipotesi di trasferimento**. `A6` prescrive che vada *«dichiarata accanto al valore ogni volta che il valore compare»*, e il *«non è osservato su StreamWave»* dell'attacco la implica senza nominarla;
+> - che *verificabile* e *vero per StreamWave* siano **proprietà diverse, e che la seconda non discenda dalla prima**. Il testo accosta ora la citabilità della fonte alla confidenza che non sale, e lascia al lettore il passaggio che le separa.
+>
+> `FR-013` è **indebolito** su `OB-27`. È il caso più delicato perché la fonte dell'obbligo non è un documento del progetto ma la constitution, *Vincoli di Dominio e di Dato*, condizione 4 — ed è anche il blocco che regge `BL-Q3-9`, che dello stesso benchmark dichiara il debito. Registrato in §13.1.
 
 ---
 
@@ -819,7 +851,7 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > **Titolo**
 >
 > ```text
-> Il tasso è lordo di disdette
+> Il tasso è al lordo delle disdette
 > ```
 >
 > **Testo**
@@ -848,9 +880,8 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > ```text
 > Questo valore è per utente al mese, e questo progetto non quantifica alcuna base di
 > abbonati: la dashboard non fornisce quindi la chiave per passare all'aggregato. Chiunque
-> disponga di una stima di abbonati può moltiplicare — il valore è scalabile — ma il totale
-> che ne uscirebbe sarebbe un numero che nessuno ha misurato, con l'autorevolezza di uno
-> misurato.
+> disponga di una stima di abbonati può moltiplicare, ma il totale sarebbe un numero che
+> nessuno ha misurato.
 > ```
 
 **Perché la formulazione comoda è vietata e non solo sconsigliata**: `bq3_scenarios.md` §8 dichiara che *«la versione più comoda — "non è scalabile" — direbbe una cosa falsa»*, e prosegue: non è un presidio, è una rinuncia, e non impedisce a valle l'operazione che scoraggia. Questo blocco dice che l'operazione è possibile e che cosa produrrebbe, che è l'unica cosa vera dicibile qui.
@@ -866,7 +897,7 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > **Titolo**
 >
 > ```text
-> Un debito aperto, dichiarato
+> Un debito aperto
 > ```
 >
 > **Testo**
@@ -874,15 +905,14 @@ Ogni blocco ha un **titolo** e un **testo**. Il titolo è la riga che il lettore
 > ```text
 > Il valore centrale poggia su un comunicato pubblicato da un terzo, che non nomina lo studio
 > da cui la cifra proviene: se ne constata che un comunicato la riporta, non che sia stata
-> misurata in un modo che si possa giudicare. Il valore è congelato in un file di questo
-> progetto, quindi chiunque ricalcoli ottiene gli stessi numeri; del comunicato però non
-> esiste copia archiviata né identificativo permanente, e la verifica genuinamente esterna
-> consiste nell'aprire quell'indirizzo. Se smettesse di rispondere, resterebbe soltanto il
-> valore congelato. Questo debito non è risolto, ed è dichiarato qui invece di essere
-> taciuto.
+> misurata in un modo che si possa giudicare.
 > ```
 
 **Perché non si taglia**: è il blocco che la consegna nomina esplicitamente — *il debito della `004` resta aperto e dichiarato, non risolto: `BQ3` va a schermo con quella provenienza e la narrazione lo dice invece di nasconderlo.* Un file che espone una stima poggiata su un benchmark non verificabile senza dirlo non è meno pubblicabile: è pubblicabile a un prezzo che qualcun altro paga.
+
+> **Che cosa questa formulazione dichiara in meno.** Che il debito sia **aperto** è ora affidato al solo titolo, ed è sufficiente. Della ragione resta la metà più forte — il comunicato non nomina lo studio, quindi la cifra non è giudicabile. Cade la metà che riguarda la **fragilità nel tempo**: che il valore sia congelato in un file del progetto, che del comunicato non esista copia archiviata né identificativo permanente, e che la verifica esterna dipenda da un indirizzo che potrebbe smettere di rispondere.
+>
+> `FR-014` elenca quella fragilità per esteso fra ciò che la pagina deve dichiarare, quindi è **indebolito**. La conseguenza pratica è che il blocco dice perché il benchmark non è giudicabile **oggi**, e non più che potrebbe non essere nemmeno consultabile domani. Registrato in §13.1.
 
 ---
 
@@ -936,7 +966,8 @@ Eseguita su questo documento contro l'inventario di [data-model.md](../data-mode
 | Obblighi | Blocco |
 |---|---|
 | `OB-01` · `OB-02` · `OB-03` · `OB-04` | `BL-IN-1` · `BL-IN-2` · `BL-IN-3` · `BL-IN-4` |
-| `OB-05` · `OB-06` · `OB-07` · `OB-08` | `BL-Q1-1` · `BL-Q1-2` · `BL-Q1-3` · `BL-Q1-4` |
+| `OB-05` · `OB-35` | `BL-Q1-1` · `BL-Q1-1b` |
+| `OB-06` · `OB-07` · `OB-08` | `BL-Q1-2` · `BL-Q1-3` · `BL-Q1-4` |
 | `OB-09` · `OB-10` · `OB-11` · `OB-12` | `BL-Q1-5` · `BL-Q1-6` · `BL-Q1-7` · `BL-Q1-8` |
 | `OB-13` | `BL-Q2-1` |
 | `OB-14` · `OB-15` | `BL-Q2-2` |
@@ -954,7 +985,7 @@ Eseguita su questo documento contro l'inventario di [data-model.md](../data-mode
 |---|---|
 | nessuna cifra fuori dalla lista chiusa (§1) | **rispettato**. `2021` e `2022` compaiono solo in `BL-IN-4`; nessun altro blocco porta una cifra |
 | nessun numerale in lettere, in alcuna posizione (§1.1) | **rispettato**. Dove il testo dovrebbe contare, enumera o rimanda alla marcatura: `BL-IN-3` enumera i livelli, `BL-Q2-2` rimanda all'avvertimento, `BL-Q1-5` rimanda alla quota a schermo |
-| i due anni distinti per statuto (`FR-018`) | **rispettato** dentro `BL-IN-4`, con la ragione accanto a ciascuno |
+| i due anni distinti per statuto (`FR-018`) | **indebolito** — vedi §13.1 |
 | nessuna composizione della regola di decisione (§3) | **rispettato**. `C1` in `BL-Q1-3`, `C3` in `BL-Q2-8`, nessun conteggio, nessuna menzione di `C2`, nessun esito complessivo |
 | nessuna conclusione, raccomandazione o previsione (§2) | **rispettato**. Ogni blocco sta in uno dei tre registri ammessi |
 | nessun lessico causale | **rispettato** |
@@ -962,31 +993,39 @@ Eseguita su questo documento contro l'inventario di [data-model.md](../data-mode
 | nessuna affermazione sul pubblico | **rispettato**, e `BL-Q2-10` esiste per dichiararlo al lettore |
 | ogni sigla sciolta sulla stessa pagina (`OB-34`) | **rispettato**. Le uniche sigle a schermo sono `C1` e `C3`, e ciascuna è sciolta nel blocco che la introduce |
 
-## 14. Una decisione che questo contratto non prende, e su cui chiede una conferma
+### 13.1 Gli obblighi che il testo approvato soddisfa in parte
 
-**La glossa del numeratore della metrica di riferimento.** `business_case.md` §3 porta una nota in loco della `007b` che corregge la descrizione della North Star: il documento la descriveva come «musical, documentari musicali, concerti, film sulla musica», mentre **la misura legge una sola etichetta** del catalogo video. La nota dichiara la conseguenza per chi cita: se un titolo musicale è classificato altrove, non entra nel numeratore, e questo progetto non ha modo di accorgersene.
+I testi di questo contratto sono stati accorciati in revisione, e l'accorciamento ha un prezzo su tre obblighi. **Nessuno dei tre blocchi afferma il falso**: ciascuno dice meno di ciò che il proprio obbligo prescrive.
 
-**Perché non l'ho scritta**: non è nell'inventario di [data-model.md](../data-model.md) §3, e scriverla produrrebbe un **blocco senza obbligo** — la categoria che la prova 4 esiste per intercettare.
+Sono elencati qui e non nascosti dentro il commento del blocco perché la distinzione fra *risolto* e *indebolito* è una regola di questo progetto, e vale per gli obblighi esattamente come per i rilievi di revisione: se un indebolimento non è dichiarato, chi legge non può distinguere un obbligo soddisfatto da una pretesa ritirata.
 
-**Perché la sollevo lo stesso**: è un limite di lettura di un valore visibile, cioè esattamente la classe che la regola di selezione di [data-model.md](../data-model.md) §6 manda a schermo. Il testo che proporrei, in coda a `BL-Q1-1`:
+| Obbligo | Blocco | Che cosa è a schermo | Che cosa non lo è più |
+|---|---|---|---|
+| `OB-04` (`FR-018`) | `BL-IN-4` | la distinzione fra anno osservato e anno dichiarato dalla fonte, portata dal verbo | che l'anno musicale sia **non verificabile**, e la ragione: il catalogo musicale non porta alcun campo di data |
+| `OB-11` (`FR-010`) | `BL-Q1-7` | che la sovrapposizione sia una stima per eccesso, con il meccanismo geometrico che la produce | che la sovrapposizione reale sia **minore o uguale** a quella mostrata, e che **quanto minore il progetto non lo misuri** |
+| `OB-12` (`FR-009`) | `BL-Q1-8` | che gli intervalli siano ampi e che l'ampiezza venga dal criterio e non dal catalogo | che sia **la ragione principale per cui la confidenza resta media**, e il passaggio che lo rendeva leggibile — un intervallo ampio è facile da coprire |
+| `OB-15` (`FR-012`) | `BL-Q2-2` | che la posizione in fondo alla graduatoria misuri l'assenza di segnale e non una priorità bassa | che quei segmenti **vadano esclusi da qualunque lettura della coda** — la prescrizione testuale di `kpi_measures.md` §7.4 |
+| `OB-19` (`FR-010`) | `BL-Q2-6` | che punteggio e quadrante rispondano a domande diverse, ciascuna con la propria | il caso concreto che le rende non intercambiabili: **punteggio alto e fuori dal quadrante** |
+| `OB-20` (`FR-011`) | `BL-Q2-7` | che le quantità per segmento non si sommino, perché i segmenti si sovrappongono | che **la graduatoria non sia un elenco di alternative che si escludono a vicenda** |
+| `OB-24` (`FR-013`) | `BL-Q3-1` | che gli scenari siano presentati come intervallo e vadano letti insieme | **perché**: che un valore singolo comunicherebbe una certezza che il dato non ha |
+| `OB-27` (`FR-013`) | `BL-Q3-4` | che il valore venga da un operatore terzo e che l'ancoraggio non innalzi la confidenza | che sia **un'ipotesi di trasferimento**, e che *verificabile* e *vero per StreamWave* siano proprietà diverse |
+| `OB-32` (`FR-014`) | `BL-Q3-9` | che il debito sia aperto (dal titolo), e che il comunicato non nomini lo studio | la **fragilità nel tempo**: nessuna copia archiviata, nessun identificativo permanente, la verifica esterna appesa a un indirizzo |
 
-> ```text
-> Il conteggio legge una sola etichetta del catalogo: la categoria dedicata al contenuto
-> musicale. Un titolo musicale classificato altrove non vi entra, e questo progetto non ha
-> modo di accorgersene.
-> ```
+**I due più onerosi fra gli obblighi tecnici sono `OB-11` e `OB-19`**, perché sono limiti che `kpi_operators.md` §12 assegna **per nome** a questa feature — su tre assegnati, due sono stati accorciati. Il terzo, `OB-17`, resta intero.
 
-**Che cosa serve per adottarla**: una riga nuova nell'inventario — `OB-35`, fonte `business_case.md` §3 nota in loco della `007b`, requisito `FR-009` — e una modifica di [data-model.md](../data-model.md), che è un artefatto già committato di questa feature. È una decisione, non una rifinitura, e appartiene al punto di fermata.
+**Il più delicato in assoluto è `OB-27`**, perché la sua fonte non è un documento del progetto ma la constitution, *Vincoli di Dominio e di Dato*, condizione 4, ripresa da `A6` con la parola *«ogni volta che il valore compare»*.
 
-## 15. Un ritrovamento sul contratto di pagina della `008a`
+**Una regolarità che vale la pena nominare**, perché non è un caso e chi legge questa tabella la vedrà da sé: in otto casi su nove ciò che cade è **la seconda metà del blocco** — quella che dice al lettore che cosa non fare con il numero, o perché la prima metà sia vera. È la parte più lunga, la più prescrittiva, e la prima a sembrare superflua a chi il dato lo conosce già.
 
-**Che cosa**: il contratto di pagina della `008a`, §8, descrive ciò che andrà nella fascia di `BQ3` includendo *«la non scalabilità dell'uplift»*.
+**Che cosa questo comporta per la dichiarazione di pubblicabilità.** La condizione 3 di `N8` chiede che i limiti assegnati esplicitamente a questa feature siano a schermo **in forma leggibile da un non tecnico**. Dopo questi accorciamenti la condizione è verificabile solo insieme a questa tabella: sono tutti a schermo, non tutti per intero. Il contratto di pubblicabilità del blocco D dovrà dirlo così, o dichiarerebbe una condizione soddisfatta al posto di una soddisfatta in parte.
 
-**Perché è un ritrovamento**: è la formulazione che `bq3_scenarios.md` §8 dichiara **falsa alla lettera**, ed è la terza delle formulazioni escluse obbligatorie di `FR-003`. Il documento della `008a` la usa per nominare un contenuto, non per pubblicarlo a schermo, e nessun valore ne dipende — ma è la frase che chi costruisce leggerebbe se cercasse nel contratto della `008a` che cosa scrivere qui.
+**Che cosa questo comporta per la revisione in contesto pulito.** Sono tre punti su cui il revisore va lasciato libero di arrivare per conto proprio: se li trova senza aver letto questa tabella, l'indebolimento è visibile a chi legge lo schermo, e la decisione va rivista. Se non li trova, la brevità ha comprato più di quanto è costata.
 
-**Che cosa questa feature ha fatto**: l'ha esclusa (§4, riga 3) e ha scritto `BL-Q3-8` sulla formulazione corretta. **Non ha toccato il documento della `008a`.**
+## 14. Le due decisioni prese al punto di fermata
 
-**Che cosa resta da decidere, e non lo decido qui**: se il contratto della `008a` meriti una nota in loco. Il documento vive sotto `specs/`, non sotto `docs/`, e la regola di correzione di `CLAUDE.md` nasce per gli artefatti pubblicati; applicarla o no a un contratto di disegno di una feature chiusa è una decisione di metodo, non di questa feature.
+**`OB-35` è adottato.** La glossa sul numeratore della metrica di riferimento va a schermo come `BL-Q1-1b`, e l'obbligo entra nell'inventario di [data-model.md](../data-model.md) §3.2 con la propria fonte. Il testo approvato è più corto di quello proposto: la chiusa *«e questo progetto non ha modo di accorgersene»* è caduta. Il blocco dice che cosa il conteggio legge e che cosa resta fuori, e non aggiunge la dichiarazione di cecità — che è vera, sta nella nota in loco della `007b`, e a schermo aggiungeva una frase senza cambiare che cosa il lettore deve fare con il numero.
+
+**Il ritrovamento sul contratto di pagina della `008a` non riceve una nota in loco.** Il contratto della `008a` §8 descrive la fascia di `BQ3` includendo *«la non scalabilità dell'uplift»*, che è la formulazione dichiarata falsa alla lettera da `bq3_scenarios.md` §8 e che questo contratto esclude (§4, riga 3). Il documento della `008a` **non è toccato**: la regola di correzione in loco di `CLAUDE.md` nasce per gli artefatti pubblicati, e quello è un contratto di disegno di una feature chiusa. Il ritrovamento è registrato sul tracker come issue `#26`, e resta contestabile lì.
 
 ---
 
