@@ -58,9 +58,9 @@ Repository singolo. Contratto di narrazione in `specs/008b-dashboard-narrative-p
 
 **⚠️ Questa fase precede ogni altra operazione nel file.** È il costo di una lettura contro il costo di scrivere «questo valore misura X» sotto un numero che non misura più X.
 
-- [ ] T010 **(manuale, Valerio)** Riapri il `.pbix` e verifica le tre impostazioni dell'issue `#20`, nell'ordine: (a) `energy`, `valence`, `danceability` di `dim_track` nel dominio `0-1`; (b) il conteggio di riga di `dim_title` coincidente con quello lasciato dalla `008a`; (c) la colonna che nomina lo scenario presente su `bq3_scenarios`. Se una è persa, **fermati**, correggila e annota l'accaduto come ricomparsa (`FR-027`)
-- [ ] T011 **(manuale, Valerio)** Annota l'esito delle tre verifiche in forma grezza, per la trascrizione della Fase 7: per ciascuna, difetto assente oppure presente e corretto
-- [ ] T012 **(manuale, Valerio, condizionale)** **Solo se** T010 ha imposto una correzione che tocca un valore a schermo: riconfronta gli otto valori a schermo con `docs/kpi_measures.md` alla stessa grana e annota l'esito. Se nessuna correzione è servita, questa prova **non si esegue** e la sua non esecuzione va dichiarata (`FR-028`, prova 12)
+- [x] T010 **(manuale, Valerio)** Riapri il `.pbix` e verifica le tre impostazioni dell'issue `#20`, nell'ordine: (a) `energy`, `valence`, `danceability` di `dim_track` nel dominio `0-1`; (b) il conteggio di riga di `dim_title` coincidente con quello lasciato dalla `008a`; (c) la colonna che nomina lo scenario presente su `bq3_scenarios`. Se una è persa, **fermati**, correggila e annota l'accaduto come ricomparsa (`FR-027`)
+- [x] T011 **(manuale, Valerio)** Annota l'esito delle tre verifiche in forma grezza, per la trascrizione della Fase 7: per ciascuna, difetto assente oppure presente e corretto
+- [x] T012 **(manuale, Valerio, condizionale)** **Solo se** T010 ha imposto una correzione che tocca un valore a schermo: riconfronta gli otto valori a schermo con `docs/kpi_measures.md` alla stessa grana e annota l'esito. Se nessuna correzione è servita, questa prova **non si esegue** e la sua non esecuzione va dichiarata (`FR-028`, prova 12)
 
 **Checkpoint**: le tre impostazioni sono nello stato atteso. Solo ora si scrive.
 
