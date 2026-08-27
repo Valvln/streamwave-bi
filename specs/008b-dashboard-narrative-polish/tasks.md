@@ -88,10 +88,10 @@ Repository singolo. Contratto di narrazione in `specs/008b-dashboard-narrative-p
 **Independent Test**: si percorrono le tre pagine di domanda e si verifica, KPI per KPI, che il limite che il documento canonico dichiara sia leggibile a schermo senza gergo.
 
 - [x] T015 **(manuale, Valerio)** Inserisci nella fascia della pagina **`BQ1`**, nelle tre aree allineate alle schede, i blocchi `OB-05`-`OB-12` come il contratto li scrive
-- [ ] T016 **(manuale, Valerio)** Inserisci nella fascia della pagina **`BQ2`** i blocchi `OB-13`-`OB-23` e `OB-33`. È la fascia più carica per numero di obblighi: se non basta, taglia il testo e annota che cosa hai tolto, **non** allargare la fascia a spese della graduatoria (`N4`)
-- [ ] T017 **(manuale, Valerio)** Inserisci nella fascia della pagina **`BQ3`** i blocchi `OB-24`-`OB-32`. È la fascia più densa per peso — tre assunzioni, quattro limiti, un debito di governance — e il blocco che non si taglia in nessun caso è `OB-32`, il debito sulla verificabilità del benchmark (`FR-014`)
-- [ ] T018 **(manuale, Valerio)** Esegui le sole rifiniture ammesse dal contratto, sezione di T007. Qualunque intervento che tocchi un campo, un filtro o una formula **non si esegue**: si annota come ritrovamento e si rinvia (`FR-024`, `FR-030`)
-- [ ] T019 **(manuale, Valerio)** Annota **mentre accadono** gli scostamenti delle tre pagine e i tagli eseguiti, con l'obbligo che ciascun taglio ha ridotto o scoperto
+- [x] T016 **(manuale, Valerio)** Inserisci nella fascia della pagina **`BQ2`** i blocchi `OB-13`-`OB-23` e `OB-33`. È la fascia più carica per numero di obblighi: se non basta, taglia il testo e annota che cosa hai tolto, **non** allargare la fascia a spese della graduatoria (`N4`)
+- [x] T017 **(manuale, Valerio)** Inserisci nella fascia della pagina **`BQ3`** i blocchi `OB-24`-`OB-32`. È la fascia più densa per peso — tre assunzioni, quattro limiti, un debito di governance — e il blocco che non si taglia in nessun caso è `OB-32`, il debito sulla verificabilità del benchmark (`FR-014`)
+- [x] T018 **(manuale, Valerio)** Esegui le sole rifiniture ammesse dal contratto, sezione di T007. Qualunque intervento che tocchi un campo, un filtro o una formula **non si esegue**: si annota come ritrovamento e si rinvia (`FR-024`, `FR-030`)
+- [x] T019 **(manuale, Valerio)** Annota **mentre accadono** gli scostamenti delle tre pagine e i tagli eseguiti, con l'obbligo che ciascun taglio ha ridotto o scoperto
 
 **Checkpoint**: il testo è a schermo su tutte e quattro le pagine. Nessuna verifica è ancora stata fatta.
 

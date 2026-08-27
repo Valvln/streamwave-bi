@@ -165,6 +165,22 @@ Manca inoltre il punto finale all'ultima frase del blocco.
 
 **Che cosa questo dice sul presidio**: l'errore è nato in una trascrizione manuale di un'etichetta, cioè nell'unica classe di contenuto che la `008a` aveva portato a schermo senza che alcuno script potesse rileggerla. La prova 3 di questo quickstart verifica la struttura e la prova 12 i valori; **nessuna delle dodici prove verifica le etichette**, ed è una lacuna del disegno di questa feature, trovata perché un blocco di narrazione le stava accanto e la contraddiceva. È il tipo di riscontro che la prova 5 produce per caso e non per costruzione.
 
+#### `SC-3` — Le fasce non mostrano il testo in un pezzo solo: le caselle scorrono
+
+**Data**: 2026-08-28 · **Pagine**: tutte e quattro · **Categoria**: scostamento, e conformità parziale a `FR-023`
+
+**Che cosa è stato costruito**: tutti i blocchi del contratto sono a schermo, su tutte e quattro le pagine, e nessuno è stato tagliato per farvi entrare. Nessuna fascia però li mostra **interi in un colpo d'occhio**: le caselle di testo eccedono lo spazio e la parte in eccesso si raggiunge scorrendo.
+
+**Perché non è il caso previsto da `N4`**: `N4` prescrive di tagliare il testo quando la fascia non basta, e di dichiarare il taglio. Qui non si è tagliato — si è scelto di tenere il testo intero accettando lo scorrimento. È la decisione opposta a quella che `N4` prevede, presa davanti allo schermo, e va registrata come tale invece di essere assorbita.
+
+**Che cosa questo fa a `FR-023`.** Il requisito ha due metà. La prima — nessuna pagina-tooltip, nessun segnalibro, nessun pannello a scomparsa — è **rispettata**: nessuno dei tre esiste. La seconda dice *«nessun limite dichiarato DEVE essere raggiungibile solo con un'azione dell'utente»*, e lo scorrimento è un'azione dell'utente. Su quella metà la conformità è **parziale**.
+
+**La differenza che rende lo scorrimento meno grave dei tre divieti, e che non la annulla.** L'argomento di `N3` è che *«un limite raggiungibile con un clic si legge solo se qualcuno sospetta che esista»*. Una barra di scorrimento non ha quel difetto: **dichiara la propria esistenza**, e chi vede il testo tagliato a metà sa che continua. Un segnalibro no, una pagina-tooltip nemmeno. Resta che chi non scorre non legge, e la seconda metà di un blocco è precisamente dove il contratto ha già registrato — §13.1 — che sta la parte prescrittiva.
+
+**Che cosa questo non tocca**: la dichiarazione di pubblicabilità. Le cinque condizioni di `N8` nominano `N2`, `N6` e `N7`, non `N3`. Il criterio è stato fissato prima di costruire e non si allarga adesso; il contratto di pubblicabilità del blocco D dovrà però **elencare lo scorrimento fra ciò che «pubblicabile» non garantisce**, o prometterebbe una leggibilità che il file non ha.
+
+**Che cosa resta aperto, e dove**: l'autore dichiara di voler valutare pagine dedicate alla prosa fra una pagina-grafico e l'altra, con le sole note indispensabili accanto alle misure. Comporta di riaprire il numero di pagine, che la `008a` chiude a quattro, ed è quindi fuori dal perimetro di questa feature. È registrata come issue `#27`, senza alcuna decisione presa.
+
 ### Che cosa è stato tagliato, e perché
 
 *(da compilare — `N4`: se una fascia non è bastata, che cosa è stato tolto e quale obbligo ne è rimasto scoperto o ridotto)*
