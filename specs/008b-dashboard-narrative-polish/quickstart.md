@@ -119,7 +119,51 @@ Atteso: coincidenza. Una divergenza è un **ritrovamento**: si dichiara con nota
 
 ### Gli scostamenti dal contratto approvato
 
-*(da compilare — voce, contratto, costruito, ragione. Zero scostamenti è un esito possibile e va dichiarato come tale)*
+> **Sezione in compilazione.** Le voci si scrivono **mentre accadono**, non a memoria alla fine (`T014`, `T019`). Alla chiusura della Fase 7 questa nota va tolta e la sezione dichiarata completa; se resterà vuota, «zero scostamenti» va scritto per esteso invece di lasciare il silenzio a significarlo.
+
+#### `SC-1` — `BL-IN-3`, testo tagliato per pareggiare l'altezza delle fasce
+
+**Data**: 2026-08-28 · **Pagina**: ingresso · **Blocco**: `BL-IN-3` · **Categoria**: scostamento (`F9`)
+
+**Che cosa il contratto scrive**: il blocco apre dichiarando che accanto a ogni indicatore compare un livello, enumera i tre livelli per esteso, e chiude con due frasi — che l'etichetta non dice quanto il numero descriva StreamWave, e che anche un indicatore a confidenza alta è alto rispetto al catalogo di riferimento.
+
+**Che cosa è stato costruito**: una versione più corta, che apre direttamente sul criterio, accorcia le tre definizioni e tiene una sola delle due frasi di chiusura.
+
+**La ragione, dichiarata come è**: **non è una fascia insufficiente.** Le altre pagine entravano senza scorrimento, e il taglio è stato scelto per allineare l'altezza di questa fascia alle altre. È una ragione **estetica**, non di capienza, e `N4` non la prevede: `N4` disciplina il caso in cui il testo non entra. Va quindi registrata per quello che è — una decisione di uniformità presa davanti allo schermo — e non travestita da vincolo di spazio.
+
+**Che cosa il taglio è costato, oltre a quanto già registrato in §13.1 del contratto**:
+
+- cade *«Questa etichetta non dice quanto il numero descriva StreamWave»*, che era l'enunciato generale; resta il caso particolare che lo esemplifica. `OB-03` è servito, e la sua seconda metà — che la scala non misura la trasferibilità — è ora affidata a un esempio invece che a una regola;
+- cade *«senza corrispondenze costruite né ipotesi interposte»* dalla definizione di *alta*, cioè il contrappunto che rendeva leggibili *media* e *bassa*;
+- cade *«e per questo si presenta sempre come intervallo, mai come valore singolo»*, che il contratto aveva già spostato su `BL-Q3-1`: nessuna perdita ulteriore.
+
+**Un difetto di trascrizione dentro lo scostamento, che non è parte dello scostamento.** La riga di *bassa* è stata inserita troncata:
+
+```text
+Bassa: il numero dipende da ipotesi che i dati disponibili .
+```
+
+La frase si interrompe a metà e non afferma nulla. **Va riparata a schermo prima di chiudere `T013`**, e la riparazione non riapre il contratto: è la stessa versione accorciata, completata. Testo da inserire:
+
+```text
+Bassa: il numero dipende da ipotesi non verificabili con i dati disponibili.
+```
+
+Manca inoltre il punto finale all'ultima frase del blocco.
+
+#### `SC-2` — `BQ1`, etichetta di confidenza di `BQ1-K2` errata a schermo
+
+**Data**: 2026-08-28 · **Pagina**: `BQ1` · **Categoria**: scostamento dal contratto di pagina della `008a`, non ritrovamento
+
+**Che cosa è stato trovato**: l'etichetta di `BQ1-K2` riportava `Derivato (Netflix + Spotify) · Confidenza: media`.
+
+**Che cosa dicono gli artefatti**: `business_case.md` §5.4, `kpi_operators.md` §11 e il contratto di pagina della `008a` §1.1 dichiarano tutti e tre **alta**, e la scala di `business_case.md` §6 lo conferma per costruzione — due durate osservate e una sottrazione, senza mappature interposte. La fonte era corretta, la confidenza no.
+
+**Perché non è un ritrovamento**: `F9` della `008a` chiama ritrovamento la differenza fra un valore letto a schermo e il valore pubblicato, e impone la nota in loco. Qui **nessun documento pubblicato sbaglia**: sbaglia la trascrizione a schermo, ed è la categoria che si corregge nel file e si dichiara qui. Nessuna nota in loco è dovuta.
+
+**Perché si chiude subito e non si rinvia**: senza la correzione il file pubblica un'etichetta che contraddice tre artefatti, accanto al blocco `BL-Q1-4` che spiega perché quella confidenza è alta. È la soglia dello *strettamente necessario* — il deliverable, senza la correzione, afferma il falso.
+
+**Che cosa questo dice sul presidio**: l'errore è nato in una trascrizione manuale di un'etichetta, cioè nell'unica classe di contenuto che la `008a` aveva portato a schermo senza che alcuno script potesse rileggerla. La prova 3 di questo quickstart verifica la struttura e la prova 12 i valori; **nessuna delle dodici prove verifica le etichette**, ed è una lacuna del disegno di questa feature, trovata perché un blocco di narrazione le stava accanto e la contraddiceva. È il tipo di riscontro che la prova 5 produce per caso e non per costruzione.
 
 ### Che cosa è stato tagliato, e perché
 

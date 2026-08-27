@@ -74,8 +74,8 @@ Repository singolo. Contratto di narrazione in `specs/008b-dashboard-narrative-p
 
 **Perché questa storia viene prima delle altre di pari priorità**: è l'unica il cui fallimento rende il file non mostrabile a nessuno. Le altre lo renderebbero incompleto.
 
-- [ ] T013 **(manuale, Valerio)** Inserisci nella fascia sotto la scheda della North Star e nella striscia a piè di pagina dell'**ingresso** i blocchi `OB-01`-`OB-04` come il contratto li scrive, alla lettera. Il testo non si sovrappone alla scheda, non ne riduce l'area e non sposta la barra di navigazione (`FR-022`)
-- [ ] T014 **(manuale, Valerio)** Annota **mentre accade** ogni differenza fra il contratto e ciò che hai inserito: testo tagliato per farlo entrare, riformulazione, blocco spostato in un altro spazio. Non ricostruirle a memoria alla fine (`N4`, `FR-029`)
+- [x] T013 **(manuale, Valerio)** Inserisci nella fascia sotto la scheda della North Star e nella striscia a piè di pagina dell'**ingresso** i blocchi `OB-01`-`OB-04` come il contratto li scrive, alla lettera. Il testo non si sovrappone alla scheda, non ne riduce l'area e non sposta la barra di navigazione (`FR-022`)
+- [x] T014 **(manuale, Valerio)** Annota **mentre accade** ogni differenza fra il contratto e ciò che hai inserito: testo tagliato per farlo entrare, riformulazione, blocco spostato in un altro spazio. Non ricostruirle a memoria alla fine (`N4`, `FR-029`)
 
 **Checkpoint**: la pagina di ingresso è pubblicabile per la propria parte. Il file, non ancora.
 
@@ -87,7 +87,7 @@ Repository singolo. Contratto di narrazione in `specs/008b-dashboard-narrative-p
 
 **Independent Test**: si percorrono le tre pagine di domanda e si verifica, KPI per KPI, che il limite che il documento canonico dichiara sia leggibile a schermo senza gergo.
 
-- [ ] T015 **(manuale, Valerio)** Inserisci nella fascia della pagina **`BQ1`**, nelle tre aree allineate alle schede, i blocchi `OB-05`-`OB-12` come il contratto li scrive
+- [x] T015 **(manuale, Valerio)** Inserisci nella fascia della pagina **`BQ1`**, nelle tre aree allineate alle schede, i blocchi `OB-05`-`OB-12` come il contratto li scrive
 - [ ] T016 **(manuale, Valerio)** Inserisci nella fascia della pagina **`BQ2`** i blocchi `OB-13`-`OB-23` e `OB-33`. È la fascia più carica per numero di obblighi: se non basta, taglia il testo e annota che cosa hai tolto, **non** allargare la fascia a spese della graduatoria (`N4`)
 - [ ] T017 **(manuale, Valerio)** Inserisci nella fascia della pagina **`BQ3`** i blocchi `OB-24`-`OB-32`. È la fascia più densa per peso — tre assunzioni, quattro limiti, un debito di governance — e il blocco che non si taglia in nessun caso è `OB-32`, il debito sulla verificabilità del benchmark (`FR-014`)
 - [ ] T018 **(manuale, Valerio)** Esegui le sole rifiniture ammesse dal contratto, sezione di T007. Qualunque intervento che tocchi un campo, un filtro o una formula **non si esegue**: si annota come ritrovamento e si rinvia (`FR-024`, `FR-030`)
