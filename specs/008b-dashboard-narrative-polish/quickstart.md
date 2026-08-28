@@ -142,6 +142,24 @@ Atteso: coincidenza. Una divergenza è un **ritrovamento**: si dichiara con nota
 
 **La ragione, dichiarata come è**: **non è una fascia insufficiente.** Le altre pagine entravano senza scorrimento, e il taglio è stato scelto per allineare l'altezza di questa fascia alle altre. È una ragione **estetica**, non di capienza, e `N4` non la prevede: `N4` disciplina il caso in cui il testo non entra. Va quindi registrata per quello che è — una decisione di uniformità presa davanti allo schermo — e non travestita da vincolo di spazio.
 
+> **Nota in loco — 2026-08-29, feature `008b`. La premessa di questa ragione è contraddetta dallo stesso documento.**
+>
+> **Affermazione precedente**: *«Le altre pagine entravano senza scorrimento»*.
+>
+> **Affermazione corretta**: **non entravano.** La tabella «Che cosa è a schermo, pagina per pagina», venti righe più sopra, dichiara per `BQ1`, `BQ2` e `BQ3` — tutte e tre — *«no, il testo scorre (`SC-3`)»*, e `SC-3` porta in intestazione **Pagine: tutte e quattro**. Nessuna delle altre pagine entrava senza scorrimento.
+>
+> **Le due letture possibili, e questa nota non sceglie fra loro** perché chi scrive oggi non ha modo di stabilire quale sia vera:
+> - **`SC-1` fu scritto prima che si scoprisse lo scorrimento delle altre pagine e non è stato rivisto.** In questa lettura la ragione era vera nel momento in cui è stata scritta ed è falsa adesso — ed è, va detto, l'effetto rovesciato della disciplina del «si scrive mentre accade», che questo documento adotta proprio per non ricostruire a memoria;
+> - **la ragione registrata non è quella vera.** In questa lettura il taglio ha avuto un'altra causa, e l'uniformità estetica è una ricostruzione a posteriori.
+>
+> **In nessuna delle due letture il taglio resta motivato**, ed è il taglio che ha portato via l'enunciato generale di `OB-03`. Chi cita questo passaggio a valle dichiari quale lettura adotta.
+>
+> **Che cosa questa nota non tocca**: la ragione resta dichiarata come **estetica** e non travestita da vincolo di spazio. Il revisore registra quel gesto fra ciò che funziona e non va perso chiudendo il rilievo: la premessa è sbagliata, l'onestà con cui la ragione è stata nominata no. Sono due cose diverse, e questa nota corregge la prima.
+>
+> **Da notare, in tensione con la nota**: la tabella «Che cosa è a schermo» attribuisce il taglio alla capienza — *«no, e la reazione è stata doppia: `BL-IN-3` è stato accorciato (`SC-1`)»* — cioè esattamente alla ragione che `SC-1` nega con enfasi. Anche la tabella e lo scostamento dicono due cose diverse sullo stesso fatto.
+>
+> **Fonte verificabile**: [`review.md`](./review.md), rilievo `R5` punto (a), che confronta questo passaggio con la tabella delle pagine e con l'intestazione di `SC-3`.
+
 **Che cosa il taglio è costato, oltre a quanto già registrato in §13.1 del contratto**:
 
 - cade *«Questa etichetta non dice quanto il numero descriva StreamWave»*, che era l'enunciato generale; resta il caso particolare che lo esemplifica. `OB-03` è servito, e la sua seconda metà — che la scala non misura la trasferibilità — è ora affidata a un esempio invece che a una regola;
@@ -287,6 +305,24 @@ Il criterio è stato fissato in `N8`, **prima** che il file venisse riaperto. No
 >
 > **La ragione, in una riga**: un file che espone otto numeri con la propria fonte, la propria confidenza, la ragione di quella confidenza e i limiti che ne governano la lettura può essere mostrato a chi non ha letto nulla di questo repository senza che ne tragga una conclusione che i dati non sostengono.
 
+> **Nota in loco — 2026-08-29, feature `008b`. La dichiarazione qui sopra è ritirata.**
+>
+> **Affermazione precedente**: il `.pbix` è pubblicabile dal 2026-08-28, per la ragione in una riga riportata nella scatola.
+>
+> **Affermazione corretta**: il `.pbix` **non è dichiarato pubblicabile**. L'affermazione della `008a` — *«Il file è leggibile, non pubblicabile»* — **non è stata sostituita** e resta vera. Tutto ciò che precede questa nota resta un accertamento vero su che cosa esiste a schermo: cade la conclusione, non l'osservazione.
+>
+> **Causa della divergenza**: la revisione in contesto pulito su contratto ed esito è tornata con venticinque rilievi e un giudizio negativo sul metro che questa feature si era data — la leggibilità per un decisore che non ha letto alcun documento del repository. Due dei rilievi colpiscono la dichiarazione direttamente:
+> - **`R6`** — la *ragione in una riga* promette che il lettore non tragga conclusioni non sostenute, mentre il quinto trattino dell'elenco qui sotto dichiara che chi non scorre non legge la parte prescrittiva. Le due frasi non possono essere vere insieme;
+> - **`R5b`** — la riga di *bassa* della legenda di confidenza è a schermo **troncata** (`SC-1`), e su quella legenda poggia la lettura di tutti e otto i numeri del file. Un file con una frase rotta sulla prima pagina non è pubblicabile il giorno in cui lo si dichiara.
+>
+> Il contratto di pubblicabilità nomina, alla propria §4, **la revisione in contesto pulito come il primo dei tre presidi** su cui la garanzia poggia. Il presidio ha risposto no.
+>
+> **Che cosa non è caduto: il criterio.** `N8` era stato fissato **prima** di costruire, le sue cinque condizioni sono state verificate una per una e nessuna è stata allargata dopo — il revisore lo dichiara per primo (*«non la contesto sul criterio»*). Quello che è caduto è **la misura, non il metro**.
+>
+> **Perché la riga tronca non è stata riparata**: il 2026-08-28 la regia ha deciso che la dashboard a quattro pagine è **superata**. Non viene rifinita, viene sostituita da un report a 8-12 pagine disegnato lungo la spina di una raccomandazione che il progetto non ha ancora scritto (`009`, `010a`, `010b`). Power BI Desktop non è stato riaperto: la riga tronca si dichiara, non si ripara.
+>
+> **Fonte verificabile**: [`review.md`](./review.md) — rilievi `R5b` e `R6`, §5 «Giudizio complessivo sul metro dichiarato», e il blocco di chiusura in coda al verbale.
+
 **Che cosa «pubblicabile» non significa**, con la stessa precisione, perché è la metà su cui un lettore esterno si può ingannare:
 
 - **non** significa pubblicato. Il `.pbix` resta un file locale non versionato, e nessuna pubblicazione sul servizio è nel perimetro di alcuna feature di questo progetto;
@@ -296,3 +332,15 @@ Il criterio è stato fissato in `N8`, **prima** che il file venisse riaperto. No
 - **non** significa che tutto il testo si legga in un colpo d'occhio. Le caselle scorrono (`SC-3`): il testo è tutto presente e nessun blocco è nascosto dietro un clic, ma chi non scorre non legge la seconda metà di un blocco — che è dove sta la parte prescrittiva.
 
 **Chi garantisce che tutto questo sia vero.** Tre presidi umani e nessuno script: la revisione in contesto pulito che questo esito riceverà, le undici prove manuali di lettura, e la disciplina con cui gli scostamenti sono stati scritti mentre accadevano. `scripts/check_audit_coherence.py` non entra nel `.pbix` e non legge `specs/`: il suo verde riguarda i sette documenti pubblicati, e nient'altro.
+
+> **Nota in loco — 2026-08-29, feature `008b`. Il conteggio delle prove è sbagliato, e il primo presidio ha risposto no.**
+>
+> **Affermazione precedente**: *«le undici prove manuali di lettura»*.
+>
+> **Affermazione corretta**: le prove manuali effettivamente eseguite sono **dieci**. Delle dodici prove della tabella qui sopra, la 1 è **eseguibile** — è `check_audit_coherence.py`, che la frase stessa esclude dai presidi — e la 12 è dichiarata **non eseguita**.
+>
+> **Causa della divergenza**: un conteggio a memoria in una sezione di sintesi, e nel punto in cui il documento elenca ciò che garantisce la pubblicabilità. Il numero include una prova che il documento dichiara, quattro righe più sopra, di non aver eseguito.
+>
+> **Sul primo presidio**: la revisione in contesto pulito che questo esito «riceverà» l'ha ricevuta, ed è tornata con un no. La dichiarazione di pubblicabilità che questa frase sostiene è **ritirata** — vedi la nota sopra la scatola.
+>
+> **Fonte verificabile**: la tabella «L'esito delle dodici prove» qui sopra, e il rilievo `R18` caso 4 di [`review.md`](./review.md).

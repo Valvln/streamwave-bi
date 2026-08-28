@@ -12,6 +12,20 @@ L'ordine è deliberato e corregge un difetto della `008a`, che scrisse il propri
 
 **Che cosa questo documento non è**: la fonte autorevole su ciò che esiste a schermo. Quella è la sezione «Esito della costruzione» di [quickstart.md](../quickstart.md), e dove i due divergono prevale quella.
 
+> **Nota in loco — 2026-08-29, feature `008b`. La dichiarazione di pubblicabilità è ritirata.**
+>
+> **Affermazione precedente**: il `.pbix` è pubblicabile dal 2026-08-28, e la `010` può presupporre su di esso ciò che la §1 elenca.
+>
+> **Affermazione corretta**: il `.pbix` **non è dichiarato pubblicabile**. Tutto ciò che questo documento accerta — le otto voci della §1, le cinque condizioni di `N8` verificate in [quickstart.md](../quickstart.md) — resta un accertamento vero su che cosa esiste nel file. Ciò che cade è la conclusione che se ne traeva: che quel file possa essere mostrato a chi non ha letto nulla di questo repository senza che ne tragga una conclusione che i dati non sostengono.
+>
+> **Causa della divergenza**: la §4 di questo stesso documento elenca **la revisione in contesto pulito come il primo dei tre presidi** su cui la garanzia poggia. Quella revisione è tornata con venticinque rilievi e un no sul metro dichiarato — la leggibilità per un decisore che non ha letto alcun documento del repository. Un presidio che si nomina come fondamento e si ignora quando risponde no non è un presidio.
+>
+> **Che cosa non è caduto: il criterio.** `N8` non era sbagliato ed era stato fissato **prima** di costruire; il revisore lo dice per primo, e le cinque condizioni sono state verificate una per una senza allargarne nessuna. Quello che è caduto è **la misura, non il metro**. Le due obiezioni riguardano la *ragione in una riga*, che prometteva sul lettore più di quanto le cinque condizioni sostengano (`R6`), e la *tempistica*, cioè una riga della legenda di confidenza tronca a schermo il giorno stesso della dichiarazione (`R5b`). Nessuna delle due chiedeva di riscrivere `N8`.
+>
+> **Perché la riparazione non è stata fatta.** La regia ha deciso il 2026-08-28 che la dashboard a quattro pagine è **superata**: non viene rifinita, viene sostituita da un report a 8-12 pagine disegnato lungo la spina di una raccomandazione che il progetto non ha ancora scritto (`009`, `010a`, `010b`). Riparare la riga tronca significherebbe rifinire un artefatto che non andrà a schermo. La riga tronca si **dichiara**, non si ripara.
+>
+> **Fonte verificabile**: [`review.md`](../review.md) — rilievi `R5b` e `R6`, §5 «Giudizio complessivo sul metro dichiarato», e il blocco di chiusura in coda al verbale.
+
 ---
 
 ## 1. Che cosa la `010` può presupporre
@@ -55,6 +69,18 @@ Nessuna è chiusa da questa feature. `#11`, `#17`, `#18`, `#20`, `#21` sono ered
 1. **La revisione in contesto pulito** su contratto ed esito, il cui metro dichiarato non è la conformità agli obblighi ma la leggibilità per il destinatario.
 2. **Le undici prove manuali** di [quickstart.md](../quickstart.md), di cui sette confrontano un testo con un altro testo e una verifica un'esaustività. Sono verifiche di lettura, non di misura.
 3. **La disciplina con cui gli scostamenti sono stati scritti mentre accadevano**, invece che ricostruiti a memoria alla fine.
+
+> **Nota in loco — 2026-08-29, feature `008b`. Il conteggio del presidio 2 è sbagliato, e il presidio 1 ha risposto no.**
+>
+> **Affermazione precedente**: *«Le undici prove manuali»*.
+>
+> **Affermazione corretta**: le prove manuali effettivamente eseguite sono **dieci**. Delle dodici prove di [quickstart.md](../quickstart.md), la 1 è **eseguibile** — è `check_audit_coherence.py`, che questo stesso documento esclude dai presidi sei righe più sotto — e la 12 è dichiarata **non eseguita**.
+>
+> **Causa della divergenza**: un conteggio a memoria in una sezione di sintesi, in un documento la cui tesi è che nessun numero sta senza fonte. Il numero originale resta sopra perché è la traccia di ciò che il documento affermava.
+>
+> **Sul presidio 1, e vale più del conteggio**: la revisione in contesto pulito ha avuto luogo ed è tornata con un no. La garanzia che questa §4 sostiene è **ritirata** — vedi la nota in apertura del documento.
+>
+> **Fonte verificabile**: la tabella «L'esito delle dodici prove» di [quickstart.md](../quickstart.md), e il rilievo `R18` caso 4 di [`review.md`](../review.md).
 
 **`scripts/check_audit_coherence.py` non è fra i presidi.** Non entra nel `.pbix` e non legge `specs/`: il suo verde riguarda le ancore dei sette documenti pubblicati, e il deliverable di questa feature è la sola cosa del repository che quel controllo non può leggere per costruzione.
 
