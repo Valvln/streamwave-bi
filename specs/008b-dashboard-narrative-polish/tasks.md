@@ -105,14 +105,14 @@ Repository singolo. Contratto di narrazione in `specs/008b-dashboard-narrative-p
 
 **★3 — è la prova che questa feature aggiunge al progetto**, e le otto verifiche che seguono sono la sua articolazione. Vanno eseguite **come lettura e non come ricordo**: chi ha appena scritto un testo lo rilegge sapendo che cosa intendeva, ed è la condizione in cui una cifra di troppo è più difficile da vedere.
 
-- [ ] T020 **(manuale, Valerio)** Prova 4 — esaustività: percorri l'inventario di [data-model.md](./data-model.md) §3 e trova per ciascun `OB` il blocco che lo soddisfa; poi percorri i blocchi a schermo e trova per ciascuno l'obbligo che lo richiede. Annota ogni obbligo scoperto e ogni blocco senza obbligo
-- [ ] T021 **(manuale, Valerio)** Prova 5 — fedeltà: leggi il contratto approvato accanto allo schermo e verifica la coincidenza **alla lettera** di ogni blocco. Una differenza è uno scostamento e si dichiara; non si corregge in silenzio
-- [ ] T022 **(manuale, Valerio)** Prova 6 — cifre: percorri ogni blocco cercando le cifre. Nessuna, salvo le voci della lista chiusa. Dove i due anni di copertura compaiono, verifica che il loro statuto sia distinto (`FR-016`, `FR-018`)
-- [ ] T023 **(manuale, Valerio)** Prova 7 — regola di decisione: verifica che `C1` e `C3` siano nominate da sole, ciascuna con la dichiarazione che da sola non decide, e che nessuna pagina le conti, nomini `C2`, o pubblichi un esito complessivo (`FR-019`)
-- [ ] T024 **(manuale, Valerio)** Prova 8 — registro: verifica che nessun blocco concluda, raccomandi, preveda o attribuisca una causa, e che la parola «domanda» sia dichiarata su `BQ2` come indice della fonte e non come comportamento osservato (`FR-020`)
-- [ ] T025 **(manuale, Valerio)** Prova 9 — formulazioni escluse: verifica che nessuna delle tre compaia, in nessuna variante (`FR-003`)
-- [ ] T026 **(manuale, Valerio)** Prove 10 e 3 — visibilità e perimetro: verifica che nessun blocco stia dietro un tooltip di pagina, un segnalibro o un pannello, che le pagine siano quattro, e che tabelle, relazioni e misure siano quelle che la `008a` ha lasciato (`FR-023`, `FR-024`)
-- [ ] T027 **(manuale, Valerio)** Prova 11 — sigle: verifica che ogni sigla introdotta dai blocchi di questa feature sia sciolta sulla stessa pagina (`FR-021`)
+- [x] T020 **(manuale, Valerio)** Prova 4 — esaustività: percorri l'inventario di [data-model.md](./data-model.md) §3 e trova per ciascun `OB` il blocco che lo soddisfa; poi percorri i blocchi a schermo e trova per ciascuno l'obbligo che lo richiede. Annota ogni obbligo scoperto e ogni blocco senza obbligo
+- [x] T021 **(manuale, Valerio)** Prova 5 — fedeltà: leggi il contratto approvato accanto allo schermo e verifica la coincidenza **alla lettera** di ogni blocco. Una differenza è uno scostamento e si dichiara; non si corregge in silenzio
+- [x] T022 **(manuale, Valerio)** Prova 6 — cifre: percorri ogni blocco cercando le cifre. Nessuna, salvo le voci della lista chiusa. Dove i due anni di copertura compaiono, verifica che il loro statuto sia distinto (`FR-016`, `FR-018`)
+- [x] T023 **(manuale, Valerio)** Prova 7 — regola di decisione: verifica che `C1` e `C3` siano nominate da sole, ciascuna con la dichiarazione che da sola non decide, e che nessuna pagina le conti, nomini `C2`, o pubblichi un esito complessivo (`FR-019`)
+- [x] T024 **(manuale, Valerio)** Prova 8 — registro: verifica che nessun blocco concluda, raccomandi, preveda o attribuisca una causa, e che la parola «domanda» sia dichiarata su `BQ2` come indice della fonte e non come comportamento osservato (`FR-020`)
+- [x] T025 **(manuale, Valerio)** Prova 9 — formulazioni escluse: verifica che nessuna delle tre compaia, in nessuna variante (`FR-003`)
+- [x] T026 **(manuale, Valerio)** Prove 10 e 3 — visibilità e perimetro: verifica che nessun blocco stia dietro un tooltip di pagina, un segnalibro o un pannello, che le pagine siano quattro, e che tabelle, relazioni e misure siano quelle che la `008a` ha lasciato (`FR-023`, `FR-024`)
+- [x] T027 **(manuale, Valerio)** Prova 11 — sigle: verifica che ogni sigla introdotta dai blocchi di questa feature sia sciolta sulla stessa pagina (`FR-021`)
 
 **Checkpoint**: il deliverable è verificato per quanto una lettura può verificare. Ciò che resta scoperto — che le frasi si capiscano — è della revisione.
 
