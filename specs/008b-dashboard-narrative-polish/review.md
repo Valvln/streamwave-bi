@@ -515,3 +515,88 @@ Lo registro perché la sua esistenza illumina un'asimmetria di attenzione che at
 **La distanza fra qui e un sì non è grande, e non passa dalla riapertura del contratto.** Passa da cinque cose: riparare la riga tronca; ritrovare una frase sola che dica a che cosa serve guardare queste quattro pagine; mettere a schermo l'orizzonte, o dire perché non c'è; riconciliare `BL-Q3-4` con `BL-Q3-9`; cambiare il titolo `Un debito aperto`. Tutto il resto di questo verbale è, per gravità dichiarata, sotto quella soglia.
 
 **Un'ultima nota sul disegno di questa revisione.** Il documento A, al §13.1, chiede che il revisore arrivi per conto proprio ai tre indebolimenti più onerosi e dichiara che, se li trova, la decisione va rivista. La prova, così com'è congegnata, non è eseguibile: la tabella degli indebolimenti sta **nello stesso documento** che il revisore riceve, e non c'è modo di leggere i blocchi senza aver letto anche la loro confessione. Dichiaro quindi quali avrei rilevato comunque, e su quali non posso pronunciarmi: **avrei rilevato** `OB-11` (`R19`: «stima per eccesso» senza dire di quanto è un'inquietudine, non una cautela), `OB-27` (`R8` e `R3`: il blocco è incoerente con `BL-Q3-9` e lascia aperta la moltiplicazione) e `OB-24` (`R7`: «vanno letti insieme» come istruzione senza motivo e senza oggetto chiaro). **Non mi sono accorto per conto mio** che mancasse qualcosa in `OB-15`, `OB-19` e `OB-20`: quei tre blocchi, letti da fuori, sembrano completi. Per quel che vale come misura, la brevità ha comprato più di quanto è costata su tre casi su sei, e su tre no.
+
+---
+
+# Blocco di chiusura — a cura della sessione revisionata
+
+**Data**: 2026-08-29 · **Feature**: `008b` · **Aggiunto in coda, dopo il verbale.** Il testo del revisore non è stato toccato in alcun punto, nemmeno dove questo blocco non ne condivide la ricostruzione (obbligo 4 di `CLAUDE.md`).
+
+## La decisione che governa tutte le chiusure qui sotto
+
+**La `008b` chiude senza rifinire il deliverable.** Il 2026-08-28 la regia ha deciso che la dashboard a quattro pagine è superata: non viene portata a un sì, viene **sostituita** da un report a 8-12 pagine disegnato lungo la spina di una raccomandazione che il progetto non ha ancora scritto. Le feature `009`, `010a` e `010b` fanno quel lavoro.
+
+Ne discende il criterio con cui i venticinque rilievi sono stati smistati, e va detto prima dei singoli esiti perché è l'unica cosa che li rende leggibili insieme:
+
+- **i rilievi sul testo a schermo non si chiudono qui**, perché quel testo non andrà più a schermo. Ripararlo sarebbe rifinire un artefatto già superato, e la riparazione andrebbe persa insieme al file;
+- **si chiudono soltanto i rilievi per cui un documento che resta nel repository afferma il falso.** È la soglia dello *strettamente necessario* di `CLAUDE.md`, e la `008b` lascia dietro di sé tre documenti che restano — questo verbale, il contratto di narrazione, il contratto di pubblicabilità con l'esito della costruzione. Un'affermazione falsa dentro di essi sopravvive alla dashboard che l'ha originata;
+- **tutto il resto è rinviato con un numero.** Il rinvio è una decisione, non un'omissione: chi lo contesta lo contesta sul tracker, che è la sede in cui resta contestabile.
+
+**Il revisore non poteva sapere che il deliverable stesse per essere superato**, e ha giudicato la dashboard sul metro giusto per la dashboard. La sua conclusione — *«davanti al destinatario descritto, questi testi non si leggono ancora»* — non è indebolita da questa decisione: è la ragione per cui la decisione è stata presa, e cinque delle sue cinque «cose che mancano» sono adesso requisiti della `009` e della `010a` invece che correzioni della `008b`.
+
+## Che cosa è stato chiuso qui, e come
+
+Tre rilievi, e una correzione di conteggio che ricorre dentro la frase ritirata.
+
+| Rilievo | Esito | Come |
+|---|---|---|
+| `R5b` | **indebolito** (ritirata la rivendicazione) | il `.pbix` non è più dichiarato pubblicabile. La riga tronca della legenda di *bassa* **non è stata riparata**: si dichiara, non si ripara |
+| `R6` | **indebolito** (ritirata la rivendicazione) | la scatola «Il `.pbix` è pubblicabile» e la sua ragione in una riga sono ritirate con nota in loco. Il quinto trattino sullo scorrimento resta dov'è, ed è ora la frase che regge invece di quella che contraddiceva |
+| `R5a` | **risolto** | nota in loco su `SC-1`: le due letture sono dichiarate, l'originale non è riscritto |
+| `R18` caso 4 | **risolto** | *«le undici prove manuali»* corretto a **dieci** con nota in loco, nei due punti in cui la frase compare |
+
+### `R5b` e `R6` — la dichiarazione di pubblicabilità è ritirata
+
+**Non sono stati chiusi riparando lo schermo.** Il revisore chiedeva, per `R5b`, *«di finire una riparazione che il documento stesso ha già prescritto»*, e per `R6` *«di riformulare una frase»*. Nessuna delle due cose è stata fatta: si è ritirata la dichiarazione che entrambe difendevano.
+
+**L'argomento del ritiro è interno al documento ritirato.** La §4 del contratto di pubblicabilità elenca la revisione in contesto pulito come **il primo dei tre presidi** su cui la garanzia poggia. Quella revisione è tornata con un no sul metro dichiarato. Un presidio che si nomina come fondamento e poi si ignora quando risponde no non era un presidio: era un ornamento. Il ritiro è quindi ciò che quel documento aveva già stabilito accadesse.
+
+**Il criterio `N8` non era sbagliato, ed era stato fissato prima di costruire.** Il revisore lo dice per primo — *«non la contesto sul criterio»* — e non è una concessione di cortesia: le cinque condizioni sono state verificate una per una, e nessuna è stata allargata dopo. Quello che è caduto è **la misura, non il metro**. Le due obiezioni del §5 riguardano la *ragione in una riga*, che prometteva sul lettore più di quanto le cinque condizioni sostengano, e la *tempistica*, cioè un file con una riga rotta a schermo il giorno in cui viene dichiarato pubblicabile.
+
+Va detto in questa forma perché è vero, e perché è la forma in cui questo ritiro vale più di una pubblicabilità mai contestata: una dichiarazione che regge finché nessuno guarda non dimostra nulla; una che cade quando il presidio che si era dichiarato risponde no dimostra che il presidio era reale.
+
+### `R5a` — la ragione di `SC-1` contraddetta dalla tabella
+
+Il rilievo è **accolto e risolto**, non indebolito: il documento, per come è scritto, afferma un fatto della costruzione che la tabella venti righe più sopra smentisce, e resta nel repository.
+
+La chiusura è una **nota in loco** accanto a `SC-1`, che dichiara le due letture possibili — la ragione registrata era vera quando fu scritta e falsa a chiusura, oppure non era la ragione vera — e **non sceglie fra le due**, perché chi scrive oggi non ha modo di stabilire quale sia. L'originale non è riscritto.
+
+**Ciò che il revisore chiede di non perdere è stato conservato.** Il §4 avverte che la ragione di `SC-1` è *«nominata come estetica e non travestita da vincolo di spazio»*, e che l'onestà del gesto resta anche se la premessa è sbagliata. La nota corregge la premessa e lascia in piedi il gesto: la ragione del taglio continua a essere dichiarata come estetica.
+
+### `R18` caso 4 — le prove manuali sono dieci, non undici
+
+Corretto perché ricorre **dentro la frase che questo blocco ritira**: «Chi garantisce che tutto questo sia vero» elenca tre presidi, e uno dei tre è mal contato. La stessa frase compare nella §4 del contratto di pubblicabilità, e la nota è stata messa in entrambi i punti.
+
+Delle dodici prove, la 1 è eseguibile — è `check_audit_coherence.py` — e la 12 è dichiarata non eseguita. Le prove manuali effettivamente eseguite sono **dieci**, che è il numero che il revisore aveva già calcolato.
+
+**I casi 1, 2 e 3 di `R18` non sono corretti qui** e sono rinviati con gli altri difetti dei documenti di feature: nessuno dei tre sta dentro una frase che questa chiusura tocca.
+
+## Che cosa è rinviato, e a chi
+
+Ventidue rilievi, tre issue. Il raggruppamento non è per gravità ma **per chi erediterà il lavoro**, perché è l'unico criterio che rende le issue azionabili da chi le aprirà.
+
+| Issue | Rilievi | A chi spetta |
+|---|---|---|
+| [`#28`](https://github.com/Valvln/streamwave-bi/issues/28) — il testo a schermo dice cosa non concludere e mai cosa si può concludere | `R1`, `R2`, `R7`, `R8`, `R14`, `R17`, `R19`, `R21` | **`009`** per la sostanza — `R2` si chiude lì, pubblicando `C2` e il verdetto — e **`010a`** per l'impaginazione |
+| [`#29`](https://github.com/Valvln/streamwave-bi/issues/29) — difetti localizzati del testo a schermo | `R3`, `R4`, `R9`, `R10`, `R11`, `R12`, `R13`, `R20`, `R22` | **`010b`**, che riscrive la narrazione da zero |
+| [`#30`](https://github.com/Valvln/streamwave-bi/issues/30) — difetti dei documenti di feature, che restano nel repository | `R15`, `R16`, `R18` (casi 1-3), `R23`, `R24`, `R25` | **`011`**, insieme all'arretrato del tracker |
+
+**Perché `R1` e `R2` si rinviano invece di chiudersi, benché siano i due rilievi più gravi del verbale.** Perché la loro chiusura non è una correzione di testo: `R1` chiede che la dashboard dica a che cosa serve, e `R2` che smetta di far comparire `C2` come buco. Entrambe presuppongono che il progetto abbia scritto la raccomandazione e il verdetto sulla North Star, che è esattamente ciò che la `009` esiste per fare (issue `#17`). Chiuderli qui significherebbe scrivere a schermo, di corsa, la conclusione che il progetto non ha ancora ricavato — cioè il difetto opposto e peggiore.
+
+**Perché `R15` e `R16` si rinviano benché riguardino documenti che restano.** Perché nessuno dei due fa affermare il falso al documento. `R15` dice che l'esito della costruzione non permette di ricostruire lo schermo: è una **insufficienza**, non una falsità, e il documento non pretende il contrario. `R16` chiede che la condizione 2 di `N8` sia marcata *«verificata sulla lettera, contestabile sulla sostanza»* invece che *«verificata»*: il rilievo è fondato, ma con la dichiarazione di pubblicabilità ritirata l'intera tabella di `N8` non sostiene più alcuna conclusione, e correggere una casella dentro una tabella ritirata è manutenzione, non riparazione. Resta registrato perché la `011` lo veda.
+
+**`R25` non è un difetto** — lo dice il rilievo stesso — ed è rinviato come osservazione, non come correzione da fare.
+
+## Che cosa questa chiusura non ha fatto, dichiarato per esteso
+
+- **Power BI Desktop non è stato riaperto**, per nessuna ragione, inclusa la riga tronca di `R5b`. Il file non è stato toccato;
+- **`contracts/narrative-contract.md` non è stato riscritto.** È la traccia di ciò che è stato deciso, e resta;
+- **nessuna delle issue già aperte è stata chiusa** — `#11`, `#17`, `#18`, `#20`, `#21`, `#26`, `#27` restano tutte aperte;
+- **`docs/roadmap.md` non è stato toccato**: è artefatto di governance e spetta alla regia;
+- **nessun documento sotto `docs/` è stato toccato**, e `python3 scripts/check_audit_coherence.py` resta verde. Le due note in loco stanno entrambe sotto `specs/`.
+
+## Una cosa che il revisore non aveva visto, e che questa chiusura ha trovato
+
+**La frase mal contata di `R18` caso 4 esiste in due copie, non in una.** Il revisore ha letto il documento B come estratto isolato e ha rilevato *«le undici prove manuali»* nella sezione «Chi garantisce che tutto questo sia vero». La stessa formulazione — stesso conteggio sbagliato, stessa funzione argomentativa — è al punto 2 della §4 del contratto di pubblicabilità, che è un **terzo** documento che il revisore non aveva ricevuto. Il perimetro della revisione lo escludeva, quindi non è un rilievo mancato: è una conseguenza del perimetro, ed è registrata qui perché è il genere di duplicazione che una revisione su estratti non può per costruzione intercettare.
+
+Vale la pena notare che il contratto di pubblicabilità è, dei due, quello che regge di più su quel conteggio: la §4 si intitola «Su che cosa poggia questa garanzia» e le prove manuali sono uno dei tre pilastri che nomina.
