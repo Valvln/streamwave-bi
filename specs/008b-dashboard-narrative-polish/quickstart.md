@@ -109,13 +109,24 @@ Atteso: coincidenza. Una divergenza è un **ritrovamento**: si dichiara con nota
 
 ## Esito della costruzione
 
-> **Sezione non ancora compilata.** Si riempie nel blocco B del piano, dopo ★2 e ★3, e le voci vanno scritte **mentre accadono** e non a memoria alla fine — è la ragione per cui ciascuna porterà la propria data.
->
-> **Sarà questa sezione, non il contratto di narrazione, la fonte autorevole su ciò che esiste a schermo.** Il contratto dichiara che cosa si era deciso di scrivere; dove i due divergono, la divergenza sarà elencata qui sotto con la propria ragione.
+**Costruzione eseguita fra il 2026-08-27 e il 2026-08-28.** Le voci degli scostamenti sono state scritte mentre accadevano, ciascuna con la propria data; le sezioni di sintesi sono state compilate a chiusura, nella Fase 7.
+
+**Questa sezione, non il contratto di narrazione, è la fonte autorevole su ciò che esiste a schermo.** Il contratto dichiara che cosa si era deciso di scrivere; dove i due divergono, la divergenza è elencata qui sotto con la propria ragione (`F9` della `008a`, ereditata).
 
 ### Che cosa è a schermo, pagina per pagina
 
-*(da compilare — una riga per pagina: quali obblighi vi atterrano, quanti blocchi, se la fascia è bastata)*
+| Pagina | Obblighi atterrati | Blocchi | La fascia è bastata? |
+|---|---|---|---|
+| **Ingresso** | `OB-01`-`OB-04` | quattro: `BL-IN-1`, `BL-IN-2`, `BL-IN-3` nella fascia sotto la scheda della North Star; `BL-IN-4` nella striscia a piè di pagina | **no**, e la reazione è stata doppia: `BL-IN-3` è stato accorciato (`SC-1`) e il testo residuo scorre (`SC-3`) |
+| **`BQ1`** | `OB-05`-`OB-12`, `OB-35` | nove: `BL-Q1-1`, `BL-Q1-1b`, `BL-Q1-2`, `BL-Q1-3` sull'area della metrica di riferimento; `BL-Q1-4`, `BL-Q1-5` sulla differenza di durata; `BL-Q1-6`, `BL-Q1-7`, `BL-Q1-8` sulla sovrapposizione | **no**, il testo scorre (`SC-3`). Nessun blocco tagliato |
+| **`BQ2`** | `OB-13`-`OB-23`, `OB-33` | dieci: `BL-Q2-1` … `BL-Q2-10` | **no**, il testo scorre (`SC-3`). Nessun blocco tagliato, nemmeno i tagliabili `BL-Q2-9` e `BL-Q2-5` |
+| **`BQ3`** | `OB-24`-`OB-32` | nove: `BL-Q3-1` … `BL-Q3-9` | **no**, il testo scorre (`SC-3`). Nessun blocco tagliato, `BL-Q3-9` compreso |
+
+`OB-34` è trasversale e non ha blocco proprio: è servito dagli scioglimenti di `C1` in `BL-Q1-3` e di `C3` in `BL-Q2-8`, che sono le uniche sigle introdotte da questa feature.
+
+**Trentadue blocchi, trentacinque obblighi, quattro pagine — le stesse quattro che la `008a` ha lasciato.** Nessuna pagina è stata aggiunta, nessuna visuale legata a un campo, nessun filtro, nessuna modifica al modello.
+
+**L'ordine di taglio previsto dal contratto non è mai stato usato**, ed è il fatto che spiega `SC-3`: davanti a fasce insufficienti si è scelto di tenere il testo intero e accettare lo scorrimento, invece di tagliare come `N4` prescriveva.
 
 ### Gli scostamenti dal contratto approvato
 
@@ -183,24 +194,105 @@ Manca inoltre il punto finale all'ultima frase del blocco.
 
 ### Che cosa è stato tagliato, e perché
 
-*(da compilare — `N4`: se una fascia non è bastata, che cosa è stato tolto e quale obbligo ne è rimasto scoperto o ridotto)*
+**Un solo blocco è stato tagliato in costruzione: `BL-IN-3`.** Il taglio è documentato in `SC-1`, con la sua ragione — allineare l'altezza delle fasce, non una fascia insufficiente — e con ciò che è costato: `OB-03` resta servito, ma la sua seconda metà, che la scala non misura la trasferibilità, è ora affidata a un esempio invece che a un enunciato.
+
+**Nessun altro blocco è stato tagliato**, su nessuna delle quattro pagine, `BL-Q2-9` e `BL-Q2-5` compresi — che erano i due che il contratto designava come primi da sacrificare. Dove il testo non entrava si è scelto lo scorrimento (`SC-3`).
+
+**Un taglio diverso, avvenuto prima e non qui.** I nove obblighi che il contratto elenca in §13.1 come «soddisfatti in parte» non sono tagli di costruzione: sono accorciamenti decisi in **revisione del contratto**, prima che il file venisse riaperto, e stanno lì con il proprio dettaglio. La distinzione conta per chi legge: un accorciamento in revisione è passato per un'approvazione, un taglio in costruzione no.
 
 ### L'esito di ★1 — le tre impostazioni dell'issue `#20`
 
-*(da compilare — una riga per impostazione: difetto assente, oppure presente, corretto e registrato come ricomparsa)*
+Verificate il 2026-08-28, **prima di ogni scrittura nel file**, nell'ordine prescritto (`T010`, prova 2).
+
+| Impostazione | Esito |
+|---|---|
+| dominio `0-1` su `energy`, `valence`, `danceability` di `dim_track` (issue `#11`) | **difetto assente** — i valori sono nel dominio atteso |
+| conteggio di riga di `dim_title` | **difetto assente** — coincide con quello lasciato dalla `008a` dopo la correzione a `QuoteStyle.Csv` |
+| colonna di scenario su `bq3_scenarios` | **difetto assente** — la colonna è presente |
+
+**Nessuna ricomparsa, nessuna correzione, e quindi la prova 12 non è stata eseguita** — vedi la tabella delle prove.
+
+**Che cosa questo esito dimostra, e che cosa no.** Dimostra che le tre impostazioni hanno retto **questa** riapertura. Non dimostra che non possano riperdersi alla prossima, che è precisamente ciò che l'issue `#20` dichiara, e la ragione per cui resta aperta.
 
 ### I ritrovamenti
 
-*(da compilare — differenze fra ciò che un documento pubblicato afferma e ciò che si è osservato, con la nota in loco che ne discende. Zero è un esito possibile)*
+**Zero**, ed è dichiarato per esteso invece di essere lasciato al silenzio. Nessuna differenza è stata trovata fra un valore letto a schermo e il valore pubblicato dal documento della `007b`. **Nessuna nota in loco è dovuta** su alcun documento di `docs/` (`T033`).
 
-### Lo stato delle cinque issue
+**Due cose che potrebbero sembrare ritrovamenti e non lo sono**, e vale la pena dire perché:
 
-*(da compilare — `#11`, `#17`, `#18`, `#20`, `#21`: nessuna viene chiusa da questa feature, e per ciascuna va dichiarato quale evidenza manca)*
+- **`SC-2`**, l'etichetta di confidenza di `BQ1-K2` che a schermo diceva `media`. `F9` della `008a` chiama ritrovamento la differenza fra un valore letto a schermo e il valore pubblicato: qui nessun documento pubblicato sbaglia — sbagliava la trascrizione. Corretta nel file, dichiarata come scostamento;
+- **l'issue `#26`**, la formulazione esclusa dentro il contratto di pagina della `008a` §8. Riguarda un documento di disegno sotto `specs/`, non un valore pubblicato, e la decisione di non scrivere una nota in loco è registrata al §14 del contratto di narrazione.
+
+### Lo stato delle cinque issue, e le due aperte da questa feature
+
+**Nessuna delle cinque è chiusa da questa feature**, come il perimetro prescrive (`FR-031`).
+
+| Issue | Stato | Quale evidenza manca per chiuderla |
+|---|---|---|
+| `#11` — tipizzazione delle colonne di mood | **aperta** | è assorbita da `#20` e non è chiudibile finché il `.pbix` non è versionato. La verifica di ★1 vale per una riapertura, non per tutte |
+| `#17` — `C2` non è mai stata nominata, né il terzo vincolo di `kpi_operators.md` §12 | **aperta** | `C2` non esiste come valore ancorato in alcun artefatto. Questa feature non lo pubblica e non ne discute il valore: dichiara soltanto, su `BL-Q1-3` e `BL-Q2-8`, che l'esito congiunto non è a schermo — vero indipendentemente da quante condizioni esistano |
+| `#18` — `mood_profile_overlap` senza `ALL` | **aperta** | la formula non è stata toccata. Questa feature dimostra che il difetto non si manifesta, perché nessuna pagina offre un filtro di categoria (`FR-026`); non dimostra che non esista |
+| `#20` — le tre impostazioni fragili | **aperta** | è strutturale: nasce dal fatto che il `.pbix` non è versionato e nessun controllo del repository entra nel modello. L'esito di ★1 la conferma invece di chiuderla |
+| `#21` — dispersione e graduatoria non si evidenziano | **aperta** | il vincolo dello strumento non è risolto. `BL-Q2-9` **dichiara** a schermo che le due visuali non si filtrano, il che non la riapre e non la chiude |
+
+**Due issue nuove**, entrambe aperte da questa feature e nessuna delle due chiusa qui:
+
+| Issue | Che cosa registra |
+|---|---|
+| `#26` | il contratto di pagina della `008a` §8 usa la formulazione che `bq3_scenarios.md` §8 dichiara falsa. Nessun valore ne dipende |
+| `#27` | la considerazione dell'autore su pagine dedicate alla prosa fra una pagina-grafico e l'altra, conseguenza di `SC-3`. Comporta di riaprire il numero di pagine e nessuna decisione è presa |
 
 ### L'esito delle dodici prove
 
-*(da compilare — tabella prova / chiusa da / esito, come nella `008a`. La prova 12 è condizionale: se non è stata eseguita, si dichiara che non lo è stata e perché)*
+| # | Prova | Chiusa da | Esito |
+|---|---|---|---|
+| 1 | nulla di pubblicato è stato rotto *(eseguibile)* | `T039` | **verde** — vedi la nota sotto la tabella |
+| 2 | le tre impostazioni fragili di `#20` ★1 | `T010` | **passata** su tutte e tre le voci, nessuna ricomparsa |
+| 3 | la struttura della `008a` è invariata | `T026` | **passata** — quattro pagine, otto tabelle, cinque relazioni, quattordici misure, nessun filtro né slicer, nessuna visuale legata a un campo aggiunta |
+| 4 | esaustività in entrambe le direzioni ★3 | `T020` | **passata** — ogni obbligo ha almeno un blocco, ogni blocco serve almeno un obbligo. Nessun obbligo scoperto, nessun blocco senza obbligo |
+| 5 | fedeltà alla lettera al contratto ★3 | `T021` | **passata con uno scostamento già dichiarato**: `BL-IN-3` non coincide alla lettera, ed è `SC-1`. Nessun'altra differenza |
+| 6 | nessuna cifra fuori dalla lista chiusa ★3 | `T022` | **passata** — `2021` e `2022` solo su `BL-IN-4`, nessun'altra cifra su alcun blocco |
+| 7 | nessuna composizione della regola di decisione | `T023` | **passata** — `C1` su `BQ1` e `C3` su `BQ2`, ciascuna da sola, nessun conteggio, `C2` mai nominata, nessun esito complessivo |
+| 8 | nessuna conclusione, nessuna causa, nessuna persona | `T024` | **passata** — la parola «domanda» è dichiarata su `BQ2` come indice della fonte (`BL-Q2-10`) |
+| 9 | le tre formulazioni escluse non compaiono | `T025` | **passata** — nessuna delle tre, in nessuna variante |
+| 10 | il testo è sempre visibile | `T026` | **passata in parte**: nessuna pagina-tooltip, nessun segnalibro, nessun pannello, le pagine restano quattro. Il testo però **scorre**, ed è `SC-3` |
+| 11 | le sigle sono sciolte dove compaiono | `T027` | **passata** — `C1` e `C3` sono le uniche introdotte da questa feature, entrambe sciolte sulla propria pagina |
+| 12 | i valori a schermo coincidono ancora con i pubblicati *(condizionale)* | — | **non eseguita** |
+
+**Perché la prova 12 non è stata eseguita.** Si esegue solo se la prova 2 impone una correzione, e la prova 2 è passata su tutte e tre le voci. Nessuna correzione è servita, quindi nessun valore è stato toccato e non c'era nulla da riconfrontare. **La non esecuzione è dichiarata invece che sostituita da un esito che nessuno ha osservato**, come il quickstart prescriveva prima di cominciare.
+
+**Le due prove che non sono verdi piene, dette come sono.** La 5 e la 10 hanno ciascuna uno scostamento già registrato — `SC-1` e `SC-3` — e sarebbe stato più comodo scriverle «passate» rimandando alla sezione degli scostamenti. Sono marcate qui perché una tabella di prove tutte verdi accanto a una sezione con tre scostamenti è una tabella che si legge senza leggere l'altra.
+
+**Che cosa il verde della prova 1 certifica, e che cosa no.** Certifica che nessuna ancora dei sette documenti pubblicati è stata rotta. **Non dice nulla del deliverable di questa feature**, che è prosa dentro un file binario non versionato — la sola cosa del repository che quel controllo non può leggere per costruzione. Sette prove su dodici hanno confrontato un testo con un altro testo, e il loro esito è un'osservazione umana.
 
 ### La dichiarazione di pubblicabilità
 
-*(da compilare — le cinque condizioni di `N8` verificate una per una, e l'elenco di ciò che «pubblicabile» non significa. È la sola sezione di questo quickstart che nessuna feature precedente ha mai avuto, e la ragione per cui il criterio è stato fissato prima di costruire invece che dopo)*
+Il criterio è stato fissato in `N8`, **prima** che il file venisse riaperto. Non si allarga adesso, e non si restringe: si verifica.
+
+| # | Condizione di `N8` | Esito | Dove si verifica |
+|---|---|---|---|
+| 1 | le tre assenze del contratto di dashboard `008a` punto 1 sono colmate — limiti dichiarati, assunzione strutturale dei proxy, narrazione | **verificata** | l'assunzione dei proxy è `BL-IN-1` sulla pagina di ingresso; i limiti sono su tutte e quattro le pagine; la narrazione esiste, ed è questo esito a dire dove |
+| 2 | il *perché* di ogni livello di confidenza è a schermo, per tutti e otto i KPI | **verificata** | `BL-Q1-1`, `BL-Q1-4`, `BL-Q1-6` su `BQ1`; `BL-Q2-1`, `BL-Q2-3`, `BL-Q2-5` su `BQ2`; `BL-Q3-1` copre entrambi i KPI di `BQ3`. Per `BQ1-K1`, che compare su due pagine, la ragione sta una volta sola su `BQ1` (`N5`) |
+| 3 | i limiti che `kpi_operators.md` §12 e `data_model.md` §18 assegnano esplicitamente a questa feature sono a schermo, in forma leggibile da un non tecnico | **verificata sulla lettera, contestabile sulla sostanza** — vedi sotto | tutti a schermo; tre di essi dicono meno di quanto la fonte prescrive (§13.1 del contratto) |
+| 4 | nessun blocco viola `N2`, `N6` o `N7` | **verificata** | prove 6, 7 e 8, tutte passate |
+| 5 | le tre impostazioni dell'issue `#20` sono state riverificate all'apertura e il loro esito è dichiarato | **verificata** | prova 2, passata su tutte e tre; l'esito è dichiarato nella sezione ★1 |
+
+**La condizione 3 va guardata da vicino, perché è l'unica su cui due letture oneste divergono.** Alla lettera chiede che quei limiti siano *a schermo, in forma leggibile da un non tecnico*: lo sono tutti, e la prova 4 lo ha verificato in entrambe le direzioni. Su una lettura più stretta — che ciascuno sia portato **per intero** — non è soddisfatta: `OB-11` e `OB-19`, due dei tre limiti che `kpi_operators.md` §12 assegna per nome a questa feature, e `OB-20`, della categoria *sconsigliato* di `data_model.md` §18, dicono meno di quanto la fonte prescrive. Il dettaglio di che cosa manca è nella §13.1 del contratto di narrazione.
+
+**La dichiarazione poggia sulla lettura letterale, e questo è il punto su cui va contestata se qualcuno la contesta.** È scritto qui e non nascosto perché la revisione in contesto pulito lo incontri: se un revisore che non ha letto la §13.1 trova quei tre blocchi insufficienti leggendo solo lo schermo, la dichiarazione va rivista.
+
+> ## Il `.pbix` è pubblicabile
+>
+> **Dal 2026-08-28.** È la prima volta che questo progetto lo afferma, e sostituisce l'affermazione della `008a` — *«Il file è leggibile, non pubblicabile»* — che senza questa feature sarebbe rimasta su `main` come dichiarazione falsa.
+>
+> **La ragione, in una riga**: un file che espone otto numeri con la propria fonte, la propria confidenza, la ragione di quella confidenza e i limiti che ne governano la lettura può essere mostrato a chi non ha letto nulla di questo repository senza che ne tragga una conclusione che i dati non sostengono.
+
+**Che cosa «pubblicabile» non significa**, con la stessa precisione, perché è la metà su cui un lettore esterno si può ingannare:
+
+- **non** significa pubblicato. Il `.pbix` resta un file locale non versionato, e nessuna pubblicazione sul servizio è nel perimetro di alcuna feature di questo progetto;
+- **non** significa che le issue aperte siano chiuse. `#11`, `#17`, `#18`, `#20`, `#21` restano aperte, `#26` e `#27` si aggiungono, e `#20` in particolare dichiara che tre impostazioni possono riperdersi a ogni riapertura;
+- **non** significa che il debito della `004` sulla verificabilità del benchmark sia risolto. Non lo è, e `BL-Q3-9` lo dice a schermo invece di nasconderlo — che è precisamente ciò che rende il file pubblicabile invece di impedirlo;
+- **non** significa che i numeri descrivano StreamWave. Non lo fanno, e `BL-IN-1` lo dice per primo;
+- **non** significa che tutto il testo si legga in un colpo d'occhio. Le caselle scorrono (`SC-3`): il testo è tutto presente e nessun blocco è nascosto dietro un clic, ma chi non scorre non legge la seconda metà di un blocco — che è dove sta la parte prescrittiva.
+
+**Chi garantisce che tutto questo sia vero.** Tre presidi umani e nessuno script: la revisione in contesto pulito che questo esito riceverà, le undici prove manuali di lettura, e la disciplina con cui gli scostamenti sono stati scritti mentre accadevano. `scripts/check_audit_coherence.py` non entra nel `.pbix` e non legge `specs/`: il suo verde riguarda i sette documenti pubblicati, e nient'altro.

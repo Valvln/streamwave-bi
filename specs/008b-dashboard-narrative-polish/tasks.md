@@ -124,13 +124,13 @@ Repository singolo. Contratto di narrazione in `specs/008b-dashboard-narrative-p
 
 **Independent Test**: si leggono contratto ed esito in sequenza, senza aprire il file, e si sa che cosa il lettore della dashboard incontra.
 
-- [ ] T028 Compila in `specs/008b-dashboard-narrative-polish/quickstart.md` la sezione «Che cosa è a schermo, pagina per pagina»: per ciascuna pagina gli obblighi che vi atterrano, quanti blocchi, se la fascia è bastata
-- [ ] T029 Compila le sezioni «Gli scostamenti dal contratto approvato» e «Che cosa è stato tagliato, e perché», dalle annotazioni di T014 e T019. Zero scostamenti è un esito possibile e va dichiarato come tale, non lasciato vuoto (`FR-029`)
-- [ ] T030 Compila «L'esito di ★1», «I ritrovamenti» e «Lo stato delle cinque issue» dalle annotazioni di T011, T012 e T018: per `#11`, `#17`, `#18`, `#20`, `#21` dichiara che restano aperte e quale evidenza manca a ciascuna (`FR-031`)
-- [ ] T031 Compila «L'esito delle dodici prove»: tabella prova / chiusa da / esito. Se la prova 12 non è stata eseguita, dichiara che non lo è stata e perché — non attribuirle un esito che nessuno ha osservato
-- [ ] T032 Compila «La dichiarazione di pubblicabilità»: le cinque condizioni di `N8` verificate una per una con il task che le chiude, e l'elenco di ciò che «pubblicabile» **non** significa (`FR-032`)
-- [ ] T033 Scrivi una nota in loco sul documento di `docs/` che lo richiede, **solo se** T018 o T030 hanno registrato un ritrovamento: data, feature, affermazione precedente, affermazione corretta, causa, fonte verificabile — senza riscrivere il testo originale (`FR-030`). Zero note se nessun ritrovamento, ed è l'esito atteso
-- [ ] T034 Scrivi `specs/008b-dashboard-narrative-polish/contracts/publishability-contract.md`: che cosa la `010` può presupporre sul `.pbix`, che cosa «pubblicabile» non significa, quali issue restano aperte, e che la garanzia poggia su tre presidi umani e su nessuno script
+- [x] T028 Compila in `specs/008b-dashboard-narrative-polish/quickstart.md` la sezione «Che cosa è a schermo, pagina per pagina»: per ciascuna pagina gli obblighi che vi atterrano, quanti blocchi, se la fascia è bastata
+- [x] T029 Compila le sezioni «Gli scostamenti dal contratto approvato» e «Che cosa è stato tagliato, e perché», dalle annotazioni di T014 e T019. Zero scostamenti è un esito possibile e va dichiarato come tale, non lasciato vuoto (`FR-029`)
+- [x] T030 Compila «L'esito di ★1», «I ritrovamenti» e «Lo stato delle cinque issue» dalle annotazioni di T011, T012 e T018: per `#11`, `#17`, `#18`, `#20`, `#21` dichiara che restano aperte e quale evidenza manca a ciascuna (`FR-031`)
+- [x] T031 Compila «L'esito delle dodici prove»: tabella prova / chiusa da / esito. Se la prova 12 non è stata eseguita, dichiara che non lo è stata e perché — non attribuirle un esito che nessuno ha osservato
+- [x] T032 Compila «La dichiarazione di pubblicabilità»: le cinque condizioni di `N8` verificate una per una con il task che le chiude, e l'elenco di ciò che «pubblicabile» **non** significa (`FR-032`)
+- [x] T033 Scrivi una nota in loco sul documento di `docs/` che lo richiede, **solo se** T018 o T030 hanno registrato un ritrovamento: data, feature, affermazione precedente, affermazione corretta, causa, fonte verificabile — senza riscrivere il testo originale (`FR-030`). Zero note se nessun ritrovamento, ed è l'esito atteso
+- [x] T034 Scrivi `specs/008b-dashboard-narrative-polish/contracts/publishability-contract.md`: che cosa la `010` può presupporre sul `.pbix`, che cosa «pubblicabile» non significa, quali issue restano aperte, e che la garanzia poggia su tre presidi umani e su nessuno script
 
 **Checkpoint**: il repository descrive un file che nessuno dei suoi lettori può aprire, ed è coerente con esso.
 
