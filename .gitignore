@@ -19,6 +19,11 @@ data/external/*
 # un timestamp, quindi versionarlo produrrebbe rumore in ogni diff.
 specs/*/.spec-context.json
 
+# --- Locali ---
+# Output della regia e input di una sessione esecutiva: non sono artefatti del
+# progetto. 
+*.local.md
+
 # --- Credentials ---
 .env
 .env.*
