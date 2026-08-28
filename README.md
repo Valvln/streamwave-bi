@@ -39,6 +39,7 @@ Governance: [`constitution`](.specify/memory/constitution.md) v1.2.0 · [metodo 
 | `007a` Operatori delle misure | [`docs/kpi_operators.md`](docs/kpi_operators.md) | ✅ conclusa, [revisionata](specs/007a-kpi-operators/review.md) |
 | `007b` Misure dei KPI | [`docs/kpi_measures.md`](docs/kpi_measures.md) · `scripts/build_kpi_measures.py` · [`reports/kpi_measures.json`](reports/kpi_measures.json) · [`reports/kpi_engine_check.json`](reports/kpi_engine_check.json) | ✅ conclusa, [revisionata](specs/007b-kpi-measures/review.md) |
 | `008a` Dashboard — modello e pagine | il `.pbix` **non versionato**, reso ispezionabile dal [contratto di pagina](specs/008a-dashboard-model-pages/contracts/page-contract.md) e dall'[esito della costruzione](specs/008a-dashboard-model-pages/quickstart.md) | ✅ conclusa, [revisionata](specs/008a-dashboard-model-pages/review.md) |
+| `008b` Dashboard — narrazione e limiti a schermo | il [contratto di narrazione](specs/008b-dashboard-narrative-polish/contracts/narrative-contract.md) e l'[esito della costruzione](specs/008b-dashboard-narrative-polish/quickstart.md) — il testo dei 32 blocchi portati a schermo | ⚠️ chiusa senza raggiungere il proprio obiettivo, [revisionata](specs/008b-dashboard-narrative-polish/review.md) |
 
 Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](docs/roadmap.md).
 
@@ -65,6 +66,10 @@ Che script e motore DAX diano lo stesso numero **non è assunto**: il confronto 
 Il nono deliverable è il primo che **non è un documento**: la dashboard Power BI in cui gli 8 KPI vanno a schermo, su quattro pagine con la propria navigazione. Il `.pbix` **non è versionato** — incorpora i dati, che per scelta stanno fuori dal repository — quindi ciò che il repository contiene non è il file ma i due artefatti che lo rendono ispezionabile da chi non può aprirlo: il **[contratto di pagina](specs/008a-dashboard-model-pages/contracts/page-contract.md)**, che disegna ogni pagina prima che lo strumento venga aperto e motiva ogni visuale contro la forma del dato, e l'**[esito della costruzione](specs/008a-dashboard-model-pages/quickstart.md)**, che dichiara che cosa esiste davvero e in che cosa differisce dal disegno. L'ordine fra i due è il presidio, ed è lo stesso del ponte fra tassonomia e mood: il disegno si committa prima, e non può quindi ratificare ciò che è stato costruito.
 
 Costruire ha prodotto tre difetti che nessun controllo del repository poteva vedere, tutti in impostazioni che vivono solo dentro il file binario: due sono stati corretti durante la costruzione, il terzo è la tipizzazione già nota alla `007b`. È la ragione dell'issue `#20` e il limite dichiarato di questo deliverable. **Il file è leggibile, non pubblicabile**: i limiti a schermo, in forma comprensibile a un lettore non tecnico, sono il deliverable della feature successiva.
+
+**Quella frase è rimasta vera**. La feature `008b` ha portato a schermo trentadue blocchi di narrazione — i limiti, le assunzioni, il perché di ogni livello di confidenza — scrivendoli prima nel [contratto di narrazione](specs/008b-dashboard-narrative-polish/contracts/narrative-contract.md), che è ciò che li rende leggibili a chi il `.pbix` non può aprirlo, e dichiarando in [esito](specs/008b-dashboard-narrative-polish/quickstart.md) che cosa a schermo differisce dal contratto. Poi ha dichiarato il file pubblicabile, e **la [revisione in contesto pulito](specs/008b-dashboard-narrative-polish/review.md) ha risposto di no**: venticinque rilievi, su un metro che la feature si era data da sé — la leggibilità per un decisore che non ha letto alcun documento di questo repository. La dichiarazione di pubblicabilità è stata **ritirata**, con nota in loco accanto al punto in cui era formulata, e il file resta quello che la `008a` aveva lasciato: leggibile, non pubblicabile.
+
+Il deliverable non viene rifinito perché è stato **superato**. Le quattro pagine sono impaginate lungo le tre domande di business, e il verbale mostra che a un decisore servirebbe la spina opposta — una raccomandazione, e i numeri a sostegno. È il disegno delle feature successive, e i venticinque rilievi sono il loro arretrato dichiarato: le issue `#28`, `#29` e `#30`. Che il ritiro sia avvenuto perché un presidio dichiarato ha risposto no, e non perché nessuno abbia guardato, è la parte di questa feature che vale la pena leggere.
 
 I sette documenti che pubblicano misure — l'audit, il cleaning, gli scenari, il modello, il ponte fra tassonomia e mood, gli operatori e le misure — legano ogni numero all'artefatto che lo produce con la stessa grammatica, definita in **[`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md)** e verificata da `scripts/check_audit_coherence.py`. Lo stesso controllo presidia la tassonomia: se le categorie del catalogo video e quelle della tabella dei mood divergessero, **fallisce** invece di avvisare.
 
@@ -96,7 +101,7 @@ Nessuna dipendenza da installare: gli script usano la sola libreria standard di 
 
 **Non esiste un passo che rigeneri i profili di mood**, e non è un'omissione: quei valori sono assegnati, non calcolati, e nessuno script li tocca dopo il congelamento.
 
-**Non esiste nemmeno un passo che rigeneri la dashboard.** Il `.pbix` si costruisce a mano in Power BI Desktop a partire da `data/processed/`, ed è il confine dell'automazione che la constitution traccia. Le istruzioni sono il [contratto di pagina](specs/008a-dashboard-model-pages/contracts/page-contract.md); ciò che va riverificato a ogni riapertura del file — tipizzazione, lettura dei CSV, colonne di scenario — è elencato nell'[esito della costruzione](specs/008a-dashboard-model-pages/quickstart.md) e nell'issue `#20`.
+**Non esiste nemmeno un passo che rigeneri la dashboard.** Il `.pbix` si costruisce a mano in Power BI Desktop a partire da `data/processed/`, ed è il confine dell'automazione che la constitution traccia. Le istruzioni sono il [contratto di pagina](specs/008a-dashboard-model-pages/contracts/page-contract.md) per il modello e le pagine, e il [contratto di narrazione](specs/008b-dashboard-narrative-polish/contracts/narrative-contract.md) per il testo a schermo; ciò che va riverificato a ogni riapertura del file — tipizzazione, lettura dei CSV, colonne di scenario — è elencato nell'[esito della costruzione](specs/008a-dashboard-model-pages/quickstart.md) e nell'issue `#20`.
 
 ## Struttura
 
@@ -112,7 +117,7 @@ reports/        # artefatti versionati: profilo, rendiconto delle trasformazioni
                 #   misure dei KPI (generati) + esito del confronto col motore DAX (curato a mano)
 scripts/        # utility riproducibili
 specs/          # una cartella per feature: spec.md, plan.md, tasks.md, review.md,
-                #   contracts/ dove la feature ne pubblica uno (007a, 007b, 008a)
+                #   contracts/ dove la feature ne pubblica uno (007a, 007b, 008a, 008b)
 ```
 
 ## Dati
