@@ -37,15 +37,15 @@
 
 **Obiettivo**: il testo letterale a schermo, scritto **prima** che il file venga toccato, sul precedente della `008b` — che su questo aveva ragione, ed è la parte del suo lavoro sopravvissuta alla revisione.
 
-- [ ] T007 Rileggere i nove rilievi dell'issue [`#29`](https://github.com/Valvln/streamwave-bi/issues/29) come catalogo dei modi in cui la prima narrazione ha fallito, e i nove punti che il §4 di quel verbale dichiara **funzionanti**
-- [ ] T008 Scrivere la Parte I di `specs/010b-report-costruzione/contracts/narrative-contract.md`: il destinatario, la lista chiusa dei numerali, il registro, e le formulazioni escluse
-- [ ] T009 [P] Scrivere i blocchi delle pagine 1, 2 e 3 in `contracts/narrative-contract.md`
-- [ ] T010 [P] Scrivere i blocchi delle pagine 4, 5 e 6 in `contracts/narrative-contract.md`
-- [ ] T011 [P] Scrivere i blocchi delle pagine 7, 8 e 9 in `contracts/narrative-contract.md`
-- [ ] T012 [P] Scrivere i blocchi della pagina 10 in `contracts/narrative-contract.md`
-- [ ] T013 Verificare su `contracts/narrative-contract.md` che **ogni limite abbia accanto ciò che si può concludere nonostante quel limite** (`FR-022`, `SC-002`, issue [`#28`](https://github.com/Valvln/streamwave-bi/issues/28)) — è il conteggio dei limiti orfani, e l'esito atteso è zero
-- [ ] T014 Verificare su `contracts/narrative-contract.md` che il testo non usi la formulazione «l'uplift non è scalabile» (`FR-024`, issue [`#26`](https://github.com/Valvln/streamwave-bi/issues/26) e [`#31`](https://github.com/Valvln/streamwave-bi/issues/31)) e che i valori di `BQ3` compaiano sempre come terna (`FR-026`)
-- [ ] T015 Verificare su `contracts/narrative-contract.md` che il debito della `004` sulla verificabilità del benchmark sia dichiarato dove i numeri di `BQ3` compaiono (`FR-025`)
+- [x] T007 Rileggere i nove rilievi dell'issue [`#29`](https://github.com/Valvln/streamwave-bi/issues/29) come catalogo dei modi in cui la prima narrazione ha fallito, e i nove punti che il §4 di quel verbale dichiara **funzionanti**
+- [x] T008 Scrivere la Parte I di `specs/010b-report-costruzione/contracts/narrative-contract.md`: il destinatario, la lista chiusa dei numerali, il registro, e le formulazioni escluse
+- [x] T009 [P] Scrivere i blocchi delle pagine 1, 2 e 3 in `contracts/narrative-contract.md`
+- [x] T010 [P] Scrivere i blocchi delle pagine 4, 5 e 6 in `contracts/narrative-contract.md`
+- [x] T011 [P] Scrivere i blocchi delle pagine 7, 8 e 9 in `contracts/narrative-contract.md`
+- [x] T012 [P] Scrivere i blocchi della pagina 10 in `contracts/narrative-contract.md`
+- [x] T013 Verificare su `contracts/narrative-contract.md` che **ogni limite abbia accanto ciò che si può concludere nonostante quel limite** (`FR-022`, `SC-002`, issue [`#28`](https://github.com/Valvln/streamwave-bi/issues/28)) — è il conteggio dei limiti orfani, e l'esito atteso è zero
+- [x] T014 Verificare su `contracts/narrative-contract.md` che il testo non usi la formulazione «l'uplift non è scalabile» (`FR-024`, issue [`#26`](https://github.com/Valvln/streamwave-bi/issues/26) e [`#31`](https://github.com/Valvln/streamwave-bi/issues/31)) e che i valori di `BQ3` compaiano sempre come terna (`FR-026`)
+- [x] T015 Verificare su `contracts/narrative-contract.md` che il debito della `004` sulla verificabilità del benchmark sia dichiarato dove i numeri di `BQ3` compaiono (`FR-025`)
 
 **→ PUNTO DI FERMATA 3.** Il contratto di narrazione è approvato **prima** che il `.pbix` venga toccato.
 
