@@ -40,6 +40,7 @@ Governance: [`constitution`](.specify/memory/constitution.md) v1.2.0 · [metodo 
 | `007b` Misure dei KPI | [`docs/kpi_measures.md`](docs/kpi_measures.md) · `scripts/build_kpi_measures.py` · [`reports/kpi_measures.json`](reports/kpi_measures.json) · [`reports/kpi_engine_check.json`](reports/kpi_engine_check.json) | ✅ conclusa, [revisionata](specs/007b-kpi-measures/review.md) |
 | `008a` Dashboard — modello e pagine | il `.pbix` **non versionato**, reso ispezionabile dal [contratto di pagina](specs/008a-dashboard-model-pages/contracts/page-contract.md) e dall'[esito della costruzione](specs/008a-dashboard-model-pages/quickstart.md) | ✅ conclusa, [revisionata](specs/008a-dashboard-model-pages/review.md) |
 | `008b` Dashboard — narrazione e limiti a schermo | il [contratto di narrazione](specs/008b-dashboard-narrative-polish/contracts/narrative-contract.md) e l'[esito della costruzione](specs/008b-dashboard-narrative-polish/quickstart.md) — il testo dei 32 blocchi portati a schermo | ⚠️ chiusa senza raggiungere il proprio obiettivo, [revisionata](specs/008b-dashboard-narrative-polish/review.md) |
+| `009` Il verdetto e la raccomandazione | [`docs/raccomandazione.md`](docs/raccomandazione.md) | ✅ conclusa, [revisionata](specs/009-verdetto-raccomandazione/review.md) |
 
 Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](docs/roadmap.md).
 
@@ -71,7 +72,11 @@ Costruire ha prodotto tre difetti che nessun controllo del repository poteva ved
 
 Il deliverable non viene rifinito perché è stato **superato**. Le quattro pagine sono impaginate lungo le tre domande di business, e il verbale mostra che a un decisore servirebbe la spina opposta — una raccomandazione, e i numeri a sostegno. È il disegno delle feature successive, e i venticinque rilievi sono il loro arretrato dichiarato: le issue `#28`, `#29` e `#30`. Che il ritiro sia avvenuto perché un presidio dichiarato ha risposto no, e non perché nessuno abbia guardato, è la parte di questa feature che vale la pena leggere.
 
-I sette documenti che pubblicano misure — l'audit, il cleaning, gli scenari, il modello, il ponte fra tassonomia e mood, gli operatori e le misure — legano ogni numero all'artefatto che lo produce con la stessa grammatica, definita in **[`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md)** e verificata da `scripts/check_audit_coherence.py`. Lo stesso controllo presidia la tassonomia: se le categorie del catalogo video e quelle della tabella dei mood divergessero, **fallisce** invece di avvisare.
+Il decimo è **[`docs/raccomandazione.md`](docs/raccomandazione.md)**: la risposta alla domanda per cui il progetto esiste. Non la inventa — la **esegue**. Il business case aveva fissato e pubblicato, prima che qualunque numero esistesse, una regola di decisione a tre condizioni e la lettura di ciascun esito; questa feature fissa l'operatore che mancava a una delle tre, calcola il verdetto e lo ancora come qualunque altro valore. Tutte e tre sono soddisfatte, e l'esito è quello che il business case legge come *argomento di coerenza sostenuto* — che non dice che l'espansione sarà redditizia, dice che sarebbe coerente.
+
+Il documento è scritto per un decisore che **non ha letto alcun altro documento del repository**, ed è il metro su cui la `008b` era stata fermata. Ne discendono i due vincoli che lo governano: nessun rimando sostituisce un contenuto, e ogni cifra porta la propria ancora — nella pagina più citabile fuori contesto del progetto, nessun numero è stato digitato a mano. Contiene la sezione che nessun documento precedente conteneva, **che cosa lo farebbe cambiare**: le condizioni alle quali la risposta si ribalterebbe, ciascuna con che cosa succederebbe e non solo con l'avvertenza che è un rischio. È ciò che distingue una raccomandazione da un'opinione ben ancorata.
+
+Gli otto documenti che pubblicano misure — l'audit, il cleaning, gli scenari, il modello, il ponte fra tassonomia e mood, gli operatori, le misure e la raccomandazione — legano ogni numero all'artefatto che lo produce con la stessa grammatica, definita in **[`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md)** e verificata da `scripts/check_audit_coherence.py`. Lo stesso controllo presidia la tassonomia: se le categorie del catalogo video e quelle della tabella dei mood divergessero, **fallisce** invece di avvisare.
 
 ## Setup
 
@@ -89,10 +94,11 @@ python3 scripts/build_datasets.py
 # 4. Scenari BQ3 dal benchmark congelato (NON richiede i dati raw né rete)
 python3 scripts/build_bq3_scenarios.py
 
-# 5. Misure degli 8 KPI dai dataset trasformati (richiede data/processed/)
+# 5. Misure degli 8 KPI, le tre condizioni della regola di decisione e il
+#    verdetto, dai dataset trasformati (richiede data/processed/)
 python3 scripts/build_kpi_measures.py
 
-# 6. Coerenza fra i sette documenti pubblicati e i sei artefatti versionati,
+# 6. Coerenza fra gli otto documenti pubblicati e i sei artefatti versionati,
 #    più il presidio sulla tassonomia delle categorie (NON richiede i dati raw)
 python3 scripts/check_audit_coherence.py
 ```
@@ -112,12 +118,12 @@ Nessuna dipendenza da installare: gli script usano la sola libreria standard di 
 data/           # raw / interim / processed (gitignored) + benchmarks/ e curated/ (versionate: non riproducibili)
 docs/           # i documenti pubblicati: business case, audit, cleaning, scenari, modello dati,
                 #   criterio di mood, ponte tassonomia-mood, operatori delle misure,
-                #   misure dei KPI, convenzioni, roadmap
+                #   misure dei KPI, raccomandazione, convenzioni, roadmap
 reports/        # artefatti versionati: profilo, rendiconto delle trasformazioni, scenari BQ3 e
                 #   misure dei KPI (generati) + esito del confronto col motore DAX (curato a mano)
 scripts/        # utility riproducibili
 specs/          # una cartella per feature: spec.md, plan.md, tasks.md, review.md,
-                #   contracts/ dove la feature ne pubblica uno (007a, 007b, 008a, 008b)
+                #   contracts/ dove la feature ne pubblica uno (007a, 007b, 008a, 008b, 009)
 ```
 
 ## Dati
