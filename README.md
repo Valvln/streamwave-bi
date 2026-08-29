@@ -41,6 +41,7 @@ Governance: [`constitution`](.specify/memory/constitution.md) v1.2.0 · [metodo 
 | `008a` Dashboard — modello e pagine | il `.pbix` **non versionato**, reso ispezionabile dal [contratto di pagina](specs/008a-dashboard-model-pages/contracts/page-contract.md) e dall'[esito della costruzione](specs/008a-dashboard-model-pages/quickstart.md) | ✅ conclusa, [revisionata](specs/008a-dashboard-model-pages/review.md) |
 | `008b` Dashboard — narrazione e limiti a schermo | il [contratto di narrazione](specs/008b-dashboard-narrative-polish/contracts/narrative-contract.md) e l'[esito della costruzione](specs/008b-dashboard-narrative-polish/quickstart.md) — il testo dei 32 blocchi portati a schermo | ⚠️ chiusa senza raggiungere il proprio obiettivo, [revisionata](specs/008b-dashboard-narrative-polish/review.md) |
 | `009` Il verdetto e la raccomandazione | [`docs/raccomandazione.md`](docs/raccomandazione.md) | ✅ conclusa, [revisionata](specs/009-verdetto-raccomandazione/review.md) |
+| `010a` Il report a dieci pagine — disegno | il [contratto di pagina](specs/010a-report-disegno/contracts/page-contract.md), che disegna il report che sostituisce la dashboard a quattro pagine | ✅ conclusa, [revisionata](specs/010a-report-disegno/review.md) |
 
 Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](docs/roadmap.md).
 
@@ -109,6 +110,8 @@ Nessuna dipendenza da installare: gli script usano la sola libreria standard di 
 
 **Non esiste nemmeno un passo che rigeneri la dashboard.** Il `.pbix` si costruisce a mano in Power BI Desktop a partire da `data/processed/`, ed è il confine dell'automazione che la constitution traccia. Le istruzioni sono il [contratto di pagina](specs/008a-dashboard-model-pages/contracts/page-contract.md) per il modello e le pagine, e il [contratto di narrazione](specs/008b-dashboard-narrative-polish/contracts/narrative-contract.md) per il testo a schermo; ciò che va riverificato a ogni riapertura del file — tipizzazione, lettura dei CSV, colonne di scenario — è elencato nell'[esito della costruzione](specs/008a-dashboard-model-pages/quickstart.md) e nell'issue `#20`.
 
+**Quella dashboard viene sostituita, e il disegno di ciò che prende il suo posto è già scritto.** La revisione in contesto pulito della `008b` l'ha respinta sul metro che la feature si era data — «un decisore che non conclude niente non ha usato la dashboard, l'ha archiviata» — e il difetto non era il testo a schermo: quattro pagine, una per domanda di business, sono un inventario di misure. La `009` ha pubblicato l'argomento che mancava; la `010a` lo impagina nel [contratto di pagina](specs/010a-report-disegno/contracts/page-contract.md), che disegna **dieci pagine ordinate come l'argomento e non come il framework di KPI**: la domanda, la risposta, perché regge, con che cosa entrare, quanto vale, che cosa la ribalterebbe, che cosa non si può concludere. Il contratto dichiara per ciascuna pagina i valori con la propria ancora, le misure distinte fra esistenti e da creare, le visuali con tipo e assi, e le interazioni che non vanno offerte. **Nessuna riga descrive il `.pbix`**: è un vincolo su ciò che deve esistere, e la costruzione è della `010b`.
+
 ## Struttura
 
 ```
@@ -123,7 +126,7 @@ reports/        # artefatti versionati: profilo, rendiconto delle trasformazioni
                 #   misure dei KPI (generati) + esito del confronto col motore DAX (curato a mano)
 scripts/        # utility riproducibili
 specs/          # una cartella per feature: spec.md, plan.md, tasks.md, review.md,
-                #   contracts/ dove la feature ne pubblica uno (007a, 007b, 008a, 008b, 009)
+                #   contracts/ dove la feature ne pubblica uno (007a, 007b, 008a, 008b, 009, 010a)
 ```
 
 ## Dati
