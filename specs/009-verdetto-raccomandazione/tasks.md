@@ -101,14 +101,14 @@ Repository singolo. Script in `scripts/build_kpi_measures.py`; artefatto in `rep
 
 **⚠️ L'ordine di questa fase è il presidio, e non è negoziabile**: il verbale si scrive e si committa **prima** di toccare il deliverable (obbligo 1 di `CLAUDE.md`).
 
-- [ ] T027 Componi il perimetro della revisione secondo quickstart §4: il deliverable, più le copie autorevoli censite in research.md `R-3`, perché una revisione su estratti isolati non può per costruzione vedere che un'affermazione esiste in due copie divergenti (FR-029)
-- [ ] T028 Esegui la revisione in contesto pulito su `docs/raccomandazione.md` e produci `specs/009-verdetto-raccomandazione/review.md`: dichiara in apertura che cosa è stato letto e che cosa no, incluse le uscite dal perimetro; ancora commit e impronta del contenuto letto (FR-028, obblighi 2 e 3 di `CLAUDE.md`)
-- [ ] T029 **Proponi il commit del verbale prima di qualunque correzione** al deliverable (obbligo 1 di `CLAUDE.md`, FR-028)
-- [ ] T030 Chiudi i **soli** rilievi strettamente necessari — quelli senza cui il deliverable afferma il falso o pubblica un valore che non regge — e apri una issue sul tracker per ciascuno degli altri (FR-030, regola del 2026-08-22)
-- [ ] T031 Apri la issue del ritrovamento di research.md `R-3`: `kpi_operators.md` §9 usa la formulazione «non è scalabile» che `bq3_scenarios.md` §8 dichiara falsa — è un ritrovamento di questa feature, non un rilievo di revisione, e non si corregge qui
-- [ ] T032 Scrivi il **blocco di chiusura** in coda a `specs/009-verdetto-raccomandazione/review.md`, distinguendo per ciascun rilievo **risolto**, **indebolito** e **rinviato**, e nominando l'issue per ogni rinvio. Il testo del revisore non si tocca, nemmeno dove sbaglia (obbligo 4 di `CLAUDE.md`)
-- [ ] T033 Riesegui `python3 scripts/check_audit_coherence.py` dopo le correzioni della revisione e verifica che resti verde
-- [ ] T034 Proponi i commit finali, raccolti per gruppo di documenti; verifica che nessuna issue fra `#11`, `#18`, `#20`, `#21`, `#26`, `#27`, `#29`, `#30` sia stata chiusa da questa feature, e dichiara nell'esito lo stato di ciascuna (FR-031, FR-032)
+- [x] T027 Componi il perimetro della revisione secondo quickstart §4: il deliverable, più le copie autorevoli censite in research.md `R-3`, perché una revisione su estratti isolati non può per costruzione vedere che un'affermazione esiste in due copie divergenti (FR-029)
+- [x] T028 Esegui la revisione in contesto pulito su `docs/raccomandazione.md` e produci `specs/009-verdetto-raccomandazione/review.md`: dichiara in apertura che cosa è stato letto e che cosa no, incluse le uscite dal perimetro; ancora commit e impronta del contenuto letto (FR-028, obblighi 2 e 3 di `CLAUDE.md`)
+- [x] T029 **Proponi il commit del verbale prima di qualunque correzione** al deliverable (obbligo 1 di `CLAUDE.md`, FR-028)
+- [x] T030 Chiudi i **soli** rilievi strettamente necessari — quelli senza cui il deliverable afferma il falso o pubblica un valore che non regge — e apri una issue sul tracker per ciascuno degli altri (FR-030, regola del 2026-08-22)
+- [x] T031 Apri la issue del ritrovamento di research.md `R-3`: `kpi_operators.md` §9 usa la formulazione «non è scalabile» che `bq3_scenarios.md` §8 dichiara falsa — è un ritrovamento di questa feature, non un rilievo di revisione, e non si corregge qui
+- [x] T032 Scrivi il **blocco di chiusura** in coda a `specs/009-verdetto-raccomandazione/review.md`, distinguendo per ciascun rilievo **risolto**, **indebolito** e **rinviato**, e nominando l'issue per ogni rinvio. Il testo del revisore non si tocca, nemmeno dove sbaglia (obbligo 4 di `CLAUDE.md`)
+- [x] T033 Riesegui `python3 scripts/check_audit_coherence.py` dopo le correzioni della revisione e verifica che resti verde
+- [x] T034 Proponi i commit finali, raccolti per gruppo di documenti; verifica che nessuna issue fra `#11`, `#18`, `#20`, `#21`, `#26`, `#27`, `#29`, `#30` sia stata chiusa da questa feature, e dichiara nell'esito lo stato di ciascuna (FR-031, FR-032)
 
 ---
 
