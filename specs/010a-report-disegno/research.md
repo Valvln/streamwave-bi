@@ -63,7 +63,7 @@ Il vincolo che le governa tutte è dichiarato una volta sola, `G1`, e le altre o
 
 **Motivazione.** Le tre condizioni non sono tre misure indipendenti: sono una **congiunzione**, e la regola di decisione — pubblicata prima dei valori — dice che l'argomento regge solo se valgono tutte e tre. Tre schede affiancate mostrano tre fatti e lasciano la congiunzione all'occhio di chi guarda; una visuale che porta le tre condizioni **dentro** l'esito congiunto mostra la regola.
 
-**La conseguenza sulla confidenza, che è il motivo per cui la forma conta.** `docs/raccomandazione.md` §2 argomenta che la confidenza del verdetto è **media e non la media delle tre**: una congiunzione non è più affidabile del suo termine più debole. Tre schede con tre etichette di confidenza — alta, media, media — invitano esattamente alla lettura che quel passaggio esiste per impedire. La visuale unica porta **una** etichetta di confidenza, quella del verdetto, e le tre condizioni portano la propria dentro.
+**La conseguenza sulla confidenza, che è il motivo per cui la forma conta.** `docs/raccomandazione.md` §2 argomenta che la confidenza del verdetto è **media e non la media delle tre**: una congiunzione non è più affidabile del suo termine meno affidabile. Tre schede con tre etichette di confidenza — alta, media, media — invitano esattamente alla lettura che quel passaggio esiste per impedire. La visuale unica porta **una** etichetta di confidenza, quella del verdetto, e le tre condizioni portano la propria dentro.
 
 **Alternative scartate**: una scheda sola col conteggio «3 su 3». Nasconde quali condizioni siano soddisfatte e quale sia la più debole, cioè tutto ciò che rende il verdetto discutibile — e un verdetto che non si può discutere non si può nemmeno verificare.
 

@@ -137,7 +137,7 @@ Le quattro estensioni che il contratto della `008a` ha dichiarato. **Questa sess
 
 Invariate rispetto a `business_case.md` §5.4 e al contratto della `008a` §1.1. Questa feature non le ridefinisce e non le trascrive di nuovo: il contratto di pagina rinvia a quella tabella.
 
-**Una sola etichetta è nuova**, e riguarda il verdetto congiunto di `V1`: `Fonte: Derivato (C1 + C2 + C3) · Confidenza: media`. La confidenza è media e **non** la media delle tre, per la ragione che `docs/raccomandazione.md` §2 argomenta: una congiunzione non è più affidabile del suo termine più debole. È il motivo per cui `V1` porta una sola etichetta invece di tre.
+**Una sola etichetta è nuova**, e riguarda il verdetto congiunto di `V1`: `Fonte: Derivato (C1 + C2 + C3) · Confidenza: media`. La confidenza è media e **non** la media delle tre, per la ragione che `docs/raccomandazione.md` §2 argomenta: una congiunzione non è più affidabile del suo termine meno affidabile. È il motivo per cui `V1` porta una sola etichetta invece di tre.
 
 ---
 
