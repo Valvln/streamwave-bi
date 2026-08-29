@@ -29,14 +29,14 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `007a` | Operatori delle misure | ~2 di sessione (stimate 4) | 005, 006 | ✅ conclusa, con debito residuo |
 | `007b` | Misure DAX e documento dei KPI | ~7 di sessione (stimate 5) | 007a, *materializzazione* ✅, *`CF-1`* ✅ | ✅ conclusa, con debito residuo |
 | `008a` | Dashboard: modello, pagine, misure a schermo | ~9 di sessione+GUI (stimate 5) | 007b | ✅ conclusa, con debito residuo |
-| `008b` | Dashboard: narrazione, limiti esposti, rifiniture | ~5 di sessione+GUI (stimate 4) | 008a | 🟥 revisionata, **non portata avanti** — chiusura in corso, ~1,5 |
+| `008b` | Dashboard: narrazione, limiti esposti, rifiniture | ~6,5 di sessione+GUI (stimate 4) | 008a | 🟥 **chiusa il 2026-08-29 senza raggiungere il proprio obiettivo** |
 | `009` | Il verdetto e la raccomandazione | 6 | 007b | ⬜ **apribile**, sblocca le altre |
 | `010a` | Il report a 8-12 pagine: disegno e misure | 6 | 009 | ⬜ |
 | `010b` | Il report a 8-12 pagine: costruzione e narrazione | 8 | 010a | ⬜ |
 | `011` | Case Study & Portfolio Integration | 6 | 010b | ⬜ |
 | ~~`009`~~ | ~~Porting Tableau Public~~ | ~~5~~ | — | ❌ **caduta il 2026-08-28**: aggiunge uno strumento, non una risposta |
 
-**Totale residuo**: ~1,5 ore per chiudere la `008b`, più 26 ore di feature, più ~1,7 ore di debito testuale — **~29,2 ore**. Erano ~11,7 il 25 agosto: lo scarto di ~17,5 ore è il costo della decisione del 2026-08-28, ed è dichiarato qui sotto invece di essere distribuito in silenzio sulle stime.
+**Totale residuo**: 26 ore di feature, più ~1,7 ore di debito testuale — **~27,7 ore**. Erano ~11,7 il 25 agosto: lo scarto è il costo della decisione del 2026-08-28, ed è dichiarato qui sotto invece di essere distribuito in silenzio sulle stime.
 
 **La forchetta realistica è più larga della stima**, e va detto: le due feature GUI del progetto hanno sforato di quasi il doppio (`008a`, 5 stimate contro ~9 spese; `008b`, 4 contro ~5 su un perimetro poi abbandonato). Con lo stesso fattore su `010b`, che è la sola feature GUI rimasta e la più grande mai aperta, l'atterraggio sta fra **29 e 38 ore**.
 
@@ -205,6 +205,34 @@ Lascia tre artefatti nuovi — `scripts/build_kpi_measures.py`, [`reports/kpi_me
 **Un'interazione prevista dal contratto si è rivelata non disponibile nello strumento.** La selezione incrociata fra dispersione e graduatoria di `BQ2` presupponeva l'evidenziazione, che Power BI non offre per quei due tipi di visual; l'alternativa (il filtro) avrebbe fatto sparire gli altri segmenti dalla graduatoria, quindi l'interazione è stata disattivata in entrambe le direzioni. È uno scostamento dal contratto, dichiarato con la propria ragione, non un difetto — e la scelta conservativa (disattivare piuttosto che accettare un filtro che nasconde dati) è la stessa logica di `F2`/`F4`: mai una grana non pubblicata, nemmeno per un clic accidentale. Rinviato come issue `#21`.
 
 **Sul debito ereditato dalla `007b`, entrambe le issue restano aperte per lo stesso motivo — un esito positivo oggi non prova un vincolo per sempre.** `#11` (tipizzazione delle colonne di mood) è verificata assente in questa costruzione, non risolta in generale. `#18` (`ALL` mancante su `mood_profile_overlap`) non si manifesta perché nessuna pagina espone un filtro di categoria — ma la formula resta quella pubblicata, e chi la esporrà in un contesto filtrabile deve chiuderla prima.
+
+### Esito della `008b` — chiusa il 2026-08-29 senza raggiungere il proprio obiettivo
+
+**È la prima feature del progetto che non consegna ciò per cui era stata aperta**, e va registrata come tale invece che ammorbidita. Doveva rendere il `.pbix` pubblicabile; l'ha dichiarato tale il 28 agosto, e la revisione in contesto pulito ha risposto no sul metro che la feature stessa si era data. La dichiarazione è stata **ritirata**.
+
+**~6,5 ore fra sessione e GUI contro le 4 stimate**, di cui ~1,5 per la sola chiusura. Lo sforamento non è il dato interessante: il dato è che le ore sono state spese su un deliverable poi superato — vedi [Il verdetto mancante](#il-verdetto-mancante--decisione-della-regia-2026-08-28), che è la decisione presa in conseguenza di questa revisione.
+
+**Che cosa la feature ha comunque prodotto, e che non va perso.** Trentadue blocchi di testo il cui contenuto letterale vive nel repository, in `contracts/narrative-contract.md`, scritto **prima** che Power BI venisse riaperto — il terzo punto di fermata ha retto anche qui. Il testo non andrà a schermo, ma il lavoro di riduzione di ogni limite tecnico a una forma leggibile è materiale che la `010b` riprende invece di rifare. E soprattutto ha prodotto il verbale che ha fermato il progetto in tempo.
+
+**Il ritiro poggia su un argomento interno al documento ritirato**, ed è la parte che conta per il metodo. La §4 del contratto di pubblicabilità elencava la revisione in contesto pulito come **il primo dei tre presidi** su cui la garanzia poggiava. Quel presidio ha risposto no. Nelle parole del blocco di chiusura: *«un presidio che si nomina come fondamento e poi si ignora quando risponde no non era un presidio: era un ornamento»*. Il criterio `N8` non era sbagliato ed era stato fissato prima di costruire — il revisore lo dice per primo. **È caduta la misura, non il metro.**
+
+**La chiusura ha rispettato la regola del 2026-08-22 nella sua forma più stretta mai applicata**: tre rilievi su venticinque chiusi, ventidue rinviati con numero. Il criterio dichiarato è più preciso di quello generale e vale la pena registrarlo, perché è riusabile: *si chiudono soltanto i rilievi per cui un documento che **resta nel repository** afferma il falso*. I rilievi sul testo a schermo non si chiudono, perché quel testo non andrà più a schermo e la riparazione andrebbe persa insieme al file.
+
+**Un ritrovamento che la revisione non poteva fare.** La frase mal contata di `R18` — «le undici prove manuali», dove le prove eseguite sono dieci — esisteva in **due** copie, e la seconda sta in un documento che il revisore non aveva ricevuto. Non è un rilievo mancato: è una conseguenza del perimetro, e mostra il limite strutturale della revisione su estratti isolati. Vale la pena tenerlo a mente quando si comporrà il perimetro della revisione della `009`.
+
+## Debito della feature 008b
+
+| Voce | Origine | Stato |
+|---|---|---|
+| `R5a` — la ragione registrata per l'unico taglio in costruzione è contraddetta dalla tabella che la precede | revisione `008b` | ✅ **risolto** con nota in loco, che dichiara le due letture e non sceglie fra loro |
+| `R5b`, `R6` — il file è dichiarato pubblicabile mentre lo stesso documento ne registra una riga tronca a schermo | revisione `008b` | ✅ **indeboliti**: ritirata la rivendicazione. La riga tronca si dichiara, non si ripara — il file è superato |
+| `R18` caso 4 — le prove manuali eseguite sono dieci, non undici | revisione `008b` | ✅ **risolto** in entrambi i punti in cui la frase compare |
+| `R1`, `R2`, `R7`, `R8`, `R14`, `R17`, `R19`, `R21` — il testo dice cosa non concludere e mai cosa si può concludere | revisione `008b` | ⬜ issue [`#28`](https://github.com/Valvln/streamwave-bi/issues/28) — **requisito della `009`** per la sostanza, della `010a` per l'impaginazione |
+| `R3`, `R4`, `R9`, `R10`, `R11`, `R12`, `R13`, `R20`, `R22` — difetti localizzati del testo a schermo | revisione `008b` | ⬜ issue [`#29`](https://github.com/Valvln/streamwave-bi/issues/29) — alla `010b`, che riscrive la narrazione da zero |
+| `R15`, `R16`, `R18` (casi 1-3), `R23`, `R24`, `R25` — difetti dei documenti di feature | revisione `008b` | ⬜ issue [`#30`](https://github.com/Valvln/streamwave-bi/issues/30) — alla `011`, con l'arretrato del tracker |
+| `#26`, `#27` — aperte dalla `008b` durante la costruzione | `008b` | ⬜ aperte |
+
+**Il `.pbix` a quattro pagine resta sul disco di Valerio e non viene toccato.** Non è pubblicabile, non è versionato, e la `010b` lo sostituisce. Le tre impostazioni fragili dell'issue `#20` restano da riverificare a ogni riapertura, `010b` inclusa.
 
 ### Il verdetto mancante — decisione della regia, 2026-08-28
 
@@ -677,8 +705,8 @@ La seconda: «se ne sposta zero non è un successo, è un ritrovamento». Il val
 | 21 agosto, sera | ~2 h di sessione + ~1,5 h alla GUI | chore `CF-1` ✅ concluso, tabella dei mood alla versione 2; materializzazione 🟡 riuscita tranne `R3` |
 | 22 → 23 agosto | ~6,5 h di sessione + ~3 h alla GUI (`E9`, esclusa dalla stima) | `007b` ✅ conclusa, revisione (14 rilievi) e verbale inclusi; il confronto con Power BI ha trovato e chiuso il difetto di tipizzazione sulle colonne di mood |
 | 24 → 25 agosto | ~9 h fra sessione e GUI (stimate 5) | `008a` ✅ conclusa, revisione (25 rilievi, il numero più alto del progetto) e verbale inclusi; due difetti di caricamento trovati e corretti in costruzione |
-| 26 → 28 agosto | ~5 h fra sessione e GUI (stimate 4) | `008b` 🟥 costruita e revisionata; **il perimetro è stato abbandonato il 28**, vedi [Il verdetto mancante](#il-verdetto-mancante--decisione-della-regia-2026-08-28) |
-| **dal 28 agosto** | giornate piene, ~6 h/giorno | chiusura della `008b`, poi `009`, `010a`, `010b`, `011`, più ~1,7 h di debito testuale |
+| 26 → 29 agosto | ~6,5 h fra sessione e GUI (stimate 4) | `008b` 🟥 costruita, revisionata (25 rilievi) e **chiusa senza raggiungere il proprio obiettivo**; la dichiarazione di pubblicabilità è stata ritirata |
+| **dal 29 agosto** | giornate piene, ~6 h/giorno | `009`, `010a`, `010b`, `011`, più ~1,7 h di debito testuale |
 
 > **Riapertura dell'atterraggio — 2026-08-28.** Le cinque righe qui sotto raccontano la stima come si è mossa fino al 25 agosto e **restano**: erano vere quando sono state scritte, e la loro sequenza è essa stessa un dato sulla qualità delle previsioni di questa roadmap. Non descrivono più il piano. La decisione del 28 agosto aggiunge ~17,5 ore e riporta l'atterraggio a **1-3 settembre** nella stima, **fino al 5** con il fattore di sforamento che le due feature GUI hanno mostrato. La differenza fra le due date è quasi tutta `010b`.
 >
