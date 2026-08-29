@@ -66,6 +66,18 @@ EXPECTED_CATEGORIES = 42
 EXPECTED_SEGMENTS = 114
 NORTH_STAR_ORIGIN_COUNT = 375  # NF.cat.music_musicals.titles, reports/data_profile.json
 
+# --- D12: la soglia di C2 ---
+# Maggioranza semplice, cioe' piu' della meta' del catalogo musicale. E' una
+# **stipulazione**, non un'osservazione: la si dichiara come costante perche' il
+# documento la possa ancorare invece di digitarla a mano, sullo stesso statuto
+# delle soglie del quadrante di BQ2-K3. Vedi DECISION_RULE e la nota in loco in
+# coda a docs/kpi_operators.md §12.
+C2_THRESHOLD = Decimal("0.50")
+
+# Le condizioni della regola di decisione sono tre perche' business_case.md §3 ne
+# fissa tre: e' una costante di struttura della regola, non una misura.
+DECISION_CONDITIONS = 3
+
 # --- E5: arrotondamento e precisione di presentazione, per unita' di misura ---
 # Una regola per unita' si discute una volta sola; un giudizio per singolo
 # valore si discuterebbe otto volte. Le cifre sono di **presentazione**: ogni
@@ -165,6 +177,33 @@ SCALE_RULE = (
 )
 
 
+DECISION_RULE = (
+    "La regola di decisione della North Star e' fissata da docs/business_case.md "
+    "§3 e pubblicata **prima** che i valori esistessero: l'argomento di coerenza "
+    "e' sostenuto se tutte e tre le condizioni C1, C2, C3 sono soddisfatte. "
+    "C1 e' l'operatore D9.2 (il conteggio dei titoli di Music & Musicals supera "
+    "la mediana dei 42 conteggi per categoria); C2 e' l'operatore D12, fissato "
+    "dalla feature 009: mood_profile_overlap **supera** la soglia di maggioranza "
+    "semplice 0,50, con confronto **stretto** per coerenza con D9.2 e D4. "
+    "Su questi dati la scelta fra confronto stretto e largo non cambia l'esito, "
+    "perche' il valore non cade sulla soglia; il **margine** invece dalla soglia "
+    "dipende, e si restringe se la soglia e' piu' severa. C3 e' l'appartenenza "
+    "al quadrante alta-domanda/alta-affinita' di almeno un segmento musicale "
+    "(D4). "
+    "La **confidenza del verdetto e' media**, ereditata dal termine piu' debole e "
+    "non calcolata come media delle tre: una congiunzione non e' piu' affidabile "
+    "del suo termine meno affidabile, e trattarla come una media lascerebbe che "
+    "la confidenza alta di C1 coprisse quella media di C2. Il termine piu' "
+    "debole e' C2, che poggia su una stima **per eccesso** (limite dichiarato di "
+    "D1: il prodotto cartesiano dei tre intervalli scalari sovrastima la "
+    "sovrapposizione reale, che e' quindi minore o uguale al valore pubblicato). "
+    "Il verdetto **eredita la dipendenza dalla versione della tabella dei mood** "
+    "attraverso C2: vedi kpi_mood_table_version. Per il contratto di versione di "
+    "docs/content_taxonomy_bridge.md §5 una revisione della tabella **invalida** "
+    "i valori che ne dipendono invece di correggerli, e con essi C2 e il verdetto."
+)
+
+
 # ===========================================================================
 # Lettura
 # ===========================================================================
@@ -221,6 +260,19 @@ def share(numerator: int, denominator: int, what: str) -> Decimal:
     if denominator == 0:
         halt(f"quota richiesta con denominatore nullo: {what} (FR-004)")
     return Decimal(numerator) / Decimal(denominator)
+
+
+def share_decimal(numerator: Decimal, denominator: Decimal, what: str) -> Decimal:
+    """Come `share`, ma fra due grandezze gia' decimali.
+
+    Esiste separata perche' `share` dichiara nella firma che i suoi due termini
+    sono conteggi, ed e' un'informazione che vale la pena non perdere: un
+    rapporto fra conteggi e un rapporto fra quote sono cose diverse, e la firma
+    e' il posto in cui la differenza resta visibile.
+    """
+    if denominator == 0:
+        halt(f"quota richiesta con denominatore nullo: {what} (FR-004)")
+    return numerator / denominator
 
 
 def quantize(value: Decimal, digits: Decimal) -> Decimal:
@@ -533,7 +585,16 @@ def mood_table(mood: dict) -> dict[str, dict[str, Decimal]]:
     return table
 
 
-def build_bq1k3(tracks: list[dict], table: dict, values: dict) -> None:
+def build_bq1k3(tracks: list[dict], table: dict, values: dict) -> Decimal:
+    """Calcola BQ1-K3 e **restituisce la quota esatta**, non arrotondata.
+
+    La restituisce perche' `build_decision_rule` ne ha bisogno per il confronto
+    di soglia di `C2`, e rileggerla dalla voce gia' scritta significherebbe
+    confrontare un valore arrotondato per la pubblicazione: e' esattamente cio'
+    che `kpi_rounding` vieta, e qui il confronto **e'** la misura. Lo schema e'
+    quello gia' usato da `build_segment_measures`, che restituisce ai chiamanti
+    cio' che serve a valle invece di farlo rileggere dall'artefatto.
+    """
     bounds = {}
     for axis, _, italian in AXES:
         column = [profile[axis] for profile in table.values()]
@@ -562,8 +623,9 @@ def build_bq1k3(tracks: list[dict], table: dict, values: dict) -> None:
         ):
             inside += 1
 
+    overlap = share(inside, len(tracks), "BQ1-K3")
     values["KPI.BQ1K3.overlap_share"] = entry(
-        share(inside, len(tracks), "BQ1-K3"), DIGITS_SHARE,
+        overlap, DIGITS_SHARE,
         "mood_profile_overlap — quota di tracce il cui profilo cade dentro "
         "l'intervallo occupato dal catalogo video su tutti e tre gli assi (D1)",
         UNIT_SHARE,
@@ -571,6 +633,7 @@ def build_bq1k3(tracks: list[dict], table: dict, values: dict) -> None:
     values["KPI.BQ1K3.tracks_inside"] = count_entry(
         inside, "tracce il cui profilo cade dentro l'intervallo su tutti e tre gli assi"
     )
+    return overlap
 
 
 # ===========================================================================
@@ -784,6 +847,105 @@ def check_scenarios(scenarios: dict) -> None:
 
 
 # ===========================================================================
+# C2 e il verdetto — la regola di decisione di business_case.md §3
+# ===========================================================================
+
+def build_decision_rule(overlap: Decimal, values: dict) -> None:
+    """Chiude la regola di decisione: l'operatore di C2 e il verdetto congiunto.
+
+    Non ricalcola nulla. Riceve la quota di sovrapposizione **esatta** da
+    `build_bq1k3` e legge dalle voci gia' scritte i due booleani di C1 e C3:
+    ricalcolarli produrrebbe una seconda copia capace di divergere dalla prima
+    senza che nulla lo segnali.
+
+    Perche' queste sei voci esistono invece di essere ricavate a mente da chi
+    legge: un confronto, un conteggio e una congiunzione costruiti su valori
+    misurati sono essi stessi valori misurati. O esistono con un identificativo
+    proprio e vengono ancorati, o non si scrivono (regola D5 del metodo di
+    progetto). E' la zona in cui gli errori si concentrano, perche' e' l'unica in
+    cui chi scrive calcola a mente.
+    """
+    required = ("KPI.BQ1K1.c1.above_median", "KPI.BQ2K3.c3_satisfied")
+    missing = [vid for vid in required if vid not in values]
+    if missing:
+        halt(
+            f"il verdetto si calcolerebbe senza tutte e "
+            f"{DECISION_CONDITIONS} le condizioni: mancano {missing}\n"
+            f"        e' un errore di ordine delle chiamate in main(). Un "
+            f"verdetto costruito su due condizioni sarebbe indistinguibile, per "
+            f"chi lo legge, da uno costruito su tre."
+        )
+
+    # --- C2, decisione D12: confronto **stretto** contro la soglia ---
+    # Il confronto opera sul valore esatto, mai su quello arrotondato per la
+    # pubblicazione: arrotondare prima di un confronto di soglia e' cio' che
+    # `kpi_rounding` vieta, e qui il confronto *e'* la misura.
+    c2 = overlap > C2_THRESHOLD
+    margin = overlap - C2_THRESHOLD
+
+    values["KPI.BQ1K3.c2.threshold"] = entry(
+        C2_THRESHOLD, DIGITS_SHARE,
+        "soglia della condizione C2 — maggioranza semplice del catalogo "
+        "musicale, stipulazione di D12 e non una misura sui dati",
+        UNIT_SHARE,
+    )
+    values["KPI.BQ1K3.c2.satisfied"] = bool_entry(
+        c2,
+        "C2 — la sovrapposizione dei profili di mood supera la soglia di "
+        "maggioranza semplice, con confronto stretto (D12)",
+    )
+    values["KPI.BQ1K3.c2.margin"] = entry(
+        margin, DIGITS_SHARE,
+        "margine di C2 — di quanto la sovrapposizione misurata supera la "
+        "soglia. Dipende dalla soglia: una soglia piu' severa lo restringe",
+        UNIT_SHARE,
+    )
+    # Quanto la stima dovrebbe essere gonfiata perche' la conclusione cambi,
+    # come quota del valore stesso. E' la forma che risponde al limite di D1 —
+    # la stima e' per eccesso, e di quanto il progetto non lo misura — mentre il
+    # margine assoluto risponde alla domanda piu' semplice di quanto il valore
+    # superi la soglia. Nessuna delle due e' una stima dell'errore: sono
+    # entrambe **condizioni sull'errore**.
+    values["KPI.BQ1K3.c2.margin_share_of_value"] = entry(
+        share_decimal(margin, overlap, "margine di C2 come quota del valore"),
+        DIGITS_SHARE,
+        "margine di C2 come quota del valore — di quanto la stima per eccesso "
+        "dovrebbe sovrastimare la sovrapposizione reale perche' C2 cada",
+        UNIT_SHARE,
+    )
+
+    # --- Il verdetto congiunto ---
+    conditions = (
+        values["KPI.BQ1K1.c1.above_median"]["value"] == "true",
+        c2,
+        values["KPI.BQ2K3.c3_satisfied"]["value"] == "true",
+    )
+    satisfied = sum(1 for condition in conditions if condition)
+    verdict = all(conditions)
+
+    # Una tautologia nel codice corretto, ed e' per questo che vale la pena
+    # verificarla: e' la sola forma di incoerenza che nessun lettore noterebbe
+    # leggendo l'artefatto, perche' le due voci si leggono in punti diversi.
+    if verdict != (satisfied == DECISION_CONDITIONS):
+        halt(
+            f"il conteggio delle condizioni soddisfatte ({satisfied}) e la loro "
+            f"congiunzione ({verdict}) sono incoerenti fra loro"
+        )
+
+    values["KPI.verdict.conditions_satisfied"] = count_entry(
+        satisfied,
+        f"condizioni soddisfatte della regola di decisione, su "
+        f"{DECISION_CONDITIONS} — seleziona quale delle tre letture di "
+        f"business_case.md §3 si applica",
+    )
+    values["KPI.verdict.all_satisfied"] = bool_entry(
+        verdict,
+        "verdetto — l'argomento di coerenza dell'espansione e' sostenuto: tutte "
+        "e tre le condizioni della regola di decisione sono soddisfatte",
+    )
+
+
+# ===========================================================================
 # Scrittura
 # ===========================================================================
 
@@ -806,6 +968,7 @@ def build_artifact(values: dict, catalogs: dict, mood: dict) -> dict:
             "kpi_rank_rule": RANK_RULE,
             "kpi_quadrant_rule": QUADRANT_RULE,
             "kpi_scale_rule": SCALE_RULE,
+            "kpi_decision_rule": DECISION_RULE,
             # Citazione, non valore nuovo: chi apre solo questo artefatto deve
             # poter leggere su quale versione della tabella dei mood i tre KPI
             # che ne dipendono sono stati calcolati, senza aprirne un secondo
@@ -848,8 +1011,12 @@ def main() -> None:
 
     build_bq1k1(titles, bridge, values)
     build_bq1k2(titles, tracks, values)
-    build_bq1k3(tracks, table, values)
+    overlap = build_bq1k3(tracks, table, values)
     high_zero, quadrant = build_segment_measures(pairs, bridge, table, values)
+    # Dopo tutte e quattro: la regola di decisione legge i tre booleani delle
+    # condizioni, e non ne esiste nessuno prima che le misure che li determinano
+    # siano state calcolate.
+    build_decision_rule(overlap, values)
 
     catalogs = {
         "kpi_segments": sorted(segments),
