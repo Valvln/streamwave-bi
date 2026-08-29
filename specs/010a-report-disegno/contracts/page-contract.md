@@ -8,7 +8,7 @@ Questo documento è il disegno delle dieci pagine del report che **sostituisce**
 
 **Che cosa questo documento non contiene, deliberatamente.**
 
-- **Nessun valore di KPI trascritto.** I valori si citano per **identificativo di ancora** verso gli artefatti versionati, mai come cifra. Una seconda copia di un valore è una copia che può divergere dall'originale senza che nulla lo segnali, ed è un difetto che questo progetto ha già incontrato. **Una sola cifra compare in tutto il documento**, il fattore `100.000` del §11: non è un fatto misurato ma un'**unità dichiarata** — la stessa categoria delle soglie nella grammatica dei marcatori — e `raccomandazione.md` §4 la marca infatti come non-misurata.
+- **Nessun valore di KPI trascritto.** I valori si citano per **identificativo di ancora** verso gli artefatti versionati, mai come cifra. Una seconda copia di un valore è una copia che può divergere dall'originale senza che nulla lo segnali, ed è un difetto che questo progetto ha già incontrato. **Le cifre che compaiono nel documento non sono valori di KPI**, e sono di tre specie: i **domini degli assi** (`0-1`, `0-100`, `0-3`), che descrivono la scala di una visuale e non un'osservazione; i **numerali sui fatti strutturali del disegno** — quante pagine, quante misure nuove, quante condizioni di ribaltamento — che sono proprietà di questo documento e non dei cataloghi; e il fattore `100.000` di §11, che è un'**unità dichiarata**, la stessa categoria delle soglie nella grammatica dei marcatori, e che `raccomandazione.md` §4 marca infatti come non-misurata. Nessuna delle tre specie è un valore di artefatto, ed è quella la regola.
 - **Nessun testo a schermo.** La prosa, i limiti in forma divulgativa, il tono sono della `010b`, che ha il proprio contratto di narrazione. La sezione 13 dichiara dove quel testo andrà, perché quella feature non debba ridisegnare le pagine per farvelo entrare.
 - **Nessuna misura DAX scritta.** Le sei misure nuove sono **specificate** — nome, contenuto, tabelle di lettura, pagina richiedente — e le scrive la `010b`.
 
@@ -96,7 +96,7 @@ Le grane pubblicate restano tre, come nella `008a`, e non ne esiste una quarta:
 
 Sulle pagine 7 e 8 la distinzione regge per una ragione verificabile e non per convenzione: `segment_entry_priority_quadrant` e `segment_entry_priority_rank` portano `ALL ( dim_segment )` dentro la formula pubblicata ([`kpi_measures.md`](../../../docs/kpi_measures.md) §7.3), quindi soglie e posizioni **non si muovono** quando un segmento viene selezionato.
 
-**Questa proprietà va riverificata a schermo dalla `010b`**, e non è una formalità: la selezione fra le due pagine è sincronizzata (§10), che è una configurazione che la dashboard vecchia non aveva.
+**Questa proprietà va riverificata a schermo dalla `010b`**, e non è una formalità: la selezione fra le due pagine è sincronizzata (§10.3), che è una configurazione che la dashboard vecchia non aveva.
 
 ### 2.2 Perché la regola sta qui e non dentro le formule
 
@@ -150,10 +150,10 @@ L'issue [`#18`](https://github.com/Valvln/streamwave-bi/issues/18) osserva che `
 
 | Valore | Ancora | Misura che lo porta |
 |---|---|---|
-| condizioni soddisfatte, su tre | `KPI.verdict.conditions_satisfied` | `M1` (nuova, §11) |
+| condizioni soddisfatte, su tre | `KPI.verdict.conditions_satisfied` | `M1` (nuova, §13.1) |
 | l'argomento è sostenuto | `KPI.verdict.all_satisfied` | `M1` la compone |
 | `C1` soddisfatta | `KPI.BQ1K1.c1.above_median` | `c1_music_above_median` (esiste) |
-| `C2` soddisfatta | `KPI.BQ1K3.c2.satisfied` | `M2` (nuova, §11) |
+| `C2` soddisfatta | `KPI.BQ1K3.c2.satisfied` | `M2` (nuova, §13.1) |
 | `C3` soddisfatta | `KPI.BQ2K3.c3_satisfied` | `C3` companion (dichiarata da `CP-1` della `008a`) |
 
 **Una sola etichetta di fonte e confidenza su questa pagina**, quella del verdetto (§1.4). Tre etichette — alta, media, media — inviterebbero esattamente alla lettura che `raccomandazione.md` §2 esiste per impedire: che la confidenza del verdetto sia la media delle tre. Le tre condizioni portano la propria confidenza **dentro** la visuale, subordinata a quella del verdetto.
@@ -179,6 +179,18 @@ L'issue [`#18`](https://github.com/Valvln/streamwave-bi/issues/18) osserva che `
 **Questa pagina è di sola prosa**, e la ragione non è di capienza: **le due assunzioni di trasferimento non entrano nella scala di confidenza per costruzione**. Non esiste un numero che le misuri, e la loro assenza dalla scala è precisamente la loro proprietà. Una visuale costruita qui dovrebbe rappresentare qualcosa che nessun valore contiene.
 
 **Perché una pagina intera e non una nota a piè di schermo.** `raccomandazione.md` §6 le tratta in una sezione propria perché **sopravvivano all'estrazione di una frase**: un report da cui si ritaglia una schermata per una slide deve portare quel limite dentro la schermata, non sotto. Una nota ricorrente su dieci pagine si legge come boilerplate e smette di essere letta alla terza.
+
+**Perché in terza posizione — dopo la risposta e prima delle condizioni.** È una scelta e va motivata, perché entrambe le alternative sono difendibili.
+
+*Non prima della risposta*, cioè non a pagina 2: una pagina sui limiti delle fonti collocata prima del verdetto si legge come una excusatio, e sposta il peso dell'argomento sulla sua difesa prima che l'argomento sia stato fatto. `raccomandazione.md` fa la stessa scelta: la risposta è §1 e il capoverso sui proxy sta **dentro** §1, dopo di essa.
+
+*Non dopo le condizioni*, cioè non a pagina 7: le tre condizioni sono affermazioni **su StreamWave**, e chi le legge senza sapere che nessun numero è misurato su StreamWave le riceve per ciò che non sono. La premessa deve precedere ciò che qualifica.
+
+**La ripetizione dell'argomento è dimezzata, e va dichiarato.** `raccomandazione.md` tratta le assunzioni **due volte** — in §1 e in §6 — e dice esplicitamente «va detto due volte». Questo disegno le introduce una volta, qui, e a pagina 10 le **richiama** senza reintrodurle.
+
+*Perché la ripetizione integrale non si trasferisce a schermo.* In un documento le due occorrenze distano venti minuti di lettura e la seconda è la sola che chi salta alla fine incontra. In un report la pagina 3 e la pagina 10 sono a un clic l'una dall'altra tramite la barra di navigazione (§16), che è sempre visibile: la seconda occorrenza integrale sarebbe una pagina che ripete una pagina raggiungibile in un passaggio. **Ciò che la ripetizione compra nel documento — che il limite raggiunga chi arriva dal fondo — a schermo lo compra la navigazione**, ed è la ragione per cui il richiamo di pagina 10 è sufficiente e la reintroduzione non lo è.
+
+*Che cosa questa scelta costa*: chi ritaglia la sola pagina 10 per una slide riceve il richiamo e non la trattazione. È il caso contro cui `raccomandazione.md` §6 esiste, e qui è coperto solo in parte — il richiamo nomina le due assunzioni e rimanda, non le spiega. **È il punto più debole di questa pagina**, e la ragione per cui il richiamo di pagina 10 deve nominare `A1` e `A6` per esteso invece di rinviarvi con un'etichetta.
 
 | Elemento | Che cosa porta | Ragione |
 |---|---|---|
@@ -270,8 +282,8 @@ L'issue [`#18`](https://github.com/Valvln/streamwave-bi/issues/18) osserva che `
 | estremi dell'inviluppo, asse energia | `KPI.BQ1K3.bound.mood_energy.min` / `.max` | bordi del rettangolo, letti come misure |
 | estremi dell'inviluppo, asse positività | `KPI.BQ1K3.bound.mood_valence.min` / `.max` | come sopra |
 | estremi dell'inviluppo, asse ritmo | `KPI.BQ1K3.bound.mood_danceability.min` / `.max` | come sopra |
-| `C2` soddisfatta | `KPI.BQ1K3.c2.satisfied` | `M2` (nuova, §11) |
-| soglia di `C2` | `KPI.BQ1K3.c2.threshold` | `M3` (nuova, §11) |
+| `C2` soddisfatta | `KPI.BQ1K3.c2.satisfied` | `M2` (nuova, §13.1) |
+| soglia di `C2` | `KPI.BQ1K3.c2.threshold` | `M3` (nuova, §13.1) |
 | profilo di mood delle categorie video | `MOOD.category.<categoria>.<asse>` in `data/curated/dim_category_mood.json` | i punti della dispersione |
 | numero di categorie coperte dalla tabella di mood | `MOOD.coverage.rows` | — |
 
@@ -288,7 +300,7 @@ L'issue [`#18`](https://github.com/Valvln/streamwave-bi/issues/18) osserva che `
 | **qualunque filtro di categoria video** | è il caso letterale dell'issue `#18`: restringerebbe l'inviluppo e cambierebbe `BQ1-K3` senza alcun segnale. Su questa pagina il difetto sarebbe **visibile e ingannevole insieme** — il rettangolo si stringerebbe e sembrerebbe corretto |
 | selezione di una categoria che ricalcola la quota | stessa ragione. **Ammessa l'evidenziazione** del punto |
 | filtro sulle tracce | `mood_profile_overlap` conta le tracce dentro l'inviluppo: filtrarle produrrebbe una quota che nessun artefatto pubblica |
-| la nube delle tracce come visuale | vedi §12: nessun artefatto la pubblica, e la sua grana non è pubblicata |
+| la nube delle tracce come visuale | vedi §15: nessun artefatto la pubblica, e la sua grana non è pubblicata |
 | il terzo asse come slicer che ruota la dispersione | produrrebbe tre proiezioni fra cui scegliere, e la scelta suggerirebbe che una sia *la* vista. Sono tutte parziali allo stesso modo, e la dichiarazione dell'asse escluso lo dice meglio di un controllo |
 
 ---
@@ -311,9 +323,9 @@ L'issue [`#18`](https://github.com/Valvln/streamwave-bi/issues/18) osserva che `
 | Valore | Ancora | Misura |
 |---|---|---|
 | valore misurato della sovrapposizione | `KPI.BQ1K3.overlap_share` | `mood_profile_overlap` (esiste) |
-| soglia di `C2` | `KPI.BQ1K3.c2.threshold` | `M3` (nuova, §11) |
-| margine assoluto | `KPI.BQ1K3.c2.margin` | `M4` (nuova, §11) |
-| margine relativo al valore | `KPI.BQ1K3.c2.margin_share_of_value` | `M5` (nuova, §11) |
+| soglia di `C2` | `KPI.BQ1K3.c2.threshold` | `M3` (nuova, §13.1) |
+| margine assoluto | `KPI.BQ1K3.c2.margin` | `M4` (nuova, §13.1) |
+| margine relativo al valore | `KPI.BQ1K3.c2.margin_share_of_value` | `M5` (nuova, §13.1) |
 
 **Che cosa la visuale deve impedire, ed è la sola ragione per cui questa pagina esiste in questa forma.** Non deve suggerire che il margine sia una **stima dell'errore**: nessuno ha misurato di quanto l'inviluppo ecceda la regione reale, e il report non lo afferma. È una **condizione sull'errore** — dice quanto grande dovrebbe essere l'errore perché la conclusione si ribalti, non quanto grande sia.
 
@@ -383,7 +395,7 @@ L'issue [`#18`](https://github.com/Valvln/streamwave-bi/issues/18) osserva che `
 | conteggio delle righe di un segmento come dimensione del punto | misura il **campionamento** e non il mercato, e a schermo si leggerebbe come una dimensione del segmento |
 | totale, somma o media su più segmenti | i segmenti si sovrappongono: una traccia appartiene a più segmenti, e un totale conterebbe più volte le stesse tracce |
 
-**Ammessa**: la selezione incrociata verso la pagina 8, come evidenziazione. Vedi §10.
+**Ammessa**: la selezione incrociata verso la pagina 8, come evidenziazione. Vedi §10.3.
 
 ---
 
@@ -395,9 +407,28 @@ L'issue [`#18`](https://github.com/Valvln/streamwave-bi/issues/18) osserva che `
 
 **Perché la graduatoria è su una pagina propria e non accanto alla dispersione.** Non è per capienza — sarebbe la ragione che §1.1 vieta — ma perché **le due visuali fanno due mosse diverse**: la dispersione dice *esiste una regione*, la tabella dice *ecco che cosa contiene, e in quale ordine*. Sono le due metà che `raccomandazione.md` §3 tiene distinte, e su cui insiste che la seconda non sostituisce la prima.
 
+### 10.1 La domanda a cui questa pagina risponde non è «da quale segmento entrare»
+
+**Va detto prima di descrivere la tabella, perché è il vincolo che ne governa la forma.**
+
+`raccomandazione.md` §3 apre così: **«La raccomandazione non è entrare da un genere. È entrare da una regione del catalogo musicale, che i segmenti servono a caratterizzare — non a delimitare.»** E prosegue: i segmenti si sovrappongono per costruzione, «trattarli come alternative affermerebbe il falso», e «una scelta di catalogo si costruisce sulla regione; la graduatoria serve a orientarla, non a sostituirla».
+
+Ne discende che **«da quale segmento entrare» è una domanda mal posta**, e che una pagina costruita per risponderle affermerebbe il falso indipendentemente dalla correttezza dei propri valori. La tabella esiste perché una regione descritta senza nomi non è utilizzabile: serve a **caratterizzare** la regione, non a produrre una scelta fra alternative.
+
+**Il vincolo di disegno che ne discende, e non è affidato al testo.** Una tabella ordinata suggerisce per la propria forma che la prima riga sia la scelta e le altre gli scarti — è la lettura predefinita di qualunque classifica, e nessuna didascalia la disattiva. Il disegno vi oppone tre cose, tutte strutturali:
+
+| Presidio | Che cosa impedisce |
+|---|---|
+| **la regione precede la graduatoria**, su una pagina propria e prima nell'ordine di lettura | chi arriva alla tabella ha già visto che la risposta è un'area e non un punto. L'ordine delle due pagine **è** parte dell'argomento, non una disposizione |
+| **l'appartenenza al quadrante è una colonna della tabella**, non un filtro né un ordinamento | i segmenti della regione sono riconoscibili come insieme, e l'insieme è la risposta. Una tabella che li ordinasse senza dirli membri della stessa regione li presenterebbe come un continuo di alternative |
+| **nessuna riga è evidenziata come prima**, e la posizione non riceve rilievo grafico rispetto alle altre colonne | la prima riga di una classifica evidenziata è la scelta suggerita, e qui non c'è alcuna scelta da suggerire |
+
+**Che cosa questo non risolve**, e va dichiarato: nessuno di questi tre presidi impedisce a un lettore di leggere la prima riga come «il segmento da cui entrare». Impediscono che sia **il disegno** ad affermarlo. La differenza è quella fra un difetto di chi legge e un difetto di chi ha costruito, ed è la sola che questa feature può presidiare.
+
 | Elemento | Visuale | Ragione, contro la forma del dato |
 |---|---|---|
-| la graduatoria completa | **tabella, una riga per segmento e nessuna esclusa**, ordinata per punteggio decrescente | la dispersione mostra i punti e non i nomi: su quel numero di unità nessuna etichetta è leggibile, e la domanda «da quale segmento entrare» chiede un nome. La tabella lo dà, e dà la posizione esatta che la dispersione non può dare |
+| la graduatoria | **tabella ordinata per punteggio decrescente**, che contiene i soli segmenti la cui domanda è misurata | la dispersione mostra i punti e non i nomi: su quel numero di unità nessuna etichetta è leggibile, e la regione va **caratterizzata con dei nomi**. La tabella li dà, e dà la posizione che la dispersione non può dare |
+| i segmenti a domanda non misurata | **secondo blocco sotto la tabella, senza colonna di posizione**, ordinato alfabeticamente | vedi §10.2: per queste righe una posizione sarebbe costruita su un'assenza di misura |
 
 **Le colonne, e l'ordine non è libero:**
 
@@ -413,13 +444,29 @@ L'issue [`#18`](https://github.com/Valvln/streamwave-bi/issues/18) osserva che `
 
 **La quota di zeri è adiacente alla domanda per obbligo, non per comodità.** Sono due misure e non una proprio perché una misura unica renderebbe possibile portarne a schermo una sola. Separarle in colonne distanti, o renderne una nascondibile dall'utente, ricrea il difetto che la separazione esisteva per impedire.
 
-**Perché tutte le righe e non una cima di graduatoria.** I segmenti a mediana nulla stanno tutti nella coda profonda, e una vista alle prime posizioni li escluderebbe **insieme all'avvertimento che li accompagna**. Il lettore vedrebbe una classifica pulita e non saprebbe che una parte della coda non misura la priorità ma la copertura della fonte. Una vista che tronca la coda non è parziale: **mente per omissione**.
+### 10.2 I segmenti a domanda non misurata escono dall'ordinamento, e nessuna riga sparisce
+
+**È la decisione che questa pagina deve prendere esplicitamente**, perché fra le due opzioni ovvie — troncare la coda, oppure ordinare tutto — nessuna delle due regge, e il contratto sceglie una terza.
+
+**Perché non troncare la coda.** I segmenti a mediana nulla stanno tutti nella coda profonda, e una vista alle prime posizioni li escluderebbe **insieme all'avvertimento che li accompagna**. Il lettore vedrebbe una classifica pulita e non saprebbe che una parte della coda non misura la priorità ma la copertura della fonte. Una vista che tronca la coda non è parziale: **mente per omissione**.
+
+**Perché non ordinarli insieme agli altri, che è la scelta meno ovvia delle due.** Il punteggio incorpora la domanda; per questi segmenti la domanda **non è misurata**; una posizione in graduatoria costruita su di essa è quindi una posizione costruita su un'assenza di misura, presentata nella stessa colonna e con la stessa forma delle posizioni costruite su una misura. La marcatura accanto al nome non la neutralizza: dice «attenzione a questa riga» mentre la posizione continua a dire «questa riga sta in fondo», **e delle due affermazioni simultanee la geometria è quella che si legge per prima e senza sforzo**.
+
+**È lo stesso divieto che §14 enuncia** per la pagina 10, dove una barra dei rischi ordinata per gravità è vietata perché «disegnarli ordinati sarebbe una graduatoria senza fonte». Una posizione ordinale la cui fonte, per quelle righe, non esiste è quel medesimo caso — e ammetterla qui mentre la si vieta là sarebbe una contraddizione che il contratto non può reggere.
+
+**La scelta**: quei segmenti **escono dall'ordinamento e restano nella pagina**, in un blocco proprio sotto la tabella, **senza colonna di posizione**, ordinati alfabeticamente. Portano tutte le altre colonne — domanda, quota di zeri adiacente, affinità — perché i loro valori esistono e vanno letti; non portano la sola cosa che per essi non è costruibile.
+
+**Che cosa questo compra**: nessuna riga sparisce, e nessuna riga riceve un ordine che nessun valore sostiene. `raccomandazione.md` §3 chiede che «la coda della graduatoria non si legga» e che quei segmenti compaiano «con questa qualificazione e non altrimenti»: un blocco fuori ordinamento è la forma che realizza quel vincolo con la geometria invece che con una didascalia.
+
+**Che cosa costa, dichiarato**: la pagina porta due tabelle invece di una, e chi cerca un segmento deve sapere in quale delle due guardare. È il prezzo di non attribuire un ordine a ciò che non ne ha uno, e va pagato qui invece di essere scaricato sul testo della `010b`.
+
+**Un vincolo che ne discende per la pagina 7.** Nella dispersione quei segmenti restano dove i loro valori li collocano — contro il bordo sinistro — perché una dispersione non ha modo di sottrarre un punto a un asse senza toglierlo dalla vista. La marcatura di §9 resta quindi l'unico presidio disponibile lì, **ed è più debole di quello di questa pagina**: è una asimmetria fra le due pagine, dichiarata perché nessuno la scopra come incoerenza. La differenza non è di rigore ma di forma del dato: una tabella può omettere una colonna, un piano cartesiano non può omettere una coordinata.
 
 **I sette segmenti a domanda non misurata**, con la loro ancora di appartenenza: `catalogs.kpi_high_zero_segments`. L'avvertimento accanto al nome è una **marcatura, non una spiegazione** — il perché è testo della `010b`.
 
 **I pari merito**: due segmenti con lo stesso punteggio portano la stessa posizione e la successiva salta di altrettante unità. È il comportamento di `RANKX ( …, Skip )` già nella formula pubblicata; la tabella non deve reintrodurre un ordinamento secondario che spareggi, perché uno spareggio per nome produrrebbe un ordine riproducibile ma **arbitrario, presentato con l'autorevolezza di un risultato**.
 
-### 10.1 L'issue `#21` si chiude, e come
+### 10.3 L'issue `#21` si chiude, e come
 
 **Il difetto**: nella dashboard a quattro pagine dispersione e graduatoria stavano sulla stessa pagina e **non si evidenziavano a vicenda**. Selezionare un punto non marcava la riga corrispondente.
 
@@ -431,11 +478,11 @@ L'issue [`#18`](https://github.com/Valvln/streamwave-bi/issues/18) osserva che `
 
 **L'issue si chiude solo quando quella verifica è passata.** Se il comportamento non fosse ottenibile, l'issue resta aperta e questo paragrafo diventa un ritrovamento della `010b`.
 
-### 10.2 Interazioni non offerte, e perché
+### 10.4 Interazioni non offerte, e perché
 
 | Non offerto | Perché |
 |---|---|
-| filtro «prime N posizioni» | tronca la coda, cioè il difetto di §10 |
+| filtro «prime N posizioni» | tronca la coda, cioè il difetto di §10.2 |
 | possibilità di nascondere la colonna della quota di zeri | ricrea il difetto che la sua adiacenza obbligatoria impedisce |
 | riga di totale, somma o media su più segmenti | i segmenti si sovrappongono e un totale conterebbe più volte le stesse tracce |
 | ordinamento secondario che spareggia i pari merito | vedi sopra |
@@ -465,7 +512,7 @@ L'issue [`#18`](https://github.com/Valvln/streamwave-bi/issues/18) osserva che `
 |---|---|
 | adozione, pessimista / centrale / ottimista | `BQ3.adoption.worst` / `.base` / `.best` |
 | uplift, pessimista / centrale / ottimista | `BQ3.uplift.worst` / `.base` / `.best` |
-| uplift per 100.000 abbonati, la terna | derivato da `BQ3.uplift.*` tramite `M6` (nuova, §12) |
+| uplift per 100.000 abbonati, la terna | derivato da `BQ3.uplift.*` tramite `M6` (nuova, §13.1) |
 
 **Il divieto di scheda singola è strutturale, non una raccomandazione.** Il principio I lo impone per la confidenza bassa: un valore singolo comunica una certezza che il dato non ha. **I valori si presentano sempre come terna, mai isolati, nemmeno in una frase di sintesi** — e prendere il valore centrale perché sta meglio in una slide è precisamente ciò che il divieto esiste per impedire.
 
@@ -529,7 +576,9 @@ L'issue [`#18`](https://github.com/Valvln/streamwave-bi/issues/18) osserva che `
 
 **Gli altri due anni — il catalogo musicale e il benchmark — non sono ancorabili** e vanno marcati come non misurati. Il catalogo musicale **non espone alcun campo di data**: il suo anno è un'affermazione presa dalla documentazione della fonte, e il profilo dei dati dichiara esplicitamente di non poterla verificare. È una differenza di statuto fra i due anni, e appiattirla a schermo affermerebbe che entrambi sono osservati.
 
-**Le assunzioni `A1` e `A6` sono richiamate, non introdotte.** La loro collocazione è la pagina 3.
+**Le assunzioni `A1` e `A6` sono richiamate, non introdotte.** La loro collocazione è la pagina 3, e §5 motiva perché la trattazione stia là e non qui.
+
+**Il richiamo le nomina per esteso**, e non è una rifinitura: `raccomandazione.md` §6 le tratta due volte proprio perché chi arriva dal fondo le incontri comunque, e questa pagina è il fondo. Un richiamo che dicesse «vedi le assunzioni di pagina 3» lascerebbe chi ritaglia questa schermata senza il limite più importante del report. Che cosa il richiamo deve contenere — che i cataloghi sono sostitutivi e non StreamWave, che il benchmark descrive un altro operatore su un altro mercato, e che nessuna delle due entra nella scala di confidenza — è vincolo di questo contratto; come si scrive è della `010b`.
 
 ### 12.1 Interazioni non offerte, e perché
 
@@ -543,6 +592,8 @@ L'issue [`#18`](https://github.com/Valvln/streamwave-bi/issues/18) osserva che `
 ## 13. Le misure e le visuali che la `010b` dovrà costruire
 
 **È la sezione su cui poggia la stima della `010b`.** Consuma [data-model.md](../data-model.md) §2 e §3 invece di riprodurlo: là ciascuna voce ha la propria motivazione per esteso.
+
+**Due file portano un nome quasi identico e non sono lo stesso file**, e la distinzione va tenuta: [`data-model.md`](../data-model.md), col trattino, è l'artefatto di questa feature e vive accanto a questo contratto; `docs/data_model.md`, con l'underscore, è il documento pubblicato che descrive il modello dati del progetto ed è citato a §6.1 e §9.1.
 
 ### 13.1 Le sei misure nuove
 
@@ -678,7 +729,7 @@ Le sei misure di §13.1.
 
 ### `CP-3` — L'issue `#21` si chiude, ma la chiusura è condizionata
 
-Dispersione e graduatoria si evidenziano a vicenda attraverso due pagine (§10.1).
+Dispersione e graduatoria si evidenziano a vicenda attraverso due pagine (§10.3).
 
 **Decisione proposta**: si chiude, **a condizione che la `010b` verifichi a schermo** che la sincronizzazione della selezione sia ottenibile senza ricalcolare alcun valore.
 
