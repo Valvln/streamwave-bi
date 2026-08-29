@@ -22,7 +22,12 @@ Il criterio con cui questa risposta si dà è stato fissato e pubblicato **prima
 
 **Che cosa questa risposta non dice.** Non dice che l'espansione sarà redditizia: dice che sarebbe **coerente**. È la formulazione che il progetto ha adottato prima di misurare, e va presa alla lettera. La coerenza strategica dice che StreamWave entrerebbe in un mercato adiacente al proprio catalogo invece che in un mercato estraneo, con i costi di acquisizione che il secondo comporterebbe. Non dice nulla su ricavi, costi, tempi o vantaggio competitivo.
 
-**Su che cosa poggia, in una riga.** Su due<!--#--> cataloghi pubblici usati come sostituti — un catalogo video e un catalogo musicale — perché StreamWave non ha ceduto i propri dati a questa analisi. Che quei cataloghi rappresentino StreamWave è un'assunzione dichiarata e non verificata, ed è il limite più importante di questo documento: la sezione [«che cosa questa raccomandazione non è»](#6-che-cosa-questa-raccomandazione-non-è) lo tratta per esteso. **Nessun numero di questa pagina è una misura fatta su StreamWave.**
+**Su che cosa poggia, in una riga. Nessun numero di questa pagina è una misura fatta su StreamWave.** L'azienda non ha ceduto i propri dati a questa analisi, e al posto dei suoi due<!--#--> cataloghi ne sono stati usati altrettanti, pubblici, come sostituti:
+
+- **il catalogo video** è quello di **Netflix**, nella versione pubblicata su Kaggle: 8.807<!--@CL.NF.titles.rows.after--> titoli fra film e serie, classificati nelle 42<!--@CL.NF.category.distinct--> categorie del servizio, **aggiornato al 2021<!--#-->**;
+- **il catalogo musicale** è un estratto pubblico di **Spotify**, sempre da Kaggle: 89741<!--@KPI.BQ1K2.music_tracks--> tracce distinte, ripartite nei 114<!--@SP.genre.count--> generi che l'analisi chiama segmenti, **aggiornato al 2022<!--#-->**.
+
+Che questi due<!--#--> cataloghi rappresentino StreamWave è un'assunzione dichiarata e non verificata, ed è **il limite più importante di questo documento** — la sezione [«che cosa questa raccomandazione non è»](#6-che-cosa-questa-raccomandazione-non-è) la tratta per esteso. È anche l'unico giudizio che chi legge può esercitare da sé: valutare una mediana richiede competenza statistica, valutare se il catalogo di Netflix somigli a quello di StreamWave richiede di conoscere StreamWave.
 
 ---
 
@@ -38,13 +43,13 @@ In forma tecnica, è la condizione `C1`: il numero di titoli della categoria `Mu
 
 **Confidenza: alta.** È l'unica delle tre<!--#--> che si legge direttamente dal dato, senza alcuna mappatura interpretativa: il catalogo classifica già i propri titoli, e una delle sue categorie è quella musicale.
 
-**Una precisazione che evita una lettura sbagliata.** «Non residuale» non significa «grande». La quota della categoria musicale sull'intero catalogo vale 0,0426<!--@KPI.BQ1K1.share-->, cioè una frazione piccola. Le due<!--#--> letture non si contraddicono, perché misurano cose diverse: una categoria può stare sopra la mediana delle 42<!--@CL.NF.category.distinct--> categorie e restare comunque una porzione minima del catalogo, ed è esattamente ciò che accade qui. La prima condizione dice che la musica non è marginale **fra le categorie**, non che il catalogo sia musicale.
+**Una precisazione che evita una lettura sbagliata.** «Non residuale» non significa «grande». La quota della categoria musicale sull'intero catalogo vale 0,0426<!--@KPI.BQ1K1.share--> — poco più di quattro<!--#--> titoli su cento<!--#-->. Le due<!--#--> letture non si contraddicono, perché misurano cose diverse: una categoria può stare sopra la mediana delle 42<!--@CL.NF.category.distinct--> categorie e restare comunque una porzione minima del catalogo, ed è esattamente ciò che accade qui. La prima condizione dice che la musica non è marginale **fra le categorie**, non che il catalogo sia musicale.
 
 ### La seconda: la musica assomiglia, per carattere, a ciò che StreamWave già offre
 
 In italiano: se si descrive ogni contenuto con tre<!--#--> caratteristiche di carattere — quanto è ballabile, quanto è energico, quanto è positivo di umore — allora **la gran parte del catalogo musicale ricade nella stessa regione** che il catalogo video occupa già.
 
-In forma tecnica, è la condizione `C2`: la quota di tracce il cui profilo cade dentro l'intervallo occupato dal catalogo video su tutti e tre<!--#--> gli assi vale 0,8450<!--@KPI.BQ1K3.overlap_share-->, contro una soglia di maggioranza semplice fissata a 0,5000<!--@KPI.BQ1K3.c2.threshold-->. La condizione è soddisfatta: sì<!--@KPI.BQ1K3.c2.satisfied-->.
+In forma tecnica, è la condizione `C2`: la quota di tracce il cui profilo cade dentro l'intervallo occupato dal catalogo video su tutti e tre<!--#--> gli assi vale 0,8450<!--@KPI.BQ1K3.overlap_share--> — poco più dell'84<!--#-->% del catalogo musicale — contro una soglia di maggioranza semplice fissata a 0,5000<!--@KPI.BQ1K3.c2.threshold-->, cioè la metà. La condizione è soddisfatta: sì<!--@KPI.BQ1K3.c2.satisfied-->.
 
 **Confidenza: media**, e la ragione sta nel come quel valore è costruito — la prossima sottosezione la tratta.
 
@@ -70,13 +75,17 @@ C'è una seconda ragione, e riguarda l'origine del dato. Le tre<!--#--> caratter
 
 Da «stima per eccesso» discende una domanda che il progetto non aveva mai posto: **di quanto dovrebbe sovrastimare, perché la seconda condizione cada?**
 
-La distanza fra il valore misurato e la soglia vale 0,3450<!--@KPI.BQ1K3.c2.margin-->, che è 0,4083<!--@KPI.BQ1K3.c2.margin_share_of_value--> del valore stesso. In parole: la sovrapposizione reale dovrebbe essere inferiore alla stima di **più di 0,4083<!--@KPI.BQ1K3.c2.margin_share_of_value--> della stima stessa** perché scenda sotto la maggioranza semplice e la condizione cada.
+Il valore misurato supera la soglia di 0,3450<!--@KPI.BQ1K3.c2.margin-->, cioè di quasi trentacinque<!--#--> punti su cento<!--#-->. Rapportata al valore stesso, quella distanza vale 0,4083<!--@KPI.BQ1K3.c2.margin_share_of_value-->.
+
+È il secondo dei due<!--#--> numeri a rispondere alla domanda, e si legge così: **la sovrapposizione reale dovrebbe essere più bassa della stima di oltre il 40<!--#-->% della stima stessa** perché scenda sotto la maggioranza semplice e la condizione cada.
 
 **Due<!--#--> letture sbagliate, che questa frase esiste per impedire.**
 
 La prima: questo margine **non è una stima dell'errore**. Nessuno ha misurato di quanto la scatola ecceda la regione reale, e questo documento non lo afferma. È una **condizione sull'errore**: dice quanto grande dovrebbe essere l'errore perché la conclusione si ribalti, non quanto grande sia.
 
-La seconda: il margine **dipende dalla soglia**, e non è una proprietà del solo dato. Con una soglia di due<!--#--> terzi invece della maggioranza semplice varrebbe meno della metà. La soglia adottata — più della metà del catalogo musicale — è la lettura letterale del termine che il business case usa, «maggioranza», ed è stata fissata senza guardare al valore; ma chi ritenesse che «maggioranza» debba significare qualcosa di più severo troverebbe un margine più stretto, pur trovando la stessa risposta. **Sull'esito la soglia è ininfluente su questi dati; sul margine no.**
+La seconda: il margine **dipende dalla soglia**, e non è una proprietà del solo dato. La soglia adottata — più della metà del catalogo musicale — è la lettura letterale del termine che il business case usa, «maggioranza», ed è stata fissata senza guardare al valore. Chi ritenesse che «maggioranza» debba significare qualcosa di più severo troverebbe **lo stesso esito e un margine più stretto**: con una soglia a due<!--#--> terzi il margine varrebbe meno della metà di quello pubblicato.
+
+**Fin dove l'esito regge, detto con precisione perché è l'obiezione più prevedibile a questa analisi.** La risposta non cambierebbe con nessuna soglia fino a 0,8450<!--@KPI.BQ1K3.overlap_share-->, cioè fino al valore misurato stesso: solo una soglia più severa di così farebbe cadere la condizione. Non è quindi vero che «la soglia sia ininfluente» in generale — è vero che nessuna delle letture plausibili di «maggioranza» la sposta.
 
 ---
 
@@ -92,11 +101,26 @@ La distinzione non è una sfumatura ed è la ragione per cui questa sezione non 
 
 ### La regione
 
-Dei 114<!--@SP.genre.count--> segmenti che l'analisi ordina, 33<!--@KPI.BQ2K3.quadrant_members_count--> si collocano contemporaneamente sopra la mediana per domanda e sopra la mediana per affinità con il catalogo video. Sono la regione da cui entrare: musica che il pubblico cerca **e** che assomiglia per carattere a ciò che StreamWave già offre.
+Dei 114<!--@SP.genre.count--> segmenti che l'analisi ordina, 33<!--@KPI.BQ2K3.quadrant_members_count--> si collocano contemporaneamente sopra la **mediana** per domanda e sopra la mediana per **affinità**. Sono la regione da cui entrare: musica che il pubblico cerca **e** che assomiglia per carattere a ciò che StreamWave già offre.
 
-Il candidato di punta è il segmento `pop`<!--@catalogs.kpi_segments-->, che occupa la posizione 1<!--@KPI.BQ2K3.pop.rank--> della graduatoria costruita combinando domanda e affinità con peso uguale.
+*Due<!--#--> termini, sciolti una volta sola.* La **mediana** è il valore che divide i segmenti in due<!--#--> metà uguali — metà sopra, metà sotto: «sopra la mediana» significa quindi «nella metà più alta», non «sopra la media». L'**affinità** di un segmento è quanto il suo carattere medio — ballabilità, energia, umore — assomiglia a quello del catalogo video: è la stessa somiglianza della seconda condizione, misurata segmento per segmento invece che sull'intero catalogo musicale.
 
-**Come si legge questa posizione, e come non si legge.** Dice che, fra i segmenti considerati, quello è il punto in cui domanda e affinità sono insieme più alte. **Non** dice che sia il solo da cui entrare, né che gli altri della regione siano alternative da scartare: non sono insiemi disgiunti fra cui scegliere, e trattarli come tali affermerebbe il falso. Una scelta di catalogo si costruisce sulla regione, e la posizione in graduatoria serve a orientarla, non a sostituirla.
+**I primi otto<!--#--> della regione**, ordinati per una graduatoria che combina domanda e affinità con peso uguale:
+
+| Posizione fra i 114<!--@SP.genre.count--> segmenti | Segmento |
+|---|---|
+| 1<!--@KPI.BQ2K3.pop.rank--> | `pop`<!--@catalogs.kpi_quadrant_segments--> |
+| 2<!--@KPI.BQ2K3.pop_film.rank--> | `pop-film`<!--@catalogs.kpi_quadrant_segments--> |
+| 3<!--@KPI.BQ2K3.british.rank--> | `british`<!--@catalogs.kpi_quadrant_segments--> |
+| 4<!--@KPI.BQ2K3.psych_rock.rank--> | `psych-rock`<!--@catalogs.kpi_quadrant_segments--> |
+| 5<!--@KPI.BQ2K3.k_pop.rank--> | `k-pop`<!--@catalogs.kpi_quadrant_segments--> |
+| 6<!--@KPI.BQ2K3.chill.rank--> | `chill`<!--@catalogs.kpi_quadrant_segments--> |
+| 7<!--@KPI.BQ2K3.sad.rank--> | `sad`<!--@catalogs.kpi_quadrant_segments--> |
+| 8<!--@KPI.BQ2K3.indian.rank--> | `indian`<!--@catalogs.kpi_quadrant_segments--> |
+
+**È un estratto, non la regione.** La regione ne comprende 33<!--@KPI.BQ2K3.quadrant_members_count-->, e l'elenco completo vive in [`reports/kpi_measures.json`](../reports/kpi_measures.json). Gli otto<!--#--> qui sopra sono i primi in graduatoria, non i soli raccomandati.
+
+**Come si legge questa graduatoria, e come non si legge.** Dice in quale ordine domanda e affinità si combinano più favorevolmente. **Non** dice che si debba scegliere il primo e scartare gli altri: i segmenti non sono insiemi disgiunti fra cui scegliere — una stessa traccia sta in più di uno — e trattarli come alternative affermerebbe il falso. Una scelta di catalogo si costruisce sulla regione; la graduatoria serve a orientarla, non a sostituirla.
 
 ### Un'esclusione che va dichiarata
 
@@ -129,25 +153,29 @@ Questa sezione porta gli unici numeri economici del progetto, e sono di natura d
 
 I valori qui sopra sono per utente. Chiunque disponga di una stima della base abbonati può moltiplicarli, ed è un'operazione che si fa in pochi secondi.
 
-**Questo progetto non quantifica la base di StreamWave**, e la tabella che segue non è una stima di quella base: le cifre nella prima colonna sono **ipotesi che mette chi legge**, scelte solo per rendere leggibile l'aritmetica. Non provengono da alcun dato di questo progetto, e chi conosca la base reale sostituisca la propria.
+**Questo progetto non quantifica la base di StreamWave, e non la quantifica qui.** È una decisione presa in una revisione precedente e questa pagina non la revoca: nessuna cifra di abbonati compare in questo documento, perché una cifra plausibile stampata accanto a un importo in euro diventa la cifra che il lettore ricorda, quale che sia la cautela che la accompagna.
 
-| Base ipotizzata da chi legge | Pessimista | Centrale | Ottimista |
+Ciò che si può dare senza quantificare nulla è **il fattore di conversione**, cioè quanto vale un'unità di base:
+
+| Per ogni 100.000<!--#--> abbonati | Pessimista | Centrale | Ottimista |
 |---|---|---|---|
-| 500.000<!--#--> abbonati | 300.000<!--#--> € / mese | 600.000<!--#--> € / mese | 1.200.000<!--#--> € / mese |
-| 1.000.000<!--#--> abbonati | 600.000<!--#--> € / mese | 1.200.000<!--#--> € / mese | 2.400.000<!--#--> € / mese |
-| 2.000.000<!--#--> abbonati | 1.200.000<!--#--> € / mese | 2.400.000<!--#--> € / mese | 4.800.000<!--#--> € / mese |
+| ricavo aggiuntivo mensile | 60.000<!--#--> € | 120.000<!--#--> € | 240.000<!--#--> € |
 
-**Come va letta questa tabella, ed è il punto in cui è più facile sbagliare.** Non dice che l'offerta musicale varrebbe uno di quegli importi. Dice che **se** la base fosse quella ipotizzata nella riga, **allora** l'aritmetica darebbe quei valori — e la riga giusta questo progetto non sa quale sia. Ogni cella eredita per intero la confidenza bassa della terna da cui discende: moltiplicare per una base nota non rende più solido il numero che si moltiplica.
+**Come si usa questa riga, ed è il punto in cui è più facile sbagliare.** Chi conosce la base di StreamWave la divide per 100.000<!--#--> e moltiplica i tre<!--#--> importi: l'operazione richiede pochi secondi e il risultato è suo, costruito su un numero che questo progetto non ha e non può giudicare. **Ciò che ne esce eredita per intero la confidenza bassa della terna**, e va portato avanti come terna.
 
-**Una formulazione che questo documento evita, e la ragione.** Sarebbe comodo dire che il ricavo per utente «non è scalabile», e sarebbe falso: è perfettamente scalabile, ed è ciò che la tabella qui sopra fa. Ciò che è vero è più stretto — **qui nessuna base viene quantificata e nessun artefatto del progetto offre una chiave per farlo**. Non è un presidio: è una rinuncia, e non impedisce a valle l'operazione che scoraggia. Un totale di ricavo costruito su questi numeri e presentato senza la propria banda sarebbe un numero che nessuno ha misurato, con l'autorevolezza di uno misurato.
+**Una formulazione che questo documento evita, e la ragione.** Sarebbe comodo dire che il ricavo per utente «non è scalabile», e sarebbe falso: è perfettamente scalabile, ed è ciò che la riga qui sopra insegna a fare. Ciò che è vero è più stretto — **qui nessuna base viene quantificata e nessun artefatto del progetto offre una chiave per farlo**. Non è un presidio: è una rinuncia, e non impedisce a valle l'operazione che scoraggia. Un totale di ricavo costruito su questi numeri e presentato senza la propria banda sarebbe un numero che nessuno ha misurato, con l'autorevolezza di uno misurato.
 
 ### Un debito aperto, dichiarato qui perché è qui che pesa
 
-Il valore centrale della terna di adozione poggia su un **benchmark esterno**: una cifra pubblicata da un altro operatore, in un comunicato che questo progetto cita.
+Il valore centrale della terna di adozione — 30<!--@BQ3.adoption.base-->% — non è una misura di questo progetto: è un **benchmark esterno**, ripreso tale e quale. Ecco esattamente da dove viene.
 
-Quel comunicato **non nomina lo studio** da cui la cifra proviene. Si può constatare che un comunicato la riporti; non si può giudicare come sia stata misurata. Non esiste copia archiviata né identificativo permanente: se quell'indirizzo smettesse di rispondere, la verifica esterna verrebbe meno e resterebbe solo il valore congelato nel repository. **È un debito aperto**, non chiuso da questa raccomandazione né da alcuna feature precedente.
+> **Parks Associates**, comunicato stampa del **2018-07-19**, intitolato `30% of Netflix Subscribers in Premium Service Tier`. La cifra è la quota di abbonati **Netflix** che si trovava sul piano al prezzo più alto del listino, rilevata **fra i consumatori statunitensi**. Il riferimento è congelato in [`data/benchmarks/`](../data/benchmarks/) con la propria citazione.
 
-**Vi si aggiunge un'assunzione di trasferimento.** Il benchmark descrive **un altro operatore, su un altro mercato, otto<!--#--> anni prima**. Che quella cifra sia trasferibile a StreamWave è un'assunzione dichiarata e non verificabile con i dati disponibili. Non entra nella scala di confidenza dei numeri — la sezione seguente spiega perché — e resta valida o non valida indipendentemente da quanto il calcolo che la usa sia accurato.
+**Che cosa quella cifra misura, e che cosa le si fa dire qui.** Misura la **composizione** della base di un altro servizio a un istante — quanti stavano sul piano caro — e viene usata per stimare un **flusso**: quanti passerebbero al piano caro entro un anno dal lancio. Non sono la stessa grandezza. Una composizione si è accumulata negli anni e comprende chi ha scelto quel piano fin dall'iscrizione, senza aver mai fatto alcun passaggio; un tasso di conversione a dodici<!--#--> mesi non comprende quelle persone e non dispone di quel tempo. **La composizione sta quindi strutturalmente sopra il flusso che le si fa rappresentare**, e questo è l'unico scarto di cui si conosca il verso: gli altri sono dichiarati per esteso in [`bq3_scenarios.md`](bq3_scenarios.md), e nessuno è quantificato.
+
+**Che cosa nessuno può verificare.** Il comunicato **non nomina lo studio** da cui la cifra proviene e non dichiara la numerosità del campione. Si può constatare che un comunicato la riporti; non si può giudicare come sia stata misurata. Non esiste copia archiviata né identificativo permanente: se quell'indirizzo smettesse di rispondere, la verifica esterna verrebbe meno e resterebbe solo il valore congelato nel repository. **È un debito aperto**, non chiuso da questa raccomandazione né da alcuna feature precedente.
+
+**Vi si aggiunge un'assunzione di trasferimento.** Il benchmark descrive **Netflix, sul mercato statunitense, nel 2018<!--#--> — otto<!--#--> anni prima di questa analisi**, e ciò che distingueva lì il piano caro da quello economico era il numero di schermi e la qualità video, non un verticale di contenuto in più. Che quella cifra sia trasferibile a StreamWave è un'assunzione dichiarata e non verificabile con i dati disponibili. Non entra nella scala di confidenza dei numeri — la sezione seguente spiega perché — e resta valida o non valida indipendentemente da quanto il calcolo che la usa sia accurato.
 
 ---
 
@@ -157,7 +185,7 @@ Una raccomandazione che non dichiari le condizioni alle quali si ribalterebbe è
 
 **Se la tabella che assegna il carattere alle categorie video venisse rivista.** Le tre<!--#--> caratteristiche di carattere del catalogo video non sono osservate: sono assegnate categoria per categoria da chi ha condotto l'analisi, e la versione usata qui è la `2`<!--@conventions.kpi_mood_table_version-->. Per il contratto che governa quella tabella, una revisione **invalida** i valori che ne dipendono invece di correggerli: la seconda condizione andrebbe ricalcolata da capo, e con essa il verdetto. Non è un rischio remoto — è il modo normale in cui quella tabella evolve — e chiunque riveda la tabella deve rifare questo passaggio prima di citare questa pagina.
 
-**Se la sovrastima fosse maggiore del margine.** La seconda condizione poggia su una stima per eccesso, e il margine dice quanto quella stima dovrebbe essere gonfiata perché la condizione cada: più di 0,4083<!--@KPI.BQ1K3.c2.margin_share_of_value--> del proprio valore. Se lo fosse, la seconda condizione cadrebbe e l'esito passerebbe da tre<!--#--> condizioni su tre<!--#--> a due<!--#--> — che il business case legge come **sostegno parziale**: l'espansione resterebbe difendibile, ma la condizione mancante andrebbe indicata come rischio esplicito. Non passerebbe a «argomento non sostenuto».
+**Se la sovrastima fosse maggiore del margine.** La seconda condizione poggia su una stima per eccesso, e il margine dice quanto quella stima dovrebbe essere gonfiata perché la condizione cada: oltre il 40<!--#-->% del proprio valore, cioè 0,4083<!--@KPI.BQ1K3.c2.margin_share_of_value-->. Se lo fosse, la seconda condizione cadrebbe e l'esito passerebbe da tre<!--#--> condizioni su tre<!--#--> a due<!--#--> — che il business case legge come **sostegno parziale**: l'espansione resterebbe difendibile, ma la condizione mancante andrebbe indicata come rischio esplicito. Non passerebbe a «argomento non sostenuto».
 
 **Se i cataloghi sostitutivi non rappresentassero StreamWave.** Tutta l'analisi poggia su due<!--#--> cataloghi pubblici usati al posto dei dati di StreamWave, che il progetto non ha. Se quei cataloghi non fossero rappresentativi — un catalogo video con una composizione diversa, un pubblico con gusti diversi — **nessuna delle tre<!--#--> condizioni direbbe più nulla su StreamWave**, indipendentemente da quanto ciascuna sia stata calcolata con cura. Non è una condizione che si possa verificare con i dati disponibili: si chiude soltanto ripetendo l'analisi sui dati reali dell'azienda, ed è la prima cosa da fare se questa raccomandazione viene presa sul serio.
 
@@ -178,13 +206,15 @@ Restano fuori dalla scala **per costruzione**, e la ragione è che la scala misu
 
 **Non dice che il pubblico attuale di StreamWave vorrebbe la musica.** La sovrapposizione della seconda condizione è fra **caratteristiche di contenuto**, non fra persone osservate: dice che la musica assomiglia per carattere al catalogo video, non che chi guarda quel catalogo ascolterebbe quella musica. Nessun dato comportamentale è entrato in questa analisi, e la domanda «lo vorrebbero?» resta senza risposta.
 
-**Non è una previsione.** I numeri della sezione [«quanto vale»](#4-quanto-vale) sono scenari costruiti sotto assunzioni dichiarate, non stime di ciò che accadrà. La banda fra pessimista e ottimista non è un intervallo di confidenza: non c'è alcuna probabilità dentro quei numeri, e chiedere con che probabilità il valore vero vi cada è una domanda a cui questo documento non risponde.
+**Non è una previsione.** I numeri della sezione [«quanto vale»](#4-quanto-vale) sono scenari costruiti sotto assunzioni dichiarate, non stime di ciò che accadrà. La banda fra pessimista e ottimista non è un intervallo di confidenza: non c'è alcuna probabilità dentro quei numeri, e chiedere con che probabilità il valore vero vi cada è una domanda a cui questo documento non risponde. **Nemmeno la sua ampiezza misura quanto siamo incerti**: non ha interpretazione probabilistica, e una banda più stretta non significherebbe più fiducia. Dichiara quanta ne ripone chi ha fatto l'analisi nel trasferimento del benchmark, che è una cosa diversa.
 
 I dati si fermano al **2021-2022**<!--#-->, e il benchmark economico al **2018**<!--#-->.
 
 ---
 
 ## Come si verifica ogni numero di questa pagina
+
+*Questa sezione è per chi voglia rifare i conti sul repository. Il resto della pagina non la richiede, e chi si ferma qui non ha perso nulla dell'argomento.*
 
 ```bash
 python3 scripts/build_kpi_measures.py    # rigenera i valori delle condizioni e il verdetto
