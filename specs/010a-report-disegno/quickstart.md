@@ -68,14 +68,61 @@ Il contratto di pagina ripete necessariamente alcune affermazioni che vivono gi�
 
 ## 4. Esito della verifica
 
-*Questa sezione si compila quando le prove vengono eseguite, non prima.*
+*Compilata il 2026-08-29, mentre le prove venivano eseguite.*
 
-**Prove eseguibili**: ⬜ da eseguire
+### Prove eseguibili
 
-**Prove per ispezione**: ⬜ da eseguire
+| Prova | Esito |
+|---|---|
+| `check_audit_coherence.py` | ✅ verde — «documenti e artefatti coerenti». Certifica un'assenza di danno: questa feature non tocca alcun documento sotto `docs/` |
+| risoluzione degli identificativi di ancora | ✅ ogni ancora citata dal contratto risolve contro un artefatto versionato, comprese le tre aggiunte durante la correzione di `P3` (`CL.NF.category.distinct`, `SP.genre.count`, `MOOD.coverage.rows`) e le due con segnaposto (`KPI.BQ2K1.<segmento>.*`, `MOOD.category.<categoria>.<asse>`) |
 
-**Censimento delle copie**: ⬜ da eseguire
+### Prove per ispezione
 
-**Scostamenti fra il disegno e ciò che è stato prodotto**: ⬜
+| Prova | Esito |
+|---|---|
+| `P1` — l'ordine è quello dell'argomento | ✅ la colonna «parte dell'argomento» si legge come un discorso; l'ordine coincide con le sezioni di `raccomandazione.md` |
+| `P2` — le cinque voci per pagina | ✅ tutte e dieci le pagine dichiarano parte dell'argomento, sezione servita, valori con ancora, visuali o struttura, interazioni non offerte |
+| `P3` — nessun valore trascritto | ⚠️ **quattro violazioni trovate e corrette**, vedi sotto |
+| `P4` — ogni pagina dà qualcosa all'occhio | ✅ otto pagine con visuale, due di sola prosa dichiarate con la ragione |
+| `P5` — il conteggio delle pagine | ✅ dieci, iniziale compresa, dentro la forchetta |
+| `P6` — collocazione di `A1` e `A6` | ✅ pagina 3, propria, richiamate a pagina 9 e 10 e mai introdotte in nota |
+| `P7` — la formulazione sull'uplift | ✅ «scalabile» compare una volta sola, nella forma che dichiara **falsa** la formulazione esclusa |
+| `P8` — il debito della `004` | ✅ dichiarato aperto a pagina 9, dove i numeri di `BQ3` compaiono |
+| `P9` — le tre verifiche dell'issue `#20` | ✅ dichiarate a §13.4; l'issue resta aperta e non viene toccata |
+| `P10` — il censimento delle copie | ⚠️ **una divergenza trovata e corretta**, vedi sotto |
 
-**Ritrovamenti**: tre già registrati in [data-model.md](./data-model.md) §5, da riportare nell'esito finale.
+### Che cosa `P3` ha trovato
+
+Il contratto dichiarava in apertura di non trascrivere alcun valore, **e ne trascriveva quattro**: il numero di categorie video, il numero di segmenti, il conteggio di titoli della categoria musicale, il numero di tracce del catalogo musicale, più il margine relativo in forma arrotondata.
+
+Corretti sostituendo ciascuno con la propria ancora o con una formulazione non numerica. È il difetto che `FR-003` esiste per impedire, ed è passato sotto la prima stesura: la prova che lo ha trovato è meccanica, e senza di essa sarebbe arrivato alla revisione.
+
+**Una cifra resta nel documento**, il fattore `100.000` di §11. Non è un fatto misurato ma un'**unità dichiarata** — la stessa categoria delle soglie nella grammatica dei marcatori — e `raccomandazione.md` §4 la marca infatti come non-misurata. La sua permanenza è dichiarata in apertura del contratto perché non venga letta come una svista.
+
+### Che cosa `P10` ha trovato
+
+Le sette affermazioni in doppia copia sono state confrontate con i rispettivi originali. **Sei coincidono.** La settima divergeva, e la divergenza era **interna ai documenti di questa feature**:
+
+- `raccomandazione.md` §2 scrive che una congiunzione non è più affidabile del suo **termine meno affidabile**;
+- `research.md` `G5` e `data-model.md` §4 scrivevano «termine **più debole**».
+
+Sono sinonimi e nessuna delle due afferma il falso. È comunque una divergenza: l'originale usa una formulazione sola, e due riscritture ne introducevano una seconda che a valle si sarebbe potuta citare come se fosse la sua. Allineate entrambe alla formulazione dell'originale.
+
+**È il caso per cui il censimento esiste**, ed è la prima volta che intercetta qualcosa: sulla `009` aveva confermato sette copie su sette.
+
+### Scostamenti fra il disegno e ciò che è stato prodotto
+
+**Uno**, dichiarato nel contratto a §9 e in `CP-4`: il conteggio dei membri del quadrante compare a schermo, mentre il contratto della `008a` §5.3 dichiarava esplicitamente che non doveva comparire. Non è una correzione di quel contratto — è una decisione diversa in un disegno diverso, dove l'argomento usa quel conteggio come esito della terza condizione.
+
+### Ritrovamenti
+
+I tre di [data-model.md](./data-model.md) §5, invariati:
+
+1. nessun profilo di mood per segmento musicale è pubblicato come valore ancorato;
+2. `C2` è l'unica delle tre condizioni senza una companion booleana pubblicata;
+3. il report porta sette KPI su otto.
+
+**Nessuno richiede una nota in loco**: nessuno è una divergenza fra un valore pubblicato e il suo artefatto.
+
+**Nessuna divergenza è stata trovata fra il disegno e ciò che `docs/raccomandazione.md` afferma.**

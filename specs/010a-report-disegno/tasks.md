@@ -41,17 +41,17 @@
 
 **Test indipendente**: si prende il contratto senza altro materiale e si conta, pagina per pagina, quante decisioni di contenuto chi costruisce dovrebbe prendere da sé. Zero è l'esito atteso.
 
-- [ ] T010 [US1] Scrivere l'intestazione e il perimetro di `specs/010a-report-disegno/contracts/page-contract.md`: che cosa il contratto è (un vincolo, non un accertamento), che cosa non contiene deliberatamente (nessun valore trascritto, nessun testo a schermo), e che cosa non decide
-- [ ] T011 [US1] Scrivere la sezione 1 del contratto — la mappa delle dieci pagine con la sezione servita da ciascuna, la convenzione di conteggio dichiarata, e la regola `G1` della corrispondenza molti-a-uno
-- [ ] T012 [US1] Scrivere la sezione 2 del contratto — la regola che governa ogni pagina: invarianza del valore a schermo alla grana pubblicata, selezione incrociata ammessa e filtro vietato
-- [ ] T013 [P] [US1] Scrivere le sezioni di pagina 1, 2 e 3 del contratto — la domanda, la risposta con il verdetto congiunto di `G5`, e la pagina delle assunzioni `A1` e `A6`
-- [ ] T014 [P] [US1] Scrivere le sezioni di pagina 4, 5 e 6 del contratto — la prima condizione, la seconda con la visuale `V2` di `G8`, e il margine di `C2` con la visuale `V3` di `G7`
-- [ ] T015 [P] [US1] Scrivere le sezioni di pagina 7 e 8 del contratto — la regione e la graduatoria, con la chiusura dell'issue `#21` dichiarata secondo `G6`
-- [ ] T016 [P] [US1] Scrivere le sezioni di pagina 9 e 10 del contratto — gli scenari con la formulazione stretta sull'uplift e il debito della `004` dichiarato, e la pagina delle condizioni di ribaltamento
-- [ ] T017 [US1] Scrivere la sezione del contratto che elenca le sei misure nuove e le quattro visuali nuove, consumando `data-model.md` §2.3 e §3.1 invece di riprodurlo
-- [ ] T018 [US1] Scrivere la sezione del contratto che dichiara le tre verifiche dell'issue `#20` da rifare a ogni riapertura, e che l'issue resta aperta
-- [ ] T019 [US1] Scrivere la sezione del contratto che dichiara dove la `010b` scriverà il proprio testo, pagina per pagina, come spazio riservato e non vuoto
-- [ ] T020 [US1] Scrivere la sezione finale del contratto — le decisioni che chiedono conferma, sullo schema `CP` della `008a`
+- [x] T010 [US1] Scrivere l'intestazione e il perimetro di `specs/010a-report-disegno/contracts/page-contract.md`: che cosa il contratto è (un vincolo, non un accertamento), che cosa non contiene deliberatamente (nessun valore trascritto, nessun testo a schermo), e che cosa non decide
+- [x] T011 [US1] Scrivere la sezione 1 del contratto — la mappa delle dieci pagine con la sezione servita da ciascuna, la convenzione di conteggio dichiarata, e la regola `G1` della corrispondenza molti-a-uno
+- [x] T012 [US1] Scrivere la sezione 2 del contratto — la regola che governa ogni pagina: invarianza del valore a schermo alla grana pubblicata, selezione incrociata ammessa e filtro vietato
+- [x] T013 [P] [US1] Scrivere le sezioni di pagina 1, 2 e 3 del contratto — la domanda, la risposta con il verdetto congiunto di `G5`, e la pagina delle assunzioni `A1` e `A6`
+- [x] T014 [P] [US1] Scrivere le sezioni di pagina 4, 5 e 6 del contratto — la prima condizione, la seconda con la visuale `V2` di `G8`, e il margine di `C2` con la visuale `V3` di `G7`
+- [x] T015 [P] [US1] Scrivere le sezioni di pagina 7 e 8 del contratto — la regione e la graduatoria, con la chiusura dell'issue `#21` dichiarata secondo `G6`
+- [x] T016 [P] [US1] Scrivere le sezioni di pagina 9 e 10 del contratto — gli scenari con la formulazione stretta sull'uplift e il debito della `004` dichiarato, e la pagina delle condizioni di ribaltamento
+- [x] T017 [US1] Scrivere la sezione del contratto che elenca le sei misure nuove e le quattro visuali nuove, consumando `data-model.md` §2.3 e §3.1 invece di riprodurlo
+- [x] T018 [US1] Scrivere la sezione del contratto che dichiara le tre verifiche dell'issue `#20` da rifare a ogni riapertura, e che l'issue resta aperta
+- [x] T019 [US1] Scrivere la sezione del contratto che dichiara dove la `010b` scriverà il proprio testo, pagina per pagina, come spazio riservato e non vuoto
+- [x] T020 [US1] Scrivere la sezione finale del contratto — le decisioni che chiedono conferma, sullo schema `CP` della `008a`
 
 ---
 
@@ -61,9 +61,9 @@
 
 **Test indipendente**: si legge la sola colonna «parte dell'argomento» della mappa, dall'alto in basso, senza consultare le pagine.
 
-- [ ] T021 [US2] Eseguire la prova `P1` di `quickstart.md`: leggere la sola colonna «parte dell'argomento» e verificare che l'ordine coincida con quello delle sezioni di `docs/raccomandazione.md` e non con `BQ1`→`BQ2`→`BQ3`
-- [ ] T022 [US2] Eseguire la prova `P5`: contare le pagine e verificare che il conteggio stia fra 8 e 12 con la convenzione dichiarata
-- [ ] T023 [US2] Eseguire le prove `P6`, `P7` e `P8`: la collocazione delle assunzioni `A1` e `A6` su una pagina propria, la formulazione stretta sull'uplift, il debito della `004` dichiarato dove pesa
+- [x] T021 [US2] Eseguire la prova `P1` di `quickstart.md`: leggere la sola colonna «parte dell'argomento» e verificare che l'ordine coincida con quello delle sezioni di `docs/raccomandazione.md` e non con `BQ1`→`BQ2`→`BQ3`
+- [x] T022 [US2] Eseguire la prova `P5`: contare le pagine e verificare che il conteggio stia fra 8 e 12 con la convenzione dichiarata
+- [x] T023 [US2] Eseguire le prove `P6`, `P7` e `P8`: la collocazione delle assunzioni `A1` e `A6` su una pagina propria, la formulazione stretta sull'uplift, il debito della `004` dichiarato dove pesa
 
 ---
 
@@ -73,17 +73,17 @@
 
 **Test indipendente**: si scorre l'elenco delle visuali pagina per pagina.
 
-- [ ] T024 [US3] Eseguire la prova `P4`: verificare che nessuna pagina abbia come soli elementi schede e tabelle, salvo le due dichiarate di sola prosa
-- [ ] T025 [US3] Verificare che ogni visuale del contratto sia sostenuta da un artefatto che contiene i valori alla grana mostrata, e che la visuale non costruibile sia dichiarata invece di essere taciuta
+- [x] T024 [US3] Eseguire la prova `P4`: verificare che nessuna pagina abbia come soli elementi schede e tabelle, salvo le due dichiarate di sola prosa
+- [x] T025 [US3] Verificare che ogni visuale del contratto sia sostenuta da un artefatto che contiene i valori alla grana mostrata, e che la visuale non costruibile sia dichiarata invece di essere taciuta
 
 ---
 
 ## Fase 6 — Verifica, censimento e revisione
 
-- [ ] T026 Eseguire le due prove eseguibili di `quickstart.md` §1: `scripts/check_audit_coherence.py` e la risoluzione degli identificativi di ancora citati dal contratto
-- [ ] T027 Eseguire le prove `P2` e `P3`: che ogni pagina dichiari le cinque voci obbligatorie, e che nessun valore compaia come cifra trascritta
-- [ ] T028 Eseguire il censimento delle affermazioni in doppia copia di `quickstart.md` §3, confrontando ciascuna con l'originale **prima** che la revisione cominci
-- [ ] T029 Compilare l'esito in coda a `quickstart.md` §4 con gli scostamenti e i ritrovamenti, scrivendolo mentre le prove vengono eseguite e non a memoria alla fine
+- [x] T026 Eseguire le due prove eseguibili di `quickstart.md` §1: `scripts/check_audit_coherence.py` e la risoluzione degli identificativi di ancora citati dal contratto
+- [x] T027 Eseguire le prove `P2` e `P3`: che ogni pagina dichiari le cinque voci obbligatorie, e che nessun valore compaia come cifra trascritta
+- [x] T028 Eseguire il censimento delle affermazioni in doppia copia di `quickstart.md` §3, confrontando ciascuna con l'originale **prima** che la revisione cominci
+- [x] T029 Compilare l'esito in coda a `quickstart.md` §4 con gli scostamenti e i ritrovamenti, scrivendolo mentre le prove vengono eseguite e non a memoria alla fine
 - [ ] T030 Consegnare alla revisione in contesto pulito il perimetro composto secondo il piano — `docs/raccomandazione.md` e il contratto — dichiarando che la domanda verificata è se il disegno regga la spina, non se il contratto si legga da solo
 - [ ] T031 Scrivere e committare `specs/010a-report-disegno/review.md` quando la revisione torna, **prima** di toccare il contratto, con i quattro obblighi di `CLAUDE.md`
 - [ ] T032 Chiudere i soli rilievi strettamente necessari — quelli senza cui il deliverable afferma il falso o pubblica un valore che non regge — e aprire una issue per ciascun rinvio
