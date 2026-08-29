@@ -347,3 +347,40 @@ Citazione, §3 (riga 97):
 I primi due sono difetti di **estrazione**: il documento dice la cosa giusta e la circonda male. Il terzo è un difetto di **completezza**, ed è quello che il revisore considera il più serio, perché il documento spende molte righe a spiegare al board che deve valutare un'assunzione e poi gli nega gli unici tre fatti — quali cataloghi, quale operatore, quale cifra — con cui potrebbe valutarla. Nella sua forma attuale la pagina chiede al lettore di prendere sulla fiducia proprio il punto su cui gli chiede di non fidarsi.
 
 Nessuno dei dodici rilievi tocca il verdetto: la risposta è data, è corretta, è correttamente qualificata, e non diverge da alcuna copia autorevole.
+
+---
+
+## Blocco di chiusura — 2026-08-29, feature `009`
+
+*Aggiunto da chi è stato revisionato. Il testo del revisore sopra non è stato toccato, nemmeno dove il rilievo non è stato accolto per intero.*
+
+**La decisione di perimetro, e chi l'ha presa.** La regola del 2026-08-22 riserva le chiusure in-branch ai soli rilievi senza cui il deliverable afferma il falso o pubblica un valore che non regge, e manda tutto il resto sul tracker. La regia ha deciso diversamente per questa revisione: **si chiudono `R1`-`R9`**, cioè i tre di gravità alta e i sei di gravità media, e restano da rinviare i tre di gravità bassa. La decisione è più larga della regola e va registrata come tale: non è la regola che si è applicata da sé, è una scelta di chi decide.
+
+**`R10` si è chiuso da solo.** Non era nel perimetro deciso, ma la riscrittura richiesta da `R1` ha invertito l'ordine dentro lo stesso capoverso — la frase «Nessun numero di questa pagina è una misura fatta su StreamWave» ora apre il capoverso e il rinvio la segue — che è esattamente la chiusura che il rilievo indicava a costo zero. Registrato come risolto e non come rinviato, perché la issue non avrebbe più oggetto.
+
+**`R11` idem, per la stessa ragione**: la riga di apertura che il rilievo chiedeva costava una frase, ed è stata scritta mentre si lavorava alla sezione accanto.
+
+### Esito per rilievo
+
+| | Gravità | Esito | Che cosa è stato fatto |
+|---|---|---|---|
+| `R1` | alta | **risolto** | §1 nomina ora le due fonti — Netflix e Spotify, entrambe da Kaggle — con dimensione ancorata e anno di aggiornamento per ciascuna, e dichiara che valutare la rappresentatività è l'unico giudizio che appartiene per competenza a chi legge |
+| `R2` | alta | **risolto, per via diversa da tutte e tre quelle proposte** | la tabella a tre basi è stata **eliminata**. Al suo posto una riga sola a base dichiaratamente convenzionale — per ogni 100.000 abbonati — che dà il fattore di conversione senza quantificare nulla. È la seconda via del revisore, portata più a fondo: nessuna cifra di abbonati riferibile a StreamWave compare più nel documento, e la decisione della revisione `001` non è più de facto revocata |
+| `R3` | alta | **risolto** | §4 nomina l'editore, il titolo e la data del comunicato, dichiara la cifra e la popolazione su cui è rilevata, e aggiunge lo scarto di grandezza — composizione contro flusso — con il verso noto |
+| `R4` | media | **risolto** | «otto anni prima» compare ora accanto all'anno nella stessa frase, con il referente esplicito: «nel 2018 — otto anni prima di questa analisi» |
+| `R5` | media | **risolto** | reintegrata la clausola caduta: l'ampiezza della banda non misura l'incertezza e non ha interpretazione probabilistica. Aggiunta anche la ragione, che nella copia autorevole vive nell'artefatto e non nel documento: dichiara la fiducia di chi analizza nel trasferimento |
+| `R6` | media | **risolto** | *mediana* e *affinità* sono sciolte in un inciso dedicato in §3, il punto in cui il rilievo osservava che ricorrono senza appoggio. *Margine* resta come il revisore lo dava per accettabile |
+| `R7` | media | **risolto** | affiancata la lettura in percentuale accanto al valore ancorato nei quattro punti citati. La frase peggiore — le due frazioni decimali nella stessa riga — è stata spezzata in due, con il rapporto separato dalla differenza e la sua lettura in parole |
+| `R8` | media | **risolto** | §3 elenca ora gli otto segmenti in testa alla graduatoria, con posizione e nome entrambi ancorati, e dichiara esplicitamente che è un estratto di una regione che ne comprende 33. L'asimmetria che il rilievo denunciava — sette nomi da evitare, uno solo da cui entrare — è rovesciata |
+| `R9` | media | **risolto, con l'affermazione riformulata** | l'affermazione «la soglia è ininfluente sull'esito», che estratta era universale e falsa, è stata **ritirata nella sua forma generale** e sostituita dall'estremo esplicito: l'esito non cambierebbe con nessuna soglia fino al valore misurato stesso. La quantificazione del margine a due terzi resta, ma come confronto dichiarato e non più come calcolo implicito |
+| `R10` | bassa | **risolto** (fuori dal perimetro deciso) | vedi sopra: chiuso dalla riscrittura di `R1` |
+| `R11` | bassa | **risolto** (fuori dal perimetro deciso) | vedi sopra: aggiunta la riga che dichiara il cambio di destinatario della sezione finale |
+| `R12` | bassa | **risolto** | assorbito da `R8`: la colonna della tabella nuova dichiara «posizione fra i 114 segmenti», che è la disambiguazione richiesta |
+
+**Nessun rilievo è stato rinviato**, e nessuna issue è stata quindi aperta per la revisione. Non era l'esito atteso: i tre di gravità bassa erano destinati al tracker, e si sono chiusi perché la correzione richiesta dai rilievi maggiori li conteneva già. Va detto esplicitamente perché non sembri che la regola del 2026-08-22 sia stata aggirata — la decisione di chiudere `R1`-`R9` è della regia, e i tre residui sono costati insieme meno di una riga ciascuno.
+
+**Nessun rilievo è stato chiuso indebolendo un'affermazione**, con una sola eccezione dichiarata: `R9`, dove l'affermazione generale è stata **ritirata** e sostituita da una più stretta e verificabile. Il revisore lo indicava come la chiusura corretta, e va registrato come ritiro e non come correzione: la pagina afferma ora meno di quanto affermasse, e ciò che afferma è vero.
+
+**Ciò che la revisione ha lasciato in piedi e non va rotto.** Il revisore ha elencato dodici passaggi che funzionano. Le correzioni sopra ne hanno toccato uno solo — la sezione «quanto vale», dove la tabella è stata sostituita — e le due qualificazioni d'unità che il revisore giudicava fedeli alla fonte sono rimaste intatte parola per parola.
+
+**Il ritrovamento che questa feature registra e non chiude.** `docs/kpi_operators.md` §9 usa la formulazione «non è scalabile», che `docs/bq3_scenarios.md` §8 dichiara falsa. Non è un rilievo di questa revisione — il revisore non aveva quel documento nel perimetro — ma un ritrovamento del censimento delle copie condotto in fase di ricerca. Non si corregge qui: la feature non lo introduce, il suo deliverable non lo rende falso, e la raccomandazione si limita a non ripetere l'errore usando la formulazione stretta. Va sul tracker.
