@@ -162,6 +162,7 @@
     ]
   },
   "conventions": {
+    "kpi_decision_rule": "La regola di decisione della North Star e' fissata da docs/business_case.md §3 e pubblicata **prima** che i valori esistessero: l'argomento di coerenza e' sostenuto se tutte e tre le condizioni C1, C2, C3 sono soddisfatte. C1 e' l'operatore D9.2 (il conteggio dei titoli di Music & Musicals supera la mediana dei 42 conteggi per categoria); C2 e' l'operatore D12, fissato dalla feature 009: mood_profile_overlap **supera** la soglia di maggioranza semplice 0,50, con confronto **stretto** per coerenza con D9.2 e D4. Su questi dati la scelta fra confronto stretto e largo non cambia l'esito, perche' il valore non cade sulla soglia; il **margine** invece dalla soglia dipende, e si restringe se la soglia e' piu' severa. C3 e' l'appartenenza al quadrante alta-domanda/alta-affinita' di almeno un segmento musicale (D4). La **confidenza del verdetto e' media**, ereditata dal termine piu' debole e non calcolata come media delle tre: una congiunzione non e' piu' affidabile del suo termine meno affidabile, e trattarla come una media lascerebbe che la confidenza alta di C1 coprisse quella media di C2. Il termine piu' debole e' C2, che poggia su una stima **per eccesso** (limite dichiarato di D1: il prodotto cartesiano dei tre intervalli scalari sovrastima la sovrapposizione reale, che e' quindi minore o uguale al valore pubblicato). Il verdetto **eredita la dipendenza dalla versione della tabella dei mood** attraverso C2: vedi kpi_mood_table_version. Per il contratto di versione di docs/content_taxonomy_bridge.md §5 una revisione della tabella **invalida** i valori che ne dipendono invece di correggerli, e con essi C2 e il verdetto.",
     "kpi_duration_zero_inclusion": "Le righe marcate is_duration_zero **entrano** nella mediana della durata musicale di BQ1-K2. E' la stessa disciplina gia' applicata a is_popularity_zero da D7: la trasformazione ha scelto di conservare e marcare, non di eliminare, e una misura che filtrasse sulla marcatura ritirerebbe quella scelta senza dichiararlo. La variante esclusa viene comunque calcolata e pubblicata — KPI.BQ1K2.median_music_excluding_zero — insieme alla differenza fra le due, perche' la decisione sia verificabile invece che dichiarata a parole. Decisione D11 di docs/kpi_operators.md.",
     "kpi_median_rule": "Ordinamento crescente dei valori; su conteggio dispari il valore centrale, su conteggio pari la media aritmetica dei due valori centrali. Nessun trattamento speciale dei valori ripetuti: i pari merito entrano nell'ordinamento come qualunque altro valore. E' la definizione da manuale, adottata identica dai quattro operatori che usano una mediana — BQ1-K1/C1 sui 42 conteggi per categoria, BQ2-K1 sulla popolarita' per segmento, BQ2-K2 sui tre assi di mood, BQ2-K3 sulle soglie del quadrante. Decisione D10 di docs/kpi_operators.md, che chiude l'issue #7.",
     "kpi_mood_table_version": "2",
@@ -347,6 +348,30 @@
       "label": "estremo inferiore dell'asse positività sul catalogo video, minimo sulle 42 righe di dim_category_mood",
       "unit": "quota, 0-1",
       "value": "0.0500"
+    },
+    "KPI.BQ1K3.c2.margin": {
+      "display": "0,3450",
+      "label": "margine di C2 — di quanto la sovrapposizione misurata supera la soglia. Dipende dalla soglia: una soglia piu' severa lo restringe",
+      "unit": "quota, 0-1",
+      "value": "0.3450"
+    },
+    "KPI.BQ1K3.c2.margin_share_of_value": {
+      "display": "0,4083",
+      "label": "margine di C2 come quota del valore — di quanto la stima per eccesso dovrebbe sovrastimare la sovrapposizione reale perche' C2 cada",
+      "unit": "quota, 0-1",
+      "value": "0.4083"
+    },
+    "KPI.BQ1K3.c2.satisfied": {
+      "display": "sì",
+      "label": "C2 — la sovrapposizione dei profili di mood supera la soglia di maggioranza semplice, con confronto stretto (D12)",
+      "unit": "esito booleano",
+      "value": "true"
+    },
+    "KPI.BQ1K3.c2.threshold": {
+      "display": "0,5000",
+      "label": "soglia della condizione C2 — maggioranza semplice del catalogo musicale, stipulazione di D12 e non una misura sui dati",
+      "unit": "quota, 0-1",
+      "value": "0.5000"
     },
     "KPI.BQ1K3.overlap_share": {
       "display": "0,8450",
@@ -5897,6 +5922,18 @@
       "label": "segment_entry_priority_score — 0,5 per la domanda normalizzata piu' 0,5 per l'affinita', segmento «world-music» (D3)",
       "unit": "quota, 0-1",
       "value": "0.6592"
+    },
+    "KPI.verdict.all_satisfied": {
+      "display": "sì",
+      "label": "verdetto — l'argomento di coerenza dell'espansione e' sostenuto: tutte e tre le condizioni della regola di decisione sono soddisfatte",
+      "unit": "esito booleano",
+      "value": "true"
+    },
+    "KPI.verdict.conditions_satisfied": {
+      "display": "3",
+      "label": "condizioni soddisfatte della regola di decisione, su 3 — seleziona quale delle tre letture di business_case.md §3 si applica",
+      "unit": "conteggio",
+      "value": "3"
     }
   }
 }

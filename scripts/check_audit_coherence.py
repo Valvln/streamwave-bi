@@ -86,6 +86,7 @@ DOCUMENTS = (
     (REPO / "docs" / "content_taxonomy_bridge.md", True, "feature 006"),
     (REPO / "docs" / "kpi_operators.md", True, "feature 007a"),
     (REPO / "docs" / "kpi_measures.md", True, "feature 007b"),
+    (REPO / "docs" / "raccomandazione.md", True, "feature 009"),
 )
 
 # Grammatica della marcatura (docs/convenzioni-marcatura.md): il marcatore

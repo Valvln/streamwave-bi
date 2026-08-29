@@ -258,6 +258,8 @@ Come il precedente: **nessun operatore nuovo qui**, la derivazione è già chius
 
 > **Nota in loco — 2026-08-22, feature `007b`.** Il titolo dice nove<!--#--> e la tabella ne elenca ora undici<!--#-->. Il titolo non viene riscritto: era esatto quando la `007a` lo ha scritto, e le due<!--#--> decisioni aggiunte — `D10` sulla convenzione di mediana, `D11` sulle righe a durata degenere — sono state prese dalla `007b` e non dalla feature che possiede questa pagina. Chi conta le decisioni conti le righe della tabella, che è la forma autorevole; il titolo registra quante ne aveva la stesura originale.
 
+> **Nota in loco — 2026-08-29, feature `009`, issue `#17`.** La tabella ne elenca ora dodici<!--#-->, per l'aggiunta di `D12` — l'operatore della condizione `C2`, argomentato per esteso nella nota in coda a §12. La regola resta quella dichiarata dalla nota precedente e non viene ripetuta altrove: **il conteggio autorevole sono le righe della tabella**, e ogni altra cifra su questa pagina — nel sommario, in §12, in §13 — registra quante decisioni esistevano quando quella frase è stata scritta. Nessuna di quelle frasi viene riscritta.
+
 | | Che cosa fissa | Da dove viene | Dove è applicata |
 |---|---|---|---|
 | **D1** | appartenenza all'intervallo occupato come prodotto cartesiano di tre<!--#--> intervalli scalari | revisione `001`, divergenza 2 | §4 |
@@ -273,6 +275,7 @@ Come il precedente: **nessun operatore nuovo qui**, la derivazione è già chius
 | **`D9.3`** | il rapporto della North Star non è pubblicato per giustapposizione dei suoi due<!--#--> input | revisione `002`, divergenza 4 | §2.1 |
 | **`D10`** | convenzione di mediana: ordinamento, media aritmetica dei due<!--#--> valori centrali su conteggio pari, nessun trattamento speciale dei pari merito | feature `007b`, issue `#7` | §2.2, §3, §5, §6, §7 |
 | **`D11`** | le righe a durata degenere entrano nella mediana di `BQ1-K2`, con la variante esclusa calcolata e la differenza pubblicata | feature `007b`, §12 | §3 |
+| **`D12`** | operatore della condizione `C2`: soglia di maggioranza semplice a 0,50<!--#-->, confronto **stretto** | feature `009`, issue `#17` | §12, nota in loco |
 
 **Nessuna di queste decisioni pretende di essere l'unica difendibile.** Ciascuna dichiara le opzioni scartate e la ragione dello scarto; sono scelte argomentate, non deduzioni univoche. È il motivo per cui la pagina è stata sottoposta a una revisione in contesto pulito prima di essere considerata definitiva.
 
@@ -332,6 +335,18 @@ Chi li chiuderà deve dichiararlo dove chiude, non assorbirli in silenzio.
 > - **l'arrotondamento e la precisione** — una convenzione unica **per unità di misura** e non per KPI, dichiarata nella tabella di [`kpi_measures.md`](kpi_measures.md) §1.2 e nella convenzione `kpi_rounding` di [`reports/kpi_measures.json`](../reports/kpi_measures.json): `Decimal` ovunque, `ROUND_HALF_UP` esplicito, e l'arrotondamento applicato solo alla presentazione, mai prima di una mediana o di un confronto di soglia.
 >
 > **Un quarto vincolo si chiude qui**, e non era in questo elenco perché la `007a` non lo aveva riconosciuto come tale: la **convenzione di mediana su conteggio pari**, aperta come issue `#7` mentre quattro<!--#--> operatori di questa pagina già la usavano. È la decisione **`D10`** — ordinamento, media aritmetica dei due<!--#--> valori centrali su conteggio pari, nessun trattamento speciale dei pari merito.
+
+> **Nota in loco — 2026-08-29, feature `009`, issue `#17`. La decisione `D12`: l'operatore di `C2`.** Questa pagina fissa gli operatori degli otto<!--#--> KPI e quello della condizione `C1` (§2.2), ma **non fissa quello di `C2`**. La condizione è formulata da `business_case.md` §3 come «i profili di mood dei due<!--#--> cataloghi si sovrappongono per la **maggioranza** del catalogo musicale», e «maggioranza» non è un operatore: non dichiara né la soglia né la strettezza del confronto. Finché resta così, `C2` non è calcolabile, e il verdetto della regola di decisione non è pubblicabile. **La decisione si prende qui**, dove vivono le altre undici<!--#-->, invece che dentro il documento che la applica.
+>
+> **La soglia è 0,50<!--#-->**, cioè la maggioranza semplice: più della metà del catalogo musicale. È la lettura letterale del termine, ed è quella che il business case può aver inteso avendo fissato la regola prima che i numeri esistessero — una soglia più severa, due<!--#--> terzi o tre<!--#--> quarti, sarebbe una stipulazione introdotta dopo aver visto il valore, che è precisamente la manovra che una regola fissata in anticipo esiste per impedire.
+>
+> **Il confronto è stretto**: `C2` è soddisfatta se la quota di sovrapposizione **supera** la soglia, non se la eguaglia. Non è una scelta nuova: è la stessa convenzione già adottata da `D9.2` per `C1` e da `D4` per il quadrante di `BQ2-K3`. Le tre<!--#--> condizioni della regola di decisione si leggono insieme, e leggerne una con una convenzione di confine diversa dalle altre due<!--#--> sarebbe una differenza senza ragione.
+>
+> **La scelta fra stretto e largo non cambia l'esito su questi dati.** La quota misurata, 0,8450<!--@KPI.BQ1K3.overlap_share-->, non cade sulla soglia: sta sopra con entrambe le convenzioni, e il caso di confine che le distingue non si presenta. La decisione è quindi presa per coerenza con `D9.2` e `D4`, non perché l'esito ne dipenda — e dichiararlo è ciò che impedisce di leggerla come una scelta fatta per ottenere il risultato.
+>
+> **Ciò che invece dalla soglia dipende è il margine.** La distanza fra il valore e la soglia — che `kpi_measures.md` pubblica come `KPI.BQ1K3.c2.margin` e che la raccomandazione usa per dire quanto la stima dovrebbe sovrastimare perché `C2` cada — **si restringe se la soglia è più severa**: con una soglia a due<!--#--> terzi varrebbe meno della metà di quanto vale con la maggioranza semplice. «Inconseguente per l'esito» e «inconseguente per il margine» sono due<!--#--> affermazioni diverse, e solo la prima è vera. Ogni pubblicazione del margine dichiara perciò la soglia da cui è misurato.
+>
+> **Che cosa questa decisione non fa**: non ricalcola `BQ1-K3`, il cui operatore resta `D1` e il cui valore resta quello pubblicato dalla `007b`. `D12` fissa soltanto come quel valore si legge come condizione. Il limite di `D1` — il prodotto cartesiano sovrastima la sovrapposizione reale, dichiarato tre<!--#--> capoversi sopra — si trasmette intatto a `C2`, ed è la ragione per cui `C2` è la più debole delle tre<!--#--> condizioni.
 
 **Copertura del dato**: questa pagina eredita per intero i limiti già dichiarati dal business case e da `data_model.md` §18 — cataloghi proxy, non StreamWave; copertura temporale ferma agli anni dichiarati dalle assunzioni strutturali; nessun dato comportamentale. Non ne introduce di nuovi, perché non tocca alcun dato.
 

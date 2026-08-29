@@ -279,6 +279,25 @@ Non è un difetto dell'implementazione: `data_model.md` §11 non costruisce alcu
 
 **Stato di verifica contro il motore reale (E9)**: **verificato**: la lettura del motore per `mood_profile_overlap` coincide, sì<!--@ENGINE.check.mood_profile_overlap.matches-->. Gli estremi degli assi di §4.1 sono calcolati dallo script e non sono valori letti separatamente dal motore. Vedi §11 per il perimetro completo del confronto.
 
+> **⚠️ Nota di aggiunta — 2026-08-29, feature `009`, issue `#17`. La condizione `C2` vive ora qui.** Come per §3.4 e §7.1: **nessun valore di questa sezione cambia**, e nessuno è stato riaperto. Si aggiunge una condizione che questo documento non nominava.
+>
+> **Perché mancava.** Delle tre<!--#--> condizioni della regola di decisione di `business_case.md` §3, questa pagina pubblicava `C1` (§2.3) e `C3` (§7.1) e **non `C2`** — che poggia proprio su `BQ1-K3`, il KPI di questa sezione. Non era un'omissione di stesura: `C2` non era calcolabile, perché il termine con cui il business case la formula, «maggioranza», non è un operatore. Nessun documento ne fissava né la soglia né la strettezza del confronto. La conseguenza per chi leggeva era che due<!--#--> condizioni comparivano con il proprio esito e la terza sembrava un buco.
+>
+> **Che cosa è cambiato.** La feature `009` fissa l'operatore mancante con la decisione `D12` di [`kpi_operators.md`](kpi_operators.md) §12 — soglia di maggioranza semplice, confronto **stretto** per coerenza con `D9.2` e `D4` — e la condizione esiste ora come misura, insieme al margine che la separa dalla soglia:
+>
+> | | Valore | Ancora |
+> |---|---|---|
+> | soglia di `C2` — maggioranza semplice del catalogo musicale | 0,5000<!--@KPI.BQ1K3.c2.threshold--> | `KPI.BQ1K3.c2.threshold` |
+> | **`C2` è soddisfatta** | sì<!--@KPI.BQ1K3.c2.satisfied--> | `KPI.BQ1K3.c2.satisfied` |
+> | margine — di quanto il valore supera la soglia | 0,3450<!--@KPI.BQ1K3.c2.margin--> | `KPI.BQ1K3.c2.margin` |
+> | margine come quota del valore | 0,4083<!--@KPI.BQ1K3.c2.margin_share_of_value--> | `KPI.BQ1K3.c2.margin_share_of_value` |
+> | **condizioni soddisfatte, sulle tre<!--#--> della regola** | 3<!--@KPI.verdict.conditions_satisfied--> | `KPI.verdict.conditions_satisfied` |
+> | **il verdetto: l'argomento di coerenza è sostenuto** | sì<!--@KPI.verdict.all_satisfied--> | `KPI.verdict.all_satisfied` |
+>
+> **Le due<!--#--> forme del margine, e perché sono due<!--#-->.** La prima risponde a «di quanto il valore supera la soglia»; la seconda a «di quanto la stima dovrebbe essere gonfiata perché la conclusione cambi», che è la domanda che il limite qui sopra pone e a cui il progetto non aveva mai risposto. **Nessuna delle due<!--#--> è una stima dell'errore**: l'errore non è misurato, e queste sono condizioni su di esso. Entrambe dipendono dalla soglia e si restringerebbero con una soglia più severa — vedi `D12`.
+>
+> **Che cosa questa aggiunta non fa.** Non ricalcola `BQ1-K3` e non riapre `D1`: la quota resta 0,8450<!--@KPI.BQ1K3.overlap_share-->, con il limite di stima per eccesso dichiarato qui sopra intatto e trasmesso a `C2`. **`C2` e il verdetto non ricevono una formula DAX**, a differenza di `C1` e `C3`: le formule di quelle due<!--#--> sono state verificate contro il motore reale dal confronto `E9`, e una formula nuova non verificata comparirebbe accanto a esse senza che nulla distingua i due<!--#--> stati. La regola di decisione è leggibile per intero fra le convenzioni di [`kpi_measures.json`](../reports/kpi_measures.json), sotto `kpi_decision_rule`, e la sua lettura per un decisore sta in [`raccomandazione.md`](raccomandazione.md).
+
 ---
 
 ## 5. `BQ2-K1` — `segment_demand_index`
