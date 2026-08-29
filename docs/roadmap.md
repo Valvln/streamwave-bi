@@ -1,6 +1,6 @@
 # Roadmap — StreamWave BI
 
-**Aggiornata**: 2026-08-28 | **Stato**: `008b` revisionata e **non portata avanti** — la dashboard a quattro pagine è superata. Il progetto ha misurato tutto e non ha mai risposto; la sequenza che resta esiste per rispondere
+**Aggiornata**: 2026-08-29 | **Stato**: `009` conclusa — **il progetto ha risposto**. La regola di decisione fissata prima dei numeri è stata eseguita, tutte e tre le condizioni sono soddisfatte, e [`docs/raccomandazione.md`](raccomandazione.md) porta la risposta al livello a cui la domanda era stata posta. Ciò che resta esiste per mostrarla
 
 Questo documento è il piano di lavoro del progetto: cosa resta da fare, in quale ordine, con quale stima e con quali dipendenze. È versionato perché la pianificazione — e soprattutto il suo scostamento dalla realtà — fa parte dell'artefatto da portfolio quanto i risultati.
 
@@ -30,15 +30,17 @@ Capacità dichiarata: **~2 ore al giorno fino al 15 agosto 2026**, giornate pien
 | `007b` | Misure DAX e documento dei KPI | ~7 di sessione (stimate 5) | 007a, *materializzazione* ✅, *`CF-1`* ✅ | ✅ conclusa, con debito residuo |
 | `008a` | Dashboard: modello, pagine, misure a schermo | ~9 di sessione+GUI (stimate 5) | 007b | ✅ conclusa, con debito residuo |
 | `008b` | Dashboard: narrazione, limiti esposti, rifiniture | ~6,5 di sessione+GUI (stimate 4) | 008a | 🟥 **chiusa il 2026-08-29 senza raggiungere il proprio obiettivo** |
-| `009` | Il verdetto e la raccomandazione | 6 | 007b | ⬜ **apribile**, sblocca le altre |
-| `010a` | Il report a 8-12 pagine: disegno e misure | 6 | 009 | ⬜ |
+| `009` | Il verdetto e la raccomandazione | ~1,5 di sessione (stimate 6) | 007b | ✅ conclusa, revisione (12 rilievi, tutti chiusi) inclusa |
+| `010a` | Il report a 8-12 pagine: disegno e misure | 6 | 009 | ⬜ **apribile** |
 | `010b` | Il report a 8-12 pagine: costruzione e narrazione | 8 | 010a | ⬜ |
 | `011` | Case Study & Portfolio Integration | 6 | 010b | ⬜ |
 | ~~`009`~~ | ~~Porting Tableau Public~~ | ~~5~~ | — | ❌ **caduta il 2026-08-28**: aggiunge uno strumento, non una risposta |
 
-**Totale residuo**: 26 ore di feature, più ~1,7 ore di debito testuale — **~27,7 ore**. Erano ~11,7 il 25 agosto: lo scarto è il costo della decisione del 2026-08-28, ed è dichiarato qui sotto invece di essere distribuito in silenzio sulle stime.
+**Totale residuo**: 20 ore di feature, più ~1,7 ore di debito testuale — **~21,7 ore**. Erano ~27,7 il 28 agosto: la `009` ne ha tolte 6 spendendone ~1,5.
 
-**La forchetta realistica è più larga della stima**, e va detto: le due feature GUI del progetto hanno sforato di quasi il doppio (`008a`, 5 stimate contro ~9 spese; `008b`, 4 contro ~5 su un perimetro poi abbandonato). Con lo stesso fattore su `010b`, che è la sola feature GUI rimasta e la più grande mai aperta, l'atterraggio sta fra **29 e 38 ore**.
+**La forchetta realistica resta più larga della stima**, e la ragione non è cambiata: le due feature GUI del progetto hanno sforato di quasi il doppio (`008a`, 5 stimate contro ~9 spese; `008b`, 4 contro ~5 su un perimetro poi abbandonato). Con lo stesso fattore su `010b`, che è la sola feature GUI rimasta e la più grande mai aperta, l'atterraggio sta fra **22 e 30 ore**.
+
+**Lo scarto della `009` non va letto come velocità di esecuzione**, ed è la seconda volta che il progetto incontra questo caso — il primo fu la `007a`, ~2 ore contro 4. La causa è la stessa: **il lavoro analitico era già stato fatto nella spec.** Le otto decisioni `V1`-`V8` erano argomentate per intero prima del piano, e l'implementazione le ha trasposte invece di prenderle. La differenza rispetto alla `007a` è che qui il primo punto di fermata ha revisionato una spec da 422 righe, e quel costo non compare nei timestamp della feature perché è stato speso dalla regia.
 
 Le stime di `004`, `006`, `007` e `010` includono la **revisione in contesto pulito e la chiusura dei rilievi** — circa un'ora ciascuna. Era il rischio aperto lasciato dalla 002, dove quel costo era stato l'intero scostamento; è chiuso incorporandolo invece che continuando a scoprirlo a consuntivo. La conseguenza è che `007` sale a 8 ore e raggiunge `008` fra le feature che vanno scomposte prima di essere aperte, non dopo.
 
@@ -227,12 +229,42 @@ Lascia tre artefatti nuovi — `scripts/build_kpi_measures.py`, [`reports/kpi_me
 | `R5a` — la ragione registrata per l'unico taglio in costruzione è contraddetta dalla tabella che la precede | revisione `008b` | ✅ **risolto** con nota in loco, che dichiara le due letture e non sceglie fra loro |
 | `R5b`, `R6` — il file è dichiarato pubblicabile mentre lo stesso documento ne registra una riga tronca a schermo | revisione `008b` | ✅ **indeboliti**: ritirata la rivendicazione. La riga tronca si dichiara, non si ripara — il file è superato |
 | `R18` caso 4 — le prove manuali eseguite sono dieci, non undici | revisione `008b` | ✅ **risolto** in entrambi i punti in cui la frase compare |
-| `R1`, `R2`, `R7`, `R8`, `R14`, `R17`, `R19`, `R21` — il testo dice cosa non concludere e mai cosa si può concludere | revisione `008b` | ⬜ issue [`#28`](https://github.com/Valvln/streamwave-bi/issues/28) — **requisito della `009`** per la sostanza, della `010a` per l'impaginazione |
+| `R1`, `R2`, `R7`, `R8`, `R14`, `R17`, `R19`, `R21` — il testo dice cosa non concludere e mai cosa si può concludere | revisione `008b` | 🟡 issue [`#28`](https://github.com/Valvln/streamwave-bi/issues/28) — **sostanza chiusa dalla `009`**: la risposta esiste ed è pubblicata. Resta l'impaginazione alla `010a` e la resa a schermo alla `010b` |
 | `R3`, `R4`, `R9`, `R10`, `R11`, `R12`, `R13`, `R20`, `R22` — difetti localizzati del testo a schermo | revisione `008b` | ⬜ issue [`#29`](https://github.com/Valvln/streamwave-bi/issues/29) — alla `010b`, che riscrive la narrazione da zero |
 | `R15`, `R16`, `R18` (casi 1-3), `R23`, `R24`, `R25` — difetti dei documenti di feature | revisione `008b` | ⬜ issue [`#30`](https://github.com/Valvln/streamwave-bi/issues/30) — alla `011`, con l'arretrato del tracker |
 | `#26`, `#27` — aperte dalla `008b` durante la costruzione | `008b` | ⬜ aperte |
 
 **Il `.pbix` a quattro pagine resta sul disco di Valerio e non viene toccato.** Non è pubblicabile, non è versionato, e la `010b` lo sostituisce. Le tre impostazioni fragili dell'issue `#20` restano da riverificare a ogni riapertura, `010b` inclusa.
+
+### Esito della `009` — chiusa il 2026-08-29
+
+**È la feature per cui il progetto esiste, ed è costata ~1,5 ore di sessione contro le 6 stimate.** Lo scarto è quasi tutto lavoro spostato a monte: le otto decisioni della spec erano argomentate prima del piano, e la revisione della regia al primo punto di fermata le ha verificate una per una contro le fonti reali. Vale la nota sulla misura del tempo, con un'aggravante nuova — parte del costo di questa feature è stato pagato dalla regia e non compare in alcun timestamp del branch.
+
+**Che cosa ha prodotto.** [`docs/raccomandazione.md`](raccomandazione.md), ottavo documento sotto controllo di coerenza e settimo in severità stretta, 125 marcatori. Più la decisione `D12` che fissa l'operatore mancante di `C2` in [`kpi_operators.md`](kpi_operators.md), e le voci nuove dell'artefatto — soglia, esito booleano, margine, verdetto congiunto — dentro `reports/kpi_measures.json`, senza creare un sesto artefatto.
+
+**La risposta è sì**, nella forma che il business case aveva pre-scritto per l'esito «tre condizioni su tre»: *l'argomento di coerenza è sostenuto, l'espansione è un'estensione del catalogo esistente*. Non che sia redditizia — che sarebbe coerente.
+
+**Ciò che rende la risposta difendibile non è la risposta**: è che nessuno l'ha scelta. La regola a tre condizioni e la lettura di ciascun esito erano pubblicate in [`business_case.md`](business_case.md) §3 **prima che qualunque numero esistesse**. Questa feature ha fissato l'unico operatore che mancava, argomentando la scelta con le opzioni scartate, e ha applicato la regola. Il verdetto non è un giudizio della sessione che lo pubblica — è l'esecuzione di un criterio pubblico su valori già misurati, ed è la sola forma in cui una conclusione poteva comparire in questo repository senza contraddire il principio I.
+
+**La revisione ha risposto sì al metro su cui la `008b` era stata fermata.** Dodici rilievi, nessuno dei quali tocca il verdetto; nelle parole del verbale, *«un decisore che non ha letto nulla, leggendo il solo deliverable, conclude qualcosa — e ciò che conclude è in larga parte ciò che il documento vuole»*. La parte utile del verbale non sono i rilievi ma la sezione che elenca i **tre punti in cui ciò che il lettore conclude diverge da ciò che il documento vuole**: uscirà con `pop` in testa, uscirà con una cifra in euro, e non uscirà in grado di giudicare il limite che il documento stesso definisce il più importante. Due difetti di estrazione e uno di completezza — una categoria che nessuna revisione precedente aveva nominato, e che vale per ogni artefatto destinato a essere citato fuori contesto.
+
+**La chiusura è andata oltre la regola del 2026-08-22, e la decisione è della regia.** Nove rilievi su dodici erano nel perimetro deciso; gli altri tre si sono chiusi da soli perché la correzione dei maggiori li conteneva. Nessuna issue è stata aperta. Il blocco di chiusura lo dichiara esplicitamente — *«non era l'esito atteso»* — perché un arretrato vuoto, in un progetto che ha istituito il rinvio come regola, va spiegato invece che esibito.
+
+**La chiusura più interessante è `R2`, e non per la correzione.** Il rilievo osservava che una tabella a tre basi di abbonati pubblicava nove importi in euro — i valori più citabili del documento e i meno difesi. La feature non ha scelto nessuna delle tre vie proposte: ha **eliminato la tabella**, sostituendola con una riga sola a base convenzionale dichiarata. La ragione registrata è che la tabella revocava di fatto la decisione della revisione `001` di non quantificare alcuna base utenti — una decisione presa da un'altra feature, che questa non aveva titolo per riaprire di fatto mentre la citava come vincolo.
+
+**Un ritrovamento, registrato e non chiuso**: `kpi_operators.md` §9 usa la formulazione «non è scalabile» che `bq3_scenarios.md` §8 dichiara falsa. Non è un rilievo della revisione — il revisore non aveva quel documento — ma del censimento delle copie condotto in fase di ricerca, che è precisamente il presidio istituito in risposta al limite strutturale trovato chiudendo la `008b`. Issue [`#31`](https://github.com/Valvln/streamwave-bi/issues/31).
+
+## Debito della feature 009
+
+| Voce | Origine | Stato |
+|---|---|---|
+| `R1`-`R9` — le due fonti mai nominate, gli importi in euro non difesi, il benchmark irriconoscibile, e sei difetti minori | revisione `009` | ✅ **risolti**, `R9` con l'affermazione ritirata nella sua forma generale e sostituita da una più stretta |
+| `R10`, `R11`, `R12` — tre rilievi di gravità bassa destinati al tracker | revisione `009` | ✅ **risolti** fuori dal perimetro deciso: la correzione dei rilievi maggiori li conteneva |
+| `kpi_operators.md` §9 usa la formulazione «non è scalabile», dichiarata falsa da `bq3_scenarios.md` §8 | ritrovamento del censimento delle copie, `009` | ⬜ issue [`#31`](https://github.com/Valvln/streamwave-bi/issues/31) — alla `011` con l'arretrato |
+| `#17` — `C2` e il terzo vincolo mai nominati in `kpi_measures.md` | revisione `007b` | ✅ **chiusa nella sostanza**: §4 del documento pubblica ora `C2`, la soglia e il margine. Resta da chiudere sul tracker, che è azione di Valerio |
+| `#28` — il testo dice cosa non concludere e mai cosa si può concludere | revisione `008b` | 🟡 **chiusa nella sostanza**: la risposta esiste ed è pubblicata. L'impaginazione resta alla `010a`, la resa a schermo alla `010b` |
+
+**Il documento più esposto del progetto è ora quello che nessuno penserebbe di controllare.** Lo osserva il revisore e va tenuto: `docs/raccomandazione.md` dipende dalla versione `2` della tabella dei mood, e il contratto di [`content_taxonomy_bridge.md`](content_taxonomy_bridge.md) §5 stabilisce che una sua revisione **invalida** i valori invece di correggerli. Se la tabella passasse a `3`, questa pagina sarebbe la prima da invalidare e l'ultima che qualcuno andrebbe a guardare.
 
 ### Il verdetto mancante — decisione della regia, 2026-08-28
 
@@ -270,7 +302,7 @@ Sono superati il `.pbix` a quattro pagine e il contratto di narrazione della `00
 
 #### La sequenza, e perché l'ordine conta più del numero
 
-1. **`009` — il verdetto e la raccomandazione** (~6 h, nessuna GUI). Pubblica `C2`, il verdetto congiunto e il margine; scrive la raccomandazione: la risposta, con quale segmento entrare, quanto vale, sotto quali condizioni cambierebbe.
+1. **`009` — il verdetto e la raccomandazione** (~6 h, nessuna GUI). Pubblica `C2`, il verdetto congiunto e il margine; scrive la raccomandazione: la risposta, con quale segmento entrare, quanto vale, sotto quali condizioni cambierebbe. — ✅ **conclusa il 2026-08-29 in ~1,5 h**, tutti e cinque i prodotti consegnati. Vedi [Esito della `009`](#esito-della-009--chiusa-il-2026-08-29).
 2. **`010a` — disegno del report a 8-12 pagine** (~6 h) e le misure e visuali nuove che richiede.
 3. **`010b` — costruzione e narrazione** (~8 h), con la stessa struttura a tre punti di fermata che ha retto su `008a`.
 4. **`011` — case study** (~6 h), che raccoglie anche l'arretrato del tracker.
@@ -278,6 +310,10 @@ Sono superati il `.pbix` a quattro pagine e il contratto di narrazione della `00
 **La `009` viene prima del disegno, e non è un dettaglio di sequenza.** La dashboard attuale è organizzata per framework di KPI — una pagina per domanda di business — cioè è un inventario. Un report da analista è organizzato per argomento: la domanda, la risposta, perché, che cosa la ribalterebbe, quanto vale, che cosa costa. Le pagine nuove devono essere quella spina, e non si impagina lungo un argomento che non è ancora scritto. È lo stesso errore di ordine che il progetto ha già evitato due volte — il contratto prima della costruzione — applicato un livello più in alto.
 
 **Sulla base utenti.** La revisione della `001` decise di non quantificare alcuna base di abbonati, e il rilievo `R8` della `008b` mostra il prezzo: a schermo resta l'invito a moltiplicare senza il presidio che lo qualificava, davanti a un lettore che una stima di abbonati ce l'ha — *«è la ragione per cui è nella stanza»*. La chiusura non è inventare un numero: è una **tabella di sensibilità in cui il moltiplicatore lo mette chi legge**, dichiarata come illustrazione parametrica. Non è un numero senza fonte, e spetta alla `009`.
+
+> **Esito — 2026-08-29.** La `009` ha costruito la tabella e poi **l'ha eliminata**, sul rilievo `R2` della propria revisione. Il revisore osservava che tre basi di riferimento per tre scenari producevano nove importi in euro — gli oggetti più citabili del documento e i meno difesi — e che nessuna quantità di cautele in prosa impedisce a una cifra a sette zeri di uscire dalla stanza da sola. Al suo posto una riga a base convenzionale dichiarata, che dà il fattore di conversione senza quantificare nulla.
+>
+> **La decisione qui sopra non era sbagliata, ed era stata presa prima**: era la forma giusta del problema. Ciò che la revisione ha mostrato è che una tabella a più basi *è* una quantificazione agli occhi di chi legge, per quanto sia dichiarata parametrica — e che pubblicarla avrebbe revocato di fatto la decisione della revisione `001` mentre la si citava come vincolo. Vale la pena registrarlo: è il secondo caso in questo progetto in cui **è caduta la misura e non il metro**, dopo il ritiro della pubblicabilità della `008b`.
 
 **Il porting su Tableau cade.** Era già *stretch, primo a cadere* dal 2026-08-08. Aggiunge uno strumento, non una risposta, e nessuna delle domande di business ne dipende.
 
@@ -706,11 +742,14 @@ La seconda: «se ne sposta zero non è un successo, è un ritrovamento». Il val
 | 22 → 23 agosto | ~6,5 h di sessione + ~3 h alla GUI (`E9`, esclusa dalla stima) | `007b` ✅ conclusa, revisione (14 rilievi) e verbale inclusi; il confronto con Power BI ha trovato e chiuso il difetto di tipizzazione sulle colonne di mood |
 | 24 → 25 agosto | ~9 h fra sessione e GUI (stimate 5) | `008a` ✅ conclusa, revisione (25 rilievi, il numero più alto del progetto) e verbale inclusi; due difetti di caricamento trovati e corretti in costruzione |
 | 26 → 29 agosto | ~6,5 h fra sessione e GUI (stimate 4) | `008b` 🟥 costruita, revisionata (25 rilievi) e **chiusa senza raggiungere il proprio obiettivo**; la dichiarazione di pubblicabilità è stata ritirata |
-| **dal 29 agosto** | giornate piene, ~6 h/giorno | `009`, `010a`, `010b`, `011`, più ~1,7 h di debito testuale |
+| 29 agosto | ~1,5 h di sessione (stimate 6) | `009` ✅ conclusa, revisione (12 rilievi, tutti chiusi) inclusa. **Il progetto ha risposto alla propria domanda** |
+| **dal 30 agosto** | giornate piene, ~6 h/giorno | `010a`, `010b`, `011`, più ~1,7 h di debito testuale |
 
 > **Riapertura dell'atterraggio — 2026-08-28.** Le cinque righe qui sotto raccontano la stima come si è mossa fino al 25 agosto e **restano**: erano vere quando sono state scritte, e la loro sequenza è essa stessa un dato sulla qualità delle previsioni di questa roadmap. Non descrivono più il piano. La decisione del 28 agosto aggiunge ~17,5 ore e riporta l'atterraggio a **1-3 settembre** nella stima, **fino al 5** con il fattore di sforamento che le due feature GUI hanno mostrato. La differenza fra le due date è quasi tutta `010b`.
 >
 > Un giorno del ritardo non è nuovo lavoro: è la `008b` costruita e poi abbandonata. Va contato come speso, perché lo è, ed è ciò che ha reso visibile il difetto.
+>
+> **Aggiornamento — 2026-08-29.** La `009` è chiusa in ~1,5 ore contro 6, e l'atterraggio torna a **31 agosto - 2 settembre**, fino al 4 con il fattore di sforamento delle feature GUI. Restano ~21,7 ore. La differenza fra le due date resta quasi tutta `010b`, che è la sola feature GUI rimasta e l'unica voce del piano su cui la stima di questo progetto ha storicamente sbagliato di molto.
 
 Atterraggio stimato al 25 agosto: **27-28 agosto**, con `009` escluso. Era 21-22 prima dell'ancoraggio a benchmark della `004`, poi 24-25 con la finestra non pianificata del 12-14 agosto, poi 23-24 dopo le chiusure sotto stima di `003` e `004`, poi di nuovo 24-25 con la materializzazione del modello, poi 26-27 il mattino del 21 agosto, poi 25-26 la sera stessa con la `007a` sotto stima. Restano **~11,7 ore**, cioè meno di due giorni pieni. Lo sforamento della `008a` — ~4 ore, il secondo del progetto dopo la `007b` — sposta l'atterraggio di un altro giorno, oltre la scadenza dell'abbonamento del 26: la pubblicazione di prova, già dichiarata caduta per la catena delle dipendenze e poi per il margine, ora cade anche perché la finestra si è chiusa.
 
