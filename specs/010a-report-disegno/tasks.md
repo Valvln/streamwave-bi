@@ -84,17 +84,17 @@
 - [x] T027 Eseguire le prove `P2` e `P3`: che ogni pagina dichiari le cinque voci obbligatorie, e che nessun valore compaia come cifra trascritta
 - [x] T028 Eseguire il censimento delle affermazioni in doppia copia di `quickstart.md` §3, confrontando ciascuna con l'originale **prima** che la revisione cominci
 - [x] T029 Compilare l'esito in coda a `quickstart.md` §4 con gli scostamenti e i ritrovamenti, scrivendolo mentre le prove vengono eseguite e non a memoria alla fine
-- [ ] T030 Consegnare alla revisione in contesto pulito il perimetro composto secondo il piano — `docs/raccomandazione.md` e il contratto — dichiarando che la domanda verificata è se il disegno regga la spina, non se il contratto si legga da solo
-- [ ] T031 Scrivere e committare `specs/010a-report-disegno/review.md` quando la revisione torna, **prima** di toccare il contratto, con i quattro obblighi di `CLAUDE.md`
-- [ ] T032 Chiudere i soli rilievi strettamente necessari — quelli senza cui il deliverable afferma il falso o pubblica un valore che non regge — e aprire una issue per ciascun rinvio
-- [ ] T033 Scrivere il blocco di chiusura in coda a `review.md`, distinguendo risolto, indebolito e rinviato, e nominando l'issue per ogni rinvio
+- [x] T030 Consegnare alla revisione in contesto pulito il perimetro composto secondo il piano — `docs/raccomandazione.md` e il contratto — dichiarando che la domanda verificata è se il disegno regga la spina, non se il contratto si legga da solo
+- [x] T031 Scrivere e committare `specs/010a-report-disegno/review.md` quando la revisione torna, **prima** di toccare il contratto, con i quattro obblighi di `CLAUDE.md`
+- [x] T032 Chiudere i soli rilievi strettamente necessari — quelli senza cui il deliverable afferma il falso o pubblica un valore che non regge — e aprire una issue per ciascun rinvio
+- [x] T033 Scrivere il blocco di chiusura in coda a `review.md`, distinguendo risolto, indebolito e rinviato, e nominando l'issue per ogni rinvio
 
 ---
 
 ## Fase 7 — Chiusura
 
-- [ ] T034 Allineare `README.md`: riga nella tabella di stato, deliverable elencato, prosa dei deliverable estesa, `Setup` e `Struttura` allineati
-- [ ] T035 Riportare alla regia l'esito: quante pagine e quale parte dell'argomento porta ciascuna, quali misure e visuali nuove la `010b` dovrà costruire, quali rilievi chiusi e quali rinviati con i numeri delle issue, e ogni divergenza fra il disegno e ciò che `docs/raccomandazione.md` afferma
+- [x] T034 Allineare `README.md`: riga nella tabella di stato, deliverable elencato, prosa dei deliverable estesa, `Setup` e `Struttura` allineati
+- [x] T035 Riportare alla regia l'esito: quante pagine e quale parte dell'argomento porta ciascuna, quali misure e visuali nuove la `010b` dovrà costruire, quali rilievi chiusi e quali rinviati con i numeri delle issue, e ogni divergenza fra il disegno e ciò che `docs/raccomandazione.md` afferma
 
 ---
 

@@ -126,3 +126,15 @@ I tre di [data-model.md](./data-model.md) §5, invariati:
 **Nessuno richiede una nota in loco**: nessuno è una divergenza fra un valore pubblicato e il suo artefatto.
 
 **Nessuna divergenza è stata trovata fra il disegno e ciò che `docs/raccomandazione.md` afferma.**
+
+### La revisione in contesto pulito
+
+Eseguita il 2026-08-29 da un subagent isolato, con il perimetro composto secondo [plan.md](./plan.md). Verbale in [review.md](./review.md).
+
+**Esito sulla domanda**: il disegno regge la spina dell'argomento, «sostanzialmente e non solo formalmente».
+
+**Otto rilievi**: tre sostanziali (`R1`, `R2`, `R3`), cinque minori. Cinque chiusi dentro la feature per decisione della regia — che ha allargato la soglia rispetto alla proposta di questa sessione, includendo `R3` — e tre rinviati alle issue [`#32`](https://github.com/Valvln/streamwave-bi/issues/32), [`#33`](https://github.com/Valvln/streamwave-bi/issues/33), [`#34`](https://github.com/Valvln/streamwave-bi/issues/34).
+
+**Che cosa la chiusura di `R1` ha cambiato nel disegno**, ed è la modifica più sostanziale che la revisione ha prodotto: i segmenti a domanda non misurata **escono dall'ordinamento della graduatoria** invece di occuparne la coda. Era la terza opzione che il contratto non aveva considerato, fra troncare la coda e ordinare tutto.
+
+**Verifiche rieseguite dopo le correzioni**: controllo di coerenza verde, `P2` invariata su tutte e dieci le pagine, tutti i rimandi interni risolvono.

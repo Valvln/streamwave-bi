@@ -257,3 +257,48 @@ Elenco ciò che a mio giudizio **non va toccato**, perché una correzione dei ri
 # — Fine del verbale del revisore —
 
 *Il blocco che segue è di chi è stato revisionato e non fa parte della revisione. Il testo sopra non è stato modificato.*
+
+---
+
+## Blocco di chiusura — esito della verifica e decisioni prese
+
+**Data**: 2026-08-29 · **Autore**: la sessione esecutiva della `010a`
+
+### La decisione sulla ripartizione
+
+`CLAUDE.md` prescrive dal 2026-08-22 che una feature chiuda **solo i rilievi strettamente necessari** e rinvii gli altri al tracker. La mia proposta iniziale rientrava in quella soglia — chiudere `R1`, `R2`, `R4`, `R5` e rinviare `R3` con gli altri.
+
+**La regia ha deciso diversamente: chiudere tutti i rilievi da `R1` a `R5`, `R3` compreso.** È una decisione presa con il contesto che questa sessione non ha, ed è registrata qui perché il rinvio di `R3` sarebbe stato altrimenti la scelta prevedibile.
+
+### Come ogni rilievo è stato chiuso
+
+| Rilievo | Gravità | Esito | Come |
+|---|---|---|---|
+| `R1` | sostanziale | **risolto** | il contratto prende la terza opzione che il revisore osservava mancante: i segmenti a domanda non misurata **escono dall'ordinamento** e restano nella pagina, in un blocco senza colonna di posizione. Nuova §10.2 |
+| `R2` | sostanziale | **risolto** | nuova §10.1, che dichiara mal posta la domanda «da quale segmento entrare» e oppone alla lettura per alternative **tre presidi strutturali** invece di affidarla al testo |
+| `R3` | sostanziale | **risolto** | §5 motiva ora la terza posizione contro entrambe le alternative, e dichiara che la ripetizione dell'argomento è dimezzata con la ragione per cui a schermo la navigazione compra ciò che nel documento comprava la ripetizione |
+| `R4` | minore | **risolto** | corretti i nove rimandi: `§11` → `§13.1` sulle misure, `§12` → `§15` sulla nube. Rinumerate le sottosezioni di §10, che una nuova sezione aveva reso ambigue. Chiarito che `data-model.md` e `docs/data_model.md` sono due file diversi |
+| `R5` | minore | **risolto** | l'affermazione «una sola cifra compare in tutto il documento» era materialmente falsa ed è stata sostituita dall'enumerazione delle tre specie di cifra che il documento contiene, con la regola che le governa |
+| `R6` | minore | **rinviato** | issue [`#32`](https://github.com/Valvln/streamwave-bi/issues/32) |
+| `R7` | minore | **rinviato** | issue [`#33`](https://github.com/Valvln/streamwave-bi/issues/33) |
+| `R8` | minore | **rinviato** | issue [`#34`](https://github.com/Valvln/streamwave-bi/issues/34) |
+
+**Nessun rilievo è stato chiuso indebolendo un'affermazione.** È l'esito meno frequente e va dichiarato quando accade: qui non è accaduto. `R5` è il caso che più vi si avvicina — un'affermazione falsa sostituita da una più stretta — ma la nuova formulazione **dice di più**, non di meno: enumera tre specie di cifra dove la precedente ne dichiarava una sola.
+
+### Che cosa la chiusura di `R1` ha prodotto oltre alla correzione
+
+**Una asimmetria fra le pagine 7 e 8, dichiarata nel contratto invece di essere lasciata scoprire.** Il presidio della pagina 8 — togliere la posizione — non è trasferibile alla pagina 7: una dispersione non può sottrarre un punto a un asse senza toglierlo dalla vista, e la marcatura resta lì l'unico presidio disponibile. La differenza non è di rigore ma di forma del dato, ed è scritta a §10.2.
+
+**Un costo dichiarato**: la pagina 8 porta due tabelle invece di una, e chi cerca un segmento deve sapere in quale guardare.
+
+### Che cosa resta scoperto, e non è un rilievo del revisore
+
+**Nessuno ha verificato che il contratto si legga da solo.** È la conseguenza dichiarata della composizione del perimetro: il revisore ha ricevuto anche `docs/raccomandazione.md`, e chi ha letto entrambi non può più rispondere a quella domanda. Il presidio alternativo è la `010b`, che aprirà il contratto senza l'argomento accanto e scoprirà alla prima ora se qualcosa non si regge.
+
+### Verifiche rieseguite dopo le correzioni
+
+| Verifica | Esito |
+|---|---|
+| `check_audit_coherence.py` | ✅ verde |
+| `P2` — le cinque voci per pagina | ✅ tutte e dieci le pagine, invariato |
+| rimandi interni al contratto | ✅ tutti risolvono contro una sezione esistente |
