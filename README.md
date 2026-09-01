@@ -10,7 +10,7 @@ Tre domande di business guidano l'intero progetto:
 - **BQ2 — Segmento di ingresso**: quale segmento musicale è più coerente con il catalogo attuale?
 - **BQ3 — Impatto stimato**: quale impatto su engagement e revenue, simulato con assunzioni dichiarate?
 
-I principi non negoziabili del progetto — etichettatura di fonte e confidenza su ogni numero, riproducibilità totale, trasparenza sui limiti — sono in [`.specify/memory/constitution.md`](.specify/memory/constitution.md). Il metodo di lavoro che ne discende, incluso il modo in cui il lavoro è diviso fra sessioni di agent, è in [`CLAUDE.md`](CLAUDE.md); il piano e il suo scostamento in [`docs/roadmap.md`](docs/roadmap.md).
+I principi non negoziabili del progetto — etichettatura di fonte e confidenza su ogni numero, riproducibilità totale, trasparenza sui limiti — sono in [`.specify/memory/constitution.md`](.specify/memory/constitution.md). Il metodo di lavoro che ne discende, incluso il modo in cui il lavoro è diviso fra sessioni di agent, è in [`CLAUDE.md`](CLAUDE.md).
 
 ## Cosa questo progetto non è
 
@@ -26,7 +26,7 @@ I limiti analitici specifici di ogni singola analisi — cosa quel particolare K
 
 ## Stato
 
-Governance: [`constitution`](.specify/memory/constitution.md) v1.2.0 · [metodo di lavoro](CLAUDE.md) · [roadmap e stime](docs/roadmap.md)
+Governance: [`constitution`](.specify/memory/constitution.md) v1.2.0 · [metodo di lavoro](CLAUDE.md)
 
 | Feature | Deliverable | Stato |
 |---|---|---|
@@ -42,8 +42,9 @@ Governance: [`constitution`](.specify/memory/constitution.md) v1.2.0 · [metodo 
 | `008b` Dashboard — narrazione e limiti a schermo | il [contratto di narrazione](specs/008b-dashboard-narrative-polish/contracts/narrative-contract.md) e l'[esito della costruzione](specs/008b-dashboard-narrative-polish/quickstart.md) — il testo dei 32 blocchi portati a schermo | ⚠️ chiusa senza raggiungere il proprio obiettivo, [revisionata](specs/008b-dashboard-narrative-polish/review.md) |
 | `009` Il verdetto e la raccomandazione | [`docs/raccomandazione.md`](docs/raccomandazione.md) | ✅ conclusa, [revisionata](specs/009-verdetto-raccomandazione/review.md) |
 | `010a` Il report a dieci pagine — disegno | il [contratto di pagina](specs/010a-report-disegno/contracts/page-contract.md), che disegna il report che sostituisce la dashboard a quattro pagine | ✅ conclusa, [revisionata](specs/010a-report-disegno/review.md) |
+| `010b` Il report a dieci pagine — costruzione | il `.pbix` **non versionato**, preparato dal [contratto delle misure](specs/010b-report-costruzione/contracts/measures.md) e dal [contratto di narrazione](specs/010b-report-costruzione/contracts/narrative-contract.md) | ✅ conclusa, **implementazione modificata** ([nota dell'autore](specs/010b-report-costruzione/README.md)) |
 
-Le feature successive, le stime e il debito aperto sono in [`docs/roadmap.md`](docs/roadmap.md).
+Ogni feature conclusa ha la propria cartella sotto [`specs/`](specs/), con la spec, il piano e — dove esiste — il verbale di revisione.
 
 ## Il business case
 
@@ -121,7 +122,7 @@ Nessuna dipendenza da installare: gli script usano la sola libreria standard di 
 data/           # raw / interim / processed (gitignored) + benchmarks/ e curated/ (versionate: non riproducibili)
 docs/           # i documenti pubblicati: business case, audit, cleaning, scenari, modello dati,
                 #   criterio di mood, ponte tassonomia-mood, operatori delle misure,
-                #   misure dei KPI, raccomandazione, convenzioni, roadmap
+                #   misure dei KPI, raccomandazione, convenzioni
 reports/        # artefatti versionati: profilo, rendiconto delle trasformazioni, scenari BQ3 e
                 #   misure dei KPI (generati) + esito del confronto col motore DAX (curato a mano)
 scripts/        # utility riproducibili

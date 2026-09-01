@@ -9,7 +9,6 @@ Regola generale, da cui discendono quasi tutte le altre: **se una cosa non è sc
 | Documento | Cosa stabilisce | Chi lo modifica |
 |---|---|---|
 | [`.specify/memory/constitution.md`](.specify/memory/constitution.md) | i sei principi non negoziabili e i due gate di feature | solo per emendamento formale, con Sync Impact Report e bump di versione |
-| [`docs/roadmap.md`](docs/roadmap.md) | ordine delle feature, stime in ore, dipendenze, debito aperto, rischi | la sessione di regia |
 | `specs/NNN-nome/spec.md` | cosa la feature attiva deve fare e cosa non deve fare | la sessione esecutiva, tramite `/speckit.specify` |
 | `specs/NNN-nome/review.md` | verbale di revisione, dove esiste | una sessione di revisione in contesto pulito |
 | [`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md) | la grammatica con cui ogni numero pubblicato è legato all'artefatto che lo produce, e che cosa il controllo garantisce | la feature che estende la grammatica, con nota in coda alla tabella di provenienza |
@@ -18,9 +17,9 @@ La constitution prevale su tutto. Questo file non ne ripete i principi né i gat
 
 ## Ruoli delle sessioni
 
-**Sessione di regia.** Conosce la roadmap e l'esito atteso dell'intero progetto. Il suo output è **testo**: il contenuto delle spec e i prompt di consegna. Revisiona ciò che torna indietro, presidia i gate, misura lo scostamento fra stime e timestamp git.
+**Sessione di regia.** Conosce il piano di lavoro e l'esito atteso dell'intero progetto. Il suo output è **testo**: il contenuto delle spec e i prompt di consegna. Revisiona ciò che torna indietro, presidia i gate, misura lo scostamento fra stime e timestamp git.
 
-La regia **non esegue**: non apre branch, non invoca i comandi `/speckit.*`, non crea gli artefatti sotto `specs/`. Le uniche eccezioni sono gli artefatti di governance che le appartengono — `docs/roadmap.md` e gli emendamenti alla constitution — che scrive direttamente e propone al commit.
+La regia **non esegue**: non apre branch, non invoca i comandi `/speckit.*`, non crea gli artefatti sotto `specs/`. Le uniche eccezioni sono gli artefatti di governance che le appartengono — gli emendamenti alla constitution e questo file — che scrive direttamente e propone al commit. Il piano di lavoro con le stime e lo scostamento è suo e **non è versionato**: resta locale, perché è lo strumento con cui la regia lavora e non un artefatto che il progetto pubblica.
 
 **Sessione esecutiva.** Riceve un prompt di consegna ed esegue: apre il branch, invoca i comandi, scrive i file, implementa. Si ferma dove il prompt le dice di fermarsi e riporta cosa ha prodotto.
 
@@ -82,7 +81,7 @@ Quando una feature scopre che un artefatto già mergiato contiene un valore erra
 
 Se l'affermazione originale è **ambigua e non sbagliata**, non va riscritta. La nota riporta le letture possibili con i rispettivi valori e obbliga chi la cita a valle a dichiarare quale adotta: scegliere al posto di chi ha scritto è una decisione, e spetta a chi ha il contesto per prenderla.
 
-Non tutto ciò che è sbagliato si corregge nel momento in cui lo si trova. Se il difetto è già assegnato a un'altra feature o al debito testuale della roadmap, la feature che lo incontra lo registra come ritrovamento e si ferma lì — precedente: FR-032 della 002.
+Non tutto ciò che è sbagliato si corregge nel momento in cui lo si trova. Se il difetto è già assegnato a un'altra feature o al debito testuale sul tracker, la feature che lo incontra lo registra come ritrovamento e si ferma lì — precedente: FR-032 della 002.
 
 **Perché in loco e non un'errata.** È una scelta di metodo, non una constatazione, e va difesa come tale: un'errata separata lascia intatto il documento originale ma pretende che chi legge ne conosca l'esistenza; una nota in loco sporca il documento ma raggiunge chiunque legga il passaggio. Per artefatti destinati a essere letti da fuori — che è ciò che questo progetto produce — vince la seconda.
 
@@ -108,7 +107,7 @@ Regola di progetto, nata come decisione **D5 della feature 003** e valida da qui
 - **il corollario (b) e la forma «numerale in lettere ancorato» convivono.** Il controllo continua ad accettare quella forma perché la usa il documento della 002; i documenti nuovi non la usano, perché (b) è la regola più severa. La forma non viene rimossa dalla grammatica: rimuoverla romperebbe un artefatto già mergiato per guadagnare una semplificazione che nessuno sta chiedendo;
 - **un fatto misurato non deve mai portare il marcatore di non-misurato.** È una dichiarazione materialmente falsa, ed è la categoria che il controllo non può presidiare: contro di essa esiste solo la revisione in contesto pulito.
 
-**La severità stretta di (c) non è retroattiva**: vale per i documenti nuovi ed è dichiarata per documento dentro `scripts/check_audit_coherence.py`. Il documento della 002 resta sotto il regime ad avvisi finché il debito registrato in roadmap non lo chiude.
+**La severità stretta di (c) non è retroattiva**: vale per i documenti nuovi ed è dichiarata per documento dentro `scripts/check_audit_coherence.py`. Il documento della 002 resta sotto il regime ad avvisi finché il debito registrato sul tracker non lo chiude.
 
 La grammatica dei marcatori, le esclusioni strutturali e il confine della garanzia stanno in [`docs/convenzioni-marcatura.md`](docs/convenzioni-marcatura.md), che è la fonte unica: un documento pubblicato non delega la propria chiave di lettura a una cartella sotto `specs/`, che il lettore esterno non ha ragione di aprire.
 
@@ -116,7 +115,7 @@ La grammatica dei marcatori, le esclusioni strutturali e il confine della garanz
 
 - **Lingua**: prosa in italiano, sempre. Identificativi tecnici in inglese: KPI, misure DAX, colonne, tabelle, file, cartelle, branch. Il progetto non verrà tradotto — non scrivere nulla in inglese "per sicurezza".
 - **Commit**: in italiano, imperativo, con prefisso convenzionale (`feat:`, `fix:`, `docs:`, `chore:`, `refactor:`). La history è parte dell'artefatto da portfolio.
-- **Unità di stima**: una giornata lavorativa è **6-7 ore di lavoro effettivo**, non un giorno di calendario (constitution v1.0.2, principio III). Le stime della roadmap sono in ore. Una feature può attraversare più giorni; deve però lasciare il repository coerente **alla fine di ogni sessione**.
+- **Unità di stima**: una giornata lavorativa è **6-7 ore di lavoro effettivo**, non un giorno di calendario (constitution v1.0.2, principio III). Le stime del piano di lavoro sono in ore. Una feature può attraversare più giorni; deve però lasciare il repository coerente **alla fine di ogni sessione**.
 - **Nessun numero senza fonte**: ogni valore pubblicato dichiara provenienza e confidenza (principio I). Un numero che compare solo in prosa, senza uno script che lo rigeneri, è un debito — è il rilievo R8 della feature 001.
 
 ## Checklist di consegna di un prompt

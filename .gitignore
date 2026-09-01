@@ -23,6 +23,10 @@ specs/*/.spec-context.json
 # Output della regia e input di una sessione esecutiva: non sono artefatti del
 # progetto. 
 *.local.md
+# Il piano di lavoro della regia: stime, scostamento, debito e rischi. Strumento
+# di lavoro, non artefatto pubblicato. Uscito dal versionamento il 2026-08-29;
+# ciò che vi era citato da fuori è stato migrato nei documenti che lo citavano.
+docs/roadmap.md
 
 # --- Credentials ---
 .env
