@@ -55,19 +55,19 @@
 
 **Obiettivo**: che ogni misura esista e porti il valore che l'artefatto pubblica, **prima** che qualunque visuale la consumi. Una visuale costruita su una misura non verificata è una visuale da rifare.
 
-- [ ] T016 ★ Aprire il `.pbix` e riverificare le tre impostazioni dell'issue [`#20`](https://github.com/Valvln/streamwave-bi/issues/20), **leggendo l'issue e non una copia**, prima di leggere qualunque valore (prova 1)
-- [ ] T017 Verificare che le tre misure della `008a` — le due soglie del quadrante e `c3_high_high_exists` — siano nel modello; se mancano, riscriverle dal testo di `contracts/measures.md` §3 (prova 3)
-- [ ] T018 Scrivere `c2_threshold` (`M3`) nel modello, dal testo di `contracts/measures.md` §2.3
-- [ ] T019 Scrivere `c2_overlap_above_threshold` (`M2`) nel modello, dal testo di `contracts/measures.md` §2.2
-- [ ] T020 Scrivere `c2_margin` (`M4`) nel modello, dal testo di `contracts/measures.md` §2.4
-- [ ] T021 Scrivere `c2_margin_share_of_value` (`M5`) nel modello, dal testo di `contracts/measures.md` §2.5
-- [ ] T022 Scrivere `verdict_conditions_satisfied` (`M1`) nel modello, dal testo di `contracts/measures.md` §2.1
-- [ ] T023 Scrivere `arpu_uplift_per_100k` (`M6`) nel modello, dal testo di `contracts/measures.md` §2.6; se una colonna calcolata risultasse più semplice, è equivalente e **va dichiarato nell'esito**
-- [ ] T024 Scrivere `quadrant_members_count` nel modello, dal testo di `contracts/measures.md` §3.3 — è la decisione `CP-4`
-- [ ] T025 ★ Confrontare **una volta** la lettura dal motore di ciascuna delle sei misure con il `display` della propria ancora (prova 2). **Una divergenza è un ritrovamento**, da annotare subito nella sezione di esito di `quickstart.md`
-- [ ] T026 Verificare che `bq3_scenarios` porti i sei valori senza alcuna relazione con il resto del modello (`FR-029`, prova 4)
-- [ ] T027 ★ Verificare `CP-3`: se la selezione si sincronizzi fra le pagine 7 e 8 come **evidenziazione e senza ricalcolare valori** (prova 5). Se ottenibile, rispondere anche all'issue [`#33`](https://github.com/Valvln/streamwave-bi/issues/33) — la riga si evidenzia dov'è, o si porta in vista? Se non ottenibile, l'issue [`#21`](https://github.com/Valvln/streamwave-bi/issues/21) **resta aperta** e diventa un ritrovamento
-- [ ] T028 Annotare in `quickstart.md` l'esito di T025 e T027, **mentre accade**
+- [x] T016 ★ Aprire il `.pbix` e riverificare le tre impostazioni dell'issue [`#20`](https://github.com/Valvln/streamwave-bi/issues/20), **leggendo l'issue e non una copia**, prima di leggere qualunque valore (prova 1)
+- [x] T017 Verificare che le tre misure della `008a` — le due soglie del quadrante e `c3_high_high_exists` — siano nel modello; se mancano, riscriverle dal testo di `contracts/measures.md` §3 (prova 3)
+- [x] T018 Scrivere `c2_threshold` (`M3`) nel modello, dal testo di `contracts/measures.md` §2.3
+- [x] T019 Scrivere `c2_overlap_above_threshold` (`M2`) nel modello, dal testo di `contracts/measures.md` §2.2
+- [x] T020 Scrivere `c2_margin` (`M4`) nel modello, dal testo di `contracts/measures.md` §2.4
+- [x] T021 Scrivere `c2_margin_share_of_value` (`M5`) nel modello, dal testo di `contracts/measures.md` §2.5
+- [x] T022 Scrivere `verdict_conditions_satisfied` (`M1`) nel modello, dal testo di `contracts/measures.md` §2.1
+- [x] T023 Scrivere `arpu_uplift_per_100k` (`M6`) nel modello, dal testo di `contracts/measures.md` §2.6; se una colonna calcolata risultasse più semplice, è equivalente e **va dichiarato nell'esito**
+- [x] T024 Scrivere `quadrant_members_count` nel modello, dal testo di `contracts/measures.md` §3.3 — è la decisione `CP-4`
+- [x] T025 ★ Confrontare **una volta** la lettura dal motore di ciascuna delle sei misure con il `display` della propria ancora (prova 2). **Una divergenza è un ritrovamento**, da annotare subito nella sezione di esito di `quickstart.md`
+- [x] T026 Verificare che `bq3_scenarios` porti i sei valori senza alcuna relazione con il resto del modello (`FR-029`, prova 4)
+- [x] T027 ★ Verificare `CP-3`: se la selezione si sincronizzi fra le pagine 7 e 8 come **evidenziazione e senza ricalcolare valori** (prova 5). Se ottenibile, rispondere anche all'issue [`#33`](https://github.com/Valvln/streamwave-bi/issues/33) — la riga si evidenzia dov'è, o si porta in vista? Se non ottenibile, l'issue [`#21`](https://github.com/Valvln/streamwave-bi/issues/21) **resta aperta** e diventa un ritrovamento
+- [x] T028 Annotare in `quickstart.md` l'esito di T025 e T027, **mentre accade**
 
 ---
 
