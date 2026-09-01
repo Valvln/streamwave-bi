@@ -14,9 +14,51 @@ La ragione per cui l'ordine conta più di quanto sembri: un criterio scritto dop
 git log --follow --oneline docs/mood_assignment_criteria.md data/curated/dim_category_mood.json
 ```
 
-Il piano che colloca questo passo è [`specs/006-content-taxonomy-bridge/plan.md`](../specs/006-content-taxonomy-bridge/plan.md); la decisione di processo che lo rende obbligatorio è `DA-1` di [`docs/roadmap.md`](roadmap.md), risolta il 2026-08-19.
+Il piano che colloca questo passo è [`specs/006-content-taxonomy-bridge/plan.md`](../specs/006-content-taxonomy-bridge/plan.md); la decisione di processo che lo rende obbligatorio — `DA-1`, presa dalla regia il 2026-08-19 — è trascritta qui sotto.
 
 **Sulla marcatura.** Questo documento non è fra quelli che `scripts/check_audit_coherence.py` verifica, e la ragione è nel piano (T7 della ricerca): al momento del suo commit la tabella che dovrebbe ancorare non esiste ancora, per costruzione. Usa comunque la grammatica di [`convenzioni-marcatura.md`](convenzioni-marcatura.md) sui sei identificativi di ancoraggio e sui nomi di categoria, perché sono esattamente i punti che chi verifica deve poter risolvere contro un artefatto invece di doverli accettare sulla parola.
+
+---
+
+## La decisione di processo — `DA-1`, 2026-08-19
+
+*Presa dalla regia prima che la `006` fosse aperta, e trascritta qui il 2026-08-29 perché è la fonte della regola che questo documento esegue. Era rimasta fino a quel giorno nel piano di lavoro, che non è un artefatto pubblicato.*
+
+**La questione.** Il piano iniziale prevedeva un componente che costruisse la tabella di corrispondenza generi → mood con un modello linguistico. Due strade: un LLM che **propone** le 42<!--#--> righe, con revisione riga per riga e versionamento di prompt, modello e data; oppure una tabella curata interamente a mano. Da decidere non era solo quale strada, ma se la prima fosse compatibile con la **decisione D1 della `001`**, che aveva respinto a verbale l'approccio a modello perché introduce «un modello non spiegabile a un board».
+
+**La risoluzione: un LLM propone, con il criterio scritto prima.** La compatibilità con `D1` si chiude, e la ragione va scritta perché è ciò che distingue una decisione riaperta da una aggirata. `D1` respingeva l'estrazione del tono dal campo `description` per due motivi — un modello non spiegabile a un board, e lo sfondamento del vincolo di giornata. Il primo non si applica qui, per tre<!--#--> differenze che non sono di grado:
+
+- **la scala.** Là erano 8.807<!--#--> titoli, un output che nessuno verifica riga per riga. Qui sono 42<!--#--> categorie per tre<!--#--> assi, cioè 126<!--#--> numeri, che una persona controlla in una seduta;
+- **la posizione del modello.** Là il modello sarebbe stato *dentro la pipeline*, e rieseguire l'analisi avrebbe significato rieseguirlo. Qui produce una **prima stesura**, l'esito si congela in una tabella versionata, e **nessuno script chiama mai il modello**. È la forma del benchmark della `004`: un passaggio non riproducibile il cui esito è congelato, con la derivazione a valle deterministica. Il principio V la ammette già;
+- **che cosa arriva al lettore.** Una tabella contestabile riga per riga. Da dove vengono i numeri è una questione di provenienza, non di opacità.
+
+Il secondo motivo di `D1` non decide in nessuna direzione: costruire 126<!--#--> valori a mano e revisionarne 126<!--#--> proposti sono costi dello stesso ordine, e nessuna delle due strade è stata scelta per rapidità.
+
+**L'obiezione che regge non è l'opacità, è l'ancoraggio.** La tabella è l'unico strato interpretativo del progetto e porta tre<!--#--> KPI su otto<!--#-->. Se un modello propone i valori, il lavoro del revisore scivola da autore a **ratificatore**, e chi rilegge 126<!--#--> numeri plausibili si ancora a quelli che ha davanti. È lo stesso meccanismo per cui nella `002` tre<!--#--> affermazioni derivate erano passate sotto un controllo verde: nessuno le aveva ricalcolate perché sembravano giuste.
+
+**Il presidio è l'ordine dei passi.** Il criterio di assegnazione si scrive e **si committa da solo, prima che qualunque valore esista** — è ciò che la nota di provenienza qui sopra dichiara e che la history git rende verificabile. Ne discende una misura che altrimenti non esisterebbe: **quante righe la revisione ha spostato rispetto alla proposta**. Se ne sposta zero non è un successo, è un ritrovamento, e va dichiarato come tale.
+
+**Che cosa la feature doveva produrre, in ordine**: il criterio, committato da solo; poi la proposta del modello, con prompt, modello e data versionati; poi la revisione riga per riga contro il criterio, con il conteggio degli spostamenti; poi la tabella congelata in un artefatto versionato, che nessuno script rigenera.
+
+### La governance della tabella
+
+Quattro<!--#--> domande, quattro<!--#--> risposte, decise insieme a `DA-1`.
+
+**Chi la costruisce**: la sessione della `006`, sul criterio che ha scritto per primo. **Chi la approva**: Valerio, sull'esito della revisione in contesto pulito, che riceve la sola tabella più il criterio e nient'altro. **Con quale criterio si contesta una riga**: quello scritto al primo passo — una contestazione è legittima se lo cita, e altrimenti è un'opinione sul mood di un genere, che non è contestabile perché non è verificabile. È la regola che §7 di questo documento applica.
+
+**Se le revisioni invalidino i valori già pubblicati**: sì, e il presidio è meccanico e non di buon senso. La tabella porta un **numero di versione**, e ogni valore pubblicato che ne dipende — `BQ1-K3`, `BQ2-K2`, `BQ2-K3` — dichiara su quale versione è stato calcolato. Il contratto di versione vive in §5 di [`content_taxonomy_bridge.md`](content_taxonomy_bridge.md).
+
+### Come è andata — eseguita dalla `006` il 2026-08-20
+
+I quattro<!--#--> passi sono stati eseguiti nell'ordine prescritto e la cronologia `git` lo dimostra: criterio `0d950e6`, proposta `acf18c1`, tabella congelata `57c4781`. La misura richiesta esiste e vale **2<!--#--> celle su 126<!--#-->** al congelamento, pubblicata come `MOOD.review.changes_count` — poi 3<!--#-->, dopo il chore del 2026-08-21 descritto nelle note in loco a §2 e §5.
+
+**Due cose sono andate diversamente da come la decisione le aveva previste, ed entrambe migliorano il disegno.**
+
+La prima: `DA-1` dava per scontato che la verifica producesse **contestazioni a singole righe**, e basta. Ne ha prodotta una seconda specie — i difetti del **criterio**, che una contestazione di riga non può contenere perché non riguarda una cella ma il metro. La tabella ha quindi un campo che il piano non prevedeva, `criterion_findings`.
+
+La seconda: «se ne sposta zero non è un successo, è un ritrovamento». Il valore è 2<!--#-->, non 0<!--#-->, quindi il caso previsto non si è dato — ma la ragione per cui era stato previsto si è data lo stesso: un conteggio basso non distingue una proposta aderente al criterio da un criterio che non dà appigli.
+
+**Ciò che la decisione aveva sottovalutato**: che il criterio potesse essere difettoso. Tutto il presidio è costruito sull'ordine — il metro scritto prima dei valori — e nessuna parte di esso chiede chi verifichi il metro. La risposta pratica è stata la verifica indipendente stessa, che ha trovato tre<!--#--> difetti applicandolo; è un esito fortunato, non un presidio, e va scritto come tale. I tre<!--#--> difetti sono `CF-1`, `CF-2` e `CF-3`, e il loro esito sta in §3 di [`content_taxonomy_bridge.md`](content_taxonomy_bridge.md).
 
 ---
 
@@ -80,7 +122,7 @@ La distinzione non è sottile, e determina l'assegnazione in ogni caso ambiguo:
 
 ### Nota in loco — 2026-08-21, chore `criterio-mood-cf1`
 
-La verifica indipendente della proposta (`006-content-taxonomy-bridge`) ha trovato che i tre tipi sopra non sono né esaustivi né esclusivi, e che la loro combinazione con il secondo segnale di §5 li fa contraddire. Il ritrovamento è registrato come `CF-1` e `CF-2` in [`docs/roadmap.md`](roadmap.md) § Debito della feature 006, con la ricognizione della regia del 2026-08-21 che ne ha corretto la forma.
+La verifica indipendente della proposta (`006-content-taxonomy-bridge`) ha trovato che i tre tipi sopra non sono né esaustivi né esclusivi, e che la loro combinazione con il secondo segnale di §5 li fa contraddire. Il ritrovamento è registrato come `CF-1` e `CF-2` in §3 di [`content_taxonomy_bridge.md`](content_taxonomy_bridge.md), con la ricognizione della regia del 2026-08-21 che ne ha corretto la forma.
 
 **La contraddizione (`CF-1`).** Un'etichetta generica, geografica o linguistica riceve qui il profilo centrale «per assenza di segnale»; un'etichetta di formato episodico a durata fissa riceve da §5 una cadenza più alta. `TV Shows`, `International TV Shows`, `British TV Shows`, `Korean TV Shows` e `Spanish-Language TV Shows` sono insieme geografiche o generiche **e** episodiche a durata fissa: le due regole prescrivono valori diversi sullo stesso asse per la stessa etichetta, e nessun testo di questo documento diceva quale prevale.
 

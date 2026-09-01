@@ -136,9 +136,9 @@ Le ragioni sono tre<!--#-->:
 
 **La terza ragione è più debole di come suona**, e conviene dirlo invece di lasciarla passare per la più forte. L'assenza di una numerosità non è un fatto del mondo: è una decisione presa nella revisione della `001`, cioè da questo stesso progetto. Usarla per concludere che la generazione stocastica era impossibile sarebbe circolare — si decide di non quantificare, e poi si usa l'assenza come dimostrazione. Ciò che si può dire onestamente è che, **date le decisioni di perimetro già prese**, quell'operazione non aveva più oggetto. Le prime due<!--#--> ragioni reggono da sole e non dipendono da alcuna scelta di perimetro.
 
-### Scostamento dichiarato dalla roadmap
+### Scostamento dichiarato dal piano di lavoro
 
-La roadmap prescrive per questa feature «uno script con seed fisso genera il dataset». **Non è stato fatto**, e la divergenza va registrata invece che assorbita.
+Il piano di lavoro prescriveva per questa feature «uno script con seed fisso genera il dataset». **Non è stato fatto**, e la divergenza va registrata invece che assorbita.
 
 La formulazione precede le decisioni di perimetro che le hanno tolto l'oggetto: quando è stata scritta, engagement e base utenti erano ancora dentro. Usciti quelli, non resta nulla da generare — e un seed fisso in una derivazione che non estrae nulla sarebbe decorativo. Un seed dichiara che esiste un'estrazione riproducibile; dove l'estrazione non c'è, dichiara il falso.
 

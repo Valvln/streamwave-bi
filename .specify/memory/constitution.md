@@ -134,6 +134,15 @@ Template dipendenti:
 
 TODO differiti: nessuno. Lo stack tecnico non è vincolato di proposito (vedi sezione
 "Vincoli di Dominio e di Dato"): la scelta è demandata alla fase /speckit.plan.
+
+NOTA IN LOCO — 2026-08-29
+-------------------------
+docs/roadmap.md non fa più parte del repository: era il piano di lavoro della regia, non un
+artefatto pubblicato, ed è uscito dal versionamento il 2026-08-29. I due rinvii che i Sync
+Impact Report qui sopra le fanno restano nel testo perché un verbale di emendamento non si
+riscrive. Dove ora vive ciò che citavano:
+  - la decisione DA-1, in docs/mood_assignment_criteria.md, sezione "La decisione di processo";
+  - il debito testuale sull'assunzione di trasferimento, nel tracker delle issue.
 -->
 
 # StreamWave BI Constitution
