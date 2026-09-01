@@ -1,6 +1,6 @@
 # Streamwave BI
 
-> 🚧 **Work in progress** — progetto di Business Intelligence sviluppato con approccio *spec-driven* ([GitHub Spec Kit](https://github.com/github/spec-kit)).
+> Progetto di Business Intelligence sviluppato con approccio *spec-driven* ([GitHub Spec Kit](https://github.com/github/spec-kit)).
 
 **StreamWave**, piattaforma di streaming video, valuta l'ingresso nel verticale del **music streaming**. Questo repository contiene l'analisi e la dashboard a supporto della decisione.
 
