@@ -35,7 +35,9 @@ Il mandato chiedeva di rispondere a **tre domande** prima di formulare qualunque
 
 **Che cosa ho letto.** Un solo file, per intero e una sola volta in lettura completa (con rilettura di §2, §3.4, §5, §8, §12 e §18):
 
-`/private/tmp/claude-501/-Users-valerioquaranta-Documents-BI-Streamwave-proj/ebd722e9-49b0-4395-b4bd-af81a18bb484/scratchpad/revisione-005/data_model.md`
+`…/scratchpad/revisione-005/data_model.md`
+
+> Azione di protezione dati effettuata a posteriori: modifica del percorso locale.
 
 **Che cosa non ho letto.** Nulla d'altro. Nessuna uscita dal perimetro: non ho aperto altri file, non ho elencato cartelle, non ho eseguito comandi, non ho ispezionato git, non ho consultato rete. In particolare **non ho visto** e non ho verificato nulla di: `business_case.md`, `docs/data_cleaning.md`, `docs/convenzioni-marcatura.md`, la constitution, il contratto della pipeline, il «rendiconto della trasformazione», il «profilo dei dati di origine», `reports/bq3_scenarios.json`, le schede dei singoli KPI, e i verbali di revisione citati (rilievi `R4`, `R7`, divergenze 1, 6, 7). Non ho la spec né il piano di questa feature.
 

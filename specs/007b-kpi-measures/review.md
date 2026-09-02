@@ -32,7 +32,9 @@ Un subagent isolato ha ricevuto **una sola copia di `docs/kpi_measures.md`**, ri
 **Due uscite dal perimetro, entrambe da dichiarare:**
 
 1. Ho eseguito un `grep` (`terzo|C2|E9|008a|008b|vincol`) **sul solo `documento.md`**, dentro la cartella isolata. Nessun altro file è stato toccato.
-2. Per un errore di battitura in un percorso ho tentato una lettura su `/Users/valerioquaranta/Documents/BI/Streamwave_proj/…` (percorso inesistente). La chiamata è fallita con «file does not exist» e **non ha restituito alcun contenuto**: nessuna informazione dal repository è entrata in questa revisione. Lo dichiaro perché l'obbligo è sull'atto, non sull'esito.
+2. Per un errore di battitura in un percorso ho tentato una lettura su `…/Streamwave_proj/…` (percorso inesistente). La chiamata è fallita con «file does not exist» e **non ha restituito alcun contenuto**: nessuna informazione dal repository è entrata in questa revisione. Lo dichiaro perché l'obbligo è sull'atto, non sull'esito.
+
+> Azione di protezione dati effettuata a posteriori: modifica del percorso locale.
 
 Tutte le verifiche numeriche qui sotto sono state fatte a mano sui soli valori pubblicati nella pagina.
 
